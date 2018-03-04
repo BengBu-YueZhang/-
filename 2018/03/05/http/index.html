@@ -80,14 +80,15 @@
 
 
 <meta property="og:type" content="article">
-<meta property="og:title" content="http协议基础知识">
+<meta property="og:title" content="http协议基础知识(1)">
 <meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2018/03/05/http/index.html">
 <meta property="og:site_name" content="新世紀エヴァンゲリオン">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://bengbu-yuezhang.github.io/2018/03/05/http/eva.jpg">
-<meta property="og:updated_time" content="2018-03-04T16:30:24.000Z">
+<meta property="og:image" content="https://bengbu-yuezhang.github.io/2018/03/05/http/http.png">
+<meta property="og:updated_time" content="2018-03-04T17:29:27.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="http协议基础知识">
+<meta name="twitter:title" content="http协议基础知识(1)">
 <meta name="twitter:image" content="https://bengbu-yuezhang.github.io/2018/03/05/http/eva.jpg">
 
 
@@ -124,7 +125,7 @@
 
 
 
-  <title>http协议基础知识 | 新世紀エヴァンゲリオン</title>
+  <title>http协议基础知识(1) | 新世紀エヴァンゲリオン</title>
   
 
 
@@ -194,7 +195,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archives
+            Timeline
           </a>
         </li>
       
@@ -248,7 +249,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">http协议基础知识</h1>
+          <h1 class="post-title" itemprop="name headline">http协议基础知识(1)</h1>
         
 
         <div class="post-meta">
@@ -258,7 +259,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Veröffentlicht am</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-05T00:27:54+08:00">
                 2018-03-05
@@ -303,6 +304,66 @@
 <p>本文属于我自己对看书学习后对知识的总结，可能会与正确的知识有出入的地方，恳请大家发邮件指出我的错误📧</p>
 </blockquote>
 <p>📮：<a href="mailto:1025873823@qq.com" target="_blank" rel="noopener">1025873823@qq.com</a></p>
+<h4 id="Http协议通信过程"><a href="#Http协议通信过程" class="headerlink" title="Http协议通信过程"></a>Http协议通信过程</h4><p><img src="/2018/03/05/http/http.png" alt="image"></p>
+<h4 id="TCP-IP"><a href="#TCP-IP" class="headerlink" title="TCP/IP"></a>TCP/IP</h4><p>http协议属于TCP/IP协议族的子集</p>
+<h4 id="TCP-IP的分层管理"><a href="#TCP-IP的分层管理" class="headerlink" title="TCP/IP的分层管理"></a>TCP/IP的分层管理</h4><p><strong>应用层(DNS, HTTP), 传输层(TCP协议, UDP协议), 网络层(IP协议), 链路层(硬件相关)</strong></p>
+<p>每一次的http请求都会依次经过这四层, 客户端是从应用层到链路层(并且会在请求报文首部添加信息)，服务器端是从链路层到应用层(会依次解封)</p>
+<h4 id="IP协议-网际协议"><a href="#IP协议-网际协议" class="headerlink" title="IP协议(网际协议)"></a>IP协议(网际协议)</h4><p>客户端与服务器端之前需要多台中转设备, IP协议会通过IP地址，使用ARP协议查询路由器的MAC地址，中转数据，层层传递</p>
+<h4 id="TCP协议"><a href="#TCP协议" class="headerlink" title="TCP协议"></a>TCP协议</h4><p><strong>TCP协议提供可靠的字节流服务</strong></p>
+<blockquote>
+<p>什么是字节流?</p>
+</blockquote>
+<p>把请求报文或者响应报文分割成报文端，称为字节流</p>
+<blockquote>
+<p>什么是可靠的?</p>
+</blockquote>
+<p>TCP的三次握手策略</p>
+<p>发送端 –标记SYN的数据包–&gt; 接受端</p>
+<p>发送端 &lt;–标记SYN/ACK的数据包– 接受端, 服务器回传</p>
+<p>发送端 –标记ACK的数据包–&gt; 接受端, 握手结束</p>
+<p>如果握手过程中失败，TCP协议会以相同的顺序发送数据包</p>
+<h4 id="DNS服务"><a href="#DNS服务" class="headerlink" title="DNS服务"></a>DNS服务</h4><p>位于应用层，提供了域名查找IP地址的解析服务，或者逆向的从IP地址反域名查找</p>
+<p>域名 <--> IP地址</--></p>
+<h4 id="HTTP协议"><a href="#HTTP协议" class="headerlink" title="HTTP协议"></a>HTTP协议</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// 请求报文的组成</span><br><span class="line">// 请求方法, 请求URI, 协议版本</span><br><span class="line">GET /index.html HTTP/1.1</span><br><span class="line"></span><br><span class="line">// 首部字段  </span><br><span class="line">Host: hackr.jp</span><br><span class="line">Connection: keep-live</span><br><span class="line">Content-Type: application/x-www-form-yrkencoded</span><br><span class="line">Content-Length: 16</span><br><span class="line"></span><br><span class="line">// 内容实体</span><br><span class="line">name=jack&amp;age=16</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// 响应报文的组成</span><br><span class="line"></span><br><span class="line">// 协议版本，请求状态码，原因短语</span><br><span class="line">HTTP/1.1 200 OK</span><br><span class="line">// 首部字段</span><br><span class="line">Date: Tue, 10 Jul 2012 06:50:15 GMT</span><br><span class="line">Content-Length: 362</span><br><span class="line">Content-Type: text/html</span><br><span class="line"></span><br><span class="line">// 内容实体</span><br><span class="line">&lt;html&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="HTTP协议属于无状态协议"><a href="#HTTP协议属于无状态协议" class="headerlink" title="HTTP协议属于无状态协议"></a>HTTP协议属于无状态协议</h4><p>不会记录请求和响应</p>
+<h4 id="HTTP的方法"><a href="#HTTP的方法" class="headerlink" title="HTTP的方法"></a>HTTP的方法</h4><ul>
+<li>GET 获取响应主体</li>
+<li>POST 传输实体的主体</li>
+<li>PUT 传输文件</li>
+<li>DELETE 删除制定资源<br>— HEAD 与GET类似，但是只返回响应报文的首部</li>
+<li>OPTIONS 查询支持的HTTP方法</li>
+<li>TRACE 追踪路径<br>— CONNECT 要求建立隧道</li>
+</ul>
+<h4 id="持久化链接"><a href="#持久化链接" class="headerlink" title="持久化链接"></a>持久化链接</h4><p><strong>在HTTP1.0时代，每一次的http请求前，就要断开TCP链接。</strong></p>
+<p><strong>持久链接，TCP链接建立后，在没有明确断开链接的前，会一直保持TCP链接状态（http请求不会经过三次握手）直到TCP链接中断</strong></p>
+<p>HTTP1.1默认所有链接都是持久链接</p>
+<h4 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h4><p>Cookie会根据服务端发送的响应报文内Set—Cookie的首部信息字段，通知客户端保存cookie。下一次再次发起请求报文的时候，会自动在报文中加入cookie值发送出去。</p>
+<p>客户端 —-&gt; 服务器</p>
+<p>客户端 &lt;–响应报文：Set-Cookie– 服务器</p>
+<p>客户端 –请求报文：Cookie–&gt; 服务器</p>
+<h4 id="HTTP状态码"><a href="#HTTP状态码" class="headerlink" title="HTTP状态码"></a>HTTP状态码</h4><ul>
+<li>1XX 信息性状态码</li>
+<li>2XX 成功状态码</li>
+<li>3XX 重定向状态码</li>
+<li>4XX 客户端错误</li>
+<li>5XX 服务端错误</li>
+</ul>
+<h4 id="常见的状态码"><a href="#常见的状态码" class="headerlink" title="常见的状态码"></a>常见的状态码</h4><ul>
+<li>200 请求正常处理</li>
+<li>204 请求正常处理，没有资源返回</li>
+<li>206 客户端范围请求成功</li>
+<li>301 永久性重定向</li>
+<li>302, 303 临时性重定向(浏览器会使用GET请求返回Location的URI进行重新请求)</li>
+<li>304 使用客户端未过期的缓存</li>
+<li>307 与302，303类似，但是不会重新请求</li>
+<li>400 请求报文存在语法错误</li>
+<li>401 需要认证</li>
+<li>403 请求被拒绝</li>
+<li>404 服务器无法找到资源</li>
+<li>500 服务端错误</li>
+<li>503 服务器停机或者超负荷</li>
+</ul>
 <p>本文参考：《图解Http》，🙏</p>
 
       
@@ -392,8 +453,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Übersicht
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -413,7 +483,7 @@
                 <a href="/archives/">
               
                   <span class="site-state-item-count">6</span>
-                  <span class="site-state-item-name">posts</span>
+                  <span class="site-state-item-name">Artikel</span>
                 </a>
               </div>
             
@@ -456,6 +526,22 @@
       </section>
 
       
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Http协议通信过程"><span class="nav-number">1.</span> <span class="nav-text">Http协议通信过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TCP-IP"><span class="nav-number">2.</span> <span class="nav-text">TCP/IP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TCP-IP的分层管理"><span class="nav-number">3.</span> <span class="nav-text">TCP/IP的分层管理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IP协议-网际协议"><span class="nav-number">4.</span> <span class="nav-text">IP协议(网际协议)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TCP协议"><span class="nav-number">5.</span> <span class="nav-text">TCP协议</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DNS服务"><span class="nav-number">6.</span> <span class="nav-text">DNS服务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP协议"><span class="nav-number">7.</span> <span class="nav-text">HTTP协议</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP协议属于无状态协议"><span class="nav-number">8.</span> <span class="nav-text">HTTP协议属于无状态协议</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP的方法"><span class="nav-number">9.</span> <span class="nav-text">HTTP的方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#持久化链接"><span class="nav-number">10.</span> <span class="nav-text">持久化链接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Cookie"><span class="nav-number">11.</span> <span class="nav-text">Cookie</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP状态码"><span class="nav-number">12.</span> <span class="nav-text">HTTP状态码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常见的状态码"><span class="nav-number">13.</span> <span class="nav-text">常见的状态码</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
 
       
 
@@ -479,7 +565,7 @@
 </div>
 
 
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 
 
