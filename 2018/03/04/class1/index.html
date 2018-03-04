@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="原型 &amp;&amp; 继承 (1)">
+<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2018/03/04/class1/index.html">
+<meta property="og:site_name" content="新世紀エヴァンゲリオン">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://bengbu-yuezhang.github.io/2018/03/04/class1/eva01.jpg">
+<meta property="og:updated_time" content="2018-03-04T14:39:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="原型 &amp;&amp; 继承 (1)">
+<meta name="twitter:image" content="https://bengbu-yuezhang.github.io/2018/03/04/class1/eva01.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/2018/03/04/class1/"/>
+
+
+
+
+
+  <title>原型 && 继承 (1) | 新世紀エヴァンゲリオン</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">新世紀エヴァンゲリオン</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">不能逃避</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://bengbu-yuezhang.github.io/yue.github.io/2018/03/04/class1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张越">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新世紀エヴァンゲリオン">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">原型 && 继承 (1)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-04T17:43:47+08:00">
+                2018-03-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="/2018/03/04/class1/eva01.jpg" alt="image"><br><a id="more"></a></p>
+<blockquote>
+<p>本文属于我自己对看书学习后对知识的总结，可能会与正确的知识有出入的地方，恳请大家发邮件指出我的错误📧</p>
+</blockquote>
+<p>📮：<a href="mailto:1025873823@qq.com" target="_blank" rel="noopener">1025873823@qq.com</a></p>
+<h2 id="ES6中的Class"><a href="#ES6中的Class" class="headerlink" title="ES6中的Class"></a>ES6中的Class</h2><h4 id="ES6中定义Class与ES5定义Class的区别"><a href="#ES6中定义Class与ES5定义Class的区别" class="headerlink" title="ES6中定义Class与ES5定义Class的区别"></a>ES6中定义Class与ES5定义Class的区别</h4><ol>
+<li>在ES6类的方法是<strong>不可枚举的</strong>，在ES5中定义在[类名].prototype.[方法名]是可以被枚举的。</li>
+<li>在ES6类的属性名可以使用ES6中的变量属性名</li>
+</ol>
+<h4 id="constructor-NaN"><a href="#constructor-NaN" class="headerlink" title="constructor"></a>constructor</h4><p>构造函数是ES6的类中所<strong>必须</strong>的，默认返回实例对象，只能通过new的方式调用。</p>
+<h4 id="类的实例"><a href="#类的实例" class="headerlink" title="类的实例"></a>类的实例</h4><h6 id="实例的属性"><a href="#实例的属性" class="headerlink" title="实例的属性"></a>实例的属性</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 用于定义实例的属性</span><br><span class="line">class Test &#123;</span><br><span class="line">    constructor (name) &#123;</span><br><span class="line">        this.name = name</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="实例的原型"><a href="#实例的原型" class="headerlink" title="实例的原型"></a>实例的原型</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">let t = new Test()</span><br><span class="line"></span><br><span class="line">// 浏览器厂商实现，但不是标准</span><br><span class="line">t.__proto__</span><br><span class="line"></span><br><span class="line">// 正确的方式</span><br><span class="line">Object.getPrototypeOf(t)</span><br></pre></td></tr></table></figure>
+<h4 id="class表达式"><a href="#class表达式" class="headerlink" title="class表达式"></a>class表达式</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 类名应当是MyClass, My可以省略</span><br><span class="line">let MyClass = class My &#123;&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="不存在变量提升"><a href="#不存在变量提升" class="headerlink" title="不存在变量提升"></a>不存在变量提升</h4><p>类的定义不存在变量提升，所以子类的定义必须在父类的后面</p>
+<h4 id="类的私有属性和私有方法"><a href="#类的私有属性和私有方法" class="headerlink" title="类的私有属性和私有方法"></a>类的私有属性和私有方法</h4><blockquote>
+<p>目前实现的方式有三种, 人肉，Symbol, 新的提案</p>
+</blockquote>
+<h6 id="第一种方式：人肉区分"><a href="#第一种方式：人肉区分" class="headerlink" title="第一种方式：人肉区分"></a>第一种方式：人肉区分</h6><blockquote>
+<p>通过为私有属性和方法添加下划线下标的方法区分</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">class Foo &#123;</span><br><span class="line">    constructor () &#123;</span><br><span class="line">        this.name = name</span><br><span class="line">        this._age = _age</span><br><span class="line">    &#125;</span><br><span class="line">    getName () &#123; // ... &#125;</span><br><span class="line"></span><br><span class="line">    _getAge () &#123; // ... &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="第二种方法：Symbol"><a href="#第二种方法：Symbol" class="headerlink" title="第二种方法：Symbol"></a>第二种方法：Symbol</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">let name = Symbol(&apos;name&apos;)</span><br><span class="line"></span><br><span class="line">class Foo &#123;</span><br><span class="line">    constructor (name) &#123;</span><br><span class="line">        this[name] = name</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let f = new Foo()</span><br></pre></td></tr></table></figure>
+<p>Symbol存在的问题如下，所以Symbol并<strong>不是真正的私有属性和方法</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Object.keys(f) // [ ] 获取不到[name]属性</span><br><span class="line">Object.getOwnPropertySymbols(f) // [Symbol(&apos;name&apos;)] 是可以获取到属性的</span><br></pre></td></tr></table></figure></p>
+<h6 id="第三种方法：“-”新的提案"><a href="#第三种方法：“-”新的提案" class="headerlink" title="第三种方法：“#”新的提案"></a>第三种方法：“#”新的提案</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">class Foo &#123;</span><br><span class="line">    constructor (name) &#123;</span><br><span class="line">        #name = name</span><br><span class="line">        // #可以用作setter，getter上</span><br><span class="line">        get #x() &#123; return #xValue; &#125;</span><br><span class="line">        set #x(value) &#123;</span><br><span class="line">            this.#xValue = value;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    #getName () &#123; //... &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="this的指向"><a href="#this的指向" class="headerlink" title="this的指向"></a>this的指向</h4><p>class内部，this的指向了类的实例</p>
+<h4 id="类的name属性"><a href="#类的name属性" class="headerlink" title="类的name属性"></a>类的name属性</h4><p>类的name属性等于类名</p>
+<h4 id="getter-setter取值函数，存值函数"><a href="#getter-setter取值函数，存值函数" class="headerlink" title="getter, setter取值函数，存值函数"></a>getter, setter取值函数，存值函数</h4><p>get,set属性同ES5一样，存在于访问器属性描述符描述符上，<strong>Object.getOwnPropertyDescriptor可以获取访问属性描述符</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">class Test &#123;</span><br><span class="line">    constructor () &#123;</span><br><span class="line">        this.name = 123</span><br><span class="line">        this._name = 333</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    get name() &#123;</span><br><span class="line">        return 456</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    set name(value) &#123;</span><br><span class="line">        this._name = value + 1</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let d = new Test()</span><br><span class="line"></span><br><span class="line">console.log(d.name) // 456</span><br></pre></td></tr></table></figure>
+<h4 id="Class的静态方法"><a href="#Class的静态方法" class="headerlink" title="Class的静态方法"></a>Class的静态方法</h4><blockquote>
+<p>归属于类本身，只能通过类使用</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">class Foo &#123;</span><br><span class="line">    // 添加static关键字</span><br><span class="line">    static classMethod () &#123;</span><br><span class="line">        // 方法内容的this，指向类而不是实例</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 子类可以继承父类的静态方法</span><br><span class="line">class Bar extends Foo &#123; </span><br><span class="line">    static classMethod () &#123;</span><br><span class="line">        // 可以通过super调用父类的静态方法</span><br><span class="line">        super.classMethod()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Class的静态属性"><a href="#Class的静态属性" class="headerlink" title="Class的静态属性"></a>Class的静态属性</h4><blockquote>
+<p>目前JS并没有直接实现静态属性</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 可以通过直接在类上添加属性，实现静态属性</span><br><span class="line">class Foo &#123;&#125;</span><br><span class="line"></span><br><span class="line">Foo.prop = &apos;prop&apos;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 目前的静态属性提案, 通过添加static关键字实现静态属性</span><br><span class="line">class Foo () &#123;</span><br><span class="line">    static prop = 1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="new-target"><a href="#new-target" class="headerlink" title="new.target"></a>new.target</h4><ul>
+<li>如果构造函数是通过new调用的，new.target等于类名</li>
+<li>如果构造函数<strong>不是</strong>通过new调用的，new.target等于undefined</li>
+</ul>
+<p>用处，可以构造出只能被继承，不能被实例化的类（<strong>类似Java中的超类，只能被继承不能被实例化，可以用于设计模式中模版方法模式</strong>）</p>
+<p>本文：《ES6标准入门》和《JavaScript》高级程序设计(第3版)，🙏</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/04/Hello-Hexo/" rel="next" title="Hello Hexo">
+                <i class="fa fa-chevron-left"></i> Hello Hexo
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="张越" />
+            
+              <p class="site-author-name" itemprop="name">张越</p>
+              <p class="site-description motion-element" itemprop="description">所谓成长，就是经过不断的聚散离合，找到不太会伤害到彼此的距离</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/BengBu-YueZhang" target="_blank" title="我的GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/5460100952/profile?topnav=1&wvr=6" target="_blank" title="我的微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的微博</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ES6中的Class"><span class="nav-number">1.</span> <span class="nav-text">ES6中的Class</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ES6中定义Class与ES5定义Class的区别"><span class="nav-number">1.0.1.</span> <span class="nav-text">ES6中定义Class与ES5定义Class的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#constructor-NaN"><span class="nav-number">1.0.2.</span> <span class="nav-text">constructor</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#类的实例"><span class="nav-number">1.0.3.</span> <span class="nav-text">类的实例</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#实例的属性"><span class="nav-number">1.0.3.0.1.</span> <span class="nav-text">实例的属性</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#实例的原型"><span class="nav-number">1.0.3.0.2.</span> <span class="nav-text">实例的原型</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#class表达式"><span class="nav-number">1.0.4.</span> <span class="nav-text">class表达式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#不存在变量提升"><span class="nav-number">1.0.5.</span> <span class="nav-text">不存在变量提升</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#类的私有属性和私有方法"><span class="nav-number">1.0.6.</span> <span class="nav-text">类的私有属性和私有方法</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#第一种方式：人肉区分"><span class="nav-number">1.0.6.0.1.</span> <span class="nav-text">第一种方式：人肉区分</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#第二种方法：Symbol"><span class="nav-number">1.0.6.0.2.</span> <span class="nav-text">第二种方法：Symbol</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#第三种方法：“-”新的提案"><span class="nav-number">1.0.6.0.3.</span> <span class="nav-text">第三种方法：“#”新的提案</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#this的指向"><span class="nav-number">1.0.7.</span> <span class="nav-text">this的指向</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#类的name属性"><span class="nav-number">1.0.8.</span> <span class="nav-text">类的name属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#getter-setter取值函数，存值函数"><span class="nav-number">1.0.9.</span> <span class="nav-text">getter, setter取值函数，存值函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Class的静态方法"><span class="nav-number">1.0.10.</span> <span class="nav-text">Class的静态方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Class的静态属性"><span class="nav-number">1.0.11.</span> <span class="nav-text">Class的静态属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#new-target"><span class="nav-number">1.0.12.</span> <span class="nav-text">new.target</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张越</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
