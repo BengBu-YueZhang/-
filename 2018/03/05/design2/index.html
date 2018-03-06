@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript设计模式 - 代理">
+<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2018/03/05/design2/index.html">
+<meta property="og:site_name" content="新世紀エヴァンゲリオン">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://bengbu-yuezhang.github.io/2018/03/05/design2/eva03.jpg">
+<meta property="og:updated_time" content="2018-03-06T05:49:24.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript设计模式 - 代理">
+<meta name="twitter:image" content="https://bengbu-yuezhang.github.io/2018/03/05/design2/eva03.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/2018/03/05/design2/"/>
+
+
+
+
+
+  <title>JavaScript设计模式 - 代理 | 新世紀エヴァンゲリオン</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">新世紀エヴァンゲリオン</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">A.T.Field就是任何人都拥有的心之壁</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://bengbu-yuezhang.github.io/yue.github.io/2018/03/05/design2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张越">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新世紀エヴァンゲリオン">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">JavaScript设计模式 - 代理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-05T20:46:19+08:00">
+                2018-03-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="/2018/03/05/design2/eva03.jpg" alt="image"></p>
+<a id="more"></a>
+<blockquote>
+<p>本文属于我自己对看书学习后对知识的总结，可能会与正确的知识有出入的地方，恳请大家发邮件指出我的错误📧</p>
+</blockquote>
+<p>📮：<a href="mailto:1025873823@qq.com" target="_blank" rel="noopener">1025873823@qq.com</a></p>
+<hr>
+<h2 id="代理模式"><a href="#代理模式" class="headerlink" title="代理模式"></a>代理模式</h2><h4 id="代理模式的意义"><a href="#代理模式的意义" class="headerlink" title="代理模式的意义"></a>代理模式的意义</h4><p>在请求对象前，请求的是代理对象，代理对象对请求作出一些处理后，再把请求转交给本体对象</p>
+<h4 id="虚拟代理和保护代理"><a href="#虚拟代理和保护代理" class="headerlink" title="虚拟代理和保护代理"></a>虚拟代理和保护代理</h4><ol>
+<li>代理B可以帮助A过滤一些请求，请求在代理B时就被过滤掉被称为保护代理</li>
+<li>代理B会根据条件选择性执行请求叫做虚拟代理，从而避免执行一些开销很大的操作</li>
+</ol>
+<h4 id="应用场景：虚拟代理实现图片预加载"><a href="#应用场景：虚拟代理实现图片预加载" class="headerlink" title="应用场景：虚拟代理实现图片预加载"></a>应用场景：虚拟代理实现图片预加载</h4><h4 id="为什么需要代理模式？"><a href="#为什么需要代理模式？" class="headerlink" title="为什么需要代理模式？"></a>为什么需要代理模式？</h4><ol>
+<li>单一职责原则，createImage函数负责了创建DOM节点和加载图片的多重职责</li>
+<li>代码难以维护，函数</li>
+</ol>
+<h6 id="重构前"><a href="#重构前" class="headerlink" title="重构前"></a>重构前</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">let createImage = function () &#123;</span><br><span class="line">    return (function () &#123;</span><br><span class="line">        let imageNode = document.creareElement(&apos;img&apos;)</span><br><span class="line">        let newImage = new Image()</span><br><span class="line">        document.body.appendChild(imageNode)</span><br><span class="line">        newImage.onload = function () &#123;</span><br><span class="line">            imageNode.src = this.src</span><br><span class="line">        &#125;</span><br><span class="line">        return &#123;</span><br><span class="line">            setSrc (src) &#123;</span><br><span class="line">                // 显示loading图</span><br><span class="line">                imageNode.src = &apos;./loading.png&apos;</span><br><span class="line">                // 加载真正的大图</span><br><span class="line">                newImage.src = src</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let img1 = createImage()</span><br><span class="line">img1.setSrc(&apos;...&apos;)</span><br></pre></td></tr></table></figure>
+<h6 id="重构后"><a href="#重构后" class="headerlink" title="重构后"></a>重构后</h6><p>将创建DOM和预加载功能解耦，便于将来的维护</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">// 复制创建DOM节点</span><br><span class="line">let createImage = function () &#123;</span><br><span class="line">    let imageNode = document.creareElement(&apos;img&apos;)</span><br><span class="line">    document.body.appendChild(imageNode)</span><br><span class="line"></span><br><span class="line">    return &#123;</span><br><span class="line">        setSrc (src) &#123;</span><br><span class="line">            imageNode.src = src</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 负责预加载图片</span><br><span class="line">let proxyImage = function () &#123;</span><br><span class="line">    let newImage = new Image()</span><br><span class="line">    let imageNode = createImage()</span><br><span class="line">    newImage.onload = function () &#123;</span><br><span class="line">        imageNode.setSrc(this.src)</span><br><span class="line">    &#125;</span><br><span class="line">    return &#123;</span><br><span class="line">        setSrc (src) &#123;</span><br><span class="line">            newImage.src = src</span><br><span class="line">            imageNode.setSrc(&apos;./loading.png&apos;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let proxy = proxyImage()</span><br><span class="line">proxy.setSrc(&apos;...&apos;)</span><br></pre></td></tr></table></figure>
+<h4 id="应用场景：虚拟代理合并HTTP请求"><a href="#应用场景：虚拟代理合并HTTP请求" class="headerlink" title="应用场景：虚拟代理合并HTTP请求"></a>应用场景：虚拟代理合并HTTP请求</h4><p>短时间大量的HTTP请求，会造成性能的浪费，通过代理合并请求（后端需要支持批量操作）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">// 伪代码</span><br><span class="line">// 将2s内请求合并后处理</span><br><span class="line"></span><br><span class="line">let getData = function (id) &#123;</span><br><span class="line">    return Axios.get(&apos;....&apos;, &#123; params: id &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let proxyGetData = (function () &#123;</span><br><span class="line"></span><br><span class="line">    let cache = []</span><br><span class="line">    let timer = null</span><br><span class="line"></span><br><span class="line">    return function (id) &#123;</span><br><span class="line">        cache.push(id)</span><br><span class="line">        if (timer) return</span><br><span class="line">        timer = setTimeout(() =&gt; &#123;</span><br><span class="line">            clearTimeout(timer)</span><br><span class="line">            timer = null</span><br><span class="line">            getData(cache)</span><br><span class="line">            cache = []</span><br><span class="line">        &#125;, 2000)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">button.onclick = function () &#123;</span><br><span class="line">    let id = this.id</span><br><span class="line">    proxyGetData(id)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="缓存代理"><a href="#缓存代理" class="headerlink" title="缓存代理"></a>缓存代理</h4><p>一些开销较大的操作，例如复杂的数学运算，ajax请求，可以使用缓存代理。缓存代理会保留参数和计算结果，如果下一次参数相同会直接返回操作结果，避免性能的开销</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">// 乘积计算</span><br><span class="line">let multiply = function (...rest) &#123;</span><br><span class="line">    let result = 1</span><br><span class="line">    res.forEach(item =&gt; result *= item)</span><br><span class="line">    return resule</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let proxyMultiply = function () &#123;</span><br><span class="line">    // 缓存结果, 通过闭包空间将计算结果缓存</span><br><span class="line">    let cache = &#123;&#125;</span><br><span class="line">    return function (...rest) &#123;</span><br><span class="line">        let key = rest.join(&apos;,&apos;)</span><br><span class="line">        if (cache[key]) return cache[key]</span><br><span class="line">        cache[key] = multiply.apply(this, rest)</span><br><span class="line">        return cache[key]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="高阶函数动态创建缓存代理"><a href="#高阶函数动态创建缓存代理" class="headerlink" title="高阶函数动态创建缓存代理"></a>高阶函数动态创建缓存代理</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">function mult (...rest) &#123;</span><br><span class="line">    let result = 1</span><br><span class="line">    rest.forEach(item =&gt; result *= item)</span><br><span class="line">    return result</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function plus (...rest) &#123;</span><br><span class="line">    let result = 0</span><br><span class="line">    rest.forEach(item =&gt; result += item)</span><br><span class="line">    return result</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function createProxy (fn) &#123;</span><br><span class="line">    let cache = &#123;&#125;</span><br><span class="line">    return function (...rest) &#123;</span><br><span class="line">        let key = Array.from(rest).join(&apos;,&apos;)</span><br><span class="line">        if (cache[key]) &#123;</span><br><span class="line">            return cache[key]</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            cache[key] = fn(...rest)</span><br><span class="line">            return cache[key]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 缓存代理乘集</span><br><span class="line">let proxyMult = createProxy(mult)</span><br><span class="line"></span><br><span class="line">// 缓存代理合集</span><br><span class="line">let proxyPlus = createProxy(plus)</span><br></pre></td></tr></table></figure>
+<hr>
+<p>本文参考：《JavaScript设计模式与开发实践》，🙏</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/05/design1/" rel="next" title="JavaScript设计模式 - 单例，策略">
+                <i class="fa fa-chevron-left"></i> JavaScript设计模式 - 单例，策略
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="张越" />
+            
+              <p class="site-author-name" itemprop="name">张越</p>
+              <p class="site-description motion-element" itemprop="description">所谓成长，就是经过不断的聚散离合，找到不太会伤害到彼此的距离</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/BengBu-YueZhang" target="_blank" title="我的GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/5460100952/profile?topnav=1&wvr=6" target="_blank" title="我的微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的微博</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#代理模式"><span class="nav-number">1.</span> <span class="nav-text">代理模式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#代理模式的意义"><span class="nav-number">1.0.1.</span> <span class="nav-text">代理模式的意义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#虚拟代理和保护代理"><span class="nav-number">1.0.2.</span> <span class="nav-text">虚拟代理和保护代理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#应用场景：虚拟代理实现图片预加载"><span class="nav-number">1.0.3.</span> <span class="nav-text">应用场景：虚拟代理实现图片预加载</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#为什么需要代理模式？"><span class="nav-number">1.0.4.</span> <span class="nav-text">为什么需要代理模式？</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#重构前"><span class="nav-number">1.0.4.0.1.</span> <span class="nav-text">重构前</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#重构后"><span class="nav-number">1.0.4.0.2.</span> <span class="nav-text">重构后</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#应用场景：虚拟代理合并HTTP请求"><span class="nav-number">1.0.5.</span> <span class="nav-text">应用场景：虚拟代理合并HTTP请求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#缓存代理"><span class="nav-number">1.0.6.</span> <span class="nav-text">缓存代理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#高阶函数动态创建缓存代理"><span class="nav-number">1.0.7.</span> <span class="nav-text">高阶函数动态创建缓存代理</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张越</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
