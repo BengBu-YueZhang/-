@@ -185,7 +185,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            主页
+            Home
           </a>
         </li>
       
@@ -195,7 +195,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            时间轴
+            Archives
           </a>
         </li>
       
@@ -218,6 +218,130 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://bengbu-yuezhang.github.io/yue.github.io/2018/03/14/Redux-Saga-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张越">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新世紀エヴァンゲリオン">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/14/Redux-Saga-1/" itemprop="url">Redux-Saga(1)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-14T23:24:32+08:00">
+                2018-03-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Redux-Saga"><a href="#Redux-Saga" class="headerlink" title="Redux-Saga"></a>Redux-Saga</h2><p><a href="https://redux-saga-in-chinese.js.org/docs/introduction/BeginnerTutorial.html" target="_blank" rel="noopener">中文文档(0.95版本，部分代码不可运行)</a><br><a href="https://redux-saga.js.org/docs/introduction/BeginnerTutorial.html" target="_blank" rel="noopener">英文文档(1.1版本)</a></p>
+<h3 id="第一个-Redux-Saga"><a href="#第一个-Redux-Saga" class="headerlink" title="第一个 Redux-Saga"></a>第一个 Redux-Saga</h3><h4 id="Hello-Saga"><a href="#Hello-Saga" class="headerlink" title="Hello Saga"></a>Hello Saga</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export function* helloSaga() &#123;</span><br><span class="line">  console.log(&apos;Hello Sagas!&apos;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="创建中间件Redux-Saga"><a href="#创建中间件Redux-Saga" class="headerlink" title="创建中间件Redux-Saga"></a>创建中间件Redux-Saga</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">import createSagaMiddleware from &apos;redux-saga&apos;</span><br><span class="line"></span><br><span class="line">import &#123; helloSaga &#125; from &apos;./sagas&apos;</span><br><span class="line"></span><br><span class="line">// 创建中间件</span><br><span class="line">const sagaMiddleware = createSagaMiddleware()</span><br><span class="line"></span><br><span class="line">// 链接中间件到store</span><br><span class="line">const store = createStore(</span><br><span class="line">  reducer,</span><br><span class="line">  // 添加redux-saga中间件</span><br><span class="line">  applyMiddleware(sagaMiddleware)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">// 启动中间件</span><br><span class="line">// 参数是Redux-Saga列表</span><br><span class="line">sagaMiddleware.run(helloSaga)</span><br></pre></td></tr></table></figure>
+<h4 id="异步的调用"><a href="#异步的调用" class="headerlink" title="异步的调用"></a>异步的调用</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">import &#123; put, takeEvery, all &#125; from &apos;redux-saga/effects&apos;</span><br><span class="line">import &#123; delay &#125; from &apos;redux-saga&apos;</span><br><span class="line"></span><br><span class="line">const INCREMENT_ASYNC = &apos;INCREMENT_ASYNC&apos;</span><br><span class="line"></span><br><span class="line">// 延迟1s后，发起INCREMENT的action</span><br><span class="line">// 类似redux-thunk的dispatch(action(type, data))</span><br><span class="line">// 不同与Redux-thunk的异步action返回的是一个函数，Redux-Saga返回是一个普通的对象</span><br><span class="line">function* incrementAsync() &#123;</span><br><span class="line">    // 阻塞1s</span><br><span class="line">    yield delay(1000)</span><br><span class="line">    // 发送类型为INCREMENT的action</span><br><span class="line">    // action会被redux-saga中间件处理</span><br><span class="line">    yield put(&#123; type: &apos;INCREMENT&apos; &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function* helloSaga() &#123;</span><br><span class="line">    console.log(&apos;Hello Sagas!&apos;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// watchIncrementAsync函数添加到sagas列表中,处理INCREMENT_ASYNC类型的action</span><br><span class="line">// takeEvery会监听对应类型的dispath</span><br><span class="line">// 中间件捕获到INCREMENT类型的action，会执行回掉函数，生成新的INCREMENT的action</span><br><span class="line">function* watchIncrementAsync() &#123;</span><br><span class="line">    yield takeEvery(INCREMENT_ASYNC, incrementAsync)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 一组saga对外暴露给redux-saga中间件</span><br><span class="line">export default function* rootSaga() &#123;</span><br><span class="line">    yield all([</span><br><span class="line">      helloSaga(),</span><br><span class="line">      watchIncrementAsync()</span><br><span class="line">    ])</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">// 启动redux-saga</span><br><span class="line"></span><br><span class="line">import &quot;babel-polyfill&quot;</span><br><span class="line"></span><br><span class="line">import React from &apos;react&apos;</span><br><span class="line">import ReactDOM from &apos;react-dom&apos;</span><br><span class="line">import &#123; createStore, applyMiddleware &#125; from &apos;redux&apos;</span><br><span class="line">import createSagaMiddleware from &apos;redux-saga&apos;</span><br><span class="line"></span><br><span class="line">import Counter from &apos;./Counter&apos;</span><br><span class="line">import reducer from &apos;./reducers&apos;</span><br><span class="line"></span><br><span class="line">import rootSaga from &apos;./sagas&apos;</span><br><span class="line"></span><br><span class="line">// 创建Redux-Saga</span><br><span class="line">const sagaMiddleware = createSagaMiddleware()</span><br><span class="line"></span><br><span class="line">const store = createStore(</span><br><span class="line">  reducer,</span><br><span class="line">  // 添加redux-saga中间件</span><br><span class="line">  applyMiddleware(sagaMiddleware)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">sagaMiddleware.run(rootSaga)</span><br><span class="line"></span><br><span class="line">// dispatch发送action的简单封装</span><br><span class="line">const action = type =&gt; store.dispatch(&#123;type&#125;)</span><br><span class="line"></span><br><span class="line">function render() &#123;</span><br><span class="line">  ReactDOM.render(</span><br><span class="line">    &lt;Counter</span><br><span class="line">      value=&#123;store.getState()&#125;</span><br><span class="line">      onIncrement=&#123;() =&gt; action(&apos;INCREMENT&apos;)&#125;</span><br><span class="line">      onDecrement=&#123;() =&gt; action(&apos;DECREMENT&apos;)&#125;</span><br><span class="line">      onIncrementAsync=&#123;() =&gt; action(&apos;INCREMENT_ASYNC&apos;)&#125; /&gt;,</span><br><span class="line">    document.getElementById(&apos;root&apos;)</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">render()</span><br><span class="line">store.subscribe(render)</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
     
       
 
@@ -261,7 +385,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发布于</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-08T21:39:28+08:00">
                 2018-03-08
@@ -306,7 +430,7 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/03/08/curry-uncurry/#more" rel="contents">
-              查看全文 &raquo;
+              Read more &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -385,7 +509,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发布于</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-08T16:47:07+08:00">
                 2018-03-08
@@ -430,7 +554,7 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/03/08/jsbase1/#more" rel="contents">
-              查看全文 &raquo;
+              Read more &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -509,7 +633,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发布于</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-08T16:24:52+08:00">
                 2018-03-08
@@ -554,7 +678,7 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/03/08/EventLoop/#more" rel="contents">
-              查看全文 &raquo;
+              Read more &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -633,7 +757,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发布于</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-07T21:39:01+08:00">
                 2018-03-07
@@ -678,7 +802,7 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/03/07/Reflow-Repaint/#more" rel="contents">
-              查看全文 &raquo;
+              Read more &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -757,7 +881,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发布于</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-07T21:35:28+08:00">
                 2018-03-07
@@ -802,7 +926,7 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/03/07/sort/#more" rel="contents">
-              查看全文 &raquo;
+              Read more &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -881,7 +1005,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发布于</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-07T21:30:47+08:00">
                 2018-03-07
@@ -926,7 +1050,7 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/03/07/VirtualDOM/#more" rel="contents">
-              查看全文 &raquo;
+              Read more &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -1005,7 +1129,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发布于</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-07T21:24:41+08:00">
                 2018-03-07
@@ -1050,7 +1174,7 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/03/07/Promise/#more" rel="contents">
-              查看全文 &raquo;
+              Read more &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -1129,7 +1253,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发布于</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-06T16:28:14+08:00">
                 2018-03-06
@@ -1174,7 +1298,7 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/03/06/http2/#more" rel="contents">
-              查看全文 &raquo;
+              Read more &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -1253,7 +1377,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发布于</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-05T20:46:19+08:00">
                 2018-03-05
@@ -1298,131 +1422,7 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/03/05/design2/#more" rel="contents">
-              查看全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://bengbu-yuezhang.github.io/yue.github.io/2018/03/05/design1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="张越">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="新世紀エヴァンゲリオン">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/05/design1/" itemprop="url">JavaScript设计模式 - 单例，策略</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发布于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-05T00:35:38+08:00">
-                2018-03-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><img src="/2018/03/05/design1/aynami.jpg" alt="image"></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/03/05/design1/#more" rel="contents">
-              查看全文 &raquo;
+              Read more &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -1513,8 +1513,8 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">15</span>
-                  <span class="site-state-item-name">篇文章</span>
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">posts</span>
                 </a>
               </div>
             
@@ -1580,7 +1580,7 @@
 </div>
 
 
-  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 
 
