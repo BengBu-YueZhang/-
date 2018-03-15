@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Redux-Thunk">
+<meta property="og:type" content="article">
+<meta property="og:title" content="redux-thunk解析">
+<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2018/03/16/redux-thunk解析/index.html">
+<meta property="og:site_name" content="新世紀エヴァンゲリオン">
+<meta property="og:description" content="Redux-Thunk">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-03-15T17:06:14.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="redux-thunk解析">
+<meta name="twitter:description" content="Redux-Thunk">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/2018/03/16/redux-thunk解析/"/>
+
+
+
+
+
+  <title>redux-thunk解析 | 新世紀エヴァンゲリオン</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">新世紀エヴァンゲリオン</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">前端小学生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Accueil
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://bengbu-yuezhang.github.io/yue.github.io/2018/03/16/redux-thunk解析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张越">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新世紀エヴァンゲリオン">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">redux-thunk解析</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posté le</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-16T00:17:22+08:00">
+                2018-03-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Redux-Thunk"><a href="#Redux-Thunk" class="headerlink" title="Redux-Thunk"></a>Redux-Thunk</h2><a id="more"></a>
+<blockquote>
+<p>本篇文章完全原创</p>
+</blockquote>
+<h4 id="认识中间件"><a href="#认识中间件" class="headerlink" title="认识中间件"></a>认识中间件</h4><p>Redux的中间件是什么？可以类比Nodejs的中间件，Redux中间件可以对dispatch的action，依次进行处理(中间件可以拥有多个)。如何实现的呢？(<strong>本质上是通过applyMiddleware对dispatch进行了处理，dispath已经不是曾经的dispath，你大爷还是你大爷</strong>)😍</p>
+<h4 id="applyMiddleware"><a href="#applyMiddleware" class="headerlink" title="applyMiddleware"></a>applyMiddleware</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">// applyMiddleware的简单实现，redux中则对applyMiddleware进行了更多的处理</span><br><span class="line"></span><br><span class="line">function applyMiddleware(store, middlewares) &#123;</span><br><span class="line">  // 从里向外返回，所以要颠倒下顺序</span><br><span class="line">  middlewares = middlewares.slice()</span><br><span class="line">  middlewares.reverse()</span><br><span class="line"></span><br><span class="line">  // 原始的dispatch</span><br><span class="line">  let dispatch = store.dispatch</span><br><span class="line"></span><br><span class="line">  middlewares.forEach(middleware =&gt;</span><br><span class="line">    // 覆盖原始的stroe.dispatch方法，作为下一个中间的next方法使用</span><br><span class="line">    // 中间件对dispatch一次进行处理</span><br><span class="line">    dispatch = middleware(store)(dispatch)</span><br><span class="line">  )</span><br><span class="line">  </span><br><span class="line">  // 返回经过包装的dispatch</span><br><span class="line">  return Object.assign(&#123;&#125;, store, &#123; dispatch &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="中间件的实现"><a href="#中间件的实现" class="headerlink" title="中间件的实现"></a>中间件的实现</h4><blockquote>
+<p>每一层的中间件就是对dispatch的对象的一层包装</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">function A () &#123;</span><br><span class="line">    console.log(&apos;A&apos;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function B () &#123;</span><br><span class="line">    console.log(&apos;B&apos;)</span><br><span class="line">    A()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function C () &#123;</span><br><span class="line">    console.log(&apos;C&apos;)</span><br><span class="line">    B()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">function logger(store) &#123;</span><br><span class="line">  // next就是dispath方法，通过传参的形式，可以避免直接从store.dispath上获取dispatch</span><br><span class="line"></span><br><span class="line">  return function wrapDispatchToAddLogging(next) &#123;</span><br><span class="line">  </span><br><span class="line">    // 返回的还是经过包装的dispath方法</span><br><span class="line"></span><br><span class="line">    return function dispatchAndLog(action) &#123;</span><br><span class="line">      console.log(&apos;dispatching&apos;, action)</span><br><span class="line">      </span><br><span class="line">      // next是上一次返回的diapatch</span><br><span class="line">      let result = next(action)</span><br><span class="line"></span><br><span class="line">      console.log(&apos;next state&apos;, store.getState())</span><br><span class="line"></span><br><span class="line">      return result</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 箭头函数的语法</span><br><span class="line">const logger = store =&gt; next =&gt; action =&gt; &#123;</span><br><span class="line">  console.log(&apos;dispatching&apos;, action)</span><br><span class="line"></span><br><span class="line">  let result = next(action)</span><br><span class="line"></span><br><span class="line">  console.log(&apos;next state&apos;, store.getState())</span><br><span class="line"></span><br><span class="line">  return result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="洋葱模型"><a href="#洋葱模型" class="headerlink" title="洋葱模型"></a>洋葱模型</h4><p>经过applyMiddleware对中间件的依次处理后，dispatch会变得像一个洋葱,dispatch从外向里执行，从里向外返回函数。</p>
+<p><strong>函数调用的dispath,是经过中间件包装的dispatch</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">            --------------------------------------</span><br><span class="line">            |            middleware1              |</span><br><span class="line">            |    ----------------------------     |</span><br><span class="line">            |    |       middleware2         |    |</span><br><span class="line">            |    |    -------------------    |    |</span><br><span class="line">            |    |    |  middleware3    |    |    |</span><br><span class="line">            |    |    |                 |    |    |</span><br><span class="line">          next next next  ———————————   |    |    |</span><br><span class="line">dispatch  —————————————&gt; |  reducer  | — 收尾工作-&gt;|</span><br><span class="line">nextState &lt;————————————— |     G     |  |    |    |</span><br><span class="line">            | A  | C  | E ——————————— F |  D |  B |</span><br><span class="line">            |    |    |                 |    |    |</span><br><span class="line">            |    |    -------------------    |    |</span><br><span class="line">            |    ----------------------------     |</span><br><span class="line">            --------------------------------------</span><br></pre></td></tr></table></figure>
+<h4 id="react-redux部门源码解析"><a href="#react-redux部门源码解析" class="headerlink" title="react-redux部门源码解析"></a>react-redux部门源码解析</h4><p>众所周知，react-redux是用来链接redux和react的桥梁, 通常使用connect函数。connect函数常用的两个参数是，mapStateToProps，mapDispatchToProps。</p>
+<p>mapStateToProps参数，通常是是一个函数，接受state作为参数，根据组件需要，返回state中组件需要的对应字段</p>
+<p>mapDispatchToProps参数，通常是一个对象，对象中函数将被作为Redux action creator，对象上的属性将合并到props。直接通过props暴露给组件。</p>
+<p>在组件中直接调用属性，就可以完成一次dispatch，这是为什么呢？于是我查阅了react-redux的源码，看到以下一段代码。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function whenMapDispatchToPropsIsObject(mapDispatchToProps) &#123;</span><br><span class="line">  /**</span><br><span class="line">   * 如果mapDispatchToProps是Object类型，会使用bindActionCreators做出处理</span><br><span class="line">   * bindActionCreators作用则是对action进行一层包装，调用action可以自动的dispatch</span><br><span class="line">   */</span><br><span class="line">  return mapDispatchToProps &amp;&amp; typeof mapDispatchToProps === &apos;object&apos; ? wrapMapToPropsConstant(function (dispatch) &#123;</span><br><span class="line">    return redux.bindActionCreators(mapDispatchToProps, dispatch);</span><br><span class="line">  &#125;) : undefined;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Redux-Thunk的源码"><a href="#Redux-Thunk的源码" class="headerlink" title="Redux-Thunk的源码"></a>Redux-Thunk的源码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// Redux-Thunk 也是中间件</span><br><span class="line">function createThunkMiddleware(extraArgument) &#123;</span><br><span class="line">  return (&#123; dispatch, getState &#125;) =&gt; next =&gt; action =&gt; &#123;</span><br><span class="line">    // 如果action是函数，redux-thunk会进行对应的处理</span><br><span class="line">    if (typeof action === &apos;function&apos;) &#123;</span><br><span class="line">      // 会执行返回的函数</span><br><span class="line">      return action(dispatch, getState, extraArgument);</span><br><span class="line">    &#125;</span><br><span class="line">    return next(action);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/08/curry-uncurry/" rel="next" title="柯里化,反柯里化的具体实现">
+                <i class="fa fa-chevron-left"></i> 柯里化,反柯里化的具体实现
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table Des Matières
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Ensemble
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="张越" />
+            
+              <p class="site-author-name" itemprop="name">张越</p>
+              <p class="site-description motion-element" itemprop="description">所谓成长，就是经过不断的聚散离合，找到不太会伤害到彼此的距离</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">articles</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/BengBu-YueZhang" target="_blank" title="我的GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/5460100952/profile?topnav=1&wvr=6" target="_blank" title="我的微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的微博</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Redux-Thunk"><span class="nav-number">1.</span> <span class="nav-text">Redux-Thunk</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#认识中间件"><span class="nav-number">1.0.1.</span> <span class="nav-text">认识中间件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#applyMiddleware"><span class="nav-number">1.0.2.</span> <span class="nav-text">applyMiddleware</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#中间件的实现"><span class="nav-number">1.0.3.</span> <span class="nav-text">中间件的实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#洋葱模型"><span class="nav-number">1.0.4.</span> <span class="nav-text">洋葱模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#react-redux部门源码解析"><span class="nav-number">1.0.5.</span> <span class="nav-text">react-redux部门源码解析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Redux-Thunk的源码"><span class="nav-number">1.0.6.</span> <span class="nav-text">Redux-Thunk的源码</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张越</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Thème &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
