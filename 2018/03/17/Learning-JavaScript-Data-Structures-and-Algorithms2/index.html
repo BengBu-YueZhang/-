@@ -80,7 +80,7 @@
 
 
 <meta property="og:type" content="article">
-<meta property="og:title" content="JavaScript数据解构与算法(2)">
+<meta property="og:title" content="JavaScript数据结构与算法(2)">
 <meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2018/03/17/Learning-JavaScript-Data-Structures-and-Algorithms2/index.html">
 <meta property="og:site_name" content="新世紀エヴァンゲリオン">
 <meta property="og:locale" content="zh-CN">
@@ -91,9 +91,9 @@
 <meta property="og:image" content="https://pic1.zhimg.com/80/v2-7a2c13480cf2c9ab79aa490df4a642ac_hd.jpg">
 <meta property="og:image" content="https://pic4.zhimg.com/80/v2-24990a5accb631335dc665f6356b8e55_hd.jpg">
 <meta property="og:image" content="https://pic1.zhimg.com/80/v2-fc54c46260c35a0e894a26f74b1735af_hd.jpg">
-<meta property="og:updated_time" content="2018-03-18T10:21:46.000Z">
+<meta property="og:updated_time" content="2018-03-18T10:52:31.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JavaScript数据解构与算法(2)">
+<meta name="twitter:title" content="JavaScript数据结构与算法(2)">
 <meta name="twitter:image" content="https://bengbu-yuezhang.github.io/2018/03/17/Learning-JavaScript-Data-Structures-and-Algorithms2/hannuota.jpg">
 
 
@@ -130,7 +130,7 @@
 
 
 
-  <title>JavaScript数据解构与算法(2) | 新世紀エヴァンゲリオン</title>
+  <title>JavaScript数据结构与算法(2) | 新世紀エヴァンゲリオン</title>
   
 
 
@@ -190,7 +190,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            主页
+            Home
           </a>
         </li>
       
@@ -200,7 +200,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            时间轴
+            Archives
           </a>
         </li>
       
@@ -254,7 +254,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">JavaScript数据解构与算法(2)</h1>
+          <h1 class="post-title" itemprop="name headline">JavaScript数据结构与算法(2)</h1>
         
 
         <div class="post-meta">
@@ -264,7 +264,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发布于</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-17T16:33:26+08:00">
                 2018-03-17
@@ -318,19 +318,8 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">let _items = Symbol(&apos;items&apos;)</span><br><span class="line"></span><br><span class="line">class Stack &#123;</span><br><span class="line">    constructor(items = []) &#123;</span><br><span class="line">        this[_items] = items</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="私有属性的解决办法-WeakMap"><a href="#私有属性的解决办法-WeakMap" class="headerlink" title="私有属性的解决办法: WeakMap"></a>私有属性的解决办法: WeakMap</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">const items = new WeakMap()</span><br><span class="line"></span><br><span class="line">class Stack &#123;</span><br><span class="line">    constructor(items = []) &#123;</span><br><span class="line">        /／ 以自身作为key</span><br><span class="line">        items.set(this, items)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    push(element) &#123;</span><br><span class="line">        let s = items.get(this)</span><br><span class="line">        s.push(element)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>通过闭包，将items包裹在闭包空间内，避免外部对其修改，但是<strong>子类无法继承这样的私有属性</strong></p>
-<p>let Stack = (function () {<br>  const items = new WeakMap()</p>
-<pre><code>class Stack {
-    constructor(items = []) {
-        /／ 以自身作为key
-        items.set(this, items)
-    }
-
-    // ...
-}
-
-return Stack
-</code></pre><p>})()</p>
-<h3 id="ES7新的提案："><a href="#ES7新的提案：" class="headerlink" title="ES7新的提案："></a>ES7新的提案：</h3><h3 id="10进制到2进制"><a href="#10进制到2进制" class="headerlink" title="10进制到2进制"></a>10进制到2进制</h3><blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">let Stack = (function () &#123;</span><br><span class="line">  const items = new WeakMap()</span><br><span class="line"></span><br><span class="line">    class Stack &#123;</span><br><span class="line">        constructor(items = []) &#123;</span><br><span class="line">            /／ 以自身作为key</span><br><span class="line">            items.set(this, items)</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // ...</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return Stack</span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure>
+<h3 id="ES7新的提案：’-’"><a href="#ES7新的提案：’-’" class="headerlink" title="ES7新的提案：’#’"></a>ES7新的提案：’#’</h3><h3 id="10进制到2进制"><a href="#10进制到2进制" class="headerlink" title="10进制到2进制"></a>10进制到2进制</h3><blockquote>
 <p>转换2进制一般使用的是短除法，栈遵循的后进先出, 所以可以使用栈进行存储。然后从栈顶取出。</p>
 </blockquote>
 <p><img src="/2018/03/17/Learning-JavaScript-Data-Structures-and-Algorithms2/js.png" alt="image"></p>
@@ -343,7 +332,7 @@ return Stack
 <p><img src="https://pic1.zhimg.com/80/v2-7a2c13480cf2c9ab79aa490df4a642ac_hd.jpg" alt="image"></p>
 <p><img src="https://pic4.zhimg.com/80/v2-24990a5accb631335dc665f6356b8e55_hd.jpg" alt="image"></p>
 <p><img src="https://pic1.zhimg.com/80/v2-fc54c46260c35a0e894a26f74b1735af_hd.jpg" alt="image"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line">const _items = Symbol(&apos;items&apos;)</span><br><span class="line"></span><br><span class="line">class Stack &#123;</span><br><span class="line"></span><br><span class="line">    constructor (items = []) &#123;</span><br><span class="line">        this[_items] = items</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 添加到栈顶元素</span><br><span class="line">     */</span><br><span class="line">    push (...elements) &#123;</span><br><span class="line">        this[_items].push(...elements)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 移除栈顶元素</span><br><span class="line">     */</span><br><span class="line">    pop () &#123;</span><br><span class="line">        return this[_items].pop()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 返回栈顶元素</span><br><span class="line">     */</span><br><span class="line">    peek () &#123;</span><br><span class="line">        return this[_items][this[_items].length - 1]</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    /**</span><br><span class="line">     * 判读栈内是否存在元素</span><br><span class="line">     */</span><br><span class="line">    isEmpty () &#123;</span><br><span class="line">        return this[_items].length === 0</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 移除栈内的全部元素</span><br><span class="line">     */ </span><br><span class="line">    clear () &#123;</span><br><span class="line">        return this[_items] = []</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 返回栈的大小</span><br><span class="line">     */</span><br><span class="line">    size () &#123;</span><br><span class="line">        return this[_items].length</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 计数器</span><br><span class="line">let number = 0</span><br><span class="line"></span><br><span class="line">// 新建汉诺塔</span><br><span class="line">let a = new Stack()</span><br><span class="line">let b = new Stack()</span><br><span class="line">let c = new Stack()</span><br><span class="line"></span><br><span class="line">// 从大到小插入盘子</span><br><span class="line">a.push(3)</span><br><span class="line">a.push(2)</span><br><span class="line">a.push(1)</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 移动汉诺塔(len个盘子从a移动到c)</span><br><span class="line"> * a ----&gt; c 移动</span><br><span class="line"> * @param &#123;Number&#125; len 多个盘子</span><br><span class="line"> * @param &#123;Stack&#125; a a盘子</span><br><span class="line"> * @param &#123;Stack&#125; b b盘子</span><br><span class="line"> * @param &#123;Stack&#125; c c盘子</span><br><span class="line"> */</span><br><span class="line">function Hanoi (len, a, b, c) &#123;</span><br><span class="line">    number++</span><br><span class="line">    if (len &gt; 0) &#123;</span><br><span class="line">        // len-1个盘子，从a移动到b，c作为缓存区</span><br><span class="line">        Hanoi(len-1, a, c, b);</span><br><span class="line">        // 第len个盘子，从a移动到c</span><br><span class="line">        c.push(a.pop());</span><br><span class="line">        // len-1个盘子，从b移动到c, a作为缓存区</span><br><span class="line">        Hanoi(len-1, b, a, c);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Hanoi(a.size(), a, b, c)</span><br><span class="line"></span><br><span class="line">console.log(a)</span><br><span class="line">console.log(b)</span><br><span class="line">console.log(c)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line">const _items = Symbol(&apos;items&apos;)</span><br><span class="line"></span><br><span class="line">class Stack &#123;</span><br><span class="line"></span><br><span class="line">    constructor (items = []) &#123;</span><br><span class="line">        this[_items] = items</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 添加到栈顶元素</span><br><span class="line">     */</span><br><span class="line">    push (...elements) &#123;</span><br><span class="line">        this[_items].push(...elements)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 移除栈顶元素</span><br><span class="line">     */</span><br><span class="line">    pop () &#123;</span><br><span class="line">        return this[_items].pop()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 返回栈顶元素</span><br><span class="line">     */</span><br><span class="line">    peek () &#123;</span><br><span class="line">        return this[_items][this[_items].length - 1]</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    /**</span><br><span class="line">     * 判读栈内是否存在元素</span><br><span class="line">     */</span><br><span class="line">    isEmpty () &#123;</span><br><span class="line">        return this[_items].length === 0</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 移除栈内的全部元素</span><br><span class="line">     */ </span><br><span class="line">    clear () &#123;</span><br><span class="line">        return this[_items] = []</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 返回栈的大小</span><br><span class="line">     */</span><br><span class="line">    size () &#123;</span><br><span class="line">        return this[_items].length</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 计数器</span><br><span class="line">let number = 0</span><br><span class="line"></span><br><span class="line">// 新建汉诺塔</span><br><span class="line">let a = new Stack()</span><br><span class="line">let b = new Stack()</span><br><span class="line">let c = new Stack()</span><br><span class="line"></span><br><span class="line">// 从大到小插入盘子</span><br><span class="line">a.push(3)</span><br><span class="line">a.push(2)</span><br><span class="line">a.push(1)</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 移动汉诺塔(len个盘子从a移动到c)</span><br><span class="line"> * a ----&gt; c 移动</span><br><span class="line"> * @param &#123;Number&#125; len 多个盘子</span><br><span class="line"> * @param &#123;Stack&#125; a a盘子</span><br><span class="line"> * @param &#123;Stack&#125; b b盘子</span><br><span class="line"> * @param &#123;Stack&#125; c c盘子</span><br><span class="line"> */</span><br><span class="line">function Hanoi (len, a, b, c) &#123;</span><br><span class="line">    number++</span><br><span class="line">    if (len &gt; 0) &#123;</span><br><span class="line">        // len-1个盘子，从a移动到b，c作为缓存区</span><br><span class="line">        Hanoi(len-1, a, c, b);</span><br><span class="line">        // 第len个盘子，从a移动到c（a的最后一个就是第len个移动到c）</span><br><span class="line">        // 可以看出b是缓存区,因为传参格式是(a,b,c)</span><br><span class="line">        c.push(a.pop());</span><br><span class="line">        // len-1个盘子，从b移动到c, a作为缓存区</span><br><span class="line">        Hanoi(len-1, b, a, c);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Hanoi(a.size(), a, b, c)</span><br><span class="line"></span><br><span class="line">console.log(a)</span><br><span class="line">console.log(b)</span><br><span class="line">console.log(c)</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -368,8 +357,8 @@ return Stack
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/17/Learning-JavaScript-Data-Structures-and-Algorithms/" rel="next" title="JavaScript数据解构与算法(1)">
-                <i class="fa fa-chevron-left"></i> JavaScript数据解构与算法(1)
+              <a href="/2018/03/17/Learning-JavaScript-Data-Structures-and-Algorithms/" rel="next" title="JavaScript数据结构与算法(1)">
+                <i class="fa fa-chevron-left"></i> JavaScript数据结构与算法(1)
               </a>
             
           </div>
@@ -434,10 +423,10 @@ return Stack
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
+            Table of Contents
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            作者概述
+            Overview
           </li>
         </ul>
       
@@ -461,8 +450,8 @@ return Stack
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">21</span>
-                  <span class="site-state-item-name">篇文章</span>
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">posts</span>
                 </a>
               </div>
             
@@ -514,7 +503,7 @@ return Stack
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#栈"><span class="nav-number">1.</span> <span class="nav-text">栈</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建一个栈"><span class="nav-number">1.0.1.</span> <span class="nav-text">创建一个栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#目前存在的问题"><span class="nav-number">1.0.2.</span> <span class="nav-text">目前存在的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#私有属性的解决办法-Symbol"><span class="nav-number">1.0.3.</span> <span class="nav-text">私有属性的解决办法: Symbol</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#私有属性的解决办法-WeakMap"><span class="nav-number">1.0.4.</span> <span class="nav-text">私有属性的解决办法: WeakMap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ES7新的提案："><span class="nav-number">1.0.5.</span> <span class="nav-text">ES7新的提案：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10进制到2进制"><span class="nav-number">1.0.6.</span> <span class="nav-text">10进制到2进制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#汉诺塔问题"><span class="nav-number">1.0.7.</span> <span class="nav-text">汉诺塔问题</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#栈"><span class="nav-number">1.</span> <span class="nav-text">栈</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建一个栈"><span class="nav-number">1.0.1.</span> <span class="nav-text">创建一个栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#目前存在的问题"><span class="nav-number">1.0.2.</span> <span class="nav-text">目前存在的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#私有属性的解决办法-Symbol"><span class="nav-number">1.0.3.</span> <span class="nav-text">私有属性的解决办法: Symbol</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#私有属性的解决办法-WeakMap"><span class="nav-number">1.0.4.</span> <span class="nav-text">私有属性的解决办法: WeakMap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ES7新的提案：’-’"><span class="nav-number">1.0.5.</span> <span class="nav-text">ES7新的提案：’#’</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10进制到2进制"><span class="nav-number">1.0.6.</span> <span class="nav-text">10进制到2进制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#汉诺塔问题"><span class="nav-number">1.0.7.</span> <span class="nav-text">汉诺塔问题</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
@@ -544,7 +533,7 @@ return Stack
 </div>
 
 
-  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 
 

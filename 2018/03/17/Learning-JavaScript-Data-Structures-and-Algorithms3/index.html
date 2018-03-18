@@ -79,17 +79,16 @@
 
 
 
-<meta name="description" content="所谓成长，就是经过不断的聚散离合，找到不太会伤害到彼此的距离">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JavaScript数据解构与算法(3)">
+<meta property="og:title" content="JavaScript数据结构与算法(3)">
 <meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2018/03/17/Learning-JavaScript-Data-Structures-and-Algorithms3/index.html">
 <meta property="og:site_name" content="新世紀エヴァンゲリオン">
-<meta property="og:description" content="所谓成长，就是经过不断的聚散离合，找到不太会伤害到彼此的距离">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-03-17T10:56:13.000Z">
+<meta property="og:image" content="https://bengbu-yuezhang.github.io/2018/03/17/Learning-JavaScript-Data-Structures-and-Algorithms3/bianping1.jpg">
+<meta property="og:updated_time" content="2018-03-18T12:45:32.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JavaScript数据解构与算法(3)">
-<meta name="twitter:description" content="所谓成长，就是经过不断的聚散离合，找到不太会伤害到彼此的距离">
+<meta name="twitter:title" content="JavaScript数据结构与算法(3)">
+<meta name="twitter:image" content="https://bengbu-yuezhang.github.io/2018/03/17/Learning-JavaScript-Data-Structures-and-Algorithms3/bianping1.jpg">
 
 
 
@@ -125,7 +124,7 @@
 
 
 
-  <title>JavaScript数据解构与算法(3) | 新世紀エヴァンゲリオン</title>
+  <title>JavaScript数据结构与算法(3) | 新世紀エヴァンゲリオン</title>
   
 
 
@@ -185,7 +184,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            主页
+            Home
           </a>
         </li>
       
@@ -195,7 +194,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            时间轴
+            Archives
           </a>
         </li>
       
@@ -249,7 +248,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">JavaScript数据解构与算法(3)</h1>
+          <h1 class="post-title" itemprop="name headline">JavaScript数据结构与算法(3)</h1>
         
 
         <div class="post-meta">
@@ -259,7 +258,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发布于</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-17T18:55:59+08:00">
                 2018-03-17
@@ -299,7 +298,16 @@
       
 
       
-        
+        <p><img src="/2018/03/17/Learning-JavaScript-Data-Structures-and-Algorithms3/bianping1.jpg" alt="image"></p>
+<a id="more"></a>
+<h1 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h1><p>队列数结构遵循FIFO的原则，先进先出</p>
+<h3 id="创建队列"><a href="#创建队列" class="headerlink" title="创建队列"></a>创建队列</h3><p>使用数组模拟队列</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">class Queue &#123;</span><br><span class="line">    constructor (items = []) &#123;</span><br><span class="line">        this.items = items</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 队列内添加元素</span><br><span class="line">     */</span><br><span class="line">    enqueue (...elements) &#123;</span><br><span class="line">        this.items.push(...elements)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 队列移除元素</span><br><span class="line">     * 遵循先进先出的原则</span><br><span class="line">     */</span><br><span class="line">    dequeue () &#123;</span><br><span class="line">        return this.items.shift()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 查看队列头元素</span><br><span class="line">     */</span><br><span class="line">    front () &#123;</span><br><span class="line">        return this.items[0]</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 查看队列是否为空</span><br><span class="line">     */</span><br><span class="line">    isEmpty () &#123;</span><br><span class="line">        return this.items.length === 0</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    parint () &#123;</span><br><span class="line">        console.log(this.items.toString())</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>利用WeakMap创建私有变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">const Queue = (function () &#123;</span><br><span class="line">    // 私有变量</span><br><span class="line">    const _items = new WeakMap()</span><br><span class="line"></span><br><span class="line">    class Queue &#123;</span><br><span class="line">        constructor (items = []) &#123;</span><br><span class="line">            _items.set(this, items)</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        /**</span><br><span class="line">        * 队列内添加元素</span><br><span class="line">        */</span><br><span class="line">        enqueue (...elements) &#123;</span><br><span class="line">            let items = _items.get(this)</span><br><span class="line">            items.push(...elements)</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        /**</span><br><span class="line">        * 队列移除元素</span><br><span class="line">        * 遵循先进先出的原则</span><br><span class="line">        */</span><br><span class="line">        dequeue () &#123;</span><br><span class="line">            let items = _items.get(this)</span><br><span class="line">            return items.shift()</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // ...</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return Queue</span><br><span class="line"></span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure>
+<h3 id="🥁击鼓传花🌹"><a href="#🥁击鼓传花🌹" class="headerlink" title="🥁击鼓传花🌹"></a>🥁击鼓传花🌹</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">class Queue &#123;</span><br><span class="line">    constructor (items = []) &#123;</span><br><span class="line">        this.items = items</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 队列内添加元素</span><br><span class="line">     */</span><br><span class="line">    enqueue (...elements) &#123;</span><br><span class="line">        this.items.push(...elements)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 队列移除元素</span><br><span class="line">     * 遵循先进先出的原则</span><br><span class="line">     */</span><br><span class="line">    dequeue () &#123;</span><br><span class="line">        return this.items.shift()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 查看队列头元素</span><br><span class="line">     */</span><br><span class="line">    front () &#123;</span><br><span class="line">        return this.items[0]</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 查看队列是否为空</span><br><span class="line">     */</span><br><span class="line">    isEmpty () &#123;</span><br><span class="line">        return this.items.length === 0</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    parint () &#123;</span><br><span class="line">        console.log(this.items.toString())</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    size () &#123;</span><br><span class="line">        return this.items.length</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let queue = new Queue()</span><br><span class="line"></span><br><span class="line">let nameList = [&apos;jack&apos;, &apos;tom&apos;, &apos;jerry&apos;, &apos;max&apos;]</span><br><span class="line"></span><br><span class="line">let eliminate = &apos;&apos;</span><br><span class="line"></span><br><span class="line">for (let i = 0; i &lt; nameList.length; i++) &#123;</span><br><span class="line">    queue.enqueue(nameList[i])</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">while(queue.size() &gt; 1) &#123;</span><br><span class="line">    let num = queue.size()</span><br><span class="line">    for (let i = 0; i &lt; num; i++) &#123;</span><br><span class="line">        queue.enqueue(queue.dequeue())</span><br><span class="line">    &#125;</span><br><span class="line">    // 淘汰</span><br><span class="line">    eliminate = queue.dequeue()</span><br><span class="line">    console.log(eliminate)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="JavaScript任务队列"><a href="#JavaScript任务队列" class="headerlink" title="JavaScript任务队列"></a>JavaScript任务队列</h3><p>JavaScript执行时就会使用队列机制，宏任务队列，微任务队列</p>
+
       
     </div>
     
@@ -332,6 +340,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/18/Learning-JavaScript-Data-Structures-and-Algorithms4/" rel="prev" title="JavaScript数据结构与算法(4)">
+                JavaScript数据结构与算法(4) <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -383,8 +395,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -403,8 +424,8 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">21</span>
-                  <span class="site-state-item-name">篇文章</span>
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">posts</span>
                 </a>
               </div>
             
@@ -447,6 +468,22 @@
       </section>
 
       
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#队列"><span class="nav-number">1.</span> <span class="nav-text">队列</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建队列"><span class="nav-number">1.0.1.</span> <span class="nav-text">创建队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#🥁击鼓传花🌹"><span class="nav-number">1.0.2.</span> <span class="nav-text">🥁击鼓传花🌹</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JavaScript任务队列"><span class="nav-number">1.0.3.</span> <span class="nav-text">JavaScript任务队列</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
 
       
 
@@ -470,7 +507,7 @@
 </div>
 
 
-  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 
 
