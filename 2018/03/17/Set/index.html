@@ -80,15 +80,15 @@
 
 
 <meta property="og:type" content="article">
-<meta property="og:title" content="Promise - finally">
-<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2018/03/07/Promise/index.html">
+<meta property="og:title" content="Set">
+<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2018/03/17/Set/index.html">
 <meta property="og:site_name" content="新世紀エヴァンゲリオン">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://bengbu-yuezhang.github.io/2018/03/07/Promise/promise.jpg">
-<meta property="og:updated_time" content="2018-03-07T14:44:25.000Z">
+<meta property="og:image" content="https://bengbu-yuezhang.github.io/2018/03/17/Set/eva2.jpg">
+<meta property="og:updated_time" content="2018-03-18T10:27:52.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Promise - finally">
-<meta name="twitter:image" content="https://bengbu-yuezhang.github.io/2018/03/07/Promise/promise.jpg">
+<meta name="twitter:title" content="Set">
+<meta name="twitter:image" content="https://bengbu-yuezhang.github.io/2018/03/17/Set/eva2.jpg">
 
 
 
@@ -118,13 +118,13 @@
 
 
 
-  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/2018/03/07/Promise/"/>
+  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/2018/03/17/Set/"/>
 
 
 
 
 
-  <title>Promise - finally | 新世紀エヴァンゲリオン</title>
+  <title>Set | 新世紀エヴァンゲリオン</title>
   
 
 
@@ -231,7 +231,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://bengbu-yuezhang.github.io/yue.github.io/2018/03/07/Promise/">
+    <link itemprop="mainEntityOfPage" href="https://bengbu-yuezhang.github.io/yue.github.io/2018/03/17/Set/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="张越">
@@ -248,7 +248,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Promise - finally</h1>
+          <h1 class="post-title" itemprop="name headline">Set</h1>
         
 
         <div class="post-meta">
@@ -260,8 +260,8 @@
               
                 <span class="post-meta-item-text">发布于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-07T21:24:41+08:00">
-                2018-03-07
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-17T18:55:24+08:00">
+                2018-03-17
               </time>
             
 
@@ -298,17 +298,70 @@
       
 
       
-        <p><img src="/2018/03/07/Promise/promise.jpg" alt="image"></p>
+        <p><img src="/2018/03/17/Set/eva2.jpg" alt="image"></p>
 <a id="more"></a>
-<h2 id="Promise-prototype-finally"><a href="#Promise-prototype-finally" class="headerlink" title="Promise.prototype.finally()"></a>Promise.prototype.finally()</h2><blockquote>
-<p>finally方法指不管Promise对象最后的状态如何，都会执行finally中的函数。同时finally不接受任何函数</p>
+<h1 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h1><p>Set类似数组，但是成员都是唯一的。没有重复的值(Set内部NaN和NaN是相等的)</p>
+<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>Set接受一个数组为初始化参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const set = new Set([1, 2, 3])</span><br></pre></td></tr></table></figure>
+<h3 id="Set数组去重"><a href="#Set数组去重" class="headerlink" title="Set数组去重"></a>Set数组去重</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let array = [...new Set(array)]</span><br></pre></td></tr></table></figure>
+<h3 id="Set实例方法和属性"><a href="#Set实例方法和属性" class="headerlink" title="Set实例方法和属性"></a>Set实例方法和属性</h3><ol>
+<li>size属性</li>
+</ol>
+<p>返回成员的总数</p>
+<ol>
+<li>add方法</li>
+</ol>
+<p>添加某个值，并返回Set本身</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let set = new Set()</span><br><span class="line">set.add(2).add(3)</span><br></pre></td></tr></table></figure>
+<ol>
+<li>delete方法</li>
+</ol>
+<p>删除一个值，返回布尔值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set.delete(3)</span><br></pre></td></tr></table></figure>
+<ol>
+<li>has方法</li>
+</ol>
+<p>表示该值是否为Set的成员</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set.has(4) // false</span><br></pre></td></tr></table></figure>
+<ol>
+<li>clear方法</li>
+</ol>
+<p>清空Set</p>
+<h3 id="Set转为数组"><a href="#Set转为数组" class="headerlink" title="Set转为数组"></a>Set转为数组</h3><ol>
+<li>使用扩展运算符</li>
+<li>Array.form</li>
+</ol>
+<h3 id="Set的遍历操作"><a href="#Set的遍历操作" class="headerlink" title="Set的遍历操作"></a>Set的遍历操作</h3><blockquote>
+<p>Set 结构没有键名，只有键值（或者说键名和键值是同一个值），所以keys方法和values方法的行为完全一致。Set的Key等于Value</p>
 </blockquote>
-<h4 id="finally是then的特例"><a href="#finally是then的特例" class="headerlink" title="finally是then的特例"></a>finally是then的特例</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">promise.finally()</span><br><span class="line"></span><br><span class="line">// 等同于</span><br><span class="line">promise.then(</span><br><span class="line">    res =&gt; res,</span><br><span class="line">    err =&gt; throw err</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-<h4 id="finally的实现"><a href="#finally的实现" class="headerlink" title="finally的实现"></a>finally的实现</h4><blockquote>
-<p>ES2018中将作为标准实现</p>
+<ul>
+<li>keys(), 返回key的遍历器, 可以使用for…of方法遍历</li>
+<li>values(), 返回value的遍历器</li>
+<li>entries(), 返回键值的遍历器</li>
+<li>forEach(), Set的迭代器，行为与数组的forEach方法类似</li>
+</ul>
+<p><strong>Set的顺序，是插入Set的顺序</strong></p>
+<h3 id="Set的iterator接口"><a href="#Set的iterator接口" class="headerlink" title="Set的iterator接口"></a>Set的iterator接口</h3><p>Set的iterator接口返回的遍历器，就是values方法返回的遍历器，Set可以直接使用for…of便利</p>
+<h3 id="Set的应用"><a href="#Set的应用" class="headerlink" title="Set的应用"></a>Set的应用</h3><ol>
+<li>数组的去重</li>
+</ol>
+<p>由于Set没有filter和map方法，可以将Set转换为数组后使用filter和Set方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let array = [...new Set(array)]</span><br></pre></td></tr></table></figure>
+<ol>
+<li>交集, 并集, 差集</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 并集</span><br><span class="line">let union = new Set([...a, ...b])</span><br><span class="line"></span><br><span class="line">// 交集</span><br><span class="line">let intersect = new Set([...a].fitler(item =&gt; b.has(item)))</span><br><span class="line"></span><br><span class="line">// 差集(并集取反)</span><br><span class="line">let difference = new Set([...a].filter(x =&gt; !b.has(x)))</span><br></pre></td></tr></table></figure>
+<h1 id="WeakSet"><a href="#WeakSet" class="headerlink" title="WeakSet"></a>WeakSet</h1><blockquote>
+<p>WeakSet的值只能是对象，不能是其他的值。WeakSet对象是弱引用</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Promise.prototype.finally = function (callback) &#123;</span><br><span class="line">    // this指向Promise对象</span><br><span class="line">    let _Promise = this.constructor</span><br><span class="line">    return this.then(</span><br><span class="line">        res =&gt; _Promise.resolve(callback()).then(() =&gt; res),</span><br><span class="line">        err =&gt; _Promise.resolve(callback()).then(() =&gt; &#123; throw err &#125;)</span><br><span class="line">    )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="finally的应用"><a href="#finally的应用" class="headerlink" title="finally的应用"></a>finally的应用</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">function getData (params) &#123;</span><br><span class="line">    return new Promise((resolve, reject) =&gt; &#123;</span><br><span class="line">        if (!params) return reject(&apos;错误&apos;)</span><br><span class="line">        return resolve(&apos;正确&apos;)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// finally中的函数都会执行</span><br><span class="line">getData(&apos;test&apos;).then(res =&gt; </span><br><span class="line">    console.log(res)</span><br><span class="line">).catch(err =&gt; </span><br><span class="line">    console.log(err)</span><br><span class="line">).finally(() =&gt; &#123;</span><br><span class="line">    console.log(&apos;任何情况都会执行&apos;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">getData().then(res =&gt; </span><br><span class="line">    console.log(res)</span><br><span class="line">).catch(err =&gt; </span><br><span class="line">    console.log(err)</span><br><span class="line">).finally(() =&gt; &#123;</span><br><span class="line">    console.log(&apos;任何情况都会执行&apos;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>⚠️什么是弱引用, 垃圾回收机制不乎考虑WeakSet对该对象的引用，如果对象被垃圾回收机制所清楚，WeakSet的内容也会被消失。因为WeakSet成员的不确定性，所以WeakSet是不能被遍历的</p>
+<h3 id="WeakSet的实例方法"><a href="#WeakSet的实例方法" class="headerlink" title="WeakSet的实例方法"></a>WeakSet的实例方法</h3><ol>
+<li>add</li>
+<li>delete</li>
+<li>has</li>
+</ol>
+<p>WeakSet无法获取size和forEach属性，所以WeakSet是无法被遍历的</p>
+
       
     </div>
     
@@ -332,8 +385,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/06/http2/" rel="next" title="http协议基础知识(2)">
-                <i class="fa fa-chevron-left"></i> http协议基础知识(2)
+              <a href="/2018/03/17/Map/" rel="next" title="Map">
+                <i class="fa fa-chevron-left"></i> Map
               </a>
             
           </div>
@@ -342,8 +395,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/03/07/VirtualDOM/" rel="prev" title="React VirtualDOM">
-                React VirtualDOM <i class="fa fa-chevron-right"></i>
+              <a href="/2018/03/17/Learning-JavaScript-Data-Structures-and-Algorithms3/" rel="prev" title="JavaScript数据解构与算法(3)">
+                JavaScript数据解构与算法(3) <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -478,7 +531,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Promise-prototype-finally"><span class="nav-number">1.</span> <span class="nav-text">Promise.prototype.finally()</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#finally是then的特例"><span class="nav-number">1.0.1.</span> <span class="nav-text">finally是then的特例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#finally的实现"><span class="nav-number">1.0.2.</span> <span class="nav-text">finally的实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#finally的应用"><span class="nav-number">1.0.3.</span> <span class="nav-text">finally的应用</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Set"><span class="nav-number">1.</span> <span class="nav-text">Set</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化"><span class="nav-number">1.0.1.</span> <span class="nav-text">初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Set数组去重"><span class="nav-number">1.0.2.</span> <span class="nav-text">Set数组去重</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Set实例方法和属性"><span class="nav-number">1.0.3.</span> <span class="nav-text">Set实例方法和属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Set转为数组"><span class="nav-number">1.0.4.</span> <span class="nav-text">Set转为数组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Set的遍历操作"><span class="nav-number">1.0.5.</span> <span class="nav-text">Set的遍历操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Set的iterator接口"><span class="nav-number">1.0.6.</span> <span class="nav-text">Set的iterator接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Set的应用"><span class="nav-number">1.0.7.</span> <span class="nav-text">Set的应用</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#WeakSet"><span class="nav-number">2.</span> <span class="nav-text">WeakSet</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#WeakSet的实例方法"><span class="nav-number">2.0.1.</span> <span class="nav-text">WeakSet的实例方法</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>

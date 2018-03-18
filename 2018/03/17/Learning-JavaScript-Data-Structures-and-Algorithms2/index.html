@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript数据解构与算法(2)">
+<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2018/03/17/Learning-JavaScript-Data-Structures-and-Algorithms2/index.html">
+<meta property="og:site_name" content="新世紀エヴァンゲリオン">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://bengbu-yuezhang.github.io/2018/03/17/Learning-JavaScript-Data-Structures-and-Algorithms2/hannuota.jpg">
+<meta property="og:image" content="https://bengbu-yuezhang.github.io/2018/03/17/Learning-JavaScript-Data-Structures-and-Algorithms2/js.png">
+<meta property="og:image" content="https://bengbu-yuezhang.github.io/2018/03/17/Learning-JavaScript-Data-Structures-and-Algorithms2/han.gif">
+<meta property="og:image" content="https://pic1.zhimg.com/80/v2-4d14e3c3e893135a9d26fdf11984b493_hd.jpg">
+<meta property="og:image" content="https://pic1.zhimg.com/80/v2-7a2c13480cf2c9ab79aa490df4a642ac_hd.jpg">
+<meta property="og:image" content="https://pic4.zhimg.com/80/v2-24990a5accb631335dc665f6356b8e55_hd.jpg">
+<meta property="og:image" content="https://pic1.zhimg.com/80/v2-fc54c46260c35a0e894a26f74b1735af_hd.jpg">
+<meta property="og:updated_time" content="2018-03-18T10:21:46.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript数据解构与算法(2)">
+<meta name="twitter:image" content="https://bengbu-yuezhang.github.io/2018/03/17/Learning-JavaScript-Data-Structures-and-Algorithms2/hannuota.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/2018/03/17/Learning-JavaScript-Data-Structures-and-Algorithms2/"/>
+
+
+
+
+
+  <title>JavaScript数据解构与算法(2) | 新世紀エヴァンゲリオン</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">新世紀エヴァンゲリオン</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">前端小学生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            主页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            时间轴
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://bengbu-yuezhang.github.io/yue.github.io/2018/03/17/Learning-JavaScript-Data-Structures-and-Algorithms2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张越">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新世紀エヴァンゲリオン">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">JavaScript数据解构与算法(2)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发布于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-17T16:33:26+08:00">
+                2018-03-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="/2018/03/17/Learning-JavaScript-Data-Structures-and-Algorithms2/hannuota.jpg" alt="image"></p>
+<a id="more"></a>
+<h1 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h1><p>类似于数组，但是比数组在添加和删除的时候更为可控。栈遵循，<strong>后进先出（比如一摞书，一摞碟子）的原则</strong></p>
+<h3 id="创建一个栈"><a href="#创建一个栈" class="headerlink" title="创建一个栈"></a>创建一个栈</h3><blockquote>
+<p>我们使用数组模拟栈</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">class Stack &#123;</span><br><span class="line"></span><br><span class="line">    constructor (items = []) &#123;</span><br><span class="line">        this.items = items</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 添加到栈顶元素</span><br><span class="line">     */</span><br><span class="line">    push (...elements) &#123;</span><br><span class="line">        return this.items.push(...elements)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 移除栈顶元素</span><br><span class="line">     */</span><br><span class="line">    pop () &#123;</span><br><span class="line">        return this.items.pop()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 返回栈顶元素</span><br><span class="line">     *／</span><br><span class="line">    peek () &#123;</span><br><span class="line">        return this.items[this.items.length - 1]</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    /**</span><br><span class="line">     * 判读栈内是否存在元素</span><br><span class="line">     */</span><br><span class="line">    isEmpty () &#123;</span><br><span class="line">        return this.items.length === 0</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 移除栈内的全部元素</span><br><span class="line">     */ </span><br><span class="line">    clear () &#123;</span><br><span class="line">        return this.items = []</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 返回栈的大小</span><br><span class="line">     */</span><br><span class="line">    size () &#123;</span><br><span class="line">        return this.items.length</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="目前存在的问题"><a href="#目前存在的问题" class="headerlink" title="目前存在的问题"></a>目前存在的问题</h3><p><strong>Stack不能创建私有属性</strong>, 我们希望Stack类，只能使用我们提供的方法。比如在Stack类，对于Stack的实例，如果我们获取属性items, 我们就可以直接使用数组的方法，操作Stack实例。如果items是一个私有的属性，则不会存在这个问题</p>
+<h3 id="私有属性的解决办法-Symbol"><a href="#私有属性的解决办法-Symbol" class="headerlink" title="私有属性的解决办法: Symbol"></a>私有属性的解决办法: Symbol</h3><blockquote>
+<p>Symbol是唯一生成的，所以在实例的外部，无法获取同样的Symbol值，所以可以看作私有属性,但是Symbol不是真正的私有属性，Object.getOwnPropertySymbols可以获取Symbol的key值</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">let _items = Symbol(&apos;items&apos;)</span><br><span class="line"></span><br><span class="line">class Stack &#123;</span><br><span class="line">    constructor(items = []) &#123;</span><br><span class="line">        this[_items] = items</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="私有属性的解决办法-WeakMap"><a href="#私有属性的解决办法-WeakMap" class="headerlink" title="私有属性的解决办法: WeakMap"></a>私有属性的解决办法: WeakMap</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">const items = new WeakMap()</span><br><span class="line"></span><br><span class="line">class Stack &#123;</span><br><span class="line">    constructor(items = []) &#123;</span><br><span class="line">        /／ 以自身作为key</span><br><span class="line">        items.set(this, items)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    push(element) &#123;</span><br><span class="line">        let s = items.get(this)</span><br><span class="line">        s.push(element)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过闭包，将items包裹在闭包空间内，避免外部对其修改，但是<strong>子类无法继承这样的私有属性</strong></p>
+<p>let Stack = (function () {<br>  const items = new WeakMap()</p>
+<pre><code>class Stack {
+    constructor(items = []) {
+        /／ 以自身作为key
+        items.set(this, items)
+    }
+
+    // ...
+}
+
+return Stack
+</code></pre><p>})()</p>
+<h3 id="ES7新的提案："><a href="#ES7新的提案：" class="headerlink" title="ES7新的提案："></a>ES7新的提案：</h3><h3 id="10进制到2进制"><a href="#10进制到2进制" class="headerlink" title="10进制到2进制"></a>10进制到2进制</h3><blockquote>
+<p>转换2进制一般使用的是短除法，栈遵循的后进先出, 所以可以使用栈进行存储。然后从栈顶取出。</p>
+</blockquote>
+<p><img src="/2018/03/17/Learning-JavaScript-Data-Structures-and-Algorithms2/js.png" alt="image"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 进制转换</span><br><span class="line"> * @param &#123;Number&#125; decNumber 10进制数</span><br><span class="line"> * @param &#123;Number&#125; base 目标进制</span><br><span class="line"> */</span><br><span class="line">function divideBy2(decNumber, base)&#123;</span><br><span class="line">    var remStack = new Stack(),</span><br><span class="line">    rem, // 余数</span><br><span class="line">    binaryString = &apos;&apos;;</span><br><span class="line">    </span><br><span class="line">    while (decNumber &gt; 0)&#123; </span><br><span class="line">        rem = Math.floor(decNumber % base);</span><br><span class="line">        remStack.push(rem);</span><br><span class="line">        decNumber = Math.floor(decNumber / base);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    while (!remStack.isEmpty())&#123;</span><br><span class="line">        // 依次从栈顶取出</span><br><span class="line">        binaryString += remStack.pop().toString()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return binaryString;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="汉诺塔问题"><a href="#汉诺塔问题" class="headerlink" title="汉诺塔问题"></a>汉诺塔问题</h3><p><img src="/2018/03/17/Learning-JavaScript-Data-Structures-and-Algorithms2/han.gif" alt="image"></p>
+<p>💡<strong>我的想法：虽然最简单的是三个盘子的汉诺塔，但是面对三个盘子整个递归的过程并不是很好理解脑补出来，可以把问题简化成二个盘子的问题，就会非常容易理解汉诺塔递归的整个过程。(文字不太好描述，需要自己想象一下)</strong></p>
+<p>⚠️⚠️⚠️⚠️⚠️<strong>特别注意分析问题的时候不要让自己按着程序运行的顺序钻进去，这样会很容易困惑和乱掉</strong></p>
+<p><strong>汉诺塔问题本质上，只有三步，看下图（len-1个从a到b,最后一个从a到c,len一个从b到c）(把上面的len-1看作一个整体)要用人的思维去思考，而不是自己带入程序去思考</strong></p>
+<p><img src="https://pic1.zhimg.com/80/v2-4d14e3c3e893135a9d26fdf11984b493_hd.jpg" alt="image"></p>
+<p><img src="https://pic1.zhimg.com/80/v2-7a2c13480cf2c9ab79aa490df4a642ac_hd.jpg" alt="image"></p>
+<p><img src="https://pic4.zhimg.com/80/v2-24990a5accb631335dc665f6356b8e55_hd.jpg" alt="image"></p>
+<p><img src="https://pic1.zhimg.com/80/v2-fc54c46260c35a0e894a26f74b1735af_hd.jpg" alt="image"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line">const _items = Symbol(&apos;items&apos;)</span><br><span class="line"></span><br><span class="line">class Stack &#123;</span><br><span class="line"></span><br><span class="line">    constructor (items = []) &#123;</span><br><span class="line">        this[_items] = items</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 添加到栈顶元素</span><br><span class="line">     */</span><br><span class="line">    push (...elements) &#123;</span><br><span class="line">        this[_items].push(...elements)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 移除栈顶元素</span><br><span class="line">     */</span><br><span class="line">    pop () &#123;</span><br><span class="line">        return this[_items].pop()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 返回栈顶元素</span><br><span class="line">     */</span><br><span class="line">    peek () &#123;</span><br><span class="line">        return this[_items][this[_items].length - 1]</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    /**</span><br><span class="line">     * 判读栈内是否存在元素</span><br><span class="line">     */</span><br><span class="line">    isEmpty () &#123;</span><br><span class="line">        return this[_items].length === 0</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 移除栈内的全部元素</span><br><span class="line">     */ </span><br><span class="line">    clear () &#123;</span><br><span class="line">        return this[_items] = []</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 返回栈的大小</span><br><span class="line">     */</span><br><span class="line">    size () &#123;</span><br><span class="line">        return this[_items].length</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 计数器</span><br><span class="line">let number = 0</span><br><span class="line"></span><br><span class="line">// 新建汉诺塔</span><br><span class="line">let a = new Stack()</span><br><span class="line">let b = new Stack()</span><br><span class="line">let c = new Stack()</span><br><span class="line"></span><br><span class="line">// 从大到小插入盘子</span><br><span class="line">a.push(3)</span><br><span class="line">a.push(2)</span><br><span class="line">a.push(1)</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 移动汉诺塔(len个盘子从a移动到c)</span><br><span class="line"> * a ----&gt; c 移动</span><br><span class="line"> * @param &#123;Number&#125; len 多个盘子</span><br><span class="line"> * @param &#123;Stack&#125; a a盘子</span><br><span class="line"> * @param &#123;Stack&#125; b b盘子</span><br><span class="line"> * @param &#123;Stack&#125; c c盘子</span><br><span class="line"> */</span><br><span class="line">function Hanoi (len, a, b, c) &#123;</span><br><span class="line">    number++</span><br><span class="line">    if (len &gt; 0) &#123;</span><br><span class="line">        // len-1个盘子，从a移动到b，c作为缓存区</span><br><span class="line">        Hanoi(len-1, a, c, b);</span><br><span class="line">        // 第len个盘子，从a移动到c</span><br><span class="line">        c.push(a.pop());</span><br><span class="line">        // len-1个盘子，从b移动到c, a作为缓存区</span><br><span class="line">        Hanoi(len-1, b, a, c);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Hanoi(a.size(), a, b, c)</span><br><span class="line"></span><br><span class="line">console.log(a)</span><br><span class="line">console.log(b)</span><br><span class="line">console.log(c)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/17/Learning-JavaScript-Data-Structures-and-Algorithms/" rel="next" title="JavaScript数据解构与算法(1)">
+                <i class="fa fa-chevron-left"></i> JavaScript数据解构与算法(1)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/17/Map/" rel="prev" title="Map">
+                Map <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            作者概述
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="张越" />
+            
+              <p class="site-author-name" itemprop="name">张越</p>
+              <p class="site-description motion-element" itemprop="description">所谓成长，就是经过不断的聚散离合，找到不太会伤害到彼此的距离</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">篇文章</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/BengBu-YueZhang" target="_blank" title="我的GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/5460100952/profile?topnav=1&wvr=6" target="_blank" title="我的微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的微博</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#栈"><span class="nav-number">1.</span> <span class="nav-text">栈</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建一个栈"><span class="nav-number">1.0.1.</span> <span class="nav-text">创建一个栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#目前存在的问题"><span class="nav-number">1.0.2.</span> <span class="nav-text">目前存在的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#私有属性的解决办法-Symbol"><span class="nav-number">1.0.3.</span> <span class="nav-text">私有属性的解决办法: Symbol</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#私有属性的解决办法-WeakMap"><span class="nav-number">1.0.4.</span> <span class="nav-text">私有属性的解决办法: WeakMap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ES7新的提案："><span class="nav-number">1.0.5.</span> <span class="nav-text">ES7新的提案：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10进制到2进制"><span class="nav-number">1.0.6.</span> <span class="nav-text">10进制到2进制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#汉诺塔问题"><span class="nav-number">1.0.7.</span> <span class="nav-text">汉诺塔问题</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张越</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
