@@ -92,7 +92,7 @@
 <meta property="og:image" content="https://camo.githubusercontent.com/192572c3d5e70c177372087093625a3be1266ab8/68747470733a2f2f736661756c742d696d6167652e62302e7570616979756e2e636f6d2f3335342f3731342f333534373134373638302d356138623034613239326436615f61727469636c6578">
 <meta property="og:image" content="https://camo.githubusercontent.com/8ed5185bd11181e56d1eefa5e583aa37d2e25efa/68747470733a2f2f736661756c742d696d6167652e62302e7570616979756e2e636f6d2f3431382f3935382f343138393538323435372d356138623036386636653538315f61727469636c6578">
 <meta property="og:image" content="https://camo.githubusercontent.com/b7b7b68df390145dd9222c95602423224151506f/68747470733a2f2f736661756c742d696d6167652e62302e7570616979756e2e636f6d2f3236372f3739302f323637373930333835322d356138623036666433653637665f61727469636c6578">
-<meta property="og:updated_time" content="2018-04-01T16:52:17.000Z">
+<meta property="og:updated_time" content="2018-04-05T09:40:23.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="事件循环">
 <meta name="twitter:image" content="https://bengbu-yuezhang.github.io/2018/03/08/EventLoop/eventloop.jpg">
@@ -191,7 +191,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            主页
+            Accueil
           </a>
         </li>
       
@@ -201,7 +201,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            时间轴
+            Archives
           </a>
         </li>
       
@@ -265,7 +265,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发布于</span>
+                <span class="post-meta-item-text">Posté le</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-08T16:24:52+08:00">
                 2018-03-08
@@ -307,43 +307,52 @@
       
         <p><img src="/2018/03/08/EventLoop/eventloop.jpg" alt="image"></p>
 <a id="more"></a>
-<h1 id="事件循环"><a href="#事件循环" class="headerlink" title="事件循环"></a>事件循环</h1><h2 id="任务队列-task-queue"><a href="#任务队列-task-queue" class="headerlink" title="任务队列 (task queue)"></a>任务队列 (task queue)</h2><p>事件循环基于任务队列，EventLoop中，可以有多个任务队列，任务队列是任务(task)的集合，每一个任务都拥有一个任务源(task source), 同一个task source必须放在同一个task queue中。</p>
+<hr>
+<blockquote>
+<p>2018年4月5日更新</p>
+</blockquote>
+<p><strong>执行结果为 1 –&gt; 2 –&gt; 3</strong></p>
+<p><strong>因为微任务一直被添加，浏览器的event loop的机制，就是清空微任务，可能会卡住事件循环的执行</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">new Promise(resolve =&gt; resolve()).then(() =&gt; &#123;</span><br><span class="line">    console.log(&apos;1 --&gt;&apos;)</span><br><span class="line">    new Promise(resolve =&gt; resolve()).then(() =&gt; &#123;</span><br><span class="line">        console.log(&apos;2 --&gt;&apos;)</span><br><span class="line">        new Promise(resolve =&gt; resolve()).then(() =&gt; &#123;</span><br><span class="line">            console.log(&apos;3&apos;)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<hr>
+<h1 id="事件循环"><a href="#事件循环" class="headerlink" title="事件循环"></a>事件循环</h1><h2 id="任务队列-task-queue"><a href="#任务队列-task-queue" class="headerlink" title="任务队列 (task queue)"></a>任务队列 (task queue)</h2><p>事件循环基于任务队列，EventLoop中，可以有多个任务队列，任务队列是任务(task)的集合，每一个任务都拥有一个任务源(task source), 同一个task source(任务源头)必须放在同一个task queue(任务队列)中。</p>
 <p>事件循环中，每进行一次循环称为tick。每一次tick处理的方式规则如下：</p>
 <ol>
-<li>每一次tick对于任务队列是先进先出（执行最先进入任务队列的任务）。</li>
-<li>会优先检查microtasks(微任务)，如果存在会不断执行，清空microtasks queue。</li>
+<li>每一次tick(事件循环)对于任务队列是先进先出（执行最先进入任务队列的任务，所以称为队列😂）。</li>
+<li>每一次实践循环结束后，会优先检查microtasks(微任务)，如果存在会不断执行，清空microtasks queue。</li>
 </ol>
 <h4 id="macrotask，microtask"><a href="#macrotask，microtask" class="headerlink" title="macrotask，microtask"></a>macrotask，microtask</h4><p>异步任务可以分为两类，macrotask(宏任务)，microtask(微任务)</p>
-<p>macrotask包含：script(整体代码)、setTimeout、setInterval、I/O、UI交互事件、postMessage 、requestAnimationFrame 、MessageChannel、setImmediate(Node.js 环境)</p>
-<p>microtask包含：Promise.then、MutaionObserver、process.nextTick(Node.js 环境)</p>
+<p>macrotask包含：script(整体代码)、setTimeout、setInterval、I/O、UI交互事件、postMessage 、requestAnimationFrame 、MessageChannel、<strong>etImmediate(Node.js 环境)</strong></p>
+<p>microtask包含：Promise.then、MutaionObserver、<strong>process.nextTick(Node.js 环境)</strong></p>
 <p>setTimeout/Promise 等API便是任务源，而进入任务队列的是他们指定的具体执行任务。来自不同任务源的任务会进入到不同的任务队列。其中setTimeout与setInterval是同源的</p>
 <p><img src="https://camo.githubusercontent.com/dda53fb4e1e98b6b75871c08b3038569fbbc96e3/68747470733a2f2f736661756c742d696d6167652e62302e7570616979756e2e636f6d2f3134392f3930352f313439393035313630392d356138616434376663653736345f61727469636c6578" alt="image"></p>
 <p><em>图解：由上图可知，不同的任务是进入不同的任务队列执行的⬆️， call stack是主线程</em></p>
 <h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">console.log(&apos;1&apos;);</span><br><span class="line"></span><br><span class="line">setTimeout(function() &#123;</span><br><span class="line">  console.log(&apos;2&apos;);</span><br><span class="line">&#125;, 0);</span><br><span class="line"></span><br><span class="line">new Promise(resolve =&gt; &#123;</span><br><span class="line">    console.log(&apos;3&apos;);</span><br><span class="line">    resolve();</span><br><span class="line">    setTimeout(() =&gt; console.log(&apos;4&apos;), 0);</span><br><span class="line">&#125;).then(function() &#123;</span><br><span class="line">    console.log(&apos;5&apos;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">console.log(&apos;6&apos;);</span><br><span class="line"></span><br><span class="line">// 1,3,6,5,2,4</span><br></pre></td></tr></table></figure>
-<h4 id="第一次tick"><a href="#第一次tick" class="headerlink" title="第一次tick"></a>第一次tick</h4><blockquote>
+<h4 id="1-第一次tick"><a href="#1-第一次tick" class="headerlink" title="1. 第一次tick"></a>1. 第一次tick</h4><blockquote>
 <p>加载script,执行macrotask（宏任务）</p>
 </blockquote>
 <p><img src="https://camo.githubusercontent.com/f2f62d7aa5cfb04474513d12d86c1564db8a19a8/68747470733a2f2f736661756c742d696d6167652e62302e7570616979756e2e636f6d2f3238352f3334312f3238353334313831342d356138623030653839383435335f61727469636c6578" alt="image"></p>
-<h4 id="遇到了setTimeout"><a href="#遇到了setTimeout" class="headerlink" title="遇到了setTimeout"></a>遇到了setTimeout</h4><blockquote>
+<h4 id="2-遇到了setTimeout"><a href="#2-遇到了setTimeout" class="headerlink" title="2. 遇到了setTimeout"></a>2. 遇到了setTimeout</h4><p><strong>⚠️⚠️⚠️⚠️⚠️注意：setTimeout，setIntervar第二个参数⌛️时间的具体含义指的是，等待进入macrotask（队列的时间），而不是等待执行的时间🕙。如果主线程的执行，发生了长时间的阻塞，那么可能会照成一种结果就是两个不同等待时间的setTimeout可能会在阻塞之后，执行会紧挨在一起</strong></p>
+<blockquote>
 <p>将setTimeout插入macrotask queue中，<strong>setTimeout的延迟时间指的是，setTimeout插入macrotask queue的延迟时间</strong></p>
 </blockquote>
 <p><img src="https://camo.githubusercontent.com/c7f22f1d044f92c3df13ca935d6abb143546d5d6/68747470733a2f2f736661756c742d696d6167652e62302e7570616979756e2e636f6d2f3132342f3536312f313234353631313735322d356138623031613537663963335f61727469636c6578" alt="image"></p>
-<h4 id="遇到了Promise"><a href="#遇到了Promise" class="headerlink" title="遇到了Promise"></a>遇到了Promise</h4><blockquote>
+<h4 id="3-遇到了Promise"><a href="#3-遇到了Promise" class="headerlink" title="3. 遇到了Promise"></a>3. 遇到了Promise</h4><blockquote>
 <p>遇到Promise，执行resolve(表示异步任务执行完成)，<strong>记住先遇到then的会先分发到microtask queue中，setTimeout则进入macrotask queue中</strong></p>
 </blockquote>
 <blockquote>
 <p>调用then才会进入任务队列</p>
 </blockquote>
 <p><img src="https://camo.githubusercontent.com/192572c3d5e70c177372087093625a3be1266ab8/68747470733a2f2f736661756c742d696d6167652e62302e7570616979756e2e636f6d2f3335342f3731342f333534373134373638302d356138623034613239326436615f61727469636c6578" alt="image"></p>
-<h4 id="第一次宏任务执行完成"><a href="#第一次宏任务执行完成" class="headerlink" title="第一次宏任务执行完成"></a>第一次宏任务执行完成</h4><blockquote>
+<h4 id="4-第一次宏任务执行完成"><a href="#4-第一次宏任务执行完成" class="headerlink" title="4. 第一次宏任务执行完成"></a>4. 第一次宏任务执行完成</h4><blockquote>
 <p>tick执行完成后，开始查询microtask queue并执行，then的函数会被执行。</p>
 </blockquote>
 <p><img src="https://camo.githubusercontent.com/8ed5185bd11181e56d1eefa5e583aa37d2e25efa/68747470733a2f2f736661756c742d696d6167652e62302e7570616979756e2e636f6d2f3431382f3935382f343138393538323435372d356138623036386636653538315f61727469636c6578" alt="image"></p>
-<h4 id="第二次tick"><a href="#第二次tick" class="headerlink" title="第二次tick"></a>第二次tick</h4><blockquote>
+<h4 id="5-第二次tick-事件循环"><a href="#5-第二次tick-事件循环" class="headerlink" title="5. 第二次tick(事件循环)"></a>5. 第二次tick(事件循环)</h4><blockquote>
 <p>由于任务队列是先进先出，第一个setTimout执行，ick执行完成后，开始查询microtask queue并执行，但是microtask queue为空</p>
 </blockquote>
 <p><img src="https://camo.githubusercontent.com/b7b7b68df390145dd9222c95602423224151506f/68747470733a2f2f736661756c742d696d6167652e62302e7570616979756e2e636f6d2f3236372f3739302f323637373930333835322d356138623036666433653637665f61727469636c6578" alt="image"></p>
-<h4 id="第三次tick"><a href="#第三次tick" class="headerlink" title="第三次tick"></a>第三次tick</h4><blockquote>
+<h4 id="6-第三次tick"><a href="#6-第三次tick" class="headerlink" title="6. 第三次tick"></a>6. 第三次tick</h4><blockquote>
 <p>第二个setTimeout执行</p>
 </blockquote>
 
@@ -442,10 +451,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
+            Table Des Matières
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            作者概述
+            Ensemble
           </li>
         </ul>
       
@@ -469,8 +478,8 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">27</span>
-                  <span class="site-state-item-name">篇文章</span>
+                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-name">articles</span>
                 </a>
               </div>
             
@@ -483,7 +492,7 @@
               <div class="site-state-item site-state-tags">
                 
                   <span class="site-state-item-count">10</span>
-                  <span class="site-state-item-name">Tags</span>
+                  <span class="site-state-item-name">tags</span>
                 
               </div>
             
@@ -531,7 +540,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#事件循环"><span class="nav-number">1.</span> <span class="nav-text">事件循环</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#任务队列-task-queue"><span class="nav-number">1.1.</span> <span class="nav-text">任务队列 (task queue)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#macrotask，microtask"><span class="nav-number">1.1.0.1.</span> <span class="nav-text">macrotask，microtask</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#示例"><span class="nav-number">1.2.</span> <span class="nav-text">示例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#第一次tick"><span class="nav-number">1.2.0.1.</span> <span class="nav-text">第一次tick</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#遇到了setTimeout"><span class="nav-number">1.2.0.2.</span> <span class="nav-text">遇到了setTimeout</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#遇到了Promise"><span class="nav-number">1.2.0.3.</span> <span class="nav-text">遇到了Promise</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第一次宏任务执行完成"><span class="nav-number">1.2.0.4.</span> <span class="nav-text">第一次宏任务执行完成</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第二次tick"><span class="nav-number">1.2.0.5.</span> <span class="nav-text">第二次tick</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第三次tick"><span class="nav-number">1.2.0.6.</span> <span class="nav-text">第三次tick</span></a></li></ol></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#事件循环"><span class="nav-number">1.</span> <span class="nav-text">事件循环</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#任务队列-task-queue"><span class="nav-number">1.1.</span> <span class="nav-text">任务队列 (task queue)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#macrotask，microtask"><span class="nav-number">1.1.0.1.</span> <span class="nav-text">macrotask，microtask</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#示例"><span class="nav-number">1.2.</span> <span class="nav-text">示例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-第一次tick"><span class="nav-number">1.2.0.1.</span> <span class="nav-text">1. 第一次tick</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-遇到了setTimeout"><span class="nav-number">1.2.0.2.</span> <span class="nav-text">2. 遇到了setTimeout</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-遇到了Promise"><span class="nav-number">1.2.0.3.</span> <span class="nav-text">3. 遇到了Promise</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-第一次宏任务执行完成"><span class="nav-number">1.2.0.4.</span> <span class="nav-text">4. 第一次宏任务执行完成</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-第二次tick-事件循环"><span class="nav-number">1.2.0.5.</span> <span class="nav-text">5. 第二次tick(事件循环)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-第三次tick"><span class="nav-number">1.2.0.6.</span> <span class="nav-text">6. 第三次tick</span></a></li></ol></li></ol></li></ol></li></ol></div>
             
 
           </div>
@@ -561,7 +570,7 @@
 </div>
 
 
-  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 
 
@@ -569,7 +578,7 @@
 
 
 
-  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+  <div class="theme-info">Thème &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
 
 
 
