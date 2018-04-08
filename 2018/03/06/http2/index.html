@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="新世紀エヴァンゲリオン">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://bengbu-yuezhang.github.io/2018/03/06/http2/eva02.jpg">
-<meta property="og:updated_time" content="2018-04-08T15:32:25.000Z">
+<meta property="og:updated_time" content="2018-04-08T15:41:23.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="http协议基础知识(2)">
 <meta name="twitter:image" content="https://bengbu-yuezhang.github.io/2018/03/06/http2/eva02.jpg">
@@ -436,7 +436,7 @@
 <p>If-xxx，的请求都是条件请求，服务器接收到附加条件后，如果条件为真的时候，才会执行请求</p>
 </blockquote>
 <blockquote>
-<p>If-Match, 指的是只有当If-Match的值与ETag的值匹配的时候的，服务端才会返回请求。如果不一致会返回412错误</p>
+<p>If-Match, 指的是只有当If-Match的值与ETag的值匹配的时候的，服务端才会返回请求。如果不一致会返回412错误。如果为ETag指定*号，则会忽略ETag的值，只要拥有就会返回资源</p>
 </blockquote>
 <h6 id="ETag是什么？"><a href="#ETag是什么？" class="headerlink" title="ETag是什么？"></a>ETag是什么？</h6><blockquote>
 <p>ETag是资源的字符串形式的唯一标识，服务器会对每一个资源分配ETag。资源更新的时候ETag也会更新，生产ETag并没有特定的算法，仅仅由服务器分配。（可能的资源的URL没有改变，但是资源更新后ETag的值会发生改变）</p>
