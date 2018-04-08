@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="新世紀エヴァンゲリオン">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://bengbu-yuezhang.github.io/2018/03/06/http2/eva02.jpg">
-<meta property="og:updated_time" content="2018-04-01T16:52:03.000Z">
+<meta property="og:updated_time" content="2018-04-08T15:32:25.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="http协议基础知识(2)">
 <meta name="twitter:image" content="https://bengbu-yuezhang.github.io/2018/03/06/http2/eva02.jpg">
@@ -269,7 +269,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">发布于</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-06T16:28:14+08:00">
                 2018-03-06
@@ -314,7 +314,135 @@
 <p>本文属于我自己对看书学习后对知识的总结，可能会与正确的知识有出入的地方，恳请大家发邮件指出我的错误📧</p>
 </blockquote>
 <p>📮：<a href="mailto:1025873823@qq.com" target="_blank" rel="noopener">1025873823@qq.com</a></p>
+<blockquote>
+<p>2018年4月7日更新</p>
+</blockquote>
 <hr>
+<h1 id="HTTP首部"><a href="#HTTP首部" class="headerlink" title="HTTP首部"></a>HTTP首部</h1><p>HTTP首部字段，分为以下几种, 请求报文（请求行，请求首部字段，通用首部字段，实体首部字段），响应报文（状态行包含了HTTP状态码，响应首部字段，通用首部字段，实体首部字段）</p>
+<h2 id="HTTP-报文首部"><a href="#HTTP-报文首部" class="headerlink" title="HTTP 报文首部"></a>HTTP 报文首部</h2><blockquote>
+<p>HTTP报文首部，拥有着非常重要的信息，首部字段分为4种类型，通用首部字段，请求首部字段，响应首部字段，实体首部字段</p>
+</blockquote>
+<h3 id="通用首部字段"><a href="#通用首部字段" class="headerlink" title="通用首部字段"></a>通用首部字段</h3><h4 id="Cache-Control"><a href="#Cache-Control" class="headerlink" title="Cache-Control"></a>Cache-Control</h4><blockquote>
+<p>用来控制缓存的工作机制，Cache-Control拥有着多个参数，下面会逐一介绍Cache-Control常用的参数</p>
+</blockquote>
+<h6 id="Cache-Control-–-public-private"><a href="#Cache-Control-–-public-private" class="headerlink" title="Cache-Control – public, private"></a>Cache-Control – public, private</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 缓存提供给全部对象</span><br><span class="line">Cache-Control: public</span><br><span class="line"></span><br><span class="line">// 缓存只提供给指定对象，其他用户代理服务器不会返回缓存</span><br><span class="line">Cache-Control: private</span><br></pre></td></tr></table></figure>
+<h6 id="Cache-Control-–-no-cache"><a href="#Cache-Control-–-no-cache" class="headerlink" title="Cache-Control – no-cache"></a>Cache-Control – no-cache</h6><blockquote>
+<p>防止从缓存服务器中获取过期的资源。请求报文中包含：缓存服务器必须把请求转发给源服务器。响应报文中包含：缓存服务器不能对资源进行缓存。</p>
+</blockquote>
+<p>no-cache 并不是真正意义上的不缓存，缓存会向源服务器进行有效期确认后处理资源</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Cache-Control: no-cache</span><br><span class="line"></span><br><span class="line">// 如果对Location指定参数，无参数可以使用缓存，有参数则客户端不能使用缓存。只能在响应报文中使用。</span><br><span class="line">Cache-COntrol: no-cache=Location</span><br></pre></td></tr></table></figure>
+<h6 id="Cache-Control-–-no-store"><a href="#Cache-Control-–-no-store" class="headerlink" title="Cache-Control – no-store"></a>Cache-Control – no-store</h6><blockquote>
+<p>真正的不进行任何缓存，而no-cache代表的是不缓存过期资源，会向源服务器确认是否过期。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Cache-Control: no-store</span><br></pre></td></tr></table></figure>
+<h6 id="Cache-Control-–-maxage"><a href="#Cache-Control-–-maxage" class="headerlink" title="Cache-Control – maxage"></a>Cache-Control – maxage</h6><blockquote>
+<p>资源的最长缓存时间, 单位为秒。请求报文中包含：资源的缓存时间小于指定时间，客户端就会接收缓存资源。响应报文中包含：缓存服务器不会对资源有效期作验证，max-age为最长缓存时间。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Cache-Control: max-age=604800</span><br></pre></td></tr></table></figure>
+<h6 id="Cahce-Control-–-min-freshs"><a href="#Cahce-Control-–-min-freshs" class="headerlink" title="Cahce-Control – min-freshs"></a>Cahce-Control – min-freshs</h6><blockquote>
+<p>设定了最短时间，如果在最短时间内，即使是资源缓存过期。也无法返回新的资源，只能使用过期的资源。（请求报文，响应报文同理）</p>
+</blockquote>
+<h6 id="Cache-Control-–-max-stale"><a href="#Cache-Control-–-max-stale" class="headerlink" title="Cache-Control – max-stale"></a>Cache-Control – max-stale</h6><blockquote>
+<p>如果没有指定参数，无论经过多久，客户端都会响应接收缓存。如果指定了参数，只要处于max-stale范围内，都会被客户端接收缓存。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Cache-Control: max-stale=3600</span><br></pre></td></tr></table></figure>
+<h6 id="Cache-Control-–-only-if-cached"><a href="#Cache-Control-–-only-if-cached" class="headerlink" title="Cache-Control – only-if-cached"></a>Cache-Control – only-if-cached</h6><blockquote>
+<p>缓存服务器不会重新加载响应，也不会确认资源的有效性，如果请求缓存过期，会直接返回504错误</p>
+</blockquote>
+<h6 id="Cache-Control-–-must-revalidate"><a href="#Cache-Control-–-must-revalidate" class="headerlink" title="Cache-Control – must-revalidate"></a>Cache-Control – must-revalidate</h6><blockquote>
+<p>代理会向源服务器，再次验证即将返回的缓存是否过期，如果代理无法联通源服务器获取资源，缓存必须给客户端返回一条504状态码。(must-revalidate会忽略max-stale，不验证缓存是否过期的行为）</p>
+</blockquote>
+<h6 id="Cache-Control-–-proxy-revalidate"><a href="#Cache-Control-–-proxy-revalidate" class="headerlink" title="Cache-Control – proxy-revalidate"></a>Cache-Control – proxy-revalidate</h6><blockquote>
+<p>要求所有的缓存服务器，在接收到客户端带有该指令的请求报文的时候，必须再次验证缓存的有效性。</p>
+</blockquote>
+<h6 id="Cache-Control-–-no-transfrom"><a href="#Cache-Control-–-no-transfrom" class="headerlink" title="Cache-Control – no-transfrom"></a>Cache-Control – no-transfrom</h6><blockquote>
+<p>缓存不能改变实体主体的媒体类型，防止缓存服务器压缩图片等操作</p>
+</blockquote>
+<h4 id="Connection"><a href="#Connection" class="headerlink" title="Connection"></a>Connection</h4><blockquote>
+<p>管理持久链接，控制转发的首部字段</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 代理服务器会转发请求的时候，会删除Upgrade字段</span><br><span class="line">Connection: Upgrade</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// HTTP 1.1协议中，所有的链接都是持久链接，可以使用close明确断开链接</span><br><span class="line">Connection: close</span><br><span class="line"></span><br><span class="line">// HTTP 1.0协议中，指定Keep-Alive建立持久链接</span><br><span class="line">Connection: Keep-Alive</span><br></pre></td></tr></table></figure>
+<h4 id="Date"><a href="#Date" class="headerlink" title="Date"></a>Date</h4><blockquote>
+<p>表明了报文创建的时间和日期</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Date: ....</span><br></pre></td></tr></table></figure>
+<h4 id="Pragma"><a href="#Pragma" class="headerlink" title="Pragma"></a>Pragma</h4><blockquote>
+<p>在HTTP协议中的保留字段，作为缓存使用，使用在请求报文中，要求缓存服务器不返回缓存资源。注意作为向下兼容使用。HTTP1.1协议中，使用Cache-Control：no-cache 使用。</p>
+</blockquote>
+<h4 id="Trailer"><a href="#Trailer" class="headerlink" title="Trailer"></a>Trailer</h4><blockquote>
+<p>指定报文主体之后出现的首部字段</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Trailer: Expires</span><br></pre></td></tr></table></figure>
+<p>Expires将会在报文主体之后出现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">   ┌───────────────────────┐</span><br><span class="line">┌─&gt;│       报文首部         │</span><br><span class="line">│  └──────────┬────────────┘</span><br><span class="line">│  ┌──────────┴────────────┐</span><br><span class="line">│  │       报文主体         │</span><br><span class="line">│  └──────────┬────────────┘</span><br><span class="line">│  ┌──────────┴────────────┐</span><br><span class="line">│─&gt;│     Exprires：...     │</span><br><span class="line">   └──────────-────────────┘</span><br></pre></td></tr></table></figure>
+<h4 id="Transfer-Encoding"><a href="#Transfer-Encoding" class="headerlink" title="Transfer-Encoding"></a>Transfer-Encoding</h4><blockquote>
+<p>指定了传输报文主体的编码格式</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Transfer-Encoding: Chunked</span><br></pre></td></tr></table></figure>
+<h4 id="Upgrade"><a href="#Upgrade" class="headerlink" title="Upgrade"></a>Upgrade</h4><blockquote>
+<p>用来检测是否可以使用Upgrade首部字段指定的协议通信</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// Upgrade会检测是否可以使用TLS/1.0协议通信</span><br><span class="line">Upgrade: TLS/1.0</span><br><span class="line"></span><br><span class="line">// 代理服务器转发请求的时候，会删除Upgrade字段</span><br><span class="line">Connection: Upgrade</span><br><span class="line"></span><br><span class="line">// 由于设置了Connection字段，Upgrade字段仅仅影响客户端和相邻的服务器</span><br></pre></td></tr></table></figure>
+<h4 id="Via"><a href="#Via" class="headerlink" title="Via"></a>Via</h4><blockquote>
+<p>追踪客户端与服务器之间的请求和响应报文的传输路径</p>
+</blockquote>
+<p>各个代理服务器，会往Via首部添加自身服务器的信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">客户端 GET / HTTP / 1.1</span><br><span class="line">        |</span><br><span class="line">        |</span><br><span class="line">代理服务器A Via：1.0 gw.hackr.jp</span><br><span class="line">        |</span><br><span class="line">        |</span><br><span class="line">代理服务器B Via：1.0 gw.hack.jp(Squid/3.1), 1.1 a1.example.com(Squid/2.7)</span><br><span class="line">        |</span><br><span class="line">        |</span><br><span class="line">     源服务器</span><br></pre></td></tr></table></figure>
+<h4 id="Warning"><a href="#Warning" class="headerlink" title="Warning"></a>Warning</h4><blockquote>
+<p>告知用户一些与缓存相关的警告</p>
+</blockquote>
+<ol>
+<li>Response is stale 响应已过期，返回过期资源</li>
+<li>Revalidation failed 再验证失败</li>
+<li>Disconnection operation 断开链接操作</li>
+<li>Heuristic expiration 试探性过期（返回的缓存超过了24小时）</li>
+</ol>
+<h3 id="请求首部字段"><a href="#请求首部字段" class="headerlink" title="请求首部字段"></a>请求首部字段</h3><blockquote>
+<p>请求报文使用的首部字段</p>
+</blockquote>
+<h4 id="Accept"><a href="#Accept" class="headerlink" title="Accept"></a>Accept</h4><blockquote>
+<p>告知服务器，客户端需要返回的格式</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// q为权重值，q的范围0到1，服务器优先返回权重大的数值</span><br><span class="line"></span><br><span class="line">Accept：text/plainp q=0.3, text/html</span><br></pre></td></tr></table></figure>
+<h4 id="Accept-Charset"><a href="#Accept-Charset" class="headerlink" title="Accept-Charset"></a>Accept-Charset</h4><blockquote>
+<p>告知服务器，客户端需要返回的字符集，同样使用q权重表示优先级</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Accept-Charset: iso-8859-5</span><br></pre></td></tr></table></figure>
+<h4 id="Accept-Encoding"><a href="#Accept-Encoding" class="headerlink" title="Accept-Encoding"></a>Accept-Encoding</h4><blockquote>
+<p>告知服务器客户端支持的内容编码格式，gzip压缩，等</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Accept-Encoding: gzip, deflate</span><br></pre></td></tr></table></figure>
+<h4 id="Accept-Language"><a href="#Accept-Language" class="headerlink" title="Accept-Language"></a>Accept-Language</h4><blockquote>
+<p>告知服务器客户端支持的自然语言集（中文，英文），可以使用q分配权重</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Accept-Language: zh-cn, zh, q=0.7, en-us</span><br></pre></td></tr></table></figure>
+<h4 id="Authorization"><a href="#Authorization" class="headerlink" title="Authorization"></a>Authorization</h4><blockquote>
+<p>告知服务器认证信息，（一般会在接收到401错误后，会在请求中携带认证信息的值）</p>
+</blockquote>
+<h4 id="Expect"><a href="#Expect" class="headerlink" title="Expect"></a>Expect</h4><blockquote>
+<p>告知服务器期望出现的行为，如果服务器无法做到，则会返回417错误。   </p>
+</blockquote>
+<h4 id="From"><a href="#From" class="headerlink" title="From"></a>From</h4><blockquote>
+<p>告知服务器，用户的电子邮箱地址</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">From: info@hackr.jp</span><br></pre></td></tr></table></figure>
+<h4 id="Host"><a href="#Host" class="headerlink" title="Host"></a>Host</h4><p>⚠️：必须包含的首部字段</p>
+<blockquote>
+<p><strong>相同的IP地址下，部署运行多个域名，服务器无法理解是那个域名对应的请求，需要使用Host字段指定主机名（DNS解析，会把域名解析成IP地址，但是如果一个IP地址下指定了多个域名，如果不指定主机名就会无法判断是哪一个域名对应的请求，如果服务器没有制定主机名，Host可以传空值）</strong></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Host: www.hackr.jp</span><br></pre></td></tr></table></figure>
+<h4 id="If-Match"><a href="#If-Match" class="headerlink" title="If-Match"></a>If-Match</h4><blockquote>
+<p>If-xxx，的请求都是条件请求，服务器接收到附加条件后，如果条件为真的时候，才会执行请求</p>
+</blockquote>
+<blockquote>
+<p>If-Match, 指的是只有当If-Match的值与ETag的值匹配的时候的，服务端才会返回请求。如果不一致会返回412错误</p>
+</blockquote>
+<h6 id="ETag是什么？"><a href="#ETag是什么？" class="headerlink" title="ETag是什么？"></a>ETag是什么？</h6><blockquote>
+<p>ETag是资源的字符串形式的唯一标识，服务器会对每一个资源分配ETag。资源更新的时候ETag也会更新，生产ETag并没有特定的算法，仅仅由服务器分配。（可能的资源的URL没有改变，但是资源更新后ETag的值会发生改变）</p>
+</blockquote>
+<h6 id="强弱ETag"><a href="#强弱ETag" class="headerlink" title="强弱ETag"></a>强弱ETag</h6><p>强ETag，无论资源发生多是改变，都会更新ETag</p>
+<p>弱ETag，只有资源发生根本性改变，才会更新ETag</p>
 <hr>
 <p>本文参考：《图解Http》，🙏</p>
 
@@ -411,8 +539,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            作者概述
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -431,8 +568,8 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">27</span>
-                  <span class="site-state-item-name">篇博文</span>
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">篇文章</span>
                 </a>
               </div>
             
@@ -445,7 +582,7 @@
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
                   <span class="site-state-item-count">10</span>
-                  <span class="site-state-item-name">tags</span>
+                  <span class="site-state-item-name">Tags</span>
                 </a>
               </div>
             
@@ -484,6 +621,22 @@
       </section>
 
       
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#HTTP首部"><span class="nav-number">1.</span> <span class="nav-text">HTTP首部</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP-报文首部"><span class="nav-number">1.1.</span> <span class="nav-text">HTTP 报文首部</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#通用首部字段"><span class="nav-number">1.1.1.</span> <span class="nav-text">通用首部字段</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Cache-Control"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">Cache-Control</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#Cache-Control-–-public-private"><span class="nav-number">1.1.1.1.0.1.</span> <span class="nav-text">Cache-Control – public, private</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Cache-Control-–-no-cache"><span class="nav-number">1.1.1.1.0.2.</span> <span class="nav-text">Cache-Control – no-cache</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Cache-Control-–-no-store"><span class="nav-number">1.1.1.1.0.3.</span> <span class="nav-text">Cache-Control – no-store</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Cache-Control-–-maxage"><span class="nav-number">1.1.1.1.0.4.</span> <span class="nav-text">Cache-Control – maxage</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Cahce-Control-–-min-freshs"><span class="nav-number">1.1.1.1.0.5.</span> <span class="nav-text">Cahce-Control – min-freshs</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Cache-Control-–-max-stale"><span class="nav-number">1.1.1.1.0.6.</span> <span class="nav-text">Cache-Control – max-stale</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Cache-Control-–-only-if-cached"><span class="nav-number">1.1.1.1.0.7.</span> <span class="nav-text">Cache-Control – only-if-cached</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Cache-Control-–-must-revalidate"><span class="nav-number">1.1.1.1.0.8.</span> <span class="nav-text">Cache-Control – must-revalidate</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Cache-Control-–-proxy-revalidate"><span class="nav-number">1.1.1.1.0.9.</span> <span class="nav-text">Cache-Control – proxy-revalidate</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Cache-Control-–-no-transfrom"><span class="nav-number">1.1.1.1.0.10.</span> <span class="nav-text">Cache-Control – no-transfrom</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Connection"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">Connection</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Date"><span class="nav-number">1.1.1.3.</span> <span class="nav-text">Date</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Pragma"><span class="nav-number">1.1.1.4.</span> <span class="nav-text">Pragma</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Trailer"><span class="nav-number">1.1.1.5.</span> <span class="nav-text">Trailer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Transfer-Encoding"><span class="nav-number">1.1.1.6.</span> <span class="nav-text">Transfer-Encoding</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Upgrade"><span class="nav-number">1.1.1.7.</span> <span class="nav-text">Upgrade</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Via"><span class="nav-number">1.1.1.8.</span> <span class="nav-text">Via</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Warning"><span class="nav-number">1.1.1.9.</span> <span class="nav-text">Warning</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#请求首部字段"><span class="nav-number">1.1.2.</span> <span class="nav-text">请求首部字段</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Accept"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">Accept</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Accept-Charset"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">Accept-Charset</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Accept-Encoding"><span class="nav-number">1.1.2.3.</span> <span class="nav-text">Accept-Encoding</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Accept-Language"><span class="nav-number">1.1.2.4.</span> <span class="nav-text">Accept-Language</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Authorization"><span class="nav-number">1.1.2.5.</span> <span class="nav-text">Authorization</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Expect"><span class="nav-number">1.1.2.6.</span> <span class="nav-text">Expect</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#From"><span class="nav-number">1.1.2.7.</span> <span class="nav-text">From</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Host"><span class="nav-number">1.1.2.8.</span> <span class="nav-text">Host</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#If-Match"><span class="nav-number">1.1.2.9.</span> <span class="nav-text">If-Match</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#ETag是什么？"><span class="nav-number">1.1.2.9.0.1.</span> <span class="nav-text">ETag是什么？</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#强弱ETag"><span class="nav-number">1.1.2.9.0.2.</span> <span class="nav-text">强弱ETag</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
 
       
 
@@ -507,7 +660,7 @@
 </div>
 
 
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 
 
