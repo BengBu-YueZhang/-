@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="路漫漫其修远兮 - Node学习(2)">
+<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2018/04/15/Node02/index.html">
+<meta property="og:site_name" content="新世紀エヴァンゲリオン">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://bengbu-yuezhang.github.io/2018/04/15/Node02/eva0.2.jpg">
+<meta property="og:updated_time" content="2018-04-15T08:45:12.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="路漫漫其修远兮 - Node学习(2)">
+<meta name="twitter:image" content="https://bengbu-yuezhang.github.io/2018/04/15/Node02/eva0.2.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/2018/04/15/Node02/"/>
+
+
+
+
+
+  <title>路漫漫其修远兮 - Node学习(2) | 新世紀エヴァンゲリオン</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">新世紀エヴァンゲリオン</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">前端小学生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            主页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            时间轴
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://bengbu-yuezhang.github.io/yue.github.io/2018/04/15/Node02/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张越">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新世紀エヴァンゲリオン">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">路漫漫其修远兮 - Node学习(2)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发布于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-15T13:34:42+08:00">
+                2018-04-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="/2018/04/15/Node02/eva0.2.jpg" alt="image"></p>
+<a id="more"></a>
+<h2 id="视图模版-PUG模版"><a href="#视图模版-PUG模版" class="headerlink" title="视图模版 (PUG模版)"></a>视图模版 (PUG模版)</h2><h4 id="PUG模版的简单示例"><a href="#PUG模版的简单示例" class="headerlink" title="PUG模版的简单示例"></a>PUG模版的简单示例</h4><p>PUG模版的语法非常简洁，但是并不是非常容易维护, PUG模版可以实现继承，组件化, 通过缩进确认层级关系，不需要闭合标签</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">//- pug模版示例</span><br><span class="line">nav(class=&quot;navbar navbar-default navbar-inverse&quot;)</span><br><span class="line">  div(class=&quot;container-fluid&quot;)</span><br><span class="line">    div(class=&quot;navbar-header&quot;)</span><br><span class="line">      a(class=&quot;navbar-brand&quot; href=&quot;#&quot;) 豆瓣电影</span><br></pre></td></tr></table></figure>
+<h4 id="PUG模版的继承"><a href="#PUG模版的继承" class="headerlink" title="PUG模版的继承"></a>PUG模版的继承</h4><p>子模版通过extends关键字继承父模版，通过block关键字将子模版的内容，插入到父模版的block插槽中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">doctype html</span><br><span class="line">html(lang=&apos;en&apos;)</span><br><span class="line">head</span><br><span class="line">    meta(charset=&apos;UTF-8&apos;)</span><br><span class="line">    meta(name=&apos;viewport&apos; content=&apos;width=device-width, initial-scale=1.0&apos;)</span><br><span class="line">    meta(http-equiv=&apos;X-UA-Compatible&apos; content=&apos;ie=edge&apos;)</span><br><span class="line">    block title</span><br><span class="line">    //- 样式文件</span><br><span class="line">    include ../base/style</span><br><span class="line">body</span><br><span class="line">    block content</span><br><span class="line">    //- js文件</span><br><span class="line">    include ../base/script</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">//- 继承模版文件，声明block插入到block对应的插槽中</span><br><span class="line"></span><br><span class="line">extends ./layout/default</span><br><span class="line"></span><br><span class="line">block title</span><br><span class="line">    title 首页</span><br><span class="line"></span><br><span class="line">block content</span><br></pre></td></tr></table></figure>
+<h4 id="PUG模版的组件化"><a href="#PUG模版的组件化" class="headerlink" title="PUG模版的组件化"></a>PUG模版的组件化</h4><p>使用<strong>include</strong>引入pug模块</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//- 会生成header.pug中内容</span><br><span class="line"></span><br><span class="line">include ./layout/header</span><br></pre></td></tr></table></figure>
+<h4 id="PUG模版的内联样式和内联脚本"><a href="#PUG模版的内联样式和内联脚本" class="headerlink" title="PUG模版的内联样式和内联脚本"></a>PUG模版的内联样式和内联脚本</h4><p>使用 script. 和 style. 格式，书写内联脚本和样式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">style.</span><br><span class="line">    div &#123;&#125;</span><br><span class="line"></span><br><span class="line">script.</span><br><span class="line">    window.onload = function () &#123;&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Koa-views中间件"><a href="#Koa-views中间件" class="headerlink" title="Koa-views中间件"></a>Koa-views中间件</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> views = <span class="built_in">require</span>(<span class="string">'koa-views'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将对应的模版文件夹内后缀为pug的文件全部识别为模版文件</span></span><br><span class="line"><span class="comment">// 并且将pug的模版的render方法挂载到context上</span></span><br><span class="line">app.use(views(resolve(__dirname, <span class="string">'./../views'</span>), &#123;</span><br><span class="line">    extension: <span class="string">'pug'</span></span><br><span class="line">&#125;))</span><br><span class="line"></span><br><span class="line"><span class="comment">// 返回index模版</span></span><br><span class="line"><span class="keyword">await</span> ctx.render(<span class="string">'index'</span>, &#123;</span><br><span class="line">    varA: <span class="string">'Hello'</span>,</span><br><span class="line">    varB: <span class="string">'Koa2'</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="爬虫"><a href="#爬虫" class="headerlink" title="爬虫"></a>爬虫</h2><blockquote>
+<p>爬虫基于谷歌puppeteer的无头浏览器，puppeteer可以模拟人为的操作，比如对按钮的点击。优点是，在面对一些数据懒加载的网页，可以通过模拟人为的操作加载更多的数据，便于爬虫的获取数据。</p>
+</blockquote>
+<p>爬虫的主要逻辑通过puppeteer，访问浏览器，然后通过在evaluate的回调函数里可以获取浏览器的document对象，windows对象，在Nodejs中模拟浏览器操作。比如可以使用page.click(css选择器)，模拟对浏览器按钮的点击。</p>
+<p>puppeteer的功能非常强大，我在这里使用的都是一些基础的功能，更多更强大的功能可以参考puppeteer的文档：<a href="https://github.com/GoogleChrome/puppeteer" target="_blank" rel="noopener">文档</a></p>
+<h4 id="爬取煎蛋网美女图片"><a href="#爬取煎蛋网美女图片" class="headerlink" title="爬取煎蛋网美女图片"></a>爬取煎蛋网美女图片</h4><blockquote>
+<p>目前使用的循环url链接的方式，更好的方法是在puppeter中使用page.click，模拟点击下一页的按钮</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">getWelfareImage</span> (<span class="params">url</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 返回解析为Promise的浏览器</span></span><br><span class="line">    <span class="keyword">const</span> browser = <span class="keyword">await</span> puppeteer.launch()</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 返回新的页面对象</span></span><br><span class="line">    <span class="keyword">const</span> page = <span class="keyword">await</span> browser.newPage()</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 页面对象访问对应的url地址 </span></span><br><span class="line">    <span class="keyword">await</span> page.goto(url, &#123;</span><br><span class="line">        waitUntil: <span class="string">'networkidle2'</span></span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 等待3000ms，等待浏览器的加载</span></span><br><span class="line">    <span class="keyword">await</span> sleep(<span class="number">3000</span>) </span><br><span class="line"></span><br><span class="line">    <span class="comment">// 可以在page.evaluate的回调函数中访问浏览器对象，可以进行DOM操作</span></span><br><span class="line">    <span class="keyword">const</span> urls = <span class="keyword">await</span> page.evaluate(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> ol = <span class="built_in">document</span>.getElementsByClassName(<span class="string">'commentlist'</span>)[<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">let</span> imgs = ol.getElementsByTagName(<span class="string">'img'</span>)</span><br><span class="line">        <span class="keyword">let</span> url = []</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; imgs.length; i++) &#123;</span><br><span class="line">            url.push(imgs[i].getAttribute(<span class="string">"src"</span>))</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 返回所有美女图的url地址数组</span></span><br><span class="line">        <span class="keyword">return</span> url</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; urls.length; i++) &#123;</span><br><span class="line">        <span class="comment">// 通过axios请求图片的地址，返回一个流对象</span></span><br><span class="line">        axios.get(urls[i], &#123; <span class="attr">responseType</span>: <span class="string">'stream'</span> &#125;).then(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="comment">// 创建写入流，下载图片</span></span><br><span class="line">            res.data.pipe(</span><br><span class="line">                fs.createWriteStream(</span><br><span class="line">                    path.resolve(__dirname, <span class="string">'./images/'</span>, <span class="string">`<span class="subst">$&#123;i&#125;</span><span class="subst">$&#123;<span class="built_in">Date</span>.now()&#125;</span><span class="subst">$&#123;path.extname(urls[i])&#125;</span>`</span>)</span><br><span class="line">                )</span><br><span class="line">            )</span><br><span class="line">        &#125;).catch(<span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(err)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 关闭无头浏览器</span></span><br><span class="line">    <span class="keyword">await</span> browser.close()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Promise</span>.resolve()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="爬取豆瓣电影数据"><a href="#爬取豆瓣电影数据" class="headerlink" title="爬取豆瓣电影数据"></a>爬取豆瓣电影数据</h4><blockquote>
+<p>由于阿里OSS不支持七牛的第三方资源抓取的功能，只好通过爬虫下载数据，然后再上传到阿里OSS</p>
+</blockquote>
+<p>由于Node是单线程异步非阻塞，所以在这里我们把爬虫放入到子进程中运行，避免拖垮主进程, 从而导致整个程序的崩溃。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">getDouBanData</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">const</span> browser = <span class="keyword">await</span> puppeteer.launch(&#123;</span><br><span class="line">        timeout: <span class="number">300000</span></span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> page = <span class="keyword">await</span> browser.newPage()</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 前往豆瓣选电影页</span></span><br><span class="line">    <span class="keyword">await</span> page.goto(<span class="string">'https://movie.douban.com/explore#!type=movie&amp;tag=%E7%83%AD%E9%97%A8&amp;sort=recommend&amp;page_limit=20&amp;page_start=0'</span>, &#123;</span><br><span class="line">        waitUntil: <span class="string">'networkidle2'</span></span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">await</span> sleep(<span class="number">3000</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取more按钮</span></span><br><span class="line">    <span class="keyword">await</span> page.waitForSelector(<span class="string">'.more'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 使用page.click模拟对按钮的点击，加载更多的数据</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">0</span>; i++) &#123;</span><br><span class="line">        <span class="keyword">await</span> sleep(<span class="number">3000</span>)</span><br><span class="line">        <span class="comment">// 点击more按钮</span></span><br><span class="line">        <span class="keyword">await</span> page.click(<span class="string">'.more'</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> data = <span class="keyword">await</span> page.evaluate(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">// ... 一些DOM操作获取DOM上对应的数据</span></span><br><span class="line">        <span class="keyword">return</span> data</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    browser.close()</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 向主线程发送消息</span></span><br><span class="line">    process.send(&#123;</span><br><span class="line">        <span class="string">'data'</span>: <span class="built_in">JSON</span>.stringify(data)</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 退出子进程</span></span><br><span class="line">    process.exit()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 获取电影详情的数据，以及预告片数据</span></span><br><span class="line"><span class="comment"> * @param &#123;id&#125; 豆瓣电影id</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">getMovieData</span> (<span class="params">id</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> base = <span class="string">`https://movie.douban.com/subject/<span class="subst">$&#123;id&#125;</span>/`</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">const</span> browser = <span class="keyword">await</span> puppeteer.launch()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> page = <span class="keyword">await</span> browser.newPage()</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 前往豆瓣电影详情页</span></span><br><span class="line">    <span class="keyword">await</span> page.goto(base, &#123;</span><br><span class="line">        waitUntil: <span class="string">'networkidle2'</span></span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">await</span> sleep(<span class="number">1000</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 视频详情</span></span><br><span class="line">    <span class="keyword">let</span> videoDetails = &#123;&#125;</span><br><span class="line">    <span class="keyword">let</span> dataDetails = &#123;&#125;</span><br><span class="line"></span><br><span class="line">    dataDetails = <span class="keyword">await</span> page.evaluate(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">// ... 一些DOM操作获取DOM上对应的数据</span></span><br><span class="line">        <span class="keyword">return</span> </span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (dataDetails.link) &#123;</span><br><span class="line">        <span class="comment">// 使用goto访问预告片的详情页</span></span><br><span class="line">        <span class="keyword">await</span> page.goto(dataDetails.link, &#123;</span><br><span class="line">            waitUntil: <span class="string">'networkidle2'</span></span><br><span class="line">        &#125;)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">await</span> sleep(<span class="number">1000</span>)</span><br><span class="line"></span><br><span class="line">        videoDetails = <span class="keyword">await</span> page.evaluate(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="comment">// ... 一些DOM操作获取DOM上对应的数据</span></span><br><span class="line">            <span class="keyword">return</span> &#123;</span><br><span class="line">                source: sourceSrc</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;) </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    browser.close()</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 爬虫运行在Node的子进程中，先主进程发送消息，内容是这次爬取的数据</span></span><br><span class="line">    process.send(&#123;</span><br><span class="line">        <span class="string">'dataDetails'</span>: <span class="built_in">JSON</span>.stringify(dataDetails),</span><br><span class="line">        <span class="string">'videoDetails'</span>: <span class="built_in">JSON</span>.stringify(videoDetails),</span><br><span class="line">        <span class="string">'doubanId'</span>: id</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 退出子进程</span></span><br><span class="line">    process.exit()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/08/http3/" rel="next" title="http协议基础知识(3)">
+                <i class="fa fa-chevron-left"></i> http协议基础知识(3)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            作者概述
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="张越" />
+            
+              <p class="site-author-name" itemprop="name">张越</p>
+              <p class="site-description motion-element" itemprop="description">所谓成长，就是经过不断的聚散离合，找到不太会伤害到彼此的距离</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-name">篇文章</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">Tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/BengBu-YueZhang" target="_blank" title="我的GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/5460100952/profile?topnav=1&wvr=6" target="_blank" title="我的微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的微博</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#视图模版-PUG模版"><span class="nav-number">1.</span> <span class="nav-text">视图模版 (PUG模版)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#PUG模版的简单示例"><span class="nav-number">1.0.1.</span> <span class="nav-text">PUG模版的简单示例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PUG模版的继承"><span class="nav-number">1.0.2.</span> <span class="nav-text">PUG模版的继承</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PUG模版的组件化"><span class="nav-number">1.0.3.</span> <span class="nav-text">PUG模版的组件化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PUG模版的内联样式和内联脚本"><span class="nav-number">1.0.4.</span> <span class="nav-text">PUG模版的内联样式和内联脚本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Koa-views中间件"><span class="nav-number">1.0.5.</span> <span class="nav-text">Koa-views中间件</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#爬虫"><span class="nav-number">2.</span> <span class="nav-text">爬虫</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#爬取煎蛋网美女图片"><span class="nav-number">2.0.1.</span> <span class="nav-text">爬取煎蛋网美女图片</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#爬取豆瓣电影数据"><span class="nav-number">2.0.2.</span> <span class="nav-text">爬取豆瓣电影数据</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张越</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

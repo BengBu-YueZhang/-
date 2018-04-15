@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="新世紀エヴァンゲリオン">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://bengbu-yuezhang.github.io/2018/04/08/http3/mrx9.jpg">
-<meta property="og:updated_time" content="2018-04-08T15:41:53.000Z">
+<meta property="og:updated_time" content="2018-04-15T06:05:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="http协议基础知识(3)">
 <meta name="twitter:image" content="https://bengbu-yuezhang.github.io/2018/04/08/http3/mrx9.jpg">
@@ -311,7 +311,87 @@
       
         <p><img src="/2018/04/08/http3/mrx9.jpg" alt="image"></p>
 <a id="more"></a>
-<h2 id="请求首部字段"><a href="#请求首部字段" class="headerlink" title="请求首部字段"></a>请求首部字段</h2><p>#### </p>
+<h2 id="响应首部字段"><a href="#响应首部字段" class="headerlink" title="响应首部字段"></a>响应首部字段</h2><h4 id="Accept-Ranges"><a href="#Accept-Ranges" class="headerlink" title="Accept-Ranges"></a>Accept-Ranges</h4><blockquote>
+<p>告知客户端，服务器端能否处理范围请求</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 可以处理范围请求</span><br><span class="line">Accept-Ranges: bytes</span><br><span class="line"></span><br><span class="line">// 不能处理范围请求</span><br><span class="line">Accept-Ranges：none</span><br></pre></td></tr></table></figure>
+<h4 id="Age"><a href="#Age" class="headerlink" title="Age"></a>Age</h4><blockquote>
+<p>如果创建Age字段的是源服务器，代理服务器返回，告知客户端源服务器在多久之前创建的响应。</p>
+</blockquote>
+<blockquote>
+<p>如果创建Age字段的是代理服务器，Age字段表示的是，缓存后到再次验证缓存有效性的时间值。</p>
+</blockquote>
+<h4 id="ETag"><a href="#ETag" class="headerlink" title="ETag"></a>ETag</h4><blockquote>
+<p>告知客户端，资源的实体标示（字符串形式，资源的唯一性标示）。服务器会为每一份资源创建ETag值。生成ETag，没有统一的算法。只是由服务器为资源分配ETag值。</p>
+</blockquote>
+<p>URI，相同的资源ETag值并不相同（比如中文的谷歌，和英文的谷歌）。资源发生更新后，URI地址不会改变，但是ETag的值会发生更新。</p>
+<p>ETag又分为强ETag和弱ETag，强ETag无论资源发生多小的变化，ETag都会更新。弱ETag相反。</p>
+<h4 id="Location"><a href="#Location" class="headerlink" title="Location"></a>Location</h4><blockquote>
+<p>会将客户端引导至某个与请求URI位置不同的资源。配合3xx, 提供资源重定向的功能。会让浏览器对Location指定的地址，再次发起请求。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">客户端 &lt;---- 302, Location: http://hello ---- 服务器A</span><br><span class="line">/|\</span><br><span class="line"> |</span><br><span class="line"> |</span><br><span class="line">服务器B（http://hello）</span><br></pre></td></tr></table></figure>
+<h4 id="Retry—After"><a href="#Retry—After" class="headerlink" title="Retry—After"></a>Retry—After</h4><blockquote>
+<p>告知客户端，在多久之后，再次发起请求。</p>
+</blockquote>
+<h4 id="Server"><a href="#Server" class="headerlink" title="Server"></a>Server</h4><blockquote>
+<p>告知客户端，当前服务器HTTP应用的程序信息</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// 阿帕奇服务器</span><br><span class="line"></span><br><span class="line">Server: Apache/2.2.17</span><br></pre></td></tr></table></figure>
+<h4 id="Vary"><a href="#Vary" class="headerlink" title="Vary"></a>Vary</h4><blockquote>
+<p>源服务器对代理服务器使用Vary字段，如果代理服务器需要缓存，仅仅会对请求中包含Vary指定字段，并且指定字段的内容相同的请求进行缓存。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// 只会对含有Accept-Language的请求，而且是en-us的请求，进行缓存</span><br><span class="line"></span><br><span class="line">客户端 &lt;-- Accept-Language: en-us  Accept-Language: en-us   --&gt; 代理服务器 &lt;-- Vary: Accept-Language --&gt; 源服务器</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="实体首部字段"><a href="#实体首部字段" class="headerlink" title="实体首部字段"></a>实体首部字段</h2><blockquote>
+<p>是在请求报文，和响应报文中，实体部分使用的首部。</p>
+</blockquote>
+<h4 id="Allow-（响应实体首部字段）"><a href="#Allow-（响应实体首部字段）" class="headerlink" title="Allow （响应实体首部字段）"></a>Allow （响应实体首部字段）</h4><blockquote>
+<p>告知客户端，服务器端支持的请求方式。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Allpw: GET, HEAD</span><br></pre></td></tr></table></figure>
+<h4 id="Content-Encoding-响应实体首部"><a href="#Content-Encoding-响应实体首部" class="headerlink" title="Content-Encoding (响应实体首部)"></a>Content-Encoding (响应实体首部)</h4><blockquote>
+<p>告知客户端，服务器对实体的主体部分选用的编码格式，指的是对实体部分的压缩格式（gzip等）</p>
+</blockquote>
+<h4 id="Content——Language-响应实体首部"><a href="#Content——Language-响应实体首部" class="headerlink" title="Content——Language (响应实体首部)"></a>Content——Language (响应实体首部)</h4><blockquote>
+<p>告知客户端，实体主体使用的自然语言（中文，日文，英文等）</p>
+</blockquote>
+<h4 id="Content-Length-（响应实体首部）"><a href="#Content-Length-（响应实体首部）" class="headerlink" title="Content-Length （响应实体首部）"></a>Content-Length （响应实体首部）</h4><blockquote>
+<p>告知客户端，实体主体的大小（单位为字节）</p>
+</blockquote>
+<h4 id="Content-Location"><a href="#Content-Location" class="headerlink" title="Content-Location"></a>Content-Location</h4><blockquote>
+<p>告知客户端，报文主体对应的URI地址。（因为请求的可能是A地址，但是返回的可能是B地址的内容）</p>
+</blockquote>
+<h4 id="Content—MD5（响应实体首部）"><a href="#Content—MD5（响应实体首部）" class="headerlink" title="Content—MD5（响应实体首部）"></a>Content—MD5（响应实体首部）</h4><blockquote>
+<p>客户端对接收的报文主体进行MD5处理后，转为Base64码。与响应实体首部的Content-MD5字段对应的值进行对比。验证报文主体的准确性。</p>
+</blockquote>
+<p>响应实体的Content-MD5，就是报文主体经过MD5处理之后的内容</p>
+<h4 id="Content-Range"><a href="#Content-Range" class="headerlink" title="Content-Range"></a>Content-Range</h4><blockquote>
+<p>主要针对客户端的范围请求，告知客户端，响应实体的具体所在的范围。</p>
+</blockquote>
+<h4 id="Content-Type-（响应实体首部）"><a href="#Content-Type-（响应实体首部）" class="headerlink" title="Content-Type （响应实体首部）"></a>Content-Type （响应实体首部）</h4><blockquote>
+<p>告知客户端，响应实体主体的对象类型，文本类型, html类型</p>
+</blockquote>
+<h4 id="Expires"><a href="#Expires" class="headerlink" title="Expires"></a>Expires</h4><blockquote>
+<p>缓存服务器，在接收到含有Expires的响应的时候，如果资源的缓存时间在Expires指定的时间之后，缓存服务器会向源服务器请求资源。</p>
+</blockquote>
+<h4 id="Last—Modified"><a href="#Last—Modified" class="headerlink" title="Last—Modified"></a>Last—Modified</h4><blockquote>
+<p>告知客户端，资源最后的修改时间</p>
+</blockquote>
+<hr>
+<h2 id="Cookie相关首部字段"><a href="#Cookie相关首部字段" class="headerlink" title="Cookie相关首部字段"></a>Cookie相关首部字段</h2><h4 id="Set—Cookie（cookie响应首部字段）"><a href="#Set—Cookie（cookie响应首部字段）" class="headerlink" title="Set—Cookie（cookie响应首部字段）"></a>Set—Cookie（cookie响应首部字段）</h4><blockquote>
+<p>服务器管理客户端的Cookie的字段</p>
+</blockquote>
+<ol>
+<li>NAME = VALUE, Cookie的key和value</li>
+<li>expires=DATE, Cookie的有效期</li>
+<li>path=PATH，</li>
+<li>domain=域名，Cookie适用的域名（可以使用二级域名）</li>
+<li>secure属性，限制页面仅在HTTPS链接时候，才可以发送Cookie</li>
+<li>HttpOnly，会让javascript的脚本无法获取Cookie（Web页面可以读取Cookie，但是无法设置Cookie）</li>
+</ol>
+<h4 id="Cookie-（cookie请求首部字段）"><a href="#Cookie-（cookie请求首部字段）" class="headerlink" title="Cookie （cookie请求首部字段）"></a>Cookie （cookie请求首部字段）</h4><blockquote>
+<p>发送给服务器端的Cookie的内容</p>
+</blockquote>
 
       
     </div>
@@ -351,6 +431,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/15/Node02/" rel="prev" title="路漫漫其修远兮 - Node学习(2)">
+                路漫漫其修远兮 - Node学习(2) <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -431,7 +515,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-count">29</span>
                   <span class="site-state-item-name">篇文章</span>
                 </a>
               </div>
@@ -493,7 +577,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#请求首部字段"><span class="nav-number">1.</span> <span class="nav-text">请求首部字段</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#响应首部字段"><span class="nav-number">1.</span> <span class="nav-text">响应首部字段</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Accept-Ranges"><span class="nav-number">1.0.1.</span> <span class="nav-text">Accept-Ranges</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Age"><span class="nav-number">1.0.2.</span> <span class="nav-text">Age</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ETag"><span class="nav-number">1.0.3.</span> <span class="nav-text">ETag</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Location"><span class="nav-number">1.0.4.</span> <span class="nav-text">Location</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Retry—After"><span class="nav-number">1.0.5.</span> <span class="nav-text">Retry—After</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Server"><span class="nav-number">1.0.6.</span> <span class="nav-text">Server</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Vary"><span class="nav-number">1.0.7.</span> <span class="nav-text">Vary</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实体首部字段"><span class="nav-number">2.</span> <span class="nav-text">实体首部字段</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Allow-（响应实体首部字段）"><span class="nav-number">2.0.1.</span> <span class="nav-text">Allow （响应实体首部字段）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Content-Encoding-响应实体首部"><span class="nav-number">2.0.2.</span> <span class="nav-text">Content-Encoding (响应实体首部)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Content——Language-响应实体首部"><span class="nav-number">2.0.3.</span> <span class="nav-text">Content——Language (响应实体首部)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Content-Length-（响应实体首部）"><span class="nav-number">2.0.4.</span> <span class="nav-text">Content-Length （响应实体首部）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Content-Location"><span class="nav-number">2.0.5.</span> <span class="nav-text">Content-Location</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Content—MD5（响应实体首部）"><span class="nav-number">2.0.6.</span> <span class="nav-text">Content—MD5（响应实体首部）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Content-Range"><span class="nav-number">2.0.7.</span> <span class="nav-text">Content-Range</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Content-Type-（响应实体首部）"><span class="nav-number">2.0.8.</span> <span class="nav-text">Content-Type （响应实体首部）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Expires"><span class="nav-number">2.0.9.</span> <span class="nav-text">Expires</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Last—Modified"><span class="nav-number">2.0.10.</span> <span class="nav-text">Last—Modified</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cookie相关首部字段"><span class="nav-number">3.</span> <span class="nav-text">Cookie相关首部字段</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Set—Cookie（cookie响应首部字段）"><span class="nav-number">3.0.1.</span> <span class="nav-text">Set—Cookie（cookie响应首部字段）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Cookie-（cookie请求首部字段）"><span class="nav-number">3.0.2.</span> <span class="nav-text">Cookie （cookie请求首部字段）</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
