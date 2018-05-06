@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="MongoDB," />
+
+
+
+
+
+
+
+
+
+
+<meta name="keywords" content="MongoDB">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MongoDB">
+<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2018/05/06/mongodb/index.html">
+<meta property="og:site_name" content="新世紀エヴァンゲリオン">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://bengbu-yuezhang.github.io/2018/05/06/mongodb/img1.jpg">
+<meta property="og:updated_time" content="2018-05-06T13:54:51.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MongoDB">
+<meta name="twitter:image" content="https://bengbu-yuezhang.github.io/2018/05/06/mongodb/img1.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/2018/05/06/mongodb/"/>
+
+
+
+
+
+  <title>MongoDB | 新世紀エヴァンゲリオン</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">新世紀エヴァンゲリオン</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">前端小学生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            主页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            时间轴
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://bengbu-yuezhang.github.io/yue.github.io/2018/05/06/mongodb/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张越">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新世紀エヴァンゲリオン">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">MongoDB</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发布于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-06T15:49:44+08:00">
+                2018-05-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="/2018/05/06/mongodb/img1.jpg" alt="image"></p>
+<a id="more"></a>
+<h1 id="MongoDB"><a href="#MongoDB" class="headerlink" title="MongoDB"></a>MongoDB</h1><blockquote>
+<p><a href="https://www.mongodb.com/" target="_blank" rel="noopener">文档地址(英文)</a>，目前mongoDB已经发布了4.0版本，现有的中文文档<strong>全部过时，而且过时的很严重</strong>，建议看英文的为主。其实英文文档也没有多难。</p>
+</blockquote>
+<h2 id="CRUD操作"><a href="#CRUD操作" class="headerlink" title="CRUD操作"></a>CRUD操作</h2><h3 id="Create"><a href="#Create" class="headerlink" title="Create"></a>Create</h3><p>db.集合名.API()</p>
+<h4 id="insertOne"><a href="#insertOne" class="headerlink" title="insertOne"></a>insertOne</h4><blockquote>
+<p>插入单条记录</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">db.users.insertOne(&#123;</span><br><span class="line">  name: <span class="string">'惣流·明日香·兰格雷'</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="insertMany"><a href="#insertMany" class="headerlink" title="insertMany"></a>insertMany</h4><blockquote>
+<p>插入多条记录</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">db.users.inserMany([</span><br><span class="line">  &#123;<span class="attr">name</span>: <span class="string">'绫波丽'</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">name</span>: <span class="string">'惣流·明日香·兰格雷'</span>&#125;</span><br><span class="line">])</span><br></pre></td></tr></table></figure>
+<h3 id="Update"><a href="#Update" class="headerlink" title="Update"></a>Update</h3><p>db.集合名.API(查询条件, 更新内容, 具体配置)</p>
+<h4 id="updateOne"><a href="#updateOne" class="headerlink" title="updateOne"></a>updateOne</h4><blockquote>
+<p>更新满足条件的第一条数据</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 找到id大于1的第一条数据，将name字段更新为惣流·明日香·兰格雷</span></span><br><span class="line">db.users.updateOne(</span><br><span class="line">  &#123;<span class="attr">id</span>: &#123;<span class="attr">$gt</span>: <span class="number">1</span>&#125;&#125;,</span><br><span class="line">  &#123;<span class="attr">$set</span>: &#123;</span><br><span class="line">    name: <span class="string">'惣流·明日香·兰格雷'</span></span><br><span class="line">  &#125;&#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h4 id="updateMany"><a href="#updateMany" class="headerlink" title="updateMany"></a>updateMany</h4><blockquote>
+<p>更新满足条件的全部数据</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 找到id大于0的全局数据，将name字段更新为广末凉子</span></span><br><span class="line">db.users.updateMany(</span><br><span class="line">  &#123;<span class="attr">id</span>: $&#123;<span class="attr">gt</span>: <span class="number">0</span>&#125;&#125;,</span><br><span class="line">  &#123;<span class="attr">$set</span>: &#123;</span><br><span class="line">    name: <span class="string">'广末凉子'</span></span><br><span class="line">  &#125;&#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h4 id="replaceOne"><a href="#replaceOne" class="headerlink" title="replaceOne"></a>replaceOne</h4><blockquote>
+<p>替换满足条件的第一条数据</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 将id为1的数据第一条替换</span></span><br><span class="line">db.users.replaceOne(</span><br><span class="line">  &#123;<span class="attr">id</span>: <span class="number">1</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">name</span>: <span class="string">'惣流・アスカ・ラングレー'</span>&#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="Delete"><a href="#Delete" class="headerlink" title="Delete"></a>Delete</h3><p>db.集合名.API()</p>
+<h4 id="delete"><a href="#delete" class="headerlink" title="delete"></a>delete</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 删除集合中的全部数据</span></span><br><span class="line">db.users.delete(&#123;&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="deleteOne"><a href="#deleteOne" class="headerlink" title="deleteOne"></a>deleteOne</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 删除name为美里的第一条数据</span></span><br><span class="line">db.users.deleteOne(&#123;</span><br><span class="line">  name: <span class="string">'美里'</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="deleteMany"><a href="#deleteMany" class="headerlink" title="deleteMany"></a>deleteMany</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 删除id大于1的全部数据</span></span><br><span class="line">db.users.deleteMany(&#123;</span><br><span class="line">    id: &#123;<span class="attr">$gt</span>: <span class="number">1</span>&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="Retrieve"><a href="#Retrieve" class="headerlink" title="Retrieve"></a>Retrieve</h3><blockquote>
+<p>查询操作是增删改查中最为复杂的</p>
+</blockquote>
+<h4 id="基本查询"><a href="#基本查询" class="headerlink" title="基本查询"></a>基本查询</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 查询集合中的全部文档</span></span><br><span class="line">db.users.find(&#123;&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 查询集合中name字段包含 "php"的文档</span></span><br><span class="line">db.users.find(&#123;</span><br><span class="line">    name: &#123;<span class="attr">$regex</span>: <span class="regexp">/php/gi</span>&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="And-OR"><a href="#And-OR" class="headerlink" title="And OR"></a>And OR</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// and查询，id大于1并且name字段等于php或者java的文档</span></span><br><span class="line">db.users.find(&#123;</span><br><span class="line">    id: &#123;<span class="attr">$gt</span>: <span class="number">1</span>&#125;,</span><br><span class="line">    name: &#123;<span class="attr">$in</span>: [<span class="string">'php'</span>, <span class="string">'java'</span>]&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// or查询（短路or，如果第一个条件满足，第二个条件会被忽略）</span></span><br><span class="line"><span class="comment">// name字段包含java或者c++的数据</span></span><br><span class="line">db.users.find(&#123;</span><br><span class="line">    $or: [</span><br><span class="line">        &#123;<span class="attr">name</span>: &#123;<span class="attr">$regex</span>: <span class="regexp">/java/gi</span>&#125;&#125;,</span><br><span class="line">        &#123;<span class="attr">nmae</span>: &#123;<span class="attr">$regex</span>: <span class="regexp">/c++/gi</span>&#125;&#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="嵌套文档查询"><a href="#嵌套文档查询" class="headerlink" title="嵌套文档查询"></a>嵌套文档查询</h4><blockquote>
+<p>对于嵌套字段的查询，匹配的查询条件的书写是非常严格的，包括字段的顺序一致时才会被匹配。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">db.users.insertMany([</span><br><span class="line">    &#123;</span><br><span class="line">        name: <span class="string">'广末凉子'</span>,</span><br><span class="line">        info: &#123;</span><br><span class="line">            birthday: <span class="number">1980</span>,</span><br><span class="line">            country: <span class="string">'日本'</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        name: <span class="string">'本田翼'</span>,</span><br><span class="line">        info: &#123;</span><br><span class="line">            birthday: <span class="number">1992</span>,</span><br><span class="line">            country: <span class="string">'日本'</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">])</span><br><span class="line"></span><br><span class="line"><span class="comment">// 精确查询（注意字段的顺序需要和保存时候的顺序一致）</span></span><br><span class="line">db.users.find(&#123;</span><br><span class="line">    info: &#123;</span><br><span class="line">        birthday: <span class="number">1992</span>,</span><br><span class="line">        country: <span class="string">'日本'</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 如果需要对于嵌套文档，使用条件查询而不是精确查询，需要使用点符合</span></span><br><span class="line"><span class="comment">// 查询info.birthday大于1970的数据</span></span><br><span class="line">db.users.find(&#123;</span><br><span class="line">    <span class="string">'info.birthday'</span>: &#123;<span class="attr">$gt</span>: <span class="number">1970</span>&#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 点符号配合and查询</span></span><br><span class="line"><span class="comment">// 查询info.birthday大于1960的并且info.country为日本的数据</span></span><br><span class="line">db.users.find(&#123;</span><br><span class="line">    <span class="string">'info.birthday'</span>: &#123;<span class="attr">$gt</span>: <span class="number">1960</span>&#125;,</span><br><span class="line">    <span class="string">'info.country'</span>: <span class="string">'日本'</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="数组的查询"><a href="#数组的查询" class="headerlink" title="数组的查询"></a>数组的查询</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">db.games.insertMany([</span><br><span class="line">    &#123;<span class="attr">name</span>: <span class="string">'使命召唤4'</span>, <span class="attr">tag</span>: [<span class="string">'2007'</span>, <span class="string">'战争'</span>]&#125;,</span><br><span class="line">    &#123;<span class="attr">name</span>: <span class="string">'黑暗之魂3'</span>, <span class="attr">tag</span>: [<span class="string">'2016'</span>, <span class="string">'魔幻'</span>]&#125;,</span><br><span class="line">    &#123;<span class="attr">name</span>: <span class="string">'刺客信条:起源'</span>, <span class="attr">tag</span>: [<span class="string">'2017'</span>, <span class="string">'历史'</span>]&#125;</span><br><span class="line">])</span><br><span class="line"></span><br><span class="line"><span class="comment">// 数组为2017，历史的文档，顺序也需要保证一致，才能正确的匹配</span></span><br><span class="line">db.games.find(&#123;</span><br><span class="line">    tag: [<span class="string">'2017'</span>, <span class="string">'历史'</span>]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 数组中包含‘历史’的文档</span></span><br><span class="line">db.games.find(&#123;</span><br><span class="line">    tag: &#123;</span><br><span class="line">        $all: [<span class="string">'历史'</span>]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 复合条件查找</span></span><br><span class="line"><span class="comment">// 数组中一个包含2017,另一个包含历史，或者两者都包含的文档</span></span><br><span class="line">db.games.find(&#123;</span><br><span class="line">    tag: &#123;</span><br><span class="line">        $<span class="keyword">in</span>: [<span class="string">'2017'</span>],</span><br><span class="line">        $<span class="keyword">in</span>: [<span class="string">'历史'</span>]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 多条件查找</span></span><br><span class="line"><span class="comment">// dim_cm字段数组中至少有一个元素大于22小于30</span></span><br><span class="line"><span class="keyword">var</span> cursor = db.collection(<span class="string">'inventory'</span>).find(&#123; </span><br><span class="line">  dim_cm: &#123; <span class="attr">$elemMatch</span>: &#123; <span class="attr">$gt</span>: <span class="number">22</span>, <span class="attr">$lt</span>: <span class="number">30</span> &#125; &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 数组中指定元素的查找，使用点操作符，第一位为魔幻的数组</span></span><br><span class="line">db.games.find(&#123;</span><br><span class="line">    <span class="string">'tag.1'</span>: <span class="string">'魔幻'</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 数组长度查询，长度为2的数组</span></span><br><span class="line">db.games.find(&#123;</span><br><span class="line">    tag: &#123;<span class="attr">$size</span>: <span class="number">2</span>&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="数组嵌套对象的查询"><a href="#数组嵌套对象的查询" class="headerlink" title="数组嵌套对象的查询"></a>数组嵌套对象的查询</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">db.games.insertMany([</span><br><span class="line">    &#123;</span><br><span class="line">        time: <span class="string">'2018'</span>,</span><br><span class="line">        games: [</span><br><span class="line">            &#123;</span><br><span class="line">                name: <span class="string">'战神'</span>,</span><br><span class="line">                month: <span class="number">4</span></span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                name: <span class="string">'最终幻想15'</span>,</span><br><span class="line">                month: <span class="number">3</span></span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        time: <span class="string">'2017'</span>,</span><br><span class="line">        games: [</span><br><span class="line">            &#123;</span><br><span class="line">                name: <span class="string">'使命召唤14'</span>,</span><br><span class="line">                month: <span class="number">11</span></span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                name: <span class="string">'幽灵行动：荒野'</span>,</span><br><span class="line">                month: <span class="number">3</span></span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">])</span><br><span class="line"></span><br><span class="line"><span class="comment">// 需要精确匹配(字段顺序都需要精确匹配)</span></span><br><span class="line">db.games.find(&#123;</span><br><span class="line">    games: &#123;<span class="attr">name</span>: <span class="string">'最终幻想15'</span>, <span class="attr">month</span>: <span class="number">3</span>&#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 对与数组中对象的字段进行匹配</span></span><br><span class="line">db.games.find(&#123;</span><br><span class="line">    <span class="string">'games.month'</span>: <span class="number">11</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 指定查询的从数组的哪一位查询</span></span><br><span class="line">db.games.find(&#123;</span><br><span class="line">    <span class="string">'games.0.month'</span>: <span class="number">3</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 对于单一字段的查询</span></span><br><span class="line">db.games.find(&#123;</span><br><span class="line">    <span class="string">'games.month'</span>: &#123;</span><br><span class="line">        $gt: <span class="number">10</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 复合条件查询</span></span><br><span class="line"><span class="comment">// 数组中至少有一个元素name为幽灵行动：荒野，month为3</span></span><br><span class="line">db.games.find(&#123;</span><br><span class="line">    games: &#123;</span><br><span class="line">        $elemMatch: &#123;</span><br><span class="line">            name: <span class="string">'幽灵行动：荒野'</span>,</span><br><span class="line">            month: <span class="number">3</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="文本的查询"><a href="#文本的查询" class="headerlink" title="文本的查询"></a>文本的查询</h4><blockquote>
+<p>文本搜索操作前，需要指定可以进行文本搜索的字段</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">db.stores.insert(</span><br><span class="line">   [</span><br><span class="line">     &#123; <span class="attr">_id</span>: <span class="number">1</span>, <span class="attr">name</span>: <span class="string">"Java Hut"</span>, <span class="attr">description</span>: <span class="string">"Coffee and cakes"</span> &#125;,</span><br><span class="line">     &#123; <span class="attr">_id</span>: <span class="number">2</span>, <span class="attr">name</span>: <span class="string">"Burger Buns"</span>, <span class="attr">description</span>: <span class="string">"Gourmet hamburgers"</span> &#125;,</span><br><span class="line">     &#123; <span class="attr">_id</span>: <span class="number">3</span>, <span class="attr">name</span>: <span class="string">"Coffee Shop"</span>, <span class="attr">description</span>: <span class="string">"Just coffee"</span> &#125;,</span><br><span class="line">     &#123; <span class="attr">_id</span>: <span class="number">4</span>, <span class="attr">name</span>: <span class="string">"Clothes Clothes Clothes"</span>, <span class="attr">description</span>: <span class="string">"Discount clothing"</span> &#125;,</span><br><span class="line">     &#123; <span class="attr">_id</span>: <span class="number">5</span>, <span class="attr">name</span>: <span class="string">"Java Shopping"</span>, <span class="attr">description</span>: <span class="string">"Indonesian goods"</span> &#125;</span><br><span class="line">   ]</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 指定集合中的name字段，description字段可以进行文本搜索的操作</span></span><br><span class="line">db.stores.createIndex( &#123; <span class="attr">name</span>: <span class="string">"text"</span>, <span class="attr">description</span>: <span class="string">"text"</span> &#125; )</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 查询文本中包含java或Coffee</span></span><br><span class="line">db.stores.find(&#123;</span><br><span class="line">    $text: &#123;</span><br><span class="line">        $search: <span class="string">"java Coffee"</span> <span class="comment">// search 会以or逻辑搜索</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="bulkWrite"><a href="#bulkWrite" class="headerlink" title="bulkWrite"></a>bulkWrite</h2><blockquote>
+<p>批量执行SQL语句</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 首先插入name字段为本田翼的数据，然后查询name字段为本田翼的数据，然后将name字段更新为广末凉子</span></span><br><span class="line">db.users.bulkWrite([</span><br><span class="line">    &#123;</span><br><span class="line">        insertOne: &#123;</span><br><span class="line">            <span class="built_in">document</span>: &#123;</span><br><span class="line">                name: <span class="string">'本田翼'</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        updateOne: &#123;</span><br><span class="line">            filter: &#123; <span class="attr">name</span>: <span class="string">'本田翼'</span> &#125;,</span><br><span class="line">            update: &#123; <span class="attr">name</span>: <span class="string">'广末凉子'</span> &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">])</span><br></pre></td></tr></table></figure>
+<h1 id="Mongoose"><a href="#Mongoose" class="headerlink" title="Mongoose"></a>Mongoose</h1><blockquote>
+<p><a href="http://mongoosejs.com/" target="_blank" rel="noopener">文档地址(英文)</a>, 同MongoDB一样，Mongoose已经发布了5.x版本，版本迭代的非常快，中文文档目前没有大家还是看英文文档吧</p>
+</blockquote>
+<h2 id="SchemaTypes"><a href="#SchemaTypes" class="headerlink" title="SchemaTypes"></a>SchemaTypes</h2><blockquote>
+<p>新建Schema时，为字段创建类型约束，默认值，是否必填，验证函数，等等。对于Number类型还可以设置最大最小值的约束</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 简单的示例</span></span><br><span class="line"><span class="keyword">const</span> schema = mongoose.Schema(&#123;</span><br><span class="line">    name: &#123;</span><br><span class="line">        type: <span class="built_in">Number</span>, <span class="comment">// 类型</span></span><br><span class="line">        <span class="keyword">default</span>: <span class="number">1024</span>, <span class="comment">// 默认值</span></span><br><span class="line">        min: <span class="number">0</span>, <span class="comment">// 最小值</span></span><br><span class="line">        max: <span class="number">9999</span>, <span class="comment">// 最大值</span></span><br><span class="line">        required: <span class="literal">true</span>， <span class="comment">// 是否必填</span></span><br><span class="line">        validate: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;， <span class="comment">// 验证器</span></span><br><span class="line">    &#125;,</span><br><span class="line">    list: [Buffer] <span class="comment">// 内容都是Buffer的数组</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>需要注意的两点：</p>
+<ol>
+<li>Schema中如果存在日期类型，直接通过Date的方法修改该字段mongoose是不会更新保存的。需要通过markModified通知mongoose发生了更新操作。</li>
+<li>对于数组类型如果没有指定default，默认值为空数组</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">User.findOne(&#123;<span class="attr">id</span>: <span class="number">1</span>&#125;, (err, user) =&gt; &#123;</span><br><span class="line">  user.craateDate.setMonth(<span class="number">3</span>) <span class="comment">// mongoose是无法知晓更改的</span></span><br><span class="line">  user.markModified(<span class="string">'craateDate'</span>) <span class="comment">// 通知mongoose发生了更改</span></span><br><span class="line">  user.save()</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="Connections"><a href="#Connections" class="headerlink" title="Connections"></a>Connections</h2><blockquote>
+<p>mongoose链接到mongoDB的API</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 默认的端口号27017，本地地址127.0.0.1</span></span><br><span class="line"></span><br><span class="line">mongoose.connect(<span class="string">'mongodb://localhost/myapp'</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="Models"><a href="#Models" class="headerlink" title="Models"></a>Models</h2><blockquote>
+<p>Models通过我们定义的Schema创建的，Models实例上暴露的方法，可以帮助我们保存检索数据库，这些操作都是通过Models处理的。</p>
+</blockquote>
+<p>Models的静态方法(Model.APIname)和实例方法(Model.prototype.APIname)非常多，具体请翻阅<a href="http://mongoosejs.com/docs/api.html#Model" target="_blank" rel="noopener">API列表</a>, 👇下面只是举例说明</p>
+<h3 id="创建Models"><a href="#创建Models" class="headerlink" title="创建Models"></a>创建Models</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> mongoose = <span class="built_in">require</span>(<span class="string">'mongoose'</span>)</span><br><span class="line"><span class="keyword">const</span> Schema = mongoose.Schema</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> kittenSchema = <span class="keyword">new</span> Schema(&#123;</span><br><span class="line">  id: <span class="built_in">String</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Kitten = mongoose.model(<span class="string">'Tank'</span>, kittenSchema)</span><br></pre></td></tr></table></figure>
+<h3 id="Models上的CRUD"><a href="#Models上的CRUD" class="headerlink" title="Models上的CRUD"></a>Models上的CRUD</h3><h4 id="创建文档"><a href="#创建文档" class="headerlink" title="创建文档"></a>创建文档</h4><blockquote>
+<p>文档就是Models的实例，就是保存到数据库中具体的数据</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 实例方法</span></span><br><span class="line"><span class="comment">// model.save会将model保存到数据库</span></span><br><span class="line"><span class="keyword">const</span> Kitten = <span class="built_in">require</span>(<span class="string">'...'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> fluffy = <span class="keyword">new</span> Kitten(&#123; <span class="attr">name</span>: <span class="string">'fluffy'</span> &#125;)</span><br><span class="line">fluffy.save(<span class="function">(<span class="params">err, fluffy</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 静态方法</span></span><br><span class="line"><span class="comment">// Modles.create会为每一个model调用save方法</span></span><br><span class="line"><span class="keyword">const</span> Kitten = <span class="built_in">require</span>(<span class="string">'...'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> list = [&#123;<span class="attr">name</span>: <span class="string">'jack'</span>&#125;, &#123;<span class="attr">name</span>: <span class="string">'jerry'</span>&#125;]</span><br><span class="line">Kitten.create(list, (err, kittens) =&gt; &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="查询文档"><a href="#查询文档" class="headerlink" title="查询文档"></a>查询文档</h4><p>常用的方法有find，findById, findOne, Where</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这几种方法的示例</span></span><br><span class="line"><span class="keyword">const</span> Kitten = <span class="built_in">require</span>(<span class="string">'...'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 查询age大于1小于5的文档</span></span><br><span class="line">Kitten.where(<span class="string">'age'</span>).$get(<span class="number">1</span>).$lte(<span class="number">5</span>).exec(<span class="function">(<span class="params">err, result</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 查询全部数据，只需要返回name字段，从第二条数据开始查找，查找5条</span></span><br><span class="line">Kitten.find(&#123;&#125;, <span class="string">'name'</span>, &#123; <span class="attr">skip</span>: <span class="number">2</span>, <span class="attr">limit</span>: <span class="number">5</span> &#125;, (err, kittens) =&gt; &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// findById, 根据文档的ObjectId字段查询, ObjectId是mongoose默认添加的</span></span><br><span class="line">Kitten.findById(<span class="string">'5ae875c0f6ed7bd6883719b5'</span>, (err, kitten) =&gt; &#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// findOne, 查询name为fluffy的文档，但是只返回第一条数据</span></span><br><span class="line">Kitten.findOne(&#123;<span class="attr">name</span>: <span class="string">'fluffy'</span>&#125;, (err, kitten) =&gt; &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="删除文档"><a href="#删除文档" class="headerlink" title="删除文档"></a>删除文档</h4><p>常用的有Model.remove, Model.prototype.remove, Model.findByIdAndRemove</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// model.remove 实例方法</span></span><br><span class="line">Kitten.findById(<span class="string">'5ae875c0f6ed7bd6883719b5'</span>, (err, kitten) =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span> (err) <span class="comment">// ...</span></span><br><span class="line">  kitten.remove(<span class="function">(<span class="params">err, kitten</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 上面可以用findByIdAndRemove方法更好的解决</span></span><br><span class="line">Kitten.findByIdAndRemove(<span class="string">'5ae875c0f6ed7bd6883719b5'</span>, (err, kitten) =&gt; &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Models.remove 静态方法</span></span><br><span class="line"><span class="comment">// 删除name为jerry的文档</span></span><br><span class="line">Kitten.remove(&#123;<span class="attr">name</span>: <span class="string">'jerry'</span>&#125;, (err, kitten) =&gt; &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="更新文档"><a href="#更新文档" class="headerlink" title="更新文档"></a>更新文档</h4><p>常用的方法有 Model.update, Model.updateOne, Model.updateMany, Model.findById  AndUpdate</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 查询name为fulffy的文档，并将name字段更新为Tom</span></span><br><span class="line">Kitten.updateMany(&#123;<span class="attr">name</span>: <span class="string">'fluffy'</span>&#125;, &#123;<span class="attr">$set</span>: &#123;<span class="attr">name</span>: <span class="string">'Tom'</span>&#125;&#125;, (err, raw) =&gt; &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">Kitten.findByIdUpdate(<span class="string">'5ae875c0f6ed7bd6883719b5'</span>, &#123;<span class="attr">$set</span>: &#123;<span class="attr">name</span>: <span class="string">'Tom'</span>&#125;&#125;, (err, kitten) =&gt; &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p><strong>注意：update等一系列方法，虽然可以更新文档，但是callback的第二个参数不是更新后的文档。如果想把更新后的文档返回，可以通过findByIdUpdate方法。findByIdUpdate的callback函数的第二个参数就是更新后的文档</strong></p>
+<h2 id="子文档"><a href="#子文档" class="headerlink" title="子文档"></a>子文档</h2><blockquote>
+<p>可以理解为嵌套在文档中的文档，子文档不会单独保存，只能保存父级文档才能保存子文档</p>
+</blockquote>
+<h3 id="子文档的定义"><a href="#子文档的定义" class="headerlink" title="子文档的定义"></a>子文档的定义</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> mongoose = <span class="built_in">require</span>(<span class="string">'mongoose'</span>)</span><br><span class="line"><span class="keyword">const</span> Schema = mongose.Schema</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> fansSchema = mongoose.Schema(&#123;</span><br><span class="line">  name: <span class="built_in">String</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 子Schema嵌套在父Schema中</span></span><br><span class="line"><span class="keyword">const</span> starSchema = mongoose.Schema(&#123;</span><br><span class="line">  fans: [fansSchema]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Star = mongoose.model(<span class="string">'Star'</span>, starSchema)</span><br></pre></td></tr></table></figure>
+<h3 id="创建子文档"><a href="#创建子文档" class="headerlink" title="创建子文档"></a>创建子文档</h3><blockquote>
+<p>子文档不能单独保存，必须跟随父文档才能保存</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> stars = &#123; <span class="attr">fans</span>: [&#123;<span class="attr">name</span>: <span class="string">'本田翼'</span>&#125;, &#123;<span class="attr">name</span>: <span class="string">'广末凉子'</span>&#125;] &#125;</span><br><span class="line"></span><br><span class="line">Star.create(stars, (err, stars) =&gt; &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="中间件执行的顺序"><a href="#中间件执行的顺序" class="headerlink" title="中间件执行的顺序"></a>中间件执行的顺序</h3><p><strong>子文档.pre(‘save’), 子文档.pre(‘validate’)，在父文档.pre(‘save’)之前，父文档.pre(‘validate’)之后执行。</strong></p>
+<h3 id="更新子文档"><a href="#更新子文档" class="headerlink" title="更新子文档"></a>更新子文档</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 查询父文档，通过$push更新子文档</span></span><br><span class="line">Star.findOneAndUpdate(<span class="string">'5ae96fd7f95a0a08b7971952'</span>, &#123;</span><br><span class="line">  $push: &#123;</span><br><span class="line">    fans: [</span><br><span class="line">      &#123; <span class="attr">name</span>: <span class="string">'明日香'</span> &#125;,</span><br><span class="line">      &#123; <span class="attr">name</span>: <span class="string">'绫波丽'</span> &#125;,</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;, &#123;<span class="attr">new</span>: <span class="literal">true</span>&#125;, (err, star) =&gt; &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="删除子文档"><a href="#删除子文档" class="headerlink" title="删除子文档"></a>删除子文档</h3><p>与更新操作同理，首先需要找到对应的父文档，然后对子文档作出相应的操作</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Star.findById(<span class="string">'5ae9877676c318efd42dff35'</span>, (err, star) =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span> (err) <span class="comment">// ...</span></span><br><span class="line">  <span class="comment">// 删除子文档的数组的内容</span></span><br><span class="line">  star.fans.remove()</span><br><span class="line">  star.save(<span class="function">(<span class="params">err, star</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><ol>
+<li>Validation在SchemaType中定义</li>
+<li>验证是异步递归的，保存父文档之前子文档也会验证，如果发生错误父文档的save将会接收到错误</li>
+<li>验证可以是自定义的验证函数</li>
+<li>mongoose默认将验证每个save钩子</li>
+</ol>
+<h3 id="内置的验证"><a href="#内置的验证" class="headerlink" title="内置的验证"></a>内置的验证</h3><blockquote>
+<p>通过在SchemaType中定义。例如Number类型的max，min。String类型的maxlength，minlength，match（正则匹配），enum（枚举，字符串只能是枚举中的字符串）</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> mongoose = <span class="built_in">require</span>(<span class="string">'mongoose'</span>)</span><br><span class="line"><span class="keyword">const</span> Schema = mongoose.Schema</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> goddessSchema = <span class="keyword">new</span> Schema(&#123;</span><br><span class="line">  <span class="comment">// 最小长度为2，最大长度12，必填</span></span><br><span class="line">  name: &#123;</span><br><span class="line">    type: <span class="built_in">String</span>,</span><br><span class="line">    minlength: <span class="number">2</span>,</span><br><span class="line">    maxlength: <span class="number">12</span>,</span><br><span class="line">    required: <span class="literal">true</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">// 最小为16，最大为60，必填</span></span><br><span class="line">  age: &#123;</span><br><span class="line">    type: <span class="built_in">Number</span>,</span><br><span class="line">    min: <span class="number">16</span>,</span><br><span class="line">    max: <span class="number">60</span>,</span><br><span class="line">    required: <span class="literal">true</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="unique不是验证器"><a href="#unique不是验证器" class="headerlink" title="unique不是验证器"></a>unique不是验证器</h3><blockquote>
+<p>unique保证了字段的value的唯一性，但其本身不是验证器</p>
+</blockquote>
+<h3 id="自定义验证器"><a href="#自定义验证器" class="headerlink" title="自定义验证器"></a>自定义验证器</h3><blockquote>
+<p>自定义验证器是一个函数，返回Boolean类型的值，如果是false代表验证不通过</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> goddessSchema = <span class="keyword">new</span> Schema(&#123;</span><br><span class="line">  phone: &#123;</span><br><span class="line">    type: <span class="built_in">String</span>,</span><br><span class="line">    validate: &#123;</span><br><span class="line">      <span class="comment">// validator函数的参数是字段的value值</span></span><br><span class="line">      validator (value) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="regexp">/^[1][3,4,5,7,8][0-9]&#123;9&#125;$/</span>.test(value)</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="comment">// 错误信息</span></span><br><span class="line">      message: <span class="string">'手机号码格式不正确'</span></span><br><span class="line">    &#125;,</span><br><span class="line">    required: <span class="literal">true</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="异步验证器"><a href="#异步验证器" class="headerlink" title="异步验证器"></a>异步验证器</h3><blockquote>
+<p>异步验证器,可以接收一个Promise对象，如果对象状态为reject代表验证不通过，resolve验证通过</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> goddessSchema = <span class="keyword">new</span> Schema(&#123;</span><br><span class="line">  mail: &#123;</span><br><span class="line">    type: <span class="built_in">String</span>,</span><br><span class="line">    validate: &#123;</span><br><span class="line">      validator (value) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">          setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">            resolve(<span class="literal">false</span>)</span><br><span class="line">          &#125;, <span class="number">5</span>)</span><br><span class="line">        &#125;)</span><br><span class="line">      &#125;,</span><br><span class="line">      message: <span class="string">'邮箱错误:('</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="动态验证器"><a href="#动态验证器" class="headerlink" title="动态验证器"></a>动态验证器</h3><blockquote>
+<p>Schema上暴露了一些API可以让我们动态的添加验证器</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> mongoose = <span class="built_in">require</span>(<span class="string">'mongoose'</span>)</span><br><span class="line"><span class="keyword">const</span> Schema = mongoose.Schema</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> userSchema = <span class="keyword">new</span> Schema(&#123;</span><br><span class="line">  name: &#123;</span><br><span class="line">    type: <span class="built_in">Number</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 动态设置Schema中name字段的type</span></span><br><span class="line">userSchema.path(<span class="string">'name'</span>, <span class="built_in">String</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 动态设置Schema中name字段的validate</span></span><br><span class="line">userSchema.path(<span class="string">'name'</span>).validate(<span class="function"><span class="keyword">function</span> (<span class="params">value</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (value === <span class="string">'李航'</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="嵌套验证器"><a href="#嵌套验证器" class="headerlink" title="嵌套验证器"></a>嵌套验证器</h3><blockquote>
+<p>对于嵌套对象，动态的添加验证器是非常棘手的，因为添加验证器的路径是不完整的。解决办法是通过把嵌套的对象，拆分为子文档的方式</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 错误的演示</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> mongoose = <span class="built_in">require</span>(<span class="string">'mongoose'</span>)</span><br><span class="line"><span class="keyword">const</span> Schema = mongoose.Schema</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> gameSchema = <span class="keyword">new</span> Schema(&#123;</span><br><span class="line">  info: &#123;</span><br><span class="line">    name: <span class="built_in">Number</span>,</span><br><span class="line">    year: <span class="built_in">Number</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Error 路径是不正确的, name字段是在info对象中</span></span><br><span class="line">gameSchema.path(<span class="string">'name'</span>, <span class="built_in">String</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 正确的演示</span></span><br><span class="line"><span class="comment">// 解决办法把嵌套的文档拆分为子文档</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> mongoose = <span class="built_in">require</span>(<span class="string">'mongoose'</span>)</span><br><span class="line"><span class="keyword">const</span> Schema = mongoose.Schema</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> infoSchema = <span class="keyword">new</span> Schema(&#123;</span><br><span class="line">  name: <span class="built_in">Number</span>,</span><br><span class="line">  year: <span class="built_in">Number</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> gameSchema = <span class="keyword">new</span> Schema(&#123;</span><br><span class="line">  info: &#123;</span><br><span class="line">    type: infoSchema,</span><br><span class="line">    required: <span class="literal">true</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 路径才是正确的</span></span><br><span class="line">infoSchema.path(<span class="string">'name'</span>, <span class="built_in">String</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Game = mongoose.model(<span class="string">'Game'</span>, gameSchema)</span><br></pre></td></tr></table></figure>
+<h3 id="更新时的验证器⚠️⚠️⚠️"><a href="#更新时的验证器⚠️⚠️⚠️" class="headerlink" title="更新时的验证器⚠️⚠️⚠️"></a>更新时的验证器⚠️⚠️⚠️</h3><blockquote>
+<p><strong>update(), findOneAndUpdate(), 操作的时候，验证器默认不进行验证的，需要通过配置runValidators为true，才会在更新的时候开启验证</strong></p>
+</blockquote>
+<p>为什么默认验证器是不开启的？</p>
+<ol>
+<li>更新操作的时候，验证器内部的this指向，并不是指向最新更新的文档，所以如果验证器中有this是不适用于更新验证器的</li>
+<li>更新操作的时候，更新的验证器仅在更新的key上运行（如果你只是更新name字段，只会验证name的验证器）</li>
+<li>更新验证器只能在以下操作符执行(即使设置了runValidators为true，也只能在以下操作符执行)</li>
+</ol>
+<ul>
+<li>$set, 设置字段</li>
+<li>$unset, 删除字段</li>
+<li>$push, 为数组字段添加后续内容（只能针对数组字段）<ul>
+<li>$each, $push的子操作符，添加内容到数组中</li>
+<li>$slice, $push的子操作符, 从数组第0位开始截取</li>
+<li>$sort, $push的子操作符, 数组排序</li>
+<li>$position, $push的子操作符, 从数组哪个位置插入</li>
+</ul>
+</li>
+<li>$addToSet, 为数组添加内容，但是如果内容已经存在$addToSet不会做任何操作（如果是一个对象，addToSet也会判断是否重复，但是判断的条件是具有完全相同的key-value，并且字段的顺序也要一样）</li>
+<li>$pull, 删除数组中条件匹配的内容</li>
+<li>$pullAll, 删除数组中所有实例</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> gameSchema = <span class="keyword">new</span> Schema(&#123;</span><br><span class="line">  info: &#123;</span><br><span class="line">    name: &#123;</span><br><span class="line">      type: <span class="built_in">String</span>,</span><br><span class="line">      validate: &#123;</span><br><span class="line">        validator (value) &#123;</span><br><span class="line">          <span class="keyword">if</span> (value === <span class="string">'错误的'</span>) <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">          <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">        &#125;,</span><br><span class="line">        message: <span class="string">'update会验证吗?'</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    year: &#123;</span><br><span class="line">      type: <span class="built_in">Number</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Game = mongoose.model(<span class="string">'Game'</span>, gameSchema)</span><br><span class="line"></span><br><span class="line"><span class="comment">// runValidators为false的时候，更新操作时候不会经过验证器验证，默认为false</span></span><br><span class="line"><span class="comment">// 可以正确的执行更新操作</span></span><br><span class="line">Game.findByIdAndUpdate(<span class="string">'5aea88a2c3c255038b68fdec'</span>, &#123;</span><br><span class="line">    $set: &#123;</span><br><span class="line">        <span class="string">'info.name'</span>: <span class="string">'错误的'</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;, &#123;<span class="attr">new</span>: <span class="literal">true</span>, <span class="attr">runValidators</span>: <span class="literal">false</span>&#125;, (err, game) =&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (err) reject(err)</span><br><span class="line">    resolve(game)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// runValidators为true的时候, 更新操作时候会强制验证</span></span><br><span class="line"><span class="comment">// 会抛出错误，不能正确的更新</span></span><br><span class="line">Game.findByIdAndUpdate(<span class="string">'5aea88a2c3c255038b68fdec'</span>, &#123;</span><br><span class="line">    $set: &#123;</span><br><span class="line">        <span class="string">'info.name'</span>: <span class="string">'错误的'</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;, &#123;<span class="attr">new</span>: <span class="literal">true</span>, <span class="attr">runValidators</span>: <span class="literal">true</span>&#125;, (err, game) =&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (err) reject(err)</span><br><span class="line">    resolve(game)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="中间件（钩子）"><a href="#中间件（钩子）" class="headerlink" title="中间件（钩子）"></a>中间件（钩子）</h2><p>😢文档还没有看完，稍后补上</p>
+<h2 id="Population"><a href="#Population" class="headerlink" title="Population"></a>Population</h2><blockquote>
+<p>Mongoose封装了一个 population 的功能，当你在定义 Schema 的时候指定了某个 field 是引用了另一个 Schema ，那么你在获取 document 的时候就可以使用 populate 方法让 Mongoose 帮你通过引用 Schema 和 id 找到关联的另一个 document，并且用该 document 的内容替换掉原来引用字段的内容，使引用的 ducoment 使用起来就像是内嵌的 document 一样方便。</p>
+</blockquote>
+<h3 id="创建关联"><a href="#创建关联" class="headerlink" title="创建关联"></a>创建关联</h3><ol>
+<li>推荐使用Schema.Types.ObjectId创建关联，对应关联的字段只会保存ObjectId（另一个表的ObjectId）</li>
+<li>使用ref字段确定关联的Models</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> mongoose = <span class="built_in">require</span>(<span class="string">'mongoose'</span>)</span><br><span class="line"><span class="keyword">const</span> Schema = mongoose.Schema</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> ownerSchema = <span class="keyword">new</span> Schema(&#123;</span><br><span class="line">  name: <span class="built_in">String</span>,</span><br><span class="line">  <span class="comment">// 创建对Slave的集合，类似外键约束</span></span><br><span class="line">  <span class="comment">// owner的集合中slaves字段只会保存slave集合的ObjectId</span></span><br><span class="line">  slaves: [&#123; <span class="attr">type</span>: Schema.Types.ObjectId, <span class="attr">ref</span>: <span class="string">'Slave'</span> &#125;]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> slaveSchema = <span class="keyword">new</span> Schema(&#123;</span><br><span class="line">  name: <span class="built_in">String</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Owner = mongoose.model(<span class="string">'Owner'</span>, ownerSchema)</span><br><span class="line"><span class="keyword">const</span> Slave = mongoose.model(<span class="string">'Slave'</span>, slaveSchema)</span><br></pre></td></tr></table></figure>
+<h3 id="添加关联"><a href="#添加关联" class="headerlink" title="添加关联"></a>添加关联</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> owner = <span class="keyword">new</span> Owner(&#123;<span class="attr">name</span>: <span class="string">'久远寺森罗'</span>&#125;)</span><br><span class="line"><span class="keyword">const</span> slave = <span class="keyword">new</span> Slave(&#123;<span class="attr">name</span>: <span class="string">'上杉练'</span>&#125;)</span><br><span class="line"></span><br><span class="line">slave.save(<span class="function">(<span class="params">err, s</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (err) <span class="comment">// ...</span></span><br><span class="line">    <span class="comment">// mongoose会自动解析为objectId保存到owner的slaves数组中</span></span><br><span class="line">    <span class="comment">// Owner集合中slaves字段将会存有slave的ObjectId作为引用</span></span><br><span class="line">    owner.slaves.push(s)</span><br><span class="line">    owner.save(<span class="function">(<span class="params">err, h</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (err) <span class="comment">// ...</span></span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="查询关联"><a href="#查询关联" class="headerlink" title="查询关联"></a>查询关联</h3><blockquote>
+<p>mongoose会自动将ObjectId替换为对应集合中的文档。查询操作，Models，document都拥有对应的populate方法</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// Query.populate</span></span><br><span class="line"><span class="comment">// 查询id为5aebb8a287f5ca03508b6b23的文档，并将slaves字段做populate操作，只填充name字段</span></span><br><span class="line">Owner.findOne(&#123;<span class="attr">_id</span>: <span class="string">'5aebb8a287f5ca03508b6b23'</span>&#125;).populate(&#123;</span><br><span class="line">  path: <span class="string">'slaves'</span>,</span><br><span class="line">  select: <span class="string">'name'</span></span><br><span class="line">&#125;).exec(<span class="function">(<span class="params">err, owner</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// document.populate</span></span><br><span class="line">Owner.findById(<span class="string">'5aebb8a287f5ca03508b6b23'</span>, (err, owner) =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span> (err) <span class="comment">// ...</span></span><br><span class="line">  <span class="comment">// owner实例做populate操作</span></span><br><span class="line">  owner.populate(<span class="string">'slaves'</span>, (err, owner) =&gt; &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Models.populate</span></span><br><span class="line"></span><br><span class="line">Owner.findById(<span class="string">'5aebb8a287f5ca03508b6b23'</span>, (err, owner) =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span> (err) <span class="comment">// ...</span></span><br><span class="line">  <span class="comment">// 对slaves字段进行population，只填充_id字段</span></span><br><span class="line">  Owner.populate(owner, &#123;</span><br><span class="line">    path: <span class="string">'slaves'</span>,</span><br><span class="line">    select: <span class="string">'_id'</span></span><br><span class="line">  &#125;, (err, owner) =&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (err) <span class="comment">// ...</span></span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="Discriminators"><a href="#Discriminators" class="headerlink" title="Discriminators"></a>Discriminators</h2><blockquote>
+<p>Discriminators是一种模型的继承机制，可以在同一个模型的基础上，创建模型。可以类比为class中继承。Discriminators拥有基础模型的字段以及中间件。</p>
+</blockquote>
+<h3 id="Discriminators的实现"><a href="#Discriminators的实现" class="headerlink" title="Discriminators的实现"></a>Discriminators的实现</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> mongoose = <span class="built_in">require</span>(<span class="string">'mongoose'</span>)</span><br><span class="line"><span class="keyword">const</span> Schema = mongoose.Schema</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> schoolSchema = <span class="keyword">new</span> Schema(&#123;</span><br><span class="line">  schoolName: <span class="built_in">String</span></span><br><span class="line">&#125;, &#123;<span class="attr">discriminatorKey</span>: <span class="string">'kind'</span>&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> teacherSchema = <span class="keyword">new</span> Schema(&#123;</span><br><span class="line">  name: <span class="built_in">String</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> School = mongoose.model(<span class="string">'School'</span>, schoolSchema)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Teacher的模型是基于School模型创建的</span></span><br><span class="line"><span class="comment">// Teacher模型会拥有两个字段name以及schoolName</span></span><br><span class="line"><span class="keyword">const</span> Teacher = School.discriminator(<span class="string">'Teacher'</span>, teacherSchema, &#123;</span><br><span class="line">  discriminatorKey: <span class="string">'kind'</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="Discriminators的保存"><a href="#Discriminators的保存" class="headerlink" title="Discriminators的保存"></a>Discriminators的保存</h3><blockquote>
+<p>使用Discriminator模型创建的文档，与基础模型创建的文档都是保存在mongoDB同一个集合中</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> teacher = <span class="keyword">new</span> Teacher(&#123;</span><br><span class="line">  schoolName: <span class="string">'牡丹江师范学院'</span>,</span><br><span class="line">  name: <span class="string">'赵晨'</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> school = <span class="keyword">new</span> School(&#123;</span><br><span class="line">  schoolName: <span class="string">'牡丹江师范学院'</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">teacher.save(<span class="function">(<span class="params">err, teacher</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;)</span><br><span class="line">school.save(<span class="function">(<span class="params">err, school</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>通过db.schools.find(), 可见 school和teacher都是保存在同一个集合中的</p>
+<h3 id="Discriminators的查询"><a href="#Discriminators的查询" class="headerlink" title="Discriminators的查询"></a>Discriminators的查询</h3><blockquote>
+<p>find(), count()等方法会自动的区别不同的Discriminators</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// mongoose的查询方法会自动区别不同的Discriminators</span></span><br><span class="line">School.count(&#123;&#125;, (err, count) =&gt; &#123; &#125;)</span><br><span class="line">Teacher.count(&#123;&#125;, (err, count) =&gt; &#123; &#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="Discriminators的中间件"><a href="#Discriminators的中间件" class="headerlink" title="Discriminators的中间件"></a>Discriminators的中间件</h3><blockquote>
+<p>Discriminators会继承基础模型的中间件，Discriminators也可以设置自己的中间件，从而不影响到基础模型</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 基于School的Discriminators也会执行save的钩子，打印出save</span></span><br><span class="line">schoolSchema.pre(<span class="string">'save'</span>, (next) =&gt; &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'save'</span>)</span><br><span class="line">  next()</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="Discriminators的字段优先级"><a href="#Discriminators的字段优先级" class="headerlink" title="Discriminators的字段优先级"></a>Discriminators的字段优先级</h3><blockquote>
+<p>当Discriminators字段与基本模型字段相冲突的时候。Discriminators字段的优先级是大于基本模型的优先级的，但是_id除外。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> schoolSchema = <span class="keyword">new</span> Schema(&#123;</span><br><span class="line">  id: <span class="built_in">String</span>,</span><br><span class="line">  schoolName: <span class="built_in">String</span></span><br><span class="line">&#125;, &#123;<span class="attr">discriminatorKey</span>: <span class="string">'kind'</span>&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> teacherSchema = <span class="keyword">new</span> Schema(&#123;</span><br><span class="line">  id: <span class="built_in">Number</span>,</span><br><span class="line">  name: <span class="built_in">String</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> School = mongoose.model(<span class="string">'School'</span>, schoolSchema)</span><br><span class="line"><span class="keyword">const</span> Teacher = School.discriminator(<span class="string">'Teacher'</span>, teacherSchema, &#123;</span><br><span class="line">  discriminatorKey: <span class="string">'kind'</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 基础模型中id为String类型，Discriminators模型中id为Number类型，Discriminators模型的字段优先级大于基础模型</span></span><br><span class="line"><span class="keyword">const</span> teacher1 = <span class="keyword">new</span> Teacher(&#123;</span><br><span class="line">  schoolName: <span class="string">'牡丹江师范学院'</span>,</span><br><span class="line">  name: <span class="string">'赵晨'</span>,</span><br><span class="line">  id: <span class="number">1</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> teacher2 = <span class="keyword">new</span> Teacher(&#123;</span><br><span class="line">  schoolName: <span class="string">'南京示范学院'</span>,</span><br><span class="line">  name: <span class="string">'宋敏'</span>,</span><br><span class="line">  id: <span class="string">'1'</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 最后保存id将会保存为Number类型</span></span><br><span class="line">teacher1.save(<span class="function">(<span class="params">err, teacher</span>) =&gt;</span> <span class="built_in">console</span>.log(<span class="keyword">typeof</span> teacher.id === <span class="built_in">Number</span>) <span class="comment">// true</span></span><br><span class="line">teacher2.save(<span class="function">(<span class="params">err, teacher</span>) =&gt;</span> <span class="built_in">console</span>.log(<span class="keyword">typeof</span> teacher.id === <span class="built_in">String</span>) <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+<h3 id="Discriminators与Model-create操作"><a href="#Discriminators与Model-create操作" class="headerlink" title="Discriminators与Model.create操作"></a>Discriminators与Model.create操作</h3><blockquote>
+<p>mongoose会通过数据的DiscriminatorsKey字段也就是kind，保存为不同的类型</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 定义不同的Discriminators以及不同的DiscriminatorsKey</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> teacherSchema = <span class="keyword">new</span> Schema(&#123;</span><br><span class="line">  id: <span class="built_in">Number</span>,</span><br><span class="line">  name: <span class="built_in">String</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> studentSchema = <span class="keyword">new</span> Schema(&#123;</span><br><span class="line">  id: <span class="built_in">Number</span>,</span><br><span class="line">  name: <span class="built_in">String</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> janitorSchema = <span class="keyword">new</span> Schema(&#123;</span><br><span class="line">  id: <span class="built_in">Number</span>,</span><br><span class="line">  name: <span class="built_in">String</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Teacher = School.discriminator(<span class="string">'Teacher'</span>, teacherSchema, &#123;</span><br><span class="line">  discriminatorKey: <span class="string">'kind'</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Student = School.discriminator(<span class="string">'Student'</span>, studentSchema, &#123;</span><br><span class="line">  discriminatorKey: <span class="string">'kind'</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Janitor = School.discriminator(<span class="string">'Janitor'</span>, janitorSchema, &#123;</span><br><span class="line">  discriminatorKey: <span class="string">'kind'</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// mongoose会根据不同kind，保存正确的类型</span></span><br><span class="line"><span class="keyword">const</span> lists = [</span><br><span class="line">  &#123;<span class="attr">kind</span>: <span class="string">'Teacher'</span>, <span class="attr">id</span>: <span class="number">8</span>, <span class="attr">name</span>: <span class="string">'明日香'</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">kind</span>: <span class="string">'Student'</span>, <span class="attr">id</span>: <span class="number">9</span>, <span class="attr">name</span>: <span class="string">'绫波丽'</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">kind</span>: <span class="string">'Janitor'</span>, <span class="attr">id</span>: <span class="number">10</span>, <span class="attr">name</span>: <span class="string">'葛城美里'</span>&#125;</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">School.create(lists, (err, schools) =&gt; &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MongoDB/" rel="tag"># MongoDB</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/08/http3/" rel="next" title="http协议基础知识(3)">
+                <i class="fa fa-chevron-left"></i> http协议基础知识(3)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            作者概述
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="张越" />
+            
+              <p class="site-author-name" itemprop="name">张越</p>
+              <p class="site-description motion-element" itemprop="description">所谓成长，就是经过不断的聚散离合，找到不太会伤害到彼此的距离</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">篇文章</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">Tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/BengBu-YueZhang" target="_blank" title="我的GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/5460100952/profile?topnav=1&wvr=6" target="_blank" title="我的微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的微博</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#MongoDB"><span class="nav-number">1.</span> <span class="nav-text">MongoDB</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CRUD操作"><span class="nav-number">1.1.</span> <span class="nav-text">CRUD操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create"><span class="nav-number">1.1.1.</span> <span class="nav-text">Create</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#insertOne"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">insertOne</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#insertMany"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">insertMany</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Update"><span class="nav-number">1.1.2.</span> <span class="nav-text">Update</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#updateOne"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">updateOne</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#updateMany"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">updateMany</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#replaceOne"><span class="nav-number">1.1.2.3.</span> <span class="nav-text">replaceOne</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Delete"><span class="nav-number">1.1.3.</span> <span class="nav-text">Delete</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#delete"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">delete</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#deleteOne"><span class="nav-number">1.1.3.2.</span> <span class="nav-text">deleteOne</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#deleteMany"><span class="nav-number">1.1.3.3.</span> <span class="nav-text">deleteMany</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Retrieve"><span class="nav-number">1.1.4.</span> <span class="nav-text">Retrieve</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#基本查询"><span class="nav-number">1.1.4.1.</span> <span class="nav-text">基本查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#And-OR"><span class="nav-number">1.1.4.2.</span> <span class="nav-text">And OR</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#嵌套文档查询"><span class="nav-number">1.1.4.3.</span> <span class="nav-text">嵌套文档查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数组的查询"><span class="nav-number">1.1.4.4.</span> <span class="nav-text">数组的查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数组嵌套对象的查询"><span class="nav-number">1.1.4.5.</span> <span class="nav-text">数组嵌套对象的查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#文本的查询"><span class="nav-number">1.1.4.6.</span> <span class="nav-text">文本的查询</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bulkWrite"><span class="nav-number">1.2.</span> <span class="nav-text">bulkWrite</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Mongoose"><span class="nav-number">2.</span> <span class="nav-text">Mongoose</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#SchemaTypes"><span class="nav-number">2.1.</span> <span class="nav-text">SchemaTypes</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Connections"><span class="nav-number">2.2.</span> <span class="nav-text">Connections</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Models"><span class="nav-number">2.3.</span> <span class="nav-text">Models</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建Models"><span class="nav-number">2.3.1.</span> <span class="nav-text">创建Models</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Models上的CRUD"><span class="nav-number">2.3.2.</span> <span class="nav-text">Models上的CRUD</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建文档"><span class="nav-number">2.3.2.1.</span> <span class="nav-text">创建文档</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查询文档"><span class="nav-number">2.3.2.2.</span> <span class="nav-text">查询文档</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除文档"><span class="nav-number">2.3.2.3.</span> <span class="nav-text">删除文档</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#更新文档"><span class="nav-number">2.3.2.4.</span> <span class="nav-text">更新文档</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#子文档"><span class="nav-number">2.4.</span> <span class="nav-text">子文档</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#子文档的定义"><span class="nav-number">2.4.1.</span> <span class="nav-text">子文档的定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建子文档"><span class="nav-number">2.4.2.</span> <span class="nav-text">创建子文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#中间件执行的顺序"><span class="nav-number">2.4.3.</span> <span class="nav-text">中间件执行的顺序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更新子文档"><span class="nav-number">2.4.4.</span> <span class="nav-text">更新子文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除子文档"><span class="nav-number">2.4.5.</span> <span class="nav-text">删除子文档</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#验证"><span class="nav-number">2.5.</span> <span class="nav-text">验证</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#内置的验证"><span class="nav-number">2.5.1.</span> <span class="nav-text">内置的验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#unique不是验证器"><span class="nav-number">2.5.2.</span> <span class="nav-text">unique不是验证器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义验证器"><span class="nav-number">2.5.3.</span> <span class="nav-text">自定义验证器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#异步验证器"><span class="nav-number">2.5.4.</span> <span class="nav-text">异步验证器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动态验证器"><span class="nav-number">2.5.5.</span> <span class="nav-text">动态验证器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#嵌套验证器"><span class="nav-number">2.5.6.</span> <span class="nav-text">嵌套验证器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更新时的验证器⚠️⚠️⚠️"><span class="nav-number">2.5.7.</span> <span class="nav-text">更新时的验证器⚠️⚠️⚠️</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#中间件（钩子）"><span class="nav-number">2.6.</span> <span class="nav-text">中间件（钩子）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Population"><span class="nav-number">2.7.</span> <span class="nav-text">Population</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建关联"><span class="nav-number">2.7.1.</span> <span class="nav-text">创建关联</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加关联"><span class="nav-number">2.7.2.</span> <span class="nav-text">添加关联</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查询关联"><span class="nav-number">2.7.3.</span> <span class="nav-text">查询关联</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Discriminators"><span class="nav-number">2.8.</span> <span class="nav-text">Discriminators</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Discriminators的实现"><span class="nav-number">2.8.1.</span> <span class="nav-text">Discriminators的实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Discriminators的保存"><span class="nav-number">2.8.2.</span> <span class="nav-text">Discriminators的保存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Discriminators的查询"><span class="nav-number">2.8.3.</span> <span class="nav-text">Discriminators的查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Discriminators的中间件"><span class="nav-number">2.8.4.</span> <span class="nav-text">Discriminators的中间件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Discriminators的字段优先级"><span class="nav-number">2.8.5.</span> <span class="nav-text">Discriminators的字段优先级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Discriminators与Model-create操作"><span class="nav-number">2.8.6.</span> <span class="nav-text">Discriminators与Model.create操作</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张越</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
