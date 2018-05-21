@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="简单的后端鉴权">
+<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2018/05/19/Authentication/index.html">
+<meta property="og:site_name" content="新世紀エヴァンゲリオン">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://unsplash.it/1080/609?random">
+<meta property="og:updated_time" content="2018-05-21T02:22:27.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="简单的后端鉴权">
+<meta name="twitter:image" content="https://unsplash.it/1080/609?random">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/2018/05/19/Authentication/"/>
+
+
+
+
+
+  <title>简单的后端鉴权 | 新世紀エヴァンゲリオン</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">新世紀エヴァンゲリオン</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">前端小学生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            主页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            时间轴
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://bengbu-yuezhang.github.io/yue.github.io/2018/05/19/Authentication/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张越">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新世紀エヴァンゲリオン">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">简单的后端鉴权</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-19T13:18:06+08:00">
+                2018-05-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://unsplash.it/1080/609?random" alt="image"></p>
+<a id="more"></a>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文是我对自己学习的一个总结，我只是一名菜鸟，如果您有更好的方案或者意见请务必指正出来。我的🐧：1025873823</p>
+<h2 id="session鉴权"><a href="#session鉴权" class="headerlink" title="session鉴权"></a>session鉴权</h2><h3 id="什么是session？"><a href="#什么是session？" class="headerlink" title="什么是session？"></a>什么是session？</h3><p>session是一种服务器机制，是存储在服务器上的信息。存储方式多种多样，可以是服务器的内存中，或者是mongo数据库，redis内存数据库中。而session是基于cookie实现的(服务器会生成sessionID)通过set-cookie的方式写入到客户端的cookie中。每一次的请求都会携带服务器写入的sessionID发送给服务端，通过解析sessionID与服务器端保存的session，来判断用户是否登录。</p>
+<p>鉴权步骤如下：</p>
+<ol>
+<li>客户端发起登录请求，服务器端创建session，并通过set-cookie将生成的sessionID写入的客户端的cookie中。</li>
+<li>在发起其他需要权限的接口的时候，客户端的请求体的Header部分会携带sessionID发送给服务端。然后根据这个sessionId去找服务器端保存的该客户端的session，然后判断该请求是否合法。</li>
+</ol>
+<h3 id="session鉴权的示例"><a href="#session鉴权的示例" class="headerlink" title="session鉴权的示例"></a>session鉴权的示例</h3><p>基于Passport和Express的实现，<a href="http://www.passportjs.org/docs/configure/" target="_blank" rel="noopener">Passport的详细文档请参考</a>，我这篇文章只是使用的介绍，更详细的方法是阅读文档。</p>
+<h4 id="跨域的解决"><a href="#跨域的解决" class="headerlink" title="跨域的解决"></a>跨域的解决</h4><blockquote>
+<p>由于是前端分离的项目，前端的静态资源服务和后端的接口可能不在同一个域名下，这就导致了服务器无法在浏览器上写入cookie。需要通过设置CORS解决。前后端都需要额外的设置，代码如下</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 基于axios代码设置如下, withCredentials: true是否允许跨域修改cookie</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Axios = axios.create(&#123;</span><br><span class="line">  baseURL: <span class="string">'http://127.0.0.1:3000/'</span>,</span><br><span class="line">  timeout: <span class="number">1000</span>,</span><br><span class="line">  withCredentials: <span class="literal">true</span>,</span><br><span class="line">  responseType: <span class="string">"json"</span>,</span><br><span class="line">  headers: &#123;</span><br><span class="line">    <span class="string">"Content-Type"</span>: <span class="string">"application/x-www-form-urlencoded;charset=utf-8"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用CORS模块,并配置允许跨域请求</span></span><br><span class="line">app.use(cors(&#123;</span><br><span class="line">  origin: <span class="string">'http://127.0.0.1:8080'</span>,</span><br><span class="line">  credentials: <span class="literal">true</span>,</span><br><span class="line">  methods: [<span class="string">'PUT'</span>, <span class="string">'POST'</span>, <span class="string">'GET'</span>, <span class="string">'DELETE'</span>, <span class="string">'OPTIONS'</span>],</span><br><span class="line">  allowedHeaders: [<span class="string">'Content-Type'</span>, <span class="string">'Content-Length'</span>, <span class="string">'Authorization'</span>, <span class="string">'Accept'</span>, <span class="string">'X-Requested-With'</span>]</span><br><span class="line">&#125;))</span><br></pre></td></tr></table></figure>
+<p>⚠️：这里有一个坑，origin不能设置为通配符*，<a href="https://stackoverflow.com/questions/21850454/how-to-make-xmlhttprequest-cross-domain-withcredentials-http-authorization-cor" target="_blank" rel="noopener">stackoverflow上的解答</a></p>
+<h4 id="Passport-local本地验证"><a href="#Passport-local本地验证" class="headerlink" title="Passport local本地验证"></a>Passport local本地验证</h4><h5 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> session = <span class="built_in">require</span>(<span class="string">'express-session'</span>)</span><br><span class="line"><span class="keyword">const</span> MongoStore = <span class="built_in">require</span>(<span class="string">'connect-mongo'</span>)(session)</span><br><span class="line"><span class="keyword">const</span> bodyParser = <span class="built_in">require</span>(<span class="string">'body-parser'</span>)</span><br><span class="line"><span class="keyword">const</span> passport = <span class="built_in">require</span>(<span class="string">'passport'</span>)</span><br><span class="line"></span><br><span class="line">app.use(bodyParser.urlencoded(&#123; <span class="attr">extended</span>: <span class="literal">false</span> &#125;))</span><br><span class="line">app.use(bodyParser.json())</span><br><span class="line"><span class="comment">// 这里我将session存储到mongo中，更好的做法是存储到redis中</span></span><br><span class="line">app.use(session(&#123;</span><br><span class="line">  resave: <span class="literal">false</span>,</span><br><span class="line">  saveUninitialized: <span class="literal">false</span>,</span><br><span class="line">  secret: sessionConfig.secret,</span><br><span class="line">  store: <span class="keyword">new</span> MongoStore(&#123;</span><br><span class="line">    mongooseConnection: connection</span><br><span class="line">  &#125;),</span><br><span class="line">  cookie: &#123;</span><br><span class="line">    maxAge: <span class="number">60</span> * <span class="number">1000</span> * <span class="number">30</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;))</span><br><span class="line">app.use(passport.initialize())</span><br><span class="line">app.use(passport.session())</span><br></pre></td></tr></table></figure>
+<h5 id="配置策略"><a href="#配置策略" class="headerlink" title="配置策略"></a>配置策略</h5><p>local验证默认使用密码和用户名验证，首先需要对local策略做出配置。以下是官方示例给出的代码，我直接copy过来使用。代码非常简单。User是Mongoose的Model(需要自己创建)，通过findOne方法查找用户名对应的用户，并对查找的结果作出判断，并通过调用passport的done方法作出验证回调。由于User密码不是明文存储的，通过了bcrypt模块进行了加密。所以需要通过bcrypt.compare方法进行密码校验操作。</p>
+<p>done方法是由passport提供的，用于回调操作的方法。对于不同的结果执行不同的回调操作。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> passport = <span class="built_in">require</span>(<span class="string">'passport'</span>)</span><br><span class="line"><span class="keyword">const</span> LocalStrategy = <span class="built_in">require</span>(<span class="string">'passport-local'</span>).Strategy</span><br><span class="line"><span class="keyword">const</span> User = <span class="built_in">require</span>(<span class="string">'../models/user'</span>)</span><br><span class="line"><span class="keyword">const</span> bcrypt = <span class="built_in">require</span>(<span class="string">'../util/bcrypt'</span>)</span><br><span class="line"></span><br><span class="line">passport.use(<span class="keyword">new</span> LocalStrategy(<span class="function">(<span class="params">username, password, done</span>) =&gt;</span> &#123;</span><br><span class="line">  User.findOne(&#123; username &#125;, (err, user) =&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (err) <span class="keyword">return</span> done(err)</span><br><span class="line">    <span class="keyword">if</span> (!user) &#123;</span><br><span class="line">      <span class="keyword">return</span> done(<span class="literal">null</span>, <span class="literal">false</span>, &#123; <span class="attr">message</span>: <span class="string">'用户名不存在'</span> &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (!bcrypt.compare(password, user.password)) &#123;</span><br><span class="line">      <span class="keyword">return</span> done(<span class="literal">null</span>, <span class="literal">false</span>, &#123; <span class="attr">message</span>: <span class="string">'用户名或密码错误'</span> &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> done(<span class="literal">null</span>, user)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;))</span><br></pre></td></tr></table></figure>
+<h5 id="session序列化与反序列化"><a href="#session序列化与反序列化" class="headerlink" title="session序列化与反序列化"></a>session序列化与反序列化</h5><p>serializeUser序列化，将用户信息存储到session中，这段信息即是sessionID，同时会将sessionID存储到客户端的cookie中的过程。</p>
+<p>deserializeUser反序列化，参数是用户提交的sessionID，如果存在则从数据库中查询user并存储与req.user中。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">passport.serializeUser(<span class="function">(<span class="params">user, done</span>) =&gt;</span> &#123;</span><br><span class="line">  done(<span class="literal">null</span>, user.id)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">passport.deserializeUser(<span class="function">(<span class="params">id, done</span>) =&gt;</span> &#123;</span><br><span class="line">  User.findById(id, (err, user) =&gt; &#123;</span><br><span class="line">    done(<span class="literal">null</span>, user)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>😖😢对于这段代码具体实现的细节，我一开始也明白。有一天我在stackoverflow上找到解答<a href="https://stackoverflow.com/questions/27637609/understanding-passport-serialize-deserialize" target="_blank" rel="noopener">Understanding passport serialize deserialize</a></p>
+<p>Q: <strong>serializeUser 做了什么？</strong></p>
+<p>A: 通过done将user存储到了session中, 并将sessionID写入到客户端的cookie上, 将用户信息附加到请求对象req.session.passport.user上。</p>
+<p>Q：<strong>deserializeUser 做了什么？</strong></p>
+<p>A：deserializeUser的第一个参数就是你存储的sessionID，通过Model的findById方法查找数据库，并将用户信息附加到请求对象req.user上</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">passport.serializeUser(<span class="function"><span class="keyword">function</span>(<span class="params">user, done</span>) </span>&#123;</span><br><span class="line">    done(<span class="literal">null</span>, user.id);</span><br><span class="line">                 |</span><br><span class="line">&#125;);              | </span><br><span class="line">                 |</span><br><span class="line">                 |____________________&gt; saved to session req.session.passport.user = &#123;<span class="attr">id</span>:<span class="string">'..'</span>&#125;</span><br><span class="line">                                   |</span><br><span class="line">                                  \|<span class="regexp">/           </span></span><br><span class="line"><span class="regexp">passport.deserializeUser(function(id, done) &#123;</span></span><br><span class="line"><span class="regexp">                   ________________|</span></span><br><span class="line"><span class="regexp">                   |</span></span><br><span class="line"><span class="regexp">                  \|/</span> </span><br><span class="line">    User.findById(id, <span class="function"><span class="keyword">function</span>(<span class="params">err, user</span>) </span>&#123;</span><br><span class="line">        done(err, user);</span><br><span class="line">                   |______________&gt;user object attaches to the request <span class="keyword">as</span> req.user</span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h5 id="logIn-logOut-isAuthenticated"><a href="#logIn-logOut-isAuthenticated" class="headerlink" title="logIn, logOut, isAuthenticated"></a>logIn, logOut, isAuthenticated</h5><blockquote>
+<p>passport为request对象扩展的方法</p>
+</blockquote>
+<ul>
+<li>logIn(), 用户登陆操作，即初始化session</li>
+<li>logOut(), 用户登出操作，删除用户的session信息</li>
+<li>isAuthenticated(), 用来判断用户是否登陆</li>
+</ul>
+<h5 id="接口示例"><a href="#接口示例" class="headerlink" title="接口示例"></a>接口示例</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 用户登录</span></span><br><span class="line">router.get(<span class="string">'/login'</span>, (req, res, next) =&gt; &#123;</span><br><span class="line">  <span class="comment">// 登录认证，使用local策略</span></span><br><span class="line">  passport.authenticate(<span class="string">'local'</span>, (err, user, info) =&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (err) <span class="keyword">return</span> next(err)</span><br><span class="line">    <span class="keyword">if</span> (!user) <span class="keyword">return</span> res.status(<span class="number">400</span>).json(&#123;</span><br><span class="line">      message: info.message</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="comment">// 初始化session信息</span></span><br><span class="line">    req.logIn(user, (err) =&gt; &#123;</span><br><span class="line">      <span class="keyword">if</span> (err) <span class="keyword">return</span> next(err)</span><br><span class="line">      res.status(<span class="number">200</span>).json(&#123; <span class="attr">code</span>: <span class="number">200</span>, <span class="attr">message</span>: <span class="string">'登陆成功'</span> &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;)(req, res, next)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 用户登出</span></span><br><span class="line">router.get(<span class="string">'/logout'</span>, isAuthenticated, (req, res) =&gt; &#123;</span><br><span class="line">  <span class="comment">// 删除mongo中的session信息</span></span><br><span class="line">  req.logout()</span><br><span class="line">  res.status(<span class="number">200</span>).json(&#123; <span class="attr">code</span>: <span class="number">200</span>, <span class="attr">message</span>: <span class="string">'登出成功'</span> &#125;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 用户详情(需要权限的接口)</span></span><br><span class="line"><span class="comment">// isAuthenticated是通过passport提供的isAuthenticated()封装的简单中间件</span></span><br><span class="line"><span class="comment">// 添加isAuthenticated接口则是需要登陆权限的接口</span></span><br><span class="line">router.get(<span class="string">'/details'</span>, isAuthenticated, (req, res) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; _id &#125; = req.user</span><br><span class="line">  UserService.getUserDetail(_id).then(<span class="function"><span class="params">data</span> =&gt;</span> &#123;</span><br><span class="line">    res.status(<span class="number">200</span>).json(&#123; <span class="attr">code</span>: <span class="number">200</span>, <span class="attr">message</span>: <span class="string">'success'</span>, data &#125;)</span><br><span class="line">  &#125;).catch(<span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">    res.status(<span class="number">400</span>).json(&#123; <span class="attr">message</span>: <span class="string">'用户信息不存在'</span> &#125;)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span> <span class="title">isAuthenticated</span> (<span class="params">req, res, next</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (req.isAuthenticated()) <span class="keyword">return</span> next()</span><br><span class="line">  res.status(<span class="number">403</span>).json(&#123; <span class="attr">message</span>: <span class="string">'没有权限'</span> &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="jwt鉴权"><a href="#jwt鉴权" class="headerlink" title="jwt鉴权"></a>jwt鉴权</h2><h3 id="什么是jwt？"><a href="#什么是jwt？" class="headerlink" title="什么是jwt？"></a>什么是jwt？</h3><p>Json web token (JWT), 是为了在网络应用环境间传递声明而执行的一种基于JSON的开放标准（(RFC 7519).该token被设计为紧凑且安全的，特别适用于分布式站点的单点登录（SSO）场景。JWT的声明一般被用来在身份提供者和服务提供者间传递被认证的用户身份信息，以便于从资源服务器获取资源，也可以增加一些额外的其它业务逻辑所必须的声明信息，该token也可直接被用于认证，也可被加密。</p>
+<h3 id="jwt鉴权的流程"><a href="#jwt鉴权的流程" class="headerlink" title="jwt鉴权的流程"></a>jwt鉴权的流程</h3><p>鉴权的流程：</p>
+<ol>
+<li>浏览器发起登录请求 </li>
+<li>请求通过后，服务器会向浏览器返回token</li>
+<li>浏览器接收到token后需要讲token保存到本地（比如localStorage）</li>
+<li>浏览器在下一次请求的时候会携带token信息</li>
+<li>服务器收到请求，去验证token验证成功后会返回信息</li>
+</ol>
+<p>乍一看，token是类似sessionID的存在。其实token和sessionID还是有一定的不同的。sessionID是基于cookie实现的，而token不需要基于cookie。这就导致了sessionID只能用在浏览器上，对于原生的应用无法实现。原生的应用是不具备cookie的特性的。另外sessionID可以实现服务端注销会话，而token不能(当然你可以把用户登陆的token存入到redis中，但是不推荐token入库)</p>
+<h3 id="jwt鉴权的示例"><a href="#jwt鉴权的示例" class="headerlink" title="jwt鉴权的示例"></a>jwt鉴权的示例</h3><blockquote>
+<p>示例代码我是基本照抄这一篇教程，英文好的同学推荐阅读原版<a href="https://scotch.io/tutorials/authenticate-a-node-js-api-with-json-web-tokens" target="_blank" rel="noopener">Authenticate a Node.js API with JSON Web Tokens</a></p>
+</blockquote>
+<h4 id="CORS设置"><a href="#CORS设置" class="headerlink" title="CORS设置"></a>CORS设置</h4><p>由于我们需要通过请求体的headers传递token，所以我们需要对CORS模块进行额外的配置，代码如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 我们将会通过headers的x-access-token字段向服务端传递token</span></span><br><span class="line">app.use(cors(&#123;</span><br><span class="line">  origin: <span class="string">'http://127.0.0.1:8080'</span>,</span><br><span class="line">  credentials: <span class="literal">true</span>,</span><br><span class="line">  methods: [<span class="string">'PUT'</span>, <span class="string">'POST'</span>, <span class="string">'GET'</span>, <span class="string">'DELETE'</span>, <span class="string">'OPTIONS'</span>],</span><br><span class="line">  allowedHeaders: [</span><br><span class="line">    <span class="string">'Content-Type'</span>,</span><br><span class="line">    <span class="string">'Content-Length'</span>,</span><br><span class="line">    <span class="string">'Authorization'</span>,</span><br><span class="line">    <span class="string">'Accept'</span>,</span><br><span class="line">    <span class="string">'X-Requested-With'</span>,</span><br><span class="line">    <span class="string">'x-access-token'</span>]</span><br><span class="line">&#125;))</span><br></pre></td></tr></table></figure>
+<h4 id="环境配置-1"><a href="#环境配置-1" class="headerlink" title="环境配置"></a>环境配置</h4><p>我们需要下载以下的依赖包, 以及用于加密token的字符串secret(可以是一个随机字符串)</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">npm install --save jsonwebtoken</span><br></pre></td></tr></table></figure>
+<h4 id="获取token"><a href="#获取token" class="headerlink" title="获取token"></a>获取token</h4><p>我们通常通过登陆操作获取token，服务端生成token后，会交由浏览器端管理token</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> jwt = <span class="built_in">require</span>(<span class="string">'jsonwebtoken'</span>)</span><br><span class="line"><span class="keyword">const</span> User = <span class="built_in">require</span>(<span class="string">'../models/user'</span>)</span><br><span class="line"><span class="keyword">const</span> bcrypt = <span class="built_in">require</span>(<span class="string">'../util/bcrypt'</span>)</span><br><span class="line"><span class="keyword">const</span> secret = <span class="built_in">require</span>(<span class="string">'../config/index'</span>).secret</span><br><span class="line"></span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">login (name, password) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">    User.findOne(&#123; <span class="attr">name</span>: name &#125;, (err, user) =&gt; &#123;</span><br><span class="line">      <span class="keyword">if</span> (err) <span class="keyword">return</span> reject(err)</span><br><span class="line">      <span class="keyword">if</span> (!user) <span class="keyword">return</span> reject(<span class="string">'用户名不存在'</span>)</span><br><span class="line">      <span class="comment">// bcrypt用于加密的包</span></span><br><span class="line">      <span class="keyword">if</span> (!bcrypt.compare(password, user.password)) <span class="keyword">return</span> reject(<span class="string">'用户名或密码错误'</span>)</span><br><span class="line">      <span class="comment">// 根据id信息以及secret生成，对应的token，并设置token的过期时间</span></span><br><span class="line">      <span class="keyword">const</span> token = jwt.sign(&#123; <span class="attr">id</span>: user._id &#125;, secret, &#123;</span><br><span class="line">        expiresIn: <span class="number">60</span> * <span class="number">60</span> <span class="comment">// token过期时间</span></span><br><span class="line">      &#125;)</span><br><span class="line">      <span class="comment">// 返回token</span></span><br><span class="line">      resolve(token)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="受保护的接口"><a href="#受保护的接口" class="headerlink" title="受保护的接口"></a>受保护的接口</h4><p>有一些API接口，将会受到token的保护，如果请求没有包含token信息，请求将会失败。我们这里将会封装一个中间件，帮助我们用来判断请求是否包含token信息，以及token信息是否过期，代码如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> jwt = <span class="built_in">require</span>(<span class="string">'jsonwebtoken'</span>)</span><br><span class="line"><span class="keyword">const</span> secret = <span class="built_in">require</span>(<span class="string">'../config/index'</span>).secret</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span> (<span class="params">req, res, next</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 获取请求的token信息</span></span><br><span class="line">  <span class="keyword">const</span> token = req.body.token || req.query.token || req.headers[<span class="string">'x-access-token'</span>]</span><br><span class="line">  <span class="keyword">if</span> (token) &#123;</span><br><span class="line">    <span class="comment">// 检验token信息是否过期</span></span><br><span class="line">    jwt.verify(token, secret, <span class="function"><span class="keyword">function</span>(<span class="params">err, decoded</span>) </span>&#123;      </span><br><span class="line">      <span class="keyword">if</span> (err) &#123;</span><br><span class="line">        <span class="keyword">return</span> res.status(<span class="number">403</span>).json(&#123; <span class="attr">code</span>: <span class="string">'error'</span>, <span class="attr">error</span>: <span class="string">'token失效'</span> &#125;)    </span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        req.decoded = decoded    </span><br><span class="line">        next()</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    res.status(<span class="number">403</span>).json(&#123;<span class="attr">code</span>: <span class="string">'error'</span>, <span class="attr">error</span>: <span class="string">'没有权限'</span>&#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来我们将封装的中间件，应用到我们的接口中。在这里，获取全部用户信息的接口将会收到token的保护，如果不包含token,将会返回403错误</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>)</span><br><span class="line"><span class="keyword">const</span> router = express.Router()</span><br><span class="line"><span class="keyword">const</span> UserService = <span class="built_in">require</span>(<span class="string">'../service/user.service'</span>)</span><br><span class="line"><span class="keyword">const</span> AuthenticationToken = <span class="built_in">require</span>(<span class="string">'../middleware/AuthenticationToken'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// AuthenticationToken中间件保护/users接口</span></span><br><span class="line">router.get(<span class="string">'/users'</span>, AuthenticationToken, (req, res) =&gt; &#123;</span><br><span class="line">  UserService.users().then(<span class="function"><span class="params">result</span> =&gt;</span> &#123;</span><br><span class="line">    res.status(<span class="number">200</span>).json(&#123;<span class="attr">code</span>: <span class="string">'ok'</span>, <span class="attr">data</span>: result&#125;)</span><br><span class="line">  &#125;).catch(<span class="function"><span class="params">error</span> =&gt;</span> &#123;</span><br><span class="line">    res.status(<span class="number">500</span>).json(&#123;<span class="attr">code</span>: <span class="string">'error'</span>, error&#125;)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/06/mongodb/" rel="next" title="MongoDB">
+                <i class="fa fa-chevron-left"></i> MongoDB
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="张越" />
+            
+              <p class="site-author-name" itemprop="name">张越</p>
+              <p class="site-description motion-element" itemprop="description">所谓成长，就是经过不断的聚散离合，找到不太会伤害到彼此的距离</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-name">篇博文</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/BengBu-YueZhang" target="_blank" title="我的GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/5460100952/profile?topnav=1&wvr=6" target="_blank" title="我的微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的微博</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#session鉴权"><span class="nav-number">2.</span> <span class="nav-text">session鉴权</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是session？"><span class="nav-number">2.1.</span> <span class="nav-text">什么是session？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#session鉴权的示例"><span class="nav-number">2.2.</span> <span class="nav-text">session鉴权的示例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#跨域的解决"><span class="nav-number">2.2.1.</span> <span class="nav-text">跨域的解决</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Passport-local本地验证"><span class="nav-number">2.2.2.</span> <span class="nav-text">Passport local本地验证</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#环境配置"><span class="nav-number">2.2.2.1.</span> <span class="nav-text">环境配置</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#配置策略"><span class="nav-number">2.2.2.2.</span> <span class="nav-text">配置策略</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#session序列化与反序列化"><span class="nav-number">2.2.2.3.</span> <span class="nav-text">session序列化与反序列化</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#logIn-logOut-isAuthenticated"><span class="nav-number">2.2.2.4.</span> <span class="nav-text">logIn, logOut, isAuthenticated</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#接口示例"><span class="nav-number">2.2.2.5.</span> <span class="nav-text">接口示例</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jwt鉴权"><span class="nav-number">3.</span> <span class="nav-text">jwt鉴权</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是jwt？"><span class="nav-number">3.1.</span> <span class="nav-text">什么是jwt？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jwt鉴权的流程"><span class="nav-number">3.2.</span> <span class="nav-text">jwt鉴权的流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jwt鉴权的示例"><span class="nav-number">3.3.</span> <span class="nav-text">jwt鉴权的示例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#CORS设置"><span class="nav-number">3.3.1.</span> <span class="nav-text">CORS设置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#环境配置-1"><span class="nav-number">3.3.2.</span> <span class="nav-text">环境配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#获取token"><span class="nav-number">3.3.3.</span> <span class="nav-text">获取token</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#受保护的接口"><span class="nav-number">3.3.4.</span> <span class="nav-text">受保护的接口</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张越</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
