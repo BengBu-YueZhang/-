@@ -79,20 +79,17 @@
 
 
 
-<meta name="description" content="前言新入职的公司，前人留下来一个项目，里面充斥着大量的if…else…，则倒是其次，主要连注释写的都很少。面对这样的已经上线的代码，我并没有想去重构他因为成本太高，只好鞭策自己不要写出这种代码">
 <meta name="keywords" content="技巧">
 <meta property="og:type" content="article">
 <meta property="og:title" content="技巧：重构if...else if...else... 💩">
 <meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2018/04/01/Skill01/index.html">
 <meta property="og:site_name" content="新世紀エヴァンゲリオン">
-<meta property="og:description" content="前言新入职的公司，前人留下来一个项目，里面充斥着大量的if…else…，则倒是其次，主要连注释写的都很少。面对这样的已经上线的代码，我并没有想去重构他因为成本太高，只好鞭策自己不要写出这种代码">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://bengbu-yuezhang.github.io/2018/04/01/Skill01/mrx2.jpg">
-<meta property="og:updated_time" content="2018-04-15T08:00:46.000Z">
+<meta property="og:image" content="https://unsplash.it/1082/610?random">
+<meta property="og:updated_time" content="2018-05-29T16:19:58.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="技巧：重构if...else if...else... 💩">
-<meta name="twitter:description" content="前言新入职的公司，前人留下来一个项目，里面充斥着大量的if…else…，则倒是其次，主要连注释写的都很少。面对这样的已经上线的代码，我并没有想去重构他因为成本太高，只好鞭策自己不要写出这种代码">
-<meta name="twitter:image" content="https://bengbu-yuezhang.github.io/2018/04/01/Skill01/mrx2.jpg">
+<meta name="twitter:image" content="https://unsplash.it/1082/610?random">
 
 
 
@@ -108,7 +105,7 @@
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     duoshuo: {
       userId: '0',
-      author: 'Author'
+      author: 'Autore'
     },
     algolia: {
       applicationID: '',
@@ -188,7 +185,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            主页
+            Home
           </a>
         </li>
       
@@ -198,7 +195,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
-            标签
+            Tags
           </a>
         </li>
       
@@ -208,7 +205,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            时间轴
+            Archivi
           </a>
         </li>
       
@@ -272,9 +269,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Scritto il</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-01T21:14:48+08:00">
+              <time title="Post creato" itemprop="dateCreated datePublished" datetime="2018-04-01T21:14:48+08:00">
                 2018-04-01
               </time>
             
@@ -312,9 +309,10 @@
       
 
       
-        <p><img src="/2018/04/01/Skill01/mrx2.jpg" alt="image"></p>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>新入职的公司，前人留下来一个项目，里面充斥着大量的if…else…，则倒是其次，主要连注释写的都很少。面对这样的已经上线的代码，我并没有想去重构他因为成本太高，只好鞭策自己不要写出这种代码</p>
+        <p><img src="https://unsplash.it/1082/610?random" alt="image"></p>
 <a id="more"></a>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>新入职的公司，前人留下来一个项目，里面充斥着大量的if…else…，则倒是其次，主要连注释写的都很少。面对这样的已经上线的代码，我并没有想去重构他因为成本太高，只好鞭策自己不要写出这种代码</p>
+<!--more-->
 <h4 id="面对的问题？"><a href="#面对的问题？" class="headerlink" title="面对的问题？"></a>面对的问题？</h4><p>有时候，我们可能面对这样的业务逻辑。(公司项目的业务逻辑)，如果是回答过题目通过，如果回答过题目没有通过，如果没有回答过题目。如果不使用特定的模式，可能会写出下面这样的代码。一坨一坨的if…else看着非常不舒服，并且难以维护。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 初始化函数</span></span><br><span class="line"><span class="comment"> * if...else if... 的情况较为简单</span></span><br><span class="line"><span class="comment"> * @return undefined</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">init</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 是否回答过题目 1-回答过, 通过 2-回答过, 没有通过 3-没有回答过</span></span><br><span class="line">    <span class="keyword">let</span> isAnswer</span><br><span class="line">    <span class="comment">// 是否是老用户 1-老用户 2-新用户</span></span><br><span class="line">    <span class="keyword">let</span> isOldUser</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (isAnswer === <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (isAnswer === <span class="number">2</span>) &#123;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (isAnswer === <span class="number">3</span>) &#123;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (isOldUser === <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (isOldUser === <span class="number">2</span>) &#123;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 初始化函数</span></span><br><span class="line"><span class="comment"> * if...else if... 嵌套的情况</span></span><br><span class="line"><span class="comment"> * @return undefined</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">init</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (isAnswer === <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (isOldUser === <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="comment">// ...</span></span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (isOldUser === <span class="number">2</span>) &#123;</span><br><span class="line">            <span class="comment">// ...</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (isAnswer === <span class="number">2</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (isOldUser === <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="comment">// ...</span></span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (isOldUser === <span class="number">2</span>) &#123;</span><br><span class="line">            <span class="comment">// ...</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (isAnswer === <span class="number">3</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (isOldUser === <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="comment">// ...</span></span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (isOldUser === <span class="number">2</span>) &#123;</span><br><span class="line">            <span class="comment">// ...</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -432,10 +430,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
+            Indice
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
+            Panoramica
           </li>
         </ul>
       
@@ -459,8 +457,8 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">30</span>
-                  <span class="site-state-item-name">篇博文</span>
+                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-name">posts</span>
                 </a>
               </div>
             
@@ -559,7 +557,7 @@
 
 
 
-  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+  <div class="theme-info">Tema &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
 
 
 
