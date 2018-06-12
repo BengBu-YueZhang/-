@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Elasticsearch," />
+
+
+
+
+
+
+
+
+
+
+<meta name="keywords" content="Elasticsearch">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Elasticsearch入门 Part1">
+<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2018/06/12/Elasticsearch/index.html">
+<meta property="og:site_name" content="新世紀エヴァンゲリオン">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://unsplash.it/1280/768?random">
+<meta property="og:updated_time" content="2018-06-12T15:51:56.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Elasticsearch入门 Part1">
+<meta name="twitter:image" content="https://unsplash.it/1280/768?random">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/2018/06/12/Elasticsearch/"/>
+
+
+
+
+
+  <title>Elasticsearch入门 Part1 | 新世紀エヴァンゲリオン</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">新世紀エヴァンゲリオン</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">前端小学生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            主页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            时间轴
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://bengbu-yuezhang.github.io/yue.github.io/2018/06/12/Elasticsearch/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张越">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新世紀エヴァンゲリオン">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Elasticsearch入门 Part1</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发布于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-12T23:10:00+08:00">
+                2018-06-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://unsplash.it/1280/768?random" alt="image"></p>
+<a id="more"></a>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>emmmmm….我一个前端学习es我也很为难啊。elasticsearch涉及的内容非常多，分布式相关的章节我都是跳过的。因为我真的看不懂😭</p>
+<h2 id="参考文章以及相关资料"><a href="#参考文章以及相关资料" class="headerlink" title="参考文章以及相关资料"></a>参考文章以及相关资料</h2><p><a href="https://www.elastic.co/guide/index.html" target="_blank" rel="noopener">Elastic Stack and Product Documentation</a><br><a href="https://elasticsearch.cn/book/elasticsearch_definitive_guide_2.x/getting-started.html" target="_blank" rel="noopener">Elasticsearch: 权威指南</a><br><a href="https://coding.imooc.com/class/181.html" target="_blank" rel="noopener">Elastic Stack从入门到实践</a></p>
+<h2 id="安装-启动-汉化"><a href="#安装-启动-汉化" class="headerlink" title="安装,启动,汉化"></a>安装,启动,汉化</h2><p>首先你的电脑需要拥有<a href="https://www.java.com/zh_CN/" target="_blank" rel="noopener">Java8</a>的环境</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用Homebrew一键安装</span></span><br><span class="line"></span><br><span class="line">brew update</span><br><span class="line"></span><br><span class="line">brew install elasticsearch</span><br><span class="line"></span><br><span class="line"><span class="comment">// kibana是一个可视化工具</span></span><br><span class="line">brew install kibana</span><br></pre></td></tr></table></figure>
+<p>🀄️kibana的汉化, 可以使用GitHub上的<a href="https://github.com/anbai-inc/Kibana_Hanization" target="_blank" rel="noopener">提供的包</a>(需要安装python环境)</p>
+<h3 id="RESTful-API"><a href="#RESTful-API" class="headerlink" title="RESTful API"></a>RESTful API</h3><p>可以使用RESTful API通过9200端口与Elasticsearch进行交互</p>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><h3 id="Index"><a href="#Index" class="headerlink" title="Index"></a>Index</h3><p><strong>索引</strong>类似于数据库中表，是用来存储文档的地方。将数据存储到es的行为也可以叫做<strong>索引</strong></p>
+<h3 id="type"><a href="#type" class="headerlink" title="type"></a>type</h3><p>💡 Mapping types will be completely removed in Elasticsearch 7.0.0. (type的概念将在7.0中被删除)</p>
+<p>💡 The first alternative is to have an index per document type (更好的做法是, 每一种type将会有单独的Index, 不同的type存储到不同的索引中)</p>
+<h3 id="Document"><a href="#Document" class="headerlink" title="Document"></a>Document</h3><p>Index(索引)中的每一条记录被称为文档, 许多的Document组成了Index</p>
+<h2 id="搜索"><a href="#搜索" class="headerlink" title="搜索"></a>搜索</h2><h3 id="空搜索"><a href="#空搜索" class="headerlink" title="空搜索"></a>空搜索</h3><p>返回所有索引下的所有文档</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">GET /_search</span><br><span class="line"></span><br><span class="line"># 等同于，匹配所有的文档</span><br><span class="line">GET /_search</span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">"query"</span>: &#123;</span><br><span class="line">        <span class="string">"match_all"</span>: &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="简单搜索"><a href="#简单搜索" class="headerlink" title="简单搜索"></a>简单搜索</h3><p>通过查询字符串query-string搜索, 通过URL参数的形式, 传递查询参数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 查询test_index索引中, name字段包含lihang的文档</span><br><span class="line">GET test_index/_search?q=name:lihang</span><br><span class="line"></span><br><span class="line"># 查询test_index索引中, name字段包含zhangyue或者liyubo</span><br><span class="line">GET test_index/_search?q=name:(zhangyue OR liyubo)</span><br></pre></td></tr></table></figure>
+<h3 id="QueryDSL"><a href="#QueryDSL" class="headerlink" title="QueryDSL"></a>QueryDSL</h3><p>Query DSL指定了一个JSON进行检索, 它支持构建更加复杂和健壮的查询</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># match查询, 会将查询语句进行分词处理, 查询name字段中包含lihang的文档</span><br><span class="line"></span><br><span class="line">GET test_index/_search</span><br><span class="line">&#123; </span><br><span class="line">  <span class="string">"query"</span>: &#123;</span><br><span class="line">    <span class="string">"match"</span>: &#123;</span><br><span class="line">      <span class="string">"name"</span>: <span class="string">"lihang"</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="全文搜索"><a href="#全文搜索" class="headerlink" title="全文搜索"></a>全文搜索</h3><p>使用match查询全文字段，可以对查询语句进行分词操作，返回所有的相关的文档，查询结果按照相关度算分排序。如果查询的是数字，日期，Boolean，match则会进行精确匹配</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 查询job字段中和engineer相关的文档</span><br><span class="line"></span><br><span class="line">GET test_index/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"query"</span>: &#123;</span><br><span class="line">    <span class="string">"match"</span>: &#123;</span><br><span class="line">      <span class="string">"job"</span>: <span class="string">"engineer"</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="短语搜索"><a href="#短语搜索" class="headerlink" title="短语搜索"></a>短语搜索</h3><p>使用match_phrase可以查询job字段中包含查询短语的文档</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">GET test_index/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"query"</span>: &#123;</span><br><span class="line">    <span class="string">"match_phrase"</span>: &#123;</span><br><span class="line">      <span class="string">"job"</span>: <span class="string">"node engineer"</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># 通过设置slop相似度, 可以允许查询文档与差异语句有一些差异</span><br><span class="line"># 设置slop为2, java engineer 和 java web engineer 可以匹配</span><br><span class="line"></span><br><span class="line">GET test_index/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"query"</span>: &#123;</span><br><span class="line">    <span class="string">"match_phrase"</span>: &#123;</span><br><span class="line">      <span class="string">"job"</span>: &#123;</span><br><span class="line">        <span class="string">"query"</span>: <span class="string">"java engineer"</span>,</span><br><span class="line">        <span class="string">"slop"</span>: <span class="number">2</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="高亮搜索"><a href="#高亮搜索" class="headerlink" title="高亮搜索"></a>高亮搜索</h3><p>会对检索的匹配的结果中，匹配的部分做出高亮的展示, 使用标签em包裹</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">GET test_index/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"query"</span>: &#123;</span><br><span class="line">    <span class="string">"match"</span>: &#123;</span><br><span class="line">      <span class="string">"job"</span>: <span class="string">"engineer"</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"highlight"</span>: &#123;</span><br><span class="line">    <span class="string">"fields"</span>: &#123;</span><br><span class="line">      <span class="string">"job"</span>: &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 返回的部分结果</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"_index"</span>: <span class="string">"test_index"</span>,</span><br><span class="line">  <span class="string">"_type"</span>: <span class="string">"doc"</span>,</span><br><span class="line">  <span class="string">"_id"</span>: <span class="string">"3"</span>,</span><br><span class="line">  <span class="string">"_score"</span>: <span class="number">0.2876821</span>,</span><br><span class="line">  <span class="string">"_source"</span>: &#123;</span><br><span class="line">    <span class="string">"name"</span>: <span class="string">"houjiaying"</span>,</span><br><span class="line">    <span class="string">"job"</span>: <span class="string">"java engineer"</span>,</span><br><span class="line">    <span class="string">"age"</span>: <span class="number">22</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"highlight"</span>: &#123;</span><br><span class="line">    <span class="string">"job"</span>: [</span><br><span class="line">      <span class="string">"java &lt;em&gt;engineer&lt;/em&gt;"</span></span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="多索引搜索"><a href="#多索引搜索" class="headerlink" title="多索引搜索"></a>多索引搜索</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET /test_index, test2_index/_search</span><br></pre></td></tr></table></figure>
+<p>🌈 针对多个索引进行搜索操作, 文档中也是类似的语法。但是我不太清楚为什么返回错误给我，如果有好心人请告诉我</p>
+<p>🌈 <a href="https://stackoverflow.com/questions/48771636/multi-index-search-autocomplete" target="_blank" rel="noopener">Multi-Index search (autocomplete)</a><br>(折中的解决方案)</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 使用_msearch方法多索引搜索</span><br><span class="line"></span><br><span class="line">GET _msearch</span><br><span class="line">&#123;<span class="string">"index"</span>:<span class="string">"test_index"</span>&#125;</span><br><span class="line">&#123;<span class="string">"query"</span>:&#123;<span class="string">"term"</span>:&#123;<span class="string">"age"</span>:&#123;<span class="string">"value"</span>:<span class="number">23</span>&#125;&#125;&#125;&#125;</span><br><span class="line">&#123;<span class="string">"index"</span>:<span class="string">"test2_index"</span>&#125;</span><br><span class="line">&#123;<span class="string">"query"</span>:&#123;<span class="string">"term"</span>:&#123;<span class="string">"_id"</span>:&#123;<span class="string">"value"</span>:<span class="number">1</span>&#125;&#125;&#125;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="分页"><a href="#分页" class="headerlink" title="分页"></a>分页</h3><p>使用form指定查询的起始位置, size指定查询的数量</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">GET _all/_search?size=<span class="number">5</span>&amp;<span class="keyword">from</span>=<span class="number">1</span></span><br><span class="line"></span><br><span class="line">GET _all/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"from"</span>: <span class="number">0</span>,</span><br><span class="line">  <span class="string">"size"</span>: <span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="聚合"><a href="#聚合" class="headerlink" title="聚合"></a>聚合</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 统计索引中全部文档的age，并会返回聚合的结果</span><br><span class="line"></span><br><span class="line">GET /test_index/doc/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"aggs"</span>: &#123;</span><br><span class="line">    <span class="comment">// 返回聚合结果到all_age字段中, 聚合terms匹配的age字段</span></span><br><span class="line">    <span class="string">"all_age"</span>: &#123;</span><br><span class="line">      <span class="string">"terms"</span>: &#123; <span class="string">"field"</span>: <span class="string">"age"</span> &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 返回的聚合结果</span></span><br><span class="line"><span class="string">"aggregations"</span>: &#123;</span><br><span class="line">  <span class="comment">// all_age是自己定义的</span></span><br><span class="line">  <span class="string">"all_age"</span>: &#123;</span><br><span class="line">    <span class="string">"doc_count_error_upper_bound"</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="string">"sum_other_doc_count"</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="string">"buckets"</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="string">"key"</span>: <span class="number">24</span>,</span><br><span class="line">        <span class="string">"doc_count"</span>: <span class="number">2</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="string">"key"</span>: <span class="number">22</span>,</span><br><span class="line">        <span class="string">"doc_count"</span>: <span class="number">1</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="string">"key"</span>: <span class="number">23</span>,</span><br><span class="line">        <span class="string">"doc_count"</span>: <span class="number">1</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="string">"key"</span>: <span class="number">30</span>,</span><br><span class="line">        <span class="string">"doc_count"</span>: <span class="number">1</span></span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="聚合分级汇总"><a href="#聚合分级汇总" class="headerlink" title="聚合分级汇总"></a>聚合分级汇总</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 添加测试用数据</span><br><span class="line"></span><br><span class="line">DELETE test_index</span><br><span class="line">PUT test_index</span><br><span class="line">POST test_index/doc/_bulk</span><br><span class="line">&#123;<span class="string">"index"</span>:&#123;<span class="string">"_id"</span>:<span class="number">1</span>&#125;&#125;</span><br><span class="line">&#123;<span class="string">"name"</span>:<span class="string">"zhangyue"</span>,<span class="string">"age"</span>:<span class="number">23</span>,<span class="string">"job"</span>:<span class="string">"web"</span>&#125;</span><br><span class="line">&#123;<span class="string">"index"</span>:&#123;<span class="string">"_id"</span>:<span class="number">2</span>&#125;&#125;</span><br><span class="line">&#123;<span class="string">"name"</span>:<span class="string">"lihange"</span>,<span class="string">"age"</span>:<span class="number">23</span>,<span class="string">"job"</span>:<span class="string">"web"</span>&#125;</span><br><span class="line">&#123;<span class="string">"index"</span>:&#123;<span class="string">"_id"</span>:<span class="number">3</span>&#125;&#125;</span><br><span class="line">&#123;<span class="string">"name"</span>:<span class="string">"liyubo"</span>,<span class="string">"age"</span>:<span class="number">22</span>,<span class="string">"job"</span>:<span class="string">"web"</span>&#125;</span><br><span class="line">&#123;<span class="string">"index"</span>:&#123;<span class="string">"_id"</span>:<span class="number">4</span>&#125;&#125;</span><br><span class="line">&#123;<span class="string">"name"</span>:<span class="string">"houjiaying"</span>,<span class="string">"age"</span>:<span class="number">22</span>,<span class="string">"job"</span>:<span class="string">"java"</span>&#125;</span><br><span class="line">&#123;<span class="string">"index"</span>:&#123;<span class="string">"_id"</span>:<span class="number">5</span>&#125;&#125;</span><br><span class="line">&#123;<span class="string">"name"</span>:<span class="string">"xiaodong"</span>,<span class="string">"age"</span>:<span class="number">26</span>,<span class="string">"job"</span>:<span class="string">"java"</span>&#125;</span><br><span class="line"></span><br><span class="line"># 聚合查询分级汇总</span><br><span class="line"># 汇总所有的职业并计算职业的评价年龄</span><br><span class="line"></span><br><span class="line">GET test_index/doc/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"aggs"</span>: &#123;</span><br><span class="line">    <span class="string">"job_info"</span>: &#123;</span><br><span class="line">      <span class="string">"terms"</span>: &#123;</span><br><span class="line">        <span class="string">"field"</span>: <span class="string">"job"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">"aggs"</span>: &#123;</span><br><span class="line">        <span class="string">"avg_age"</span>: &#123;</span><br><span class="line">          <span class="string">"avg"</span>: &#123;</span><br><span class="line">            <span class="string">"field"</span>: <span class="string">"age"</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>💡 <a href="https://stackoverflow.com/questions/38145991/how-to-set-fielddata-true-in-kibana" target="_blank" rel="noopener">解决方案</a></p>
+<p>💡 Fielddata is disabled on text fields by default. Set fielddata=true</p>
+<p>💡 在text字段中聚合是聚合是禁用的，需要设置索引的mapping, 设置字段的fielddata为true</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 设置job字段的fielddata为true</span><br><span class="line"></span><br><span class="line">PUT test_index/_mapping/doc</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"doc"</span>: &#123;</span><br><span class="line">    <span class="string">"properties"</span>: &#123;</span><br><span class="line">      <span class="string">"job"</span>: &#123;</span><br><span class="line">        <span class="string">"type"</span>: <span class="string">"text"</span>,</span><br><span class="line">        <span class="string">"fielddata"</span>: <span class="literal">true</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Document-1"><a href="#Document-1" class="headerlink" title="Document"></a>Document</h2><h3 id="元数据"><a href="#元数据" class="headerlink" title="元数据"></a>元数据</h3><ul>
+<li>_index 文档存放的索引</li>
+<li>_type 文档的类型</li>
+<li>_id 文档的唯一标识</li>
+</ul>
+<h3 id="创建文档"><a href="#创建文档" class="headerlink" title="创建文档"></a>创建文档</h3><p>可以分为指定ID创建, 和不指定ID创建(Elasticsearch会自动创建一个唯一标示)。指定ID使用PUT请求, 不指定ID使用POST请求</p>
+<h3 id="查询指定ID文档"><a href="#查询指定ID文档" class="headerlink" title="查询指定ID文档"></a>查询指定ID文档</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET /you_index/you_type/you_document_id</span><br></pre></td></tr></table></figure>
+<h3 id="指定返回的字段"><a href="#指定返回的字段" class="headerlink" title="指定返回的字段"></a>指定返回的字段</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 只返回文档的name字段</span><br><span class="line"></span><br><span class="line">GET test_index/doc/<span class="number">1</span>?_source=name</span><br><span class="line"></span><br><span class="line"># 只返回文档的age字段</span><br><span class="line"></span><br><span class="line">GET test_index/doc/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"query"</span>: &#123;</span><br><span class="line">    <span class="string">"range"</span>: &#123;</span><br><span class="line">      <span class="string">"age"</span>: &#123;</span><br><span class="line">        <span class="string">"gt"</span>: <span class="number">23</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"_source"</span>: &#123;</span><br><span class="line">    <span class="comment">// 返回的字段</span></span><br><span class="line">    <span class="string">"includes"</span>: [<span class="string">"age"</span>],</span><br><span class="line">    <span class="comment">// 不返回的字段</span></span><br><span class="line">    <span class="string">"excludes"</span>: []</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="检查文档是否存在"><a href="#检查文档是否存在" class="headerlink" title="检查文档是否存在"></a>检查文档是否存在</h3><p>使用HEAD方法，HEAD不返回响应体</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 检查ID为1的文档是否存在</span><br><span class="line"></span><br><span class="line">HEAD test_index/doc/<span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h3 id="更新文档"><a href="#更新文档" class="headerlink" title="更新文档"></a>更新文档</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">POST test_index/doc/<span class="number">1</span>/_update</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"doc"</span>: &#123;</span><br><span class="line">    <span class="string">"name"</span>: <span class="string">"zhang yue"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>🌈 更新文档后的返回结果， 可以看的_version变为了2，_version字段的含义是文档更新了几次， _version可以实现乐观锁的功能</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"_index"</span>: <span class="string">"test_index"</span>,</span><br><span class="line">  <span class="string">"_type"</span>: <span class="string">"doc"</span>,</span><br><span class="line">  <span class="string">"_id"</span>: <span class="string">"1"</span>,</span><br><span class="line">  <span class="string">"_version"</span>: <span class="number">2</span>,</span><br><span class="line">  <span class="string">"found"</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="string">"_source"</span>: &#123;</span><br><span class="line">    <span class="string">"name"</span>: <span class="string">"zhangyueHI"</span>,</span><br><span class="line">    <span class="string">"age"</span>: <span class="number">23</span>,</span><br><span class="line">    <span class="string">"job"</span>: <span class="string">"web"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="删除文档"><a href="#删除文档" class="headerlink" title="删除文档"></a>删除文档</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 删除ID为2的文档</span><br><span class="line"></span><br><span class="line">DELETE test_index/doc/<span class="number">2</span></span><br></pre></td></tr></table></figure>
+<h3 id="乐观锁"><a href="#乐观锁" class="headerlink" title="乐观锁"></a>乐观锁</h3><p>更新的时候，指定_version的大小，当更新文档的时候_version必须等于我们指定的大小，更新操作才会成功</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># version为2时更新操作才会成功</span><br><span class="line">POST test_index/doc/<span class="number">1</span>/_update?version=<span class="number">2</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"doc"</span>: &#123;</span><br><span class="line">    <span class="string">"name"</span>: <span class="string">"zhangyue"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="批量检索"><a href="#批量检索" class="headerlink" title="批量检索"></a>批量检索</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 检索同一个索引下的多个的文档</span><br><span class="line"></span><br><span class="line">GET /test_index/doc/_mget</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"docs"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">"_id"</span>: <span class="number">1</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">"_id"</span>: <span class="number">3</span></span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># 直接通过不同的id, 检索同一个索引下的多个的文档</span><br><span class="line"></span><br><span class="line">GET /test_index/doc/_mget</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"ids"</span>: [<span class="number">1</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 检索不同索引下的多个文档</span><br><span class="line"></span><br><span class="line">GET /_mget</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"docs"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">"_index"</span>: <span class="string">"test_index"</span>,</span><br><span class="line">      <span class="string">"_type"</span>: <span class="string">"doc"</span>,</span><br><span class="line">      <span class="string">"_id"</span>: <span class="number">1</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">"_index"</span>: <span class="string">"test2_index"</span>,</span><br><span class="line">      <span class="string">"_type"</span>: <span class="string">"doc"</span>,</span><br><span class="line">      <span class="string">"_id"</span>: <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="批量创建"><a href="#批量创建" class="headerlink" title="批量创建"></a>批量创建</h3><blockquote>
+<p>批量创建的JSON中, 不能包含未转义的换行符，因为他们将会对解析造成干扰。必须使用Kibana自动格式化JSON，才可以正确的执行_bulk操作</p>
+</blockquote>
+<p>批量操作关键字, index(创建, id重复时覆盖), delete(删除), create(创建, id重复时报错), update(更新)</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 批量操作 </span><br><span class="line">POST /test_index/doc/_bulk</span><br><span class="line">&#123;<span class="string">"index"</span>:&#123;<span class="string">"_index"</span>:<span class="string">"test_index"</span>,<span class="string">"_type"</span>:<span class="string">"doc"</span>,<span class="string">"_id"</span>:<span class="number">2</span>&#125;&#125;</span><br><span class="line">&#123;<span class="string">"name"</span>:<span class="string">"songmin"</span>,<span class="string">"age"</span>:<span class="number">20</span>&#125;</span><br><span class="line">&#123;<span class="string">"delete"</span>:&#123;<span class="string">"_index"</span>:<span class="string">"test_index"</span>,<span class="string">"_type"</span>:<span class="string">"doc"</span>,<span class="string">"_id"</span>:<span class="number">2</span>&#125;&#125;</span><br><span class="line">&#123;<span class="string">"create"</span>:&#123;<span class="string">"_index"</span>:<span class="string">"test_index"</span>,<span class="string">"_type"</span>:<span class="string">"doc"</span>,<span class="string">"_id"</span>:<span class="number">2</span>&#125;&#125;</span><br><span class="line">&#123;<span class="string">"name"</span>:<span class="string">"songmin"</span>,<span class="string">"age"</span>:<span class="number">18</span>&#125;</span><br><span class="line">&#123;<span class="string">"update"</span>:&#123;<span class="string">"_index"</span>:<span class="string">"test_index"</span>,<span class="string">"_type"</span>:<span class="string">"doc"</span>,<span class="string">"_id"</span>:<span class="number">2</span>&#125;&#125;</span><br><span class="line">&#123;<span class="string">"doc"</span>:&#123;<span class="string">"age"</span>:<span class="number">22</span>&#125;&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Mapping与分析"><a href="#Mapping与分析" class="headerlink" title="Mapping与分析"></a>Mapping与分析</h2><h3 id="精确值与全文"><a href="#精确值与全文" class="headerlink" title="精确值与全文"></a>精确值与全文</h3><p>精确值，通常指的是日期, 用户ID, 邮箱地址。对于精确值, java 与 java web是不同的。精确值，要么匹配查询，要么不匹配。</p>
+<p>全文, 通常指的是文本数据, 匹配时是查询的匹配的程度</p>
+<h3 id="倒排索引"><a href="#倒排索引" class="headerlink" title="倒排索引"></a>倒排索引</h3><p>Elasticsearch中使用倒排索引的方式，实现快速的全文搜索</p>
+<p>倒排索引是由文档中, 是所有可以被分词的字段的复词列表组成的。将所有文档的复词列表，用来创建一个没有重复分词的复词列表。并且记录了，每一个分词出现在那一个文档中。</p>
+<p>例如搜索短语”dog over”, 在倒排索引中在Doc_1, Doc_2都会匹配, 但Doc_1文档的匹配度会更高</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Term      Doc_1  Doc_2</span><br><span class="line">-------------------------</span><br><span class="line">Quick   |       |  X</span><br><span class="line">The     |   X   |</span><br><span class="line">brown   |   X   |  X</span><br><span class="line">dog     |   X   |</span><br><span class="line">dogs    |       |  X</span><br><span class="line">fox     |   X   |</span><br><span class="line">foxes   |       |  X</span><br><span class="line"><span class="keyword">in</span>      |       |  X</span><br><span class="line">jumped  |   X   |</span><br><span class="line">lazy    |   X   |  X</span><br><span class="line">leap    |       |  X</span><br><span class="line">over    |   X   |  X</span><br><span class="line">quick   |   X   |</span><br><span class="line">summer  |       |  X</span><br><span class="line">the     |   X   |</span><br><span class="line">------------------------</span><br></pre></td></tr></table></figure>
+<h3 id="分析器"><a href="#分析器" class="headerlink" title="分析器"></a>分析器</h3><p>分析器由以下三种功能组成:</p>
+<ul>
+<li>字符过滤器, 例如过滤文本中HTML标签</li>
+<li>分词器, 将文本拆分成单独的词条</li>
+<li>Token过滤器, 过滤分词, 例如转化大小写, 删除语气组词</li>
+</ul>
+<p>Elasticsearch内置了多种的分析器, 例如空格分析器, 可以按照空格分词。语言分析器, 可以删除多余的语气助词</p>
+<p>如果希望指定索引中字段的分析器，则需要我手动的指定索引的Mapping</p>
+<h3 id="analyze-API"><a href="#analyze-API" class="headerlink" title="analyze API"></a>analyze API</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 测试standard分析器</span><br><span class="line">GET /_analyze</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"analyzer"</span>: <span class="string">"standard"</span>,</span><br><span class="line">  <span class="string">"text"</span>: <span class="string">"Text to analyze"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Mapping"><a href="#Mapping" class="headerlink" title="Mapping"></a>Mapping</h3><p>Mapping的定义可以类比为Mongo中Schema, 在Mapping中定义了索引里每个字段的类型以及分析器等</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 查看索引的Mapping</span><br><span class="line"></span><br><span class="line">GET test_index/doc/_mapping</span><br></pre></td></tr></table></figure>
+<h4 id="自定义Mapping"><a href="#自定义Mapping" class="headerlink" title="自定义Mapping"></a>自定义Mapping</h4><p>💡 Elasticsearch中, 已经不存在string, object类型, 使用text类型。</p>
+<p>💡 字段的type被设置为”text”类型, 字段通常会被全文检索。如果设置为”keyword”类型, 字段会则需要精确查找。</p>
+<p>💡 当字段的type被设置为”text”类型, 可以另外设置index(是否可以被搜索)和analyzer(分析器)</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 自定义索引的Mapping</span><br><span class="line"></span><br><span class="line">PUT m2y_index</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"mappings"</span>: &#123;</span><br><span class="line">    <span class="string">"doc"</span>: &#123;</span><br><span class="line">      <span class="string">"properties"</span>: &#123;</span><br><span class="line">        <span class="string">"info"</span>: &#123;</span><br><span class="line">          type: <span class="string">"text"</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="更新Mapping"><a href="#更新Mapping" class="headerlink" title="更新Mapping"></a>更新Mapping</h4><p>不能直接更新索引的Mapping, 只能在创建索引的时候指定Mapping, 以及添加新的字段的Mapping</p>
+<h4 id="复杂类型"><a href="#复杂类型" class="headerlink" title="复杂类型"></a>复杂类型</h4><ul>
+<li>数组类型, 数组的内容必须类型一致, 检索时, 所有包含在数组中的内容都可以被检索</li>
+<li>null, 空值不会被索引</li>
+<li>Object, 可以通过以下的方式定义Object类型的Mapping(通过嵌套properties)</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"># 定义Object类型的Mapping</span><br><span class="line"></span><br><span class="line">POST test3_index/doc</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"mappings"</span>: &#123;</span><br><span class="line">    <span class="string">"doc"</span>: &#123;</span><br><span class="line">      <span class="string">"properties"</span>: &#123;</span><br><span class="line">        <span class="string">"info"</span>: &#123;</span><br><span class="line">          <span class="string">"properties"</span>: &#123;</span><br><span class="line">            <span class="string">"name"</span>: &#123;</span><br><span class="line">              <span class="string">"type"</span>: <span class="string">"text"</span></span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="string">"age"</span>: &#123;</span><br><span class="line">              <span class="string">"type"</span>: <span class="string">"text"</span></span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="string">"hobbies"</span>: &#123;</span><br><span class="line">              <span class="string">"properties"</span>: &#123;</span><br><span class="line">                <span class="string">"one"</span>: &#123;</span><br><span class="line">                  <span class="string">"type"</span>: <span class="string">"text"</span></span><br><span class="line">                &#125;,</span><br><span class="line">                <span class="string">"two"</span>: &#123;</span><br><span class="line">                  <span class="string">"type"</span>: <span class="string">"text"</span></span><br><span class="line">                &#125;</span><br><span class="line">              &#125;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h2><h3 id="match查询"><a href="#match查询" class="headerlink" title="match查询"></a>match查询</h3><p>match查询时，如果查询是全文字段，会对查询内容分词后进行全文搜索。如果指定的是数字, 日期, 布尔字段, match查询则会进行精准匹配</p>
+<h3 id="multi-match查询"><a href="#multi-match查询" class="headerlink" title="multi_match查询"></a>multi_match查询</h3><p>对多个字段(fields数组中的字段), 执行相同的match查询</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">GET test_index/doc/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"query"</span>: &#123;</span><br><span class="line">    <span class="string">"multi_match"</span>: &#123;</span><br><span class="line">      <span class="string">"query"</span>: <span class="string">"web"</span>,</span><br><span class="line">      <span class="string">"fields"</span>: [<span class="string">"job"</span>, <span class="string">"name"</span>]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="range查询"><a href="#range查询" class="headerlink" title="range查询"></a>range查询</h3><p>进行范围查询操作, 关键字gt(大于), gte(大于等于), lt(小于), lte(小于等于)</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">GET test_index/doc/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"query"</span>: &#123;</span><br><span class="line">    <span class="string">"range"</span>: &#123;</span><br><span class="line">      <span class="string">"age"</span>: &#123;</span><br><span class="line">        <span class="string">"gte"</span>: <span class="number">22</span>,</span><br><span class="line">        <span class="string">"lte"</span>: <span class="number">30</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"># 日期字段进行range查询</span><br><span class="line"></span><br><span class="line"># 添加测试数据</span><br><span class="line">PUT range_index</span><br><span class="line">POST range_index/doc</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"mappings"</span>: &#123;</span><br><span class="line">    <span class="string">"doc"</span>: &#123;</span><br><span class="line">      <span class="string">"date"</span>: &#123;</span><br><span class="line">        <span class="string">"type"</span>: <span class="string">"date"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">POST range_index/doc/_bulk</span><br><span class="line">&#123;<span class="string">"index"</span>:&#123;<span class="string">"_id"</span>:<span class="number">1</span>&#125;&#125;</span><br><span class="line">&#123;<span class="string">"name"</span>:<span class="string">"zhangyue"</span>,<span class="string">"date"</span>:<span class="string">"1994-06-07"</span>&#125;</span><br><span class="line">&#123;<span class="string">"index"</span>:&#123;<span class="string">"_id"</span>:<span class="number">2</span>&#125;&#125;</span><br><span class="line">&#123;<span class="string">"name"</span>:<span class="string">"lihang"</span>,<span class="string">"date"</span>:<span class="string">"1994-10-22"</span>&#125;</span><br><span class="line">&#123;<span class="string">"index"</span>:&#123;<span class="string">"_id"</span>:<span class="number">3</span>&#125;&#125;</span><br><span class="line">&#123;<span class="string">"name"</span>:<span class="string">"zhaochen"</span>,<span class="string">"date"</span>:<span class="string">"1994-07-01"</span>&#125;</span><br><span class="line"></span><br><span class="line"># 查询日期范围, 日期小于1994年7月</span><br><span class="line"></span><br><span class="line">GET range_index/doc/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"query"</span>: &#123;</span><br><span class="line">    <span class="string">"range"</span>: &#123;</span><br><span class="line">      <span class="string">"date"</span>: &#123;</span><br><span class="line">        <span class="string">"lt"</span>: <span class="string">"1994-07"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="term查询"><a href="#term查询" class="headerlink" title="term查询"></a>term查询</h3><p>term查询用于精准匹配, 对查询的内容, 不进行分词处理</p>
+<h3 id="terms查询"><a href="#terms查询" class="headerlink" title="terms查询"></a>terms查询</h3><p>与term查询一致，区别在于terms提供了一个数组, 可以允许多值匹配</p>
+<h3 id="组合多查询-bool"><a href="#组合多查询-bool" class="headerlink" title="组合多查询(bool)"></a>组合多查询(bool)</h3><blockquote>
+<p>bool支持多种条件的查询和过滤</p>
+</blockquote>
+<p>bool支持多种参数, must(必须包含的条件), must_no(必须不包含的条件), should(满足should中的内容可以增加匹配得分),<br>filter(必须匹配, 但是不影响匹配得分)</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># bool查询中, 文档必须满足must中的全部条件，并进行相关性算分。filter会过滤不符合条件的文档, 但不进行相关性算分。</span><br><span class="line"></span><br><span class="line">GET test_index/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"query"</span>: &#123;</span><br><span class="line">    <span class="string">"bool"</span>: &#123;</span><br><span class="line">      <span class="string">"must"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="string">"match"</span>: &#123;</span><br><span class="line">            <span class="string">"name"</span>: <span class="string">"lihang"</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ],</span><br><span class="line">      <span class="string">"filter"</span>: &#123;</span><br><span class="line">        <span class="string">"range"</span>: &#123;</span><br><span class="line">          <span class="string">"age"</span>: &#123;</span><br><span class="line">            <span class="string">"gt"</span>: <span class="number">20</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="验证查询"><a href="#验证查询" class="headerlink" title="验证查询"></a>验证查询</h3><p>验证查询语句是否合法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">GET zc_index/doc/_validate/query</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"query"</span>: &#123;</span><br><span class="line">    <span class="string">"range"</span>: &#123;</span><br><span class="line">      <span class="string">"age"</span>: &#123;</span><br><span class="line">        <span class="string">"gt1e"</span>: <span class="number">2</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 当查询非法的时候，valid会返回false</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"valid"</span>: <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h2><ul>
+<li>desc 降序</li>
+<li>asc 升序</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 查询job中包含web的，并不进行相关性算分, 按照age的升序排序</span></span><br><span class="line">GET zc_index/doc/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"query"</span>: &#123;</span><br><span class="line">    <span class="string">"bool"</span>: &#123;</span><br><span class="line">      <span class="string">"filter"</span>: &#123;</span><br><span class="line">        <span class="string">"match"</span>: &#123;</span><br><span class="line">          <span class="string">"job"</span>: <span class="string">"web"</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"sort"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">"age"</span>: &#123;</span><br><span class="line">        <span class="string">"order"</span>: <span class="string">"asc"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>多值字段</strong>(不是多字段)排序。当字段内拥有多个值的时候，可以使用mode，对这些值进行min,max,sum,avg等操作。然后，对计算后的结果进行排序</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="string">"sort"</span>: &#123;</span><br><span class="line">    <span class="string">"dates"</span>: &#123;</span><br><span class="line">        <span class="string">"order"</span>: <span class="string">"asc"</span>,</span><br><span class="line">        <span class="string">"mode"</span>:  <span class="string">"min"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="字符串排序"><a href="#字符串排序" class="headerlink" title="字符串排序"></a>字符串排序</h3><p>有时候，我们希望对字符串进行排序(例如: 通过首字母的方式排序字符串), 但是对于text类型, elasticsearch会进行分词处理。如果需要对字符串进行排序，我们不能进行分词处理。但是如果需要全文检索，我们又需要对字符串进行分词处理。</p>
+<p>我们可以通过fields对相同的字段，以不同的目的，设置不同的type类型</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// job字段设置为text类型，进行全文检索</span></span><br><span class="line"><span class="comment">// job.row 设置为keyword类型, 可以进行排序，精确匹配</span></span><br><span class="line">PUT zy_index</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"mappings"</span>: &#123;</span><br><span class="line">    <span class="string">"doc"</span>: &#123;</span><br><span class="line">      <span class="string">"properties"</span>: &#123;</span><br><span class="line">        <span class="string">"job"</span>: &#123;</span><br><span class="line">          <span class="string">"type"</span>: <span class="string">"text"</span>,</span><br><span class="line">          <span class="string">"fields"</span>: &#123;</span><br><span class="line">            <span class="string">"raw"</span>: &#123;</span><br><span class="line">              <span class="string">"type"</span>: <span class="string">"keyword"</span></span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 添加一些测试数据</span></span><br><span class="line">POST zy_index/doc/_bulk</span><br><span class="line">&#123;<span class="string">"index"</span>:&#123;<span class="string">"_id"</span>:<span class="number">1</span>&#125;&#125;</span><br><span class="line">&#123;<span class="string">"name"</span>:<span class="string">"zhangyue"</span>,<span class="string">"job"</span>:<span class="string">"web node"</span>&#125;</span><br><span class="line">&#123;<span class="string">"index"</span>:&#123;<span class="string">"_id"</span>:<span class="number">2</span>&#125;&#125;</span><br><span class="line">&#123;<span class="string">"name"</span>:<span class="string">"lihang"</span>,<span class="string">"job"</span>:<span class="string">"node java"</span>&#125;</span><br><span class="line">&#123;<span class="string">"index"</span>:&#123;<span class="string">"_id"</span>:<span class="number">3</span>&#125;&#125;</span><br><span class="line">&#123;<span class="string">"name"</span>:<span class="string">"liyubo"</span>,<span class="string">"job"</span>:<span class="string">"web"</span>&#125;</span><br><span class="line">&#123;<span class="string">"index"</span>:&#123;<span class="string">"_id"</span>:<span class="number">4</span>&#125;&#125;</span><br><span class="line">&#123;<span class="string">"name"</span>:<span class="string">"houjiaying"</span>,<span class="string">"job"</span>:<span class="string">"java"</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 全文检索job含有node</span></span><br><span class="line"><span class="comment">// 通过job.row进行首字母排序</span></span><br><span class="line">GET zy_index/doc/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"query"</span>: &#123;</span><br><span class="line">    <span class="string">"match"</span>: &#123;</span><br><span class="line">      <span class="string">"job"</span>: <span class="string">"node"</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"sort"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">"job.raw"</span>: &#123;</span><br><span class="line">        <span class="string">"order"</span>: <span class="string">"asc"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="文档的相关性"><a href="#文档的相关性" class="headerlink" title="文档的相关性"></a>文档的相关性</h3><p>_score表示文档的相关性，_score越高文档与查询的条件匹配程度越高。</p>
+<p>_score的评分标准：</p>
+<ol>
+<li>检索词频率，检索词在<strong>字段</strong>出现的频率越高，文档的相关性越高</li>
+<li>反向文档频率，检索词在<strong>索引</strong>中出现的越高，文档的相关性越低(因为大多数文档都出现了该检索词)</li>
+<li>字段长度准则, 检索词出现的字段越长, 相关性越低</li>
+</ol>
+<h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 创建索引</span><br><span class="line">PUT test_index</span><br><span class="line"></span><br><span class="line"># 查看索引</span><br><span class="line">GET test_index</span><br><span class="line"></span><br><span class="line"># 删除索引</span><br><span class="line">DELETE test_index</span><br></pre></td></tr></table></figure>
+<h3 id="创建索引"><a href="#创建索引" class="headerlink" title="创建索引"></a>创建索引</h3><p>通过索引一篇文档可以自动创建索引, 索引采用默认的配置。字段会通过动态映射添加类型，当然我们可以指定索引的mapping</p>
+<h3 id="删除索引"><a href="#删除索引" class="headerlink" title="删除索引"></a>删除索引</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 删除全部的索引</span></span><br><span class="line">DELETE /_all</span><br><span class="line">DELETE <span class="comment">/*</span></span><br></pre></td></tr></table></figure>
+<h3 id="动态映射-dynamic-mapping"><a href="#动态映射-dynamic-mapping" class="headerlink" title="动态映射 dynamic mapping"></a>动态映射 dynamic mapping</h3><p>Elasticsearch会将mapping中没有定义的字段，通过dynamic mapping确定字段的数据类型，这是默认的行为。如果对没有出现的未定义字段作出其他的操作，可以通过定义mapping的dynamic配置项目</p>
+<ul>
+<li>dynamic: true 会自动为新增的字段添加类型</li>
+<li>dynamic: false 忽略新增的字段</li>
+<li>dynamic: strict 会抛出异常</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">PUT hello_index</span><br><span class="line">&#123;</span><br><span class="line">  &quot;mappings&quot;: &#123;</span><br><span class="line">    &quot;doc&quot;: &#123;</span><br><span class="line">      &quot;dynamic&quot;: true</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="重新索引数据"><a href="#重新索引数据" class="headerlink" title="重新索引数据"></a>重新索引数据</h3><p>在es中mapping定义后是无法修改的，如果想要修改mapping只能创建新的索引。更多内容<a href="https://www.elastic.co/guide/en/elasticsearch/reference/5.6/docs-reindex.html" target="_blank" rel="noopener">Reindex API</a></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">POST _reindex</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"source"</span>: &#123;</span><br><span class="line">    <span class="string">"index"</span>: <span class="string">"zc_index"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"dest"</span>: &#123;</span><br><span class="line">    <span class="string">"index"</span>: <span class="string">"zc2_index"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>待续….抓紧了老铁</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Elasticsearch/" rel="tag"># Elasticsearch</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/02/nginx/" rel="next" title="简单的nginx使用">
+                <i class="fa fa-chevron-left"></i> 简单的nginx使用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            作者概述
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="张越" />
+            
+              <p class="site-author-name" itemprop="name">张越</p>
+              <p class="site-description motion-element" itemprop="description">所谓成长，就是经过不断的聚散离合，找到不太会伤害到彼此的距离</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">篇文章</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">Tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/BengBu-YueZhang" target="_blank" title="我的GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/5460100952/profile?topnav=1&wvr=6" target="_blank" title="我的微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的微博</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文章以及相关资料"><span class="nav-number">2.</span> <span class="nav-text">参考文章以及相关资料</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-启动-汉化"><span class="nav-number">3.</span> <span class="nav-text">安装,启动,汉化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RESTful-API"><span class="nav-number">3.1.</span> <span class="nav-text">RESTful API</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本概念"><span class="nav-number">4.</span> <span class="nav-text">基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Index"><span class="nav-number">4.1.</span> <span class="nav-text">Index</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#type"><span class="nav-number">4.2.</span> <span class="nav-text">type</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Document"><span class="nav-number">4.3.</span> <span class="nav-text">Document</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#搜索"><span class="nav-number">5.</span> <span class="nav-text">搜索</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#空搜索"><span class="nav-number">5.1.</span> <span class="nav-text">空搜索</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#简单搜索"><span class="nav-number">5.2.</span> <span class="nav-text">简单搜索</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#QueryDSL"><span class="nav-number">5.3.</span> <span class="nav-text">QueryDSL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#全文搜索"><span class="nav-number">5.4.</span> <span class="nav-text">全文搜索</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#短语搜索"><span class="nav-number">5.5.</span> <span class="nav-text">短语搜索</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#高亮搜索"><span class="nav-number">5.6.</span> <span class="nav-text">高亮搜索</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多索引搜索"><span class="nav-number">5.7.</span> <span class="nav-text">多索引搜索</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分页"><span class="nav-number">5.8.</span> <span class="nav-text">分页</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#聚合"><span class="nav-number">6.</span> <span class="nav-text">聚合</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#聚合分级汇总"><span class="nav-number">6.1.</span> <span class="nav-text">聚合分级汇总</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Document-1"><span class="nav-number">7.</span> <span class="nav-text">Document</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#元数据"><span class="nav-number">7.1.</span> <span class="nav-text">元数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建文档"><span class="nav-number">7.2.</span> <span class="nav-text">创建文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查询指定ID文档"><span class="nav-number">7.3.</span> <span class="nav-text">查询指定ID文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指定返回的字段"><span class="nav-number">7.4.</span> <span class="nav-text">指定返回的字段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检查文档是否存在"><span class="nav-number">7.5.</span> <span class="nav-text">检查文档是否存在</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更新文档"><span class="nav-number">7.6.</span> <span class="nav-text">更新文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除文档"><span class="nav-number">7.7.</span> <span class="nav-text">删除文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#乐观锁"><span class="nav-number">7.8.</span> <span class="nav-text">乐观锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#批量检索"><span class="nav-number">7.9.</span> <span class="nav-text">批量检索</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#批量创建"><span class="nav-number">7.10.</span> <span class="nav-text">批量创建</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Mapping与分析"><span class="nav-number">8.</span> <span class="nav-text">Mapping与分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#精确值与全文"><span class="nav-number">8.1.</span> <span class="nav-text">精确值与全文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#倒排索引"><span class="nav-number">8.2.</span> <span class="nav-text">倒排索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分析器"><span class="nav-number">8.3.</span> <span class="nav-text">分析器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#analyze-API"><span class="nav-number">8.4.</span> <span class="nav-text">analyze API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mapping"><span class="nav-number">8.5.</span> <span class="nav-text">Mapping</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#自定义Mapping"><span class="nav-number">8.5.1.</span> <span class="nav-text">自定义Mapping</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#更新Mapping"><span class="nav-number">8.5.2.</span> <span class="nav-text">更新Mapping</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#复杂类型"><span class="nav-number">8.5.3.</span> <span class="nav-text">复杂类型</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查询"><span class="nav-number">9.</span> <span class="nav-text">查询</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#match查询"><span class="nav-number">9.1.</span> <span class="nav-text">match查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#multi-match查询"><span class="nav-number">9.2.</span> <span class="nav-text">multi_match查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#range查询"><span class="nav-number">9.3.</span> <span class="nav-text">range查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#term查询"><span class="nav-number">9.4.</span> <span class="nav-text">term查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#terms查询"><span class="nav-number">9.5.</span> <span class="nav-text">terms查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#组合多查询-bool"><span class="nav-number">9.6.</span> <span class="nav-text">组合多查询(bool)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#验证查询"><span class="nav-number">9.7.</span> <span class="nav-text">验证查询</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#排序"><span class="nav-number">10.</span> <span class="nav-text">排序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串排序"><span class="nav-number">10.1.</span> <span class="nav-text">字符串排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文档的相关性"><span class="nav-number">10.2.</span> <span class="nav-text">文档的相关性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#索引"><span class="nav-number">11.</span> <span class="nav-text">索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建索引"><span class="nav-number">11.1.</span> <span class="nav-text">创建索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除索引"><span class="nav-number">11.2.</span> <span class="nav-text">删除索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动态映射-dynamic-mapping"><span class="nav-number">11.3.</span> <span class="nav-text">动态映射 dynamic mapping</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重新索引数据"><span class="nav-number">11.4.</span> <span class="nav-text">重新索引数据</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张越</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
