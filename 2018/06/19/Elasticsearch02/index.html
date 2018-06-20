@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Elasticsearch," />
+
+
+
+
+
+
+
+
+
+
+<meta name="keywords" content="Elasticsearch">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Elasticsearch入门 (2)">
+<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2018/06/19/Elasticsearch02/index.html">
+<meta property="og:site_name" content="新世紀エヴァンゲリオン">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://unsplash.it/1280/765?random">
+<meta property="og:updated_time" content="2018-06-20T16:09:09.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Elasticsearch入门 (2)">
+<meta name="twitter:image" content="https://unsplash.it/1280/765?random">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/2018/06/19/Elasticsearch02/"/>
+
+
+
+
+
+  <title>Elasticsearch入门 (2) | 新世紀エヴァンゲリオン</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">新世紀エヴァンゲリオン</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">前端小学生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            主页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            时间轴
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://bengbu-yuezhang.github.io/yue.github.io/2018/06/19/Elasticsearch02/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张越">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新世紀エヴァンゲリオン">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Elasticsearch入门 (2)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-19T22:15:51+08:00">
+                2018-06-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://unsplash.it/1280/765?random" alt="image"></p>
+<a id="more"></a>
+<h1 id="导入"><a href="#导入" class="headerlink" title="导入"></a>导入</h1><p>使用<a href="https://github.com/taskrabbit/elasticsearch-dump" target="_blank" rel="noopener">elasticsearch-dump</a>导入文件数据到Es中</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// dump的使用方法</span></span><br><span class="line">elasticdump \</span><br><span class="line">  <span class="comment">// JSON文件路径</span></span><br><span class="line">  --input=<span class="regexp">/Users/</span>zhangyue/Documents/swmgame-activity<span class="number">-2018.06</span>/swmgame-activity<span class="number">-2018.06</span>.mapping.json \</span><br><span class="line">  <span class="comment">// 导入的路径</span></span><br><span class="line">  --output=http:<span class="comment">//127.0.0.1:9200/my_index_type \</span></span><br><span class="line">  --type=mapping</span><br><span class="line">elasticdump \</span><br><span class="line">  --input=<span class="regexp">/Users/</span>zhangyue/Documents/swmgame-activity<span class="number">-2018.06</span>/swmgame-activity<span class="number">-2018.06</span>.data.json \</span><br><span class="line">  --output=http:<span class="comment">//127.0.0.1:9200/my_index_type \</span></span><br><span class="line">  --type=data</span><br></pre></td></tr></table></figure>
+<h1 id="搜索"><a href="#搜索" class="headerlink" title="搜索"></a>搜索</h1><h2 id="精确值搜索"><a href="#精确值搜索" class="headerlink" title="精确值搜索"></a>精确值搜索</h2><h3 id="term查询数字"><a href="#term查询数字" class="headerlink" title="term查询数字"></a>term查询数字</h3><p>term查询会查找指定的精确值, 如果不想计算相关度算分, 可以使用filter可以更快的执行操作</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 检索passStatus为2的文档</span></span><br><span class="line"></span><br><span class="line">GET swmgame-activity<span class="number">-2018.06</span>/my_index/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"query"</span>: &#123;</span><br><span class="line">    <span class="string">"bool"</span>: &#123;</span><br><span class="line">      <span class="string">"must"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="string">"term"</span>: &#123;</span><br><span class="line">            <span class="string">"passStatus"</span>: &#123;</span><br><span class="line">              <span class="string">"value"</span>: <span class="number">2</span></span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 检索passStatus等于2并且gameId等于G09, 并且查询不计算相关度算分</span></span><br><span class="line"></span><br><span class="line">GET swmgame-activity<span class="number">-2018.06</span>/my_index/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"query"</span>: &#123;</span><br><span class="line">    <span class="string">"bool"</span>: &#123;</span><br><span class="line">      <span class="comment">// 不计算相关度算分</span></span><br><span class="line">      <span class="string">"filter"</span>: &#123;</span><br><span class="line">        <span class="string">"bool"</span>: &#123;</span><br><span class="line">          <span class="string">"must"</span>: [</span><br><span class="line">            &#123;</span><br><span class="line">              <span class="string">"term"</span>: &#123;</span><br><span class="line">                <span class="string">"passStatus"</span>: &#123;</span><br><span class="line">                  <span class="string">"value"</span>: <span class="number">2</span></span><br><span class="line">                &#125;</span><br><span class="line">              &#125;</span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">              <span class="string">"term"</span>: &#123;</span><br><span class="line">                <span class="string">"gameId.keyword"</span>: &#123;</span><br><span class="line">                  <span class="string">"value"</span>: <span class="string">"G09"</span></span><br><span class="line">                &#125;</span><br><span class="line">              &#125;</span><br><span class="line">            &#125;</span><br><span class="line">          ]</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="term查询文本"><a href="#term查询文本" class="headerlink" title="term查询文本"></a>term查询文本</h3><p>😔 使用term检索文本的时候, 检索的结果可能与我们预期的结果并不一致, 这是什么原因导致的呢? </p>
+<p>💡 我们通过analyzeAPI可以看到, 文档中的text类型的字段, 已经被分词。如果使用term精确查找全文, 是不会匹配到数据的。因为这些全文并没有被存储在倒排索引中。</p>
+<p>📖 有两种解决的办法, 解决办法1, 在es中es默认会为字段创建名为keyword的keyword类型的fields字段, 于字段一致但是类型并不一致。可以使用keyword的fields字段进行term查询。解决办法2, 创建新的索引使用新的mapping, 指定字段为keyword类型</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 解决办法1</span></span><br><span class="line">GET swmgame-activity<span class="number">-2018.06</span>/my_index/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"query"</span>: &#123;</span><br><span class="line">    <span class="string">"bool"</span>: &#123;</span><br><span class="line">      <span class="string">"must"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="string">"term"</span>: &#123;</span><br><span class="line">            <span class="string">"gameId.keyword"</span>: &#123;</span><br><span class="line">              <span class="string">"value"</span>: <span class="string">"G09"</span></span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 解决办法2</span></span><br><span class="line">DELETE test5_index</span><br><span class="line">PUT test5_index</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"mappings"</span>: &#123;</span><br><span class="line">    <span class="string">"doc"</span>: &#123;</span><br><span class="line">      <span class="string">"properties"</span>: &#123;</span><br><span class="line">        <span class="string">"gameId"</span>: &#123;</span><br><span class="line">          <span class="string">"type"</span>: <span class="string">"keyword"</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="term查询范围类型"><a href="#term查询范围类型" class="headerlink" title="term查询范围类型"></a>term查询范围类型</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">DELETE test_index</span><br><span class="line">PUT test_index</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"mappings"</span>: &#123;</span><br><span class="line">    <span class="string">"doc"</span>: &#123;</span><br><span class="line">      <span class="string">"properties"</span>: &#123;</span><br><span class="line">        <span class="comment">// 定义age字段为范围类型</span></span><br><span class="line">        <span class="string">"age"</span>: &#123;</span><br><span class="line">          <span class="string">"type"</span>: <span class="string">"integer_range"</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 添加测试数据</span></span><br><span class="line">POST test_index/doc/_bulk</span><br><span class="line">&#123;<span class="string">"index"</span>:&#123;<span class="string">"_id"</span>:<span class="number">1</span>&#125;&#125;</span><br><span class="line">&#123;<span class="string">"age"</span>:&#123;<span class="string">"gte"</span>:<span class="number">10</span>,<span class="string">"lte"</span>:<span class="number">20</span>&#125;&#125;</span><br><span class="line">&#123;<span class="string">"index"</span>:&#123;<span class="string">"_id"</span>:<span class="number">2</span>&#125;&#125;</span><br><span class="line">&#123;<span class="string">"age"</span>:&#123;<span class="string">"gte"</span>:<span class="number">21</span>,<span class="string">"lte"</span>:<span class="number">30</span>&#125;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 查询文档</span></span><br><span class="line">GET test_index/doc/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"query"</span>: &#123;</span><br><span class="line">    <span class="string">"term"</span>: &#123;</span><br><span class="line">      <span class="string">"age"</span>: &#123;</span><br><span class="line">        <span class="string">"value"</span>: <span class="number">11</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="组合过滤器"><a href="#组合过滤器" class="headerlink" title="组合过滤器"></a>组合过滤器</h2><p>组件过滤器的组成:</p>
+<ol>
+<li>must 必须满足的一组条件</li>
+<li>must_not 必须不满足的一组条件</li>
+<li>should 可以满足的一组的条件, 如果满足可以增加相关性算分(如果组合过滤器中只有should, 则文档必须满足should中的一项条件)</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 嵌套的bool查询</span></span><br><span class="line"><span class="comment">// 检索gameId等于G09, 或者passStatus等于2并且source等于ios</span></span><br><span class="line">GET swmgame-activity<span class="number">-2018.06</span>/my_index/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"query"</span>: &#123;</span><br><span class="line">    <span class="string">"bool"</span>: &#123;</span><br><span class="line">      <span class="string">"should"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="string">"term"</span>: &#123;</span><br><span class="line">            <span class="string">"gameId.keyword"</span>: &#123;</span><br><span class="line">              <span class="string">"value"</span>: <span class="string">"G09"</span></span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="string">"bool"</span>: &#123;</span><br><span class="line">            <span class="string">"must"</span>: [</span><br><span class="line">              &#123;</span><br><span class="line">                <span class="string">"term"</span>: &#123;</span><br><span class="line">                  <span class="string">"passStatus"</span>: &#123;</span><br><span class="line">                    <span class="string">"value"</span>: <span class="string">"2"</span></span><br><span class="line">                  &#125;</span><br><span class="line">                &#125;</span><br><span class="line">              &#125;,</span><br><span class="line">              &#123;</span><br><span class="line">                <span class="string">"term"</span>: &#123;</span><br><span class="line">                  <span class="string">"source.keyword"</span>: &#123;</span><br><span class="line">                    <span class="string">"value"</span>: <span class="string">"ios"</span></span><br><span class="line">                  &#125;</span><br><span class="line">                &#125;</span><br><span class="line">              &#125;</span><br><span class="line">            ]</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="terms"><a href="#terms" class="headerlink" title="terms"></a>terms</h2><p>terms查询与term查询类似，terms匹配的是一组精确值, 是一个精确值数组</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// terms匹配的是一组数组</span></span><br><span class="line"><span class="comment">// 检索passStatus为1或者2的文档</span></span><br><span class="line"></span><br><span class="line">GET swmgame-activity<span class="number">-2018.06</span>/my_index/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"query"</span>: &#123;</span><br><span class="line">    <span class="string">"bool"</span>: &#123;</span><br><span class="line">      <span class="string">"filter"</span>: &#123;</span><br><span class="line">        <span class="string">"terms"</span>: &#123;</span><br><span class="line">          <span class="string">"passStatus"</span>: [</span><br><span class="line">            <span class="number">1</span>,<span class="number">2</span></span><br><span class="line">          ]</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="range"><a href="#range" class="headerlink" title="range"></a>range</h2><ul>
+<li>gt 大于</li>
+<li>gte 大于等于</li>
+<li>lt 小于</li>
+<li>lte 小于等于</li>
+</ul>
+<h3 id="数字范围查询-🔢"><a href="#数字范围查询-🔢" class="headerlink" title="数字范围查询 🔢"></a>数字范围查询 🔢</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// passStatus大于等于1并且小于2的文档</span></span><br><span class="line"></span><br><span class="line">GET swmgame-activity<span class="number">-2018.06</span>/my_index/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"query"</span>: &#123;</span><br><span class="line">    <span class="string">"bool"</span>: &#123;</span><br><span class="line">      <span class="string">"filter"</span>: &#123;</span><br><span class="line">        <span class="string">"range"</span>: &#123;</span><br><span class="line">          <span class="string">"passStatus"</span>: &#123;</span><br><span class="line">            <span class="string">"gte"</span>: <span class="number">1</span>,</span><br><span class="line">            <span class="string">"lt"</span>: <span class="number">2</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="日期范围查询-📅"><a href="#日期范围查询-📅" class="headerlink" title="日期范围查询 📅"></a>日期范围查询 📅</h3><p>在使用日期范围查询的时候，需要预先将日期的字段的mapping的type类型设置为date</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">DELETE test_index</span><br><span class="line">PUT test_index</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"mappings"</span>: &#123;</span><br><span class="line">    <span class="string">"doc"</span>: &#123;</span><br><span class="line">      <span class="string">"properties"</span>: &#123;</span><br><span class="line">        <span class="comment">// 设置为time类型</span></span><br><span class="line">        <span class="string">"time"</span>: &#123;</span><br><span class="line">          <span class="string">"type"</span>: <span class="string">"date"</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 添加测试数据</span></span><br><span class="line">POST test_index/doc/_bulk</span><br><span class="line">&#123;<span class="string">"index"</span>:&#123;<span class="string">"_id"</span>:<span class="number">1</span>&#125;&#125;</span><br><span class="line">&#123;<span class="string">"time"</span>:<span class="string">"1994-06-07"</span>&#125;</span><br><span class="line">&#123;<span class="string">"index"</span>:&#123;<span class="string">"_id"</span>:<span class="number">2</span>&#125;&#125;</span><br><span class="line">&#123;<span class="string">"time"</span>:<span class="string">"1994-10-22"</span>&#125;</span><br><span class="line">&#123;<span class="string">"index"</span>:&#123;<span class="string">"_id"</span>:<span class="number">3</span>&#125;&#125;</span><br><span class="line">&#123;<span class="string">"time"</span>:<span class="string">"1993-07-01"</span>&#125;</span><br><span class="line">&#123;<span class="string">"index"</span>:&#123;<span class="string">"_id"</span>:<span class="number">4</span>&#125;&#125;</span><br><span class="line">&#123;<span class="string">"time"</span>:<span class="string">"2005-01-01"</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 查询文档的time字段的日期范围是大于1994-10-22, 小于等于2005-01-01</span></span><br><span class="line">GET test6_index/doc/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"query"</span>: &#123;</span><br><span class="line">    <span class="string">"bool"</span>: &#123;</span><br><span class="line">      <span class="string">"filter"</span>: &#123;</span><br><span class="line">        <span class="string">"range"</span>: &#123;</span><br><span class="line">          <span class="string">"time"</span>: &#123;</span><br><span class="line">            <span class="string">"gt"</span>: <span class="string">"1994-10-22"</span>,</span><br><span class="line">            <span class="string">"lte"</span>: <span class="string">"2005-01-01"</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="字符串范围查询-📖"><a href="#字符串范围查询-📖" class="headerlink" title="字符串范围查询 📖"></a>字符串范围查询 📖</h3><p>字符串范围使用的是字典顺序(lexicographically)的排序方式。</p>
+<p>🏠 什么是字典序?</p>
+<p>比如说有一个随机变量X包含1, 2, 3三个数值。</p>
+<p>其字典排序就是123 132 213 231 312 321</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">DELETE test_index</span><br><span class="line"><span class="comment">// 添加测试数据</span></span><br><span class="line">POST test_index/doc/_bulk</span><br><span class="line">&#123;<span class="string">"index"</span>:&#123;<span class="string">"_id"</span>:<span class="number">1</span>&#125;&#125;</span><br><span class="line">&#123;<span class="string">"name"</span>:<span class="string">"abce fg"</span>&#125;</span><br><span class="line">&#123;<span class="string">"index"</span>:&#123;<span class="string">"_id"</span>:<span class="number">2</span>&#125;&#125;</span><br><span class="line">&#123;<span class="string">"name"</span>:<span class="string">"cba twa"</span>&#125;</span><br><span class="line">&#123;<span class="string">"index"</span>:&#123;<span class="string">"_id"</span>:<span class="number">3</span>&#125;&#125;</span><br><span class="line">&#123;<span class="string">"name"</span>:<span class="string">"a cb"</span>&#125;</span><br><span class="line">&#123;<span class="string">"index"</span>:&#123;<span class="string">"_id"</span>:<span class="number">4</span>&#125;&#125;</span><br><span class="line">&#123;<span class="string">"name"</span>:<span class="string">"gfw wfw"</span>&#125;</span><br><span class="line">&#123;<span class="string">"index"</span>:&#123;<span class="string">"_id"</span>:<span class="number">5</span>&#125;&#125;</span><br><span class="line">&#123;<span class="string">"name"</span>:<span class="string">"bgfw wfw"</span>&#125;</span><br><span class="line"></span><br><span class="line">GET test_index/doc/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"query"</span>: &#123;</span><br><span class="line">    <span class="string">"bool"</span>: &#123;</span><br><span class="line">      <span class="string">"filter"</span>: &#123;</span><br><span class="line">        <span class="string">"range"</span>: &#123;</span><br><span class="line">          <span class="string">"name"</span>: &#123;</span><br><span class="line">            <span class="string">"gte"</span>: <span class="string">"a"</span>,</span><br><span class="line">            <span class="string">"lt"</span>: <span class="string">"c"</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="处理Null值"><a href="#处理Null值" class="headerlink" title="处理Null值"></a>处理Null值</h2><h3 id="存在查询"><a href="#存在查询" class="headerlink" title="存在查询"></a>存在查询</h3><p>检索文档中至少包含一个非空的文档。(🐶全部为空或者没有该字段的除外)</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 查找game字段至少包含一个非空文档的文档</span></span><br><span class="line">GET test_index/doc/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"query"</span>: &#123;</span><br><span class="line">    <span class="string">"exists"</span>: &#123;</span><br><span class="line">      <span class="string">"field"</span>: <span class="string">"game"</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="缺失查询"><a href="#缺失查询" class="headerlink" title="缺失查询"></a>缺失查询</h3><p>查询文档中为null, 或者没有该字段的文档</p>
+<p>💡 缺失查询已经在ElasticSearch2.2.0中废弃。可以使用以下的方法代替</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">GET test_index/doc/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"query"</span>: &#123;</span><br><span class="line">    <span class="string">"bool"</span>: &#123;</span><br><span class="line">      <span class="string">"must_not"</span>: &#123;</span><br><span class="line">        <span class="string">"exists"</span>: &#123;</span><br><span class="line">          <span class="string">"field"</span>: <span class="string">"game"</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="全文搜索"><a href="#全文搜索" class="headerlink" title="全文搜索"></a>全文搜索</h2><h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><h4 id="基于词项"><a href="#基于词项" class="headerlink" title="基于词项"></a>基于词项</h4><p>如term查询不会经过分析阶段，只会在倒排索引中查找精确的词项，并用TF/DF算法为文档进行相关性评分_score。term查询只对倒排索引的词项精确匹配，而不会对查询词进行多样性处理。</p>
+<h4 id="基于全文"><a href="#基于全文" class="headerlink" title="基于全文"></a>基于全文</h4><p>如match查询和query_string查询。对于日期和整数会将查询字符串当作整数对待。如果查询的是keyword类型的字段，会将查询字符串当作单个单词对待。如果是全文字段，会将查询字符串使用合适的分析器，作出处理，生成一个查询词项的列表，查询会对词项列表中的每一项进行查询，再将结果进行合并。</p>
+<h2 id="匹配查询"><a href="#匹配查询" class="headerlink" title="匹配查询"></a>匹配查询</h2><p>match查询即可以进行精确检索也可以进行全文检索，以下是match查询的具体的过程:</p>
+<ol>
+<li>检查字段类型, 如果检索的字段是text类型, 那么查询字符串也应当被分析</li>
+<li>分析查询字符串, 将查询字符串经过默认的分析器的处理, match执行的是当个底层的term查询</li>
+<li>term查询会在倒排索引中对分析后的查询字符串进行检索</li>
+<li>为匹配的文档评分(检索词频率, 反向文档频率, 字段长度准则)</li>
+<li>为什么在这里测试只创建一个分片, 后面会有介绍</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 只创建一个主分片</span></span><br><span class="line">PUT /swmgame-activity<span class="number">-2018.06</span></span><br><span class="line">&#123; <span class="string">"settings"</span>: &#123; <span class="string">"number_of_shards"</span>: <span class="number">1</span> &#125;&#125; </span><br><span class="line"></span><br><span class="line">GET swmgame-activity<span class="number">-2018.06</span>/my_index/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"query"</span>: &#123;</span><br><span class="line">    <span class="string">"bool"</span>: &#123;</span><br><span class="line">      <span class="string">"filter"</span>: &#123;</span><br><span class="line">        <span class="string">"match"</span>: &#123;</span><br><span class="line">          <span class="string">"ipInfo.city"</span>: <span class="string">"蚌埠"</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125; </span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="多词查询"><a href="#多词查询" class="headerlink" title="多词查询"></a>多词查询</h2><p>match查询如果查询的是text类型的全文字段, 那么也会对查询字符串进行分析</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// match查询会分别查询蚌埠和龙子湖区两个字段</span></span><br><span class="line">GET swmgame-activity<span class="number">-2018.06</span>/my_index/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"query"</span>: &#123;</span><br><span class="line">    <span class="string">"bool"</span>: &#123;</span><br><span class="line">      <span class="string">"filter"</span>: &#123;</span><br><span class="line">        <span class="string">"match"</span>: &#123;</span><br><span class="line">          <span class="string">"ipInfo.city"</span>: <span class="string">"蚌埠 龙子湖区"</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125; </span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果希望查询的文档, 同时包含所有的关键词, 则可以使用operator使用and操作符</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 查询包含蚌埠并且包含龙子湖区两个字段</span></span><br><span class="line">GET swmgame-activity<span class="number">-2018.06</span>/my_index/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"query"</span>: &#123;</span><br><span class="line">    <span class="string">"bool"</span>: &#123;</span><br><span class="line">      <span class="string">"filter"</span>: &#123;</span><br><span class="line">        <span class="string">"match"</span>: &#123;</span><br><span class="line">          <span class="string">"ipInfo.city"</span>: <span class="string">"蚌埠 龙子湖区"</span>,</span><br><span class="line">          <span class="string">"operator"</span>: <span class="string">"and"</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125; </span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="最小匹配数"><a href="#最小匹配数" class="headerlink" title="最小匹配数"></a>最小匹配数</h3><p>match查询可以设置minimum_should_match参数，即最小匹配数，如果match查询有四个词项，如果minimum_should_match设置为50%，那么最少匹配2个词项</p>
+<h2 id="组合查询"><a href="#组合查询" class="headerlink" title="组合查询"></a>组合查询</h2><p>组合查询接受must, must_not, should。如果当DSL中只包含should的时候, should至少有一个必须匹配。同时可以指定should的minimum_should_match参数, 控制查询的精度。控制必须匹配的数量。</p>
+<p>多词查询中, 使用or操作符号, 和使用should查询是等价的</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 两条查询是等价的</span></span><br><span class="line">GET test_index/doc/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"query"</span>: &#123;</span><br><span class="line">    <span class="string">"match"</span>: &#123;</span><br><span class="line">      <span class="string">"title"</span>: <span class="string">"fox dog"</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">GET test_index/doc/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"query"</span>: &#123;</span><br><span class="line">    <span class="string">"bool"</span>: &#123;</span><br><span class="line">      <span class="string">"should"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="string">"term"</span>: &#123;</span><br><span class="line">            <span class="string">"title"</span>: &#123;</span><br><span class="line">              <span class="string">"value"</span>: <span class="string">"fox"</span></span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="string">"term"</span>: &#123;</span><br><span class="line">            <span class="string">"title"</span>: &#123;</span><br><span class="line">              <span class="string">"value"</span>: <span class="string">"dog"</span></span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>多词查询中, 使用and操作符, 和使用must查询是等价的</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 两条查询是等价的</span></span><br><span class="line"></span><br><span class="line">GET test_index/doc/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"query"</span>: &#123;</span><br><span class="line">    <span class="string">"match"</span>: &#123;</span><br><span class="line">      <span class="string">"title"</span>: &#123;</span><br><span class="line">        <span class="string">"query"</span>: <span class="string">"fox dog"</span>,</span><br><span class="line">        <span class="string">"operator"</span>: <span class="string">"and"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">GET test_index/doc/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"query"</span>: &#123;</span><br><span class="line">    <span class="string">"bool"</span>: &#123;</span><br><span class="line">      <span class="string">"must"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="string">"term"</span>: &#123;</span><br><span class="line">            <span class="string">"title"</span>: &#123;</span><br><span class="line">              <span class="string">"value"</span>: <span class="string">"fox"</span></span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="string">"term"</span>: &#123;</span><br><span class="line">            <span class="string">"title"</span>: &#123;</span><br><span class="line">              <span class="string">"value"</span>: <span class="string">"dog"</span></span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="权重"><a href="#权重" class="headerlink" title="权重"></a>权重</h2><p>设置boost可以设置查询语句的权重, 大于1权重增大, 0到1之间权重逐渐降低。匹配到权重越高的查询语句, 相关性算分越高</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 安徽的查询语句的权重为3, 匹配到的文档的得分更高</span></span><br><span class="line"></span><br><span class="line">GET swmgame-activity<span class="number">-2018.06</span>/my_index/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"query"</span>: &#123;</span><br><span class="line">    <span class="string">"bool"</span>: &#123;</span><br><span class="line">      <span class="string">"should"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="string">"term"</span>: &#123;</span><br><span class="line">            <span class="string">"passStatus"</span>: &#123;</span><br><span class="line">              <span class="string">"value"</span>: <span class="number">2</span>,</span><br><span class="line">              <span class="string">"boost"</span>: <span class="number">2</span></span><br><span class="line">            &#125;</span><br><span class="line">          &#125; </span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="string">"match"</span>: &#123;</span><br><span class="line">            <span class="string">"ipInfo.province.keyword"</span>: &#123;</span><br><span class="line">              <span class="string">"query"</span>: <span class="string">"安徽"</span>,</span><br><span class="line">              <span class="string">"boost"</span>: <span class="number">3</span></span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="默认的分析器"><a href="#默认的分析器" class="headerlink" title="默认的分析器"></a>默认的分析器</h2><p>索引时的分析器:</p>
+<ol>
+<li>首先使用字段映射的分析器</li>
+<li>其次是index默认的分析器</li>
+<li>最后是默认为standard分析器</li>
+</ol>
+<p>搜索时的分析器: </p>
+<ol>
+<li>优先查找定义的分析器</li>
+<li>其次是字段映射的分析器</li>
+<li>最后是索引默认的default的分析器, 默认为standard分析器</li>
+</ol>
+<h2 id="相关度被破坏"><a href="#相关度被破坏" class="headerlink" title="相关度被破坏"></a>相关度被破坏</h2><p>Q: 为什么在之前的测试索引时，需要指定只为这个索引创建一个主分片？</p>
+<p>A: 为了避免相关度被破坏。在elasticsearch中计算相关度使用TF/IDF算法，词频/逆向文档词频的算法。如果有5个包含”fox”的文档位于分片1，一个包含“fox”的文档位于分片2。就会导致一个问题, fox在分片1的相关度会降低, 而在分片2的相关度就会非常高。但是在实际的场景中这并不是一个问题，因为在真实的环境中，数据量通常是非常大的，分片之间的差异会被迅速均化，<strong>以上的问题只是因为数据量太少了</strong>。</p>
+<h2 id="最佳字段"><a href="#最佳字段" class="headerlink" title="最佳字段"></a>最佳字段</h2><p>什么是最佳字段，我们需要首先了解什么是竞争关系。</p>
+<p>下面是两条文档, 假设我们需要搜索”Brown fox”两个关键词并且需要同时检索”title”和”body”两个字段的时候。文档2的body字段虽然同时匹配了两个关键词, 但是文档2的title没有匹配到任何的关键词。所以相关性算分, 文档2是低于文档1的。</p>
+<p>但是如果取<strong>最佳字段</strong>的评分，文档2的body字段为最佳字段, 文档2的评分是高于文档1的评分的</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"title"</span>: <span class="string">"Quick brown rabbits"</span>,</span><br><span class="line">  <span class="string">"body"</span>:  <span class="string">"Brown rabbits are commonly seen."</span></span><br><span class="line">&#125;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"title"</span>: <span class="string">"Keeping pets healthy"</span>,</span><br><span class="line">  <span class="string">"body"</span>:  <span class="string">"My quick brown fox eats rabbits on a regular basis."</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="dis-max"><a href="#dis-max" class="headerlink" title="dis_max"></a>dis_max</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 在最后计算文档的相关性算分的时候, 只会取queries中的相关性的最大值</span></span><br><span class="line"></span><br><span class="line">GET swmgame-activity<span class="number">-2018.06</span>/my_index/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"query"</span>: &#123;</span><br><span class="line">    <span class="string">"dis_max"</span>: &#123;</span><br><span class="line">      <span class="string">"queries"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="string">"match"</span>: &#123;</span><br><span class="line">            <span class="string">"FIELD1"</span>: <span class="string">"TEXT1"</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="string">"match"</span>: &#123;</span><br><span class="line">            <span class="string">"FIELD2"</span>: <span class="string">"TEXT2"</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="tie-breaker"><a href="#tie-breaker" class="headerlink" title="tie_breaker"></a>tie_breaker</h3><p>使用dis_max最佳字段可能存在另外的问题就是。如果同时查询多个字段, 如果一个文档同时匹配了多个字段，但是由于文档的相关性算分取的是最佳字段, 可能导致该文档的相关性算分并不是最高的。</p>
+<p>使用tie_breaker参数，可以将其他匹配语句的评分也计算在内。将其他匹配语句的评分结果与tie_breaker相乘, 最后与最佳字段的评分求和得出文档的算分。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">GET swmgame-activity<span class="number">-2018.06</span>/my_index/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"query"</span>: &#123;</span><br><span class="line">    <span class="string">"dis_max"</span>: &#123;</span><br><span class="line">      <span class="string">"tie_breaker"</span>: <span class="number">0.3</span>,</span><br><span class="line">      <span class="string">"queries"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="string">"match"</span>: &#123;</span><br><span class="line">            <span class="string">"FIELD1"</span>: <span class="string">"TEXT1"</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="string">"match"</span>: &#123;</span><br><span class="line">            <span class="string">"FIELD2"</span>: <span class="string">"TEXT2"</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="multi-match"><a href="#multi-match" class="headerlink" title="multi_match"></a>multi_match</h2><p>多字段的match查询, 为多个字段执行相同的match查询。multi_match查询默认取最佳字段的相关性算分</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 下面两种查询是等同的</span></span><br><span class="line">GET swmgame-activity<span class="number">-2018.06</span>/my_index/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"query"</span>: &#123;</span><br><span class="line">    <span class="string">"dis_max"</span>: &#123;</span><br><span class="line">      <span class="string">"queries"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="string">"match"</span>: &#123;</span><br><span class="line">            <span class="string">"FIELD1"</span>: <span class="string">"TEXT1"</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="string">"match"</span>: &#123;</span><br><span class="line">            <span class="string">"FIELD2"</span>: <span class="string">"TEXT1"</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">GET swmgame-activity<span class="number">-2018.06</span>/my_index/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"query"</span>: &#123;</span><br><span class="line">    <span class="string">"multi_match"</span>: &#123;</span><br><span class="line">      <span class="string">"query"</span>: <span class="string">"TEXT1"</span>,</span><br><span class="line">      <span class="string">"type"</span>: <span class="string">"best_fields"</span>, <span class="comment">// 取最佳字段的相关性算分</span></span><br><span class="line">      <span class="string">"fields"</span>: [</span><br><span class="line">        <span class="string">"FIELD1"</span>,</span><br><span class="line">        <span class="string">"FIELD2"</span>,</span><br><span class="line">        <span class="string">"FIELD3^2"</span> <span class="comment">// 可以指定的查询字段的权重, 如果匹配FIELD3字段得分将会更高</span></span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="fields"><a href="#fields" class="headerlink" title="fields"></a>fields</h2><p>fields是对同一个字段索引多次, 每一个字段不同的fields可以定义不同的type以及分析器，用做不同的用途</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// title为text类型</span></span><br><span class="line"><span class="comment">// title.keyword为keyword类型</span></span><br><span class="line"><span class="comment">// title.english使用english的分析器</span></span><br><span class="line"></span><br><span class="line">PUT test3_index</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"mappings"</span>: &#123;</span><br><span class="line">    <span class="string">"doc"</span>: &#123;</span><br><span class="line">      <span class="string">"properties"</span>: &#123;</span><br><span class="line">        <span class="string">"title"</span>: &#123;</span><br><span class="line">          <span class="string">"type"</span>: <span class="string">"text"</span>,</span><br><span class="line">          <span class="string">"fields"</span>: &#123;</span><br><span class="line">            <span class="string">"keyword"</span>: &#123;</span><br><span class="line">              <span class="string">"type"</span>: <span class="string">"keyword"</span></span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="string">"english"</span>: &#123;</span><br><span class="line">              <span class="string">"type"</span>: <span class="string">"text"</span>,</span><br><span class="line">              <span class="string">"analyzer"</span>: <span class="string">"english"</span></span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="跨字段实体搜索"><a href="#跨字段实体搜索" class="headerlink" title="跨字段实体搜索"></a>跨字段实体搜索</h2><p>比如一个人的信息，包含姓名，电话号码，家庭住址等多个字段。如果想要搜索人的信息，可能需要检索多个字段。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 姓名, 手机号, 家庭住址字段都包含了一个人的信息</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"name"</span>: <span class="string">"Frank"</span>,</span><br><span class="line">  <span class="string">"mobi"</span>: <span class="string">"13053127868"</span>,</span><br><span class="line">  <span class="string">"hours"</span>: <span class="string">"bengbu"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最直接的检索的方式是通过multi_match或者bool的should实现对多个字段的检索</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">GET test_index/doc/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"query"</span>: &#123;</span><br><span class="line">    <span class="string">"bool"</span>: &#123;</span><br><span class="line">      <span class="string">"should"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="string">"match"</span>: &#123;</span><br><span class="line">            <span class="string">"name"</span>: <span class="string">"Frank 1305312786"</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="string">"mathch"</span>: &#123;</span><br><span class="line">            <span class="string">"mobi"</span>: <span class="string">"Frank 13053127868"</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="string">"mathch"</span>: &#123;</span><br><span class="line">            <span class="string">"hours"</span>: <span class="string">"Frank 13053127868"</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"query"</span>: &#123;</span><br><span class="line">    <span class="string">"multi_match"</span>: &#123;</span><br><span class="line">      <span class="string">"query"</span>: <span class="string">"Frank 1305312786"</span>,</span><br><span class="line">      <span class="string">"type"</span>: <span class="string">"most_fields"</span>, <span class="comment">// 合并匹配字段的评分, 不使用最佳字段的评分</span></span><br><span class="line">      <span class="string">"fields"</span>: [ <span class="string">"name"</span>, <span class="string">"mobi"</span>, <span class="string">"hours"</span> ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="跨字段检索的问题"><a href="#跨字段检索的问题" class="headerlink" title="跨字段检索的问题"></a>跨字段检索的问题</h3><ol>
+<li>在同一个字段匹配到多个关键词的相关性算分，要小于多个字段匹配同一个关键词的算分。</li>
+<li>使用and操作符, 会导致所有查询变为所有关键词都必须要在同一个字段匹配。</li>
+<li>逆向文档频率的问题, 当一个查询具有较低的逆向文档频率(相关度较高)。可能会削弱较高的逆向文档频率(相关度较低)的作用。</li>
+</ol>
+<h3 id="all"><a href="#all" class="headerlink" title="_all"></a>_all</h3><p>使用copy_to的功能，将多个字段内容拷贝到文档的一个字段中。检索时使用合并的字段进行检索。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">PUT test3_index</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"mappings"</span>: &#123;</span><br><span class="line">    <span class="string">"doc"</span>: &#123;</span><br><span class="line">      <span class="string">"properties"</span>: &#123;</span><br><span class="line">        <span class="string">"name"</span>: &#123;</span><br><span class="line">          <span class="string">"type"</span>: <span class="string">"text"</span>,</span><br><span class="line">          <span class="string">"copy_to"</span>: <span class="string">"info"</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">"mobi"</span>: &#123;</span><br><span class="line">          <span class="string">"type"</span>: <span class="string">"text"</span>,</span><br><span class="line">          <span class="string">"copy_to"</span>: <span class="string">"info"</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">"hours"</span>: &#123;</span><br><span class="line">          <span class="string">"type"</span>: <span class="string">"text"</span>,</span><br><span class="line">          <span class="string">"copy_to"</span>: <span class="string">"info"</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">"info"</span>: &#123;</span><br><span class="line">          <span class="string">"type"</span>: <span class="string">"text"</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 查询时可以直接通过info字段查询</span></span><br><span class="line">GET test3_index/doc/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"query"</span>: &#123;</span><br><span class="line">    <span class="string">"match"</span>: &#123;</span><br><span class="line">      <span class="string">"info"</span>: <span class="string">"Frank 1305312786"</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="cross-fields"><a href="#cross-fields" class="headerlink" title="cross-fields"></a>cross-fields</h3><p>当multi_match的type等于cross-fields时, 它将所有fields中的字段当成一个大字段，并在这个大字段中进行检索。</p>
+<p>同时也会解决逆向文档频率的问题, 因为cross-fields会取不同字段中最高的逆向文档频率(相关度最低的)的值。</p>
+<p>cross-fields时，所有字段必须为同一种分析器。如果包括了不同分析器的字段，它们会以best_fields的相同方式被加入到查询结果中</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// abc efg必须同时出现在FIELD1或者FIELD2文档中</span></span><br><span class="line">GET swmgame-activity<span class="number">-2018.06</span>/my_index/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"query"</span>: &#123;</span><br><span class="line">    <span class="string">"multi_match"</span>: &#123;</span><br><span class="line">      <span class="string">"query"</span>: <span class="string">"abc efg"</span>,</span><br><span class="line">      <span class="string">"fields"</span>: [<span class="string">"FIELD1"</span>, <span class="string">"FIELD2"</span>],</span><br><span class="line">      <span class="string">"type"</span>: <span class="string">"most_fields"</span>,</span><br><span class="line">      <span class="string">"operator"</span>: <span class="string">"and"</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// abc efg必须出现但是可以在FIELD1或者FIELD2不同的字段中</span></span><br><span class="line">GET swmgame-activity<span class="number">-2018.06</span>/my_index/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"query"</span>: &#123;</span><br><span class="line">    <span class="string">"multi_match"</span>: &#123;</span><br><span class="line">      <span class="string">"query"</span>: <span class="string">"abc efg"</span>,</span><br><span class="line">      <span class="string">"fields"</span>: [<span class="string">"FIELD1^2"</span>, <span class="string">"FIELD2"</span>], <span class="comment">// 可以提高字段的权重</span></span><br><span class="line">      <span class="string">"type"</span>: <span class="string">"cross_fields"</span>,</span><br><span class="line">      <span class="string">"operator"</span>: <span class="string">"and"</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>待续….</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Elasticsearch/" rel="tag"># Elasticsearch</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/12/Elasticsearch/" rel="next" title="Elasticsearch入门 (1)">
+                <i class="fa fa-chevron-left"></i> Elasticsearch入门 (1)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/20/mood2018620/" rel="prev" title="2018.06.20 陆家嘴游记">
+                2018.06.20 陆家嘴游记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="张越" />
+            
+              <p class="site-author-name" itemprop="name">张越</p>
+              <p class="site-description motion-element" itemprop="description">所谓成长，就是经过不断的聚散离合，找到不太会伤害到彼此的距离</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-name">篇博文</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/BengBu-YueZhang" target="_blank" title="我的GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/5460100952/profile?topnav=1&wvr=6" target="_blank" title="我的微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的微博</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#导入"><span class="nav-number">1.</span> <span class="nav-text">导入</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#搜索"><span class="nav-number">2.</span> <span class="nav-text">搜索</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#精确值搜索"><span class="nav-number">2.1.</span> <span class="nav-text">精确值搜索</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#term查询数字"><span class="nav-number">2.1.1.</span> <span class="nav-text">term查询数字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#term查询文本"><span class="nav-number">2.1.2.</span> <span class="nav-text">term查询文本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#term查询范围类型"><span class="nav-number">2.1.3.</span> <span class="nav-text">term查询范围类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组合过滤器"><span class="nav-number">2.2.</span> <span class="nav-text">组合过滤器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#terms"><span class="nav-number">2.3.</span> <span class="nav-text">terms</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#range"><span class="nav-number">2.4.</span> <span class="nav-text">range</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数字范围查询-🔢"><span class="nav-number">2.4.1.</span> <span class="nav-text">数字范围查询 🔢</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#日期范围查询-📅"><span class="nav-number">2.4.2.</span> <span class="nav-text">日期范围查询 📅</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串范围查询-📖"><span class="nav-number">2.4.3.</span> <span class="nav-text">字符串范围查询 📖</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#处理Null值"><span class="nav-number">2.5.</span> <span class="nav-text">处理Null值</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#存在查询"><span class="nav-number">2.5.1.</span> <span class="nav-text">存在查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺失查询"><span class="nav-number">2.5.2.</span> <span class="nav-text">缺失查询</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#全文搜索"><span class="nav-number">2.6.</span> <span class="nav-text">全文搜索</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本概念"><span class="nav-number">2.6.1.</span> <span class="nav-text">基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#基于词项"><span class="nav-number">2.6.1.1.</span> <span class="nav-text">基于词项</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基于全文"><span class="nav-number">2.6.1.2.</span> <span class="nav-text">基于全文</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#匹配查询"><span class="nav-number">2.7.</span> <span class="nav-text">匹配查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多词查询"><span class="nav-number">2.8.</span> <span class="nav-text">多词查询</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#最小匹配数"><span class="nav-number">2.8.1.</span> <span class="nav-text">最小匹配数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组合查询"><span class="nav-number">2.9.</span> <span class="nav-text">组合查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#权重"><span class="nav-number">2.10.</span> <span class="nav-text">权重</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#默认的分析器"><span class="nav-number">2.11.</span> <span class="nav-text">默认的分析器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关度被破坏"><span class="nav-number">2.12.</span> <span class="nav-text">相关度被破坏</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最佳字段"><span class="nav-number">2.13.</span> <span class="nav-text">最佳字段</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#dis-max"><span class="nav-number">2.13.1.</span> <span class="nav-text">dis_max</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tie-breaker"><span class="nav-number">2.13.2.</span> <span class="nav-text">tie_breaker</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#multi-match"><span class="nav-number">2.14.</span> <span class="nav-text">multi_match</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fields"><span class="nav-number">2.15.</span> <span class="nav-text">fields</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#跨字段实体搜索"><span class="nav-number">2.16.</span> <span class="nav-text">跨字段实体搜索</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#跨字段检索的问题"><span class="nav-number">2.16.1.</span> <span class="nav-text">跨字段检索的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#all"><span class="nav-number">2.16.2.</span> <span class="nav-text">_all</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cross-fields"><span class="nav-number">2.16.3.</span> <span class="nav-text">cross-fields</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张越</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
