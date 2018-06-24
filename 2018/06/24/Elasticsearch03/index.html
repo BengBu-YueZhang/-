@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Elasticsearch," />
+
+
+
+
+
+
+
+
+
+
+<meta name="keywords" content="Elasticsearch">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Elasticsearch入门 (3)">
+<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2018/06/24/Elasticsearch03/index.html">
+<meta property="og:site_name" content="新世紀エヴァンゲリオン">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://unsplash.it/1280/760?random">
+<meta property="og:updated_time" content="2018-06-24T01:50:25.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Elasticsearch入门 (3)">
+<meta name="twitter:image" content="https://unsplash.it/1280/760?random">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/2018/06/24/Elasticsearch03/"/>
+
+
+
+
+
+  <title>Elasticsearch入门 (3) | 新世紀エヴァンゲリオン</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">新世紀エヴァンゲリオン</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">前端小学生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            主页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            时间轴
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://bengbu-yuezhang.github.io/yue.github.io/2018/06/24/Elasticsearch03/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张越">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新世紀エヴァンゲリオン">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Elasticsearch入门 (3)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发布于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-24T06:00:00+08:00">
+                2018-06-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://unsplash.it/1280/760?random" alt="image"></p>
+<a id="more"></a>
+<h1 id="聚合"><a href="#聚合" class="headerlink" title="聚合"></a>聚合</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><h3 id="桶"><a href="#桶" class="headerlink" title="桶"></a>桶</h3><p>桶指的是满足特定条件的文档的集合, (比如李航属于陕西桶), 聚合开始执行, 符合条件的文档会放入对应的桶。</p>
+<h3 id="指标"><a href="#指标" class="headerlink" title="指标"></a>指标</h3><p>对桶内的文档进行统计计算, 例如：最小值, 平均值, 汇总等</p>
+<h3 id="指标与桶"><a href="#指标与桶" class="headerlink" title="指标与桶"></a>指标与桶</h3><p>桶是可以被嵌套的, 可以实现非常复杂的组合。</p>
+<p>国家桶 -&gt; 性别桶 -&gt; 年龄段桶 -&gt; 不同国家不同性别不同年龄段的平均工资</p>
+<h2 id="初步聚合"><a href="#初步聚合" class="headerlink" title="初步聚合"></a>初步聚合</h2><h3 id="简单的聚合"><a href="#简单的聚合" class="headerlink" title="简单的聚合"></a>简单的聚合</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 对每一个省份的数据进行聚合</span></span><br><span class="line">GET swmgame-activity<span class="number">-2018.06</span>/my_index/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"size"</span>: <span class="number">0</span>, </span><br><span class="line">  <span class="string">"aggs"</span>: &#123;</span><br><span class="line">    <span class="string">"province_info"</span>: &#123;</span><br><span class="line">      <span class="string">"terms"</span>: &#123;</span><br><span class="line">        <span class="string">"field"</span>: <span class="string">"ipInfo.province.keyword"</span>,</span><br><span class="line">        <span class="string">"size"</span>: <span class="number">10</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="简单的指标"><a href="#简单的指标" class="headerlink" title="简单的指标"></a>简单的指标</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 聚合每一个省份的文档, 并对每一个省份的得分求平均值</span></span><br><span class="line">GET swmgame-activity<span class="number">-2018.06</span>/my_index/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"size"</span>: <span class="number">0</span>,</span><br><span class="line">  <span class="string">"aggs"</span>: &#123;</span><br><span class="line">    <span class="string">"province_info"</span>: &#123;</span><br><span class="line">      <span class="string">"terms"</span>: &#123;</span><br><span class="line">        <span class="string">"field"</span>: <span class="string">"ipInfo.province.keyword"</span>,</span><br><span class="line">        <span class="string">"size"</span>: <span class="number">100</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">"aggs"</span>: &#123;</span><br><span class="line">        <span class="string">"avg_score"</span>: &#123;</span><br><span class="line">          <span class="string">"avg"</span>: &#123;</span><br><span class="line">            <span class="string">"field"</span>: <span class="string">"score"</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="嵌套桶"><a href="#嵌套桶" class="headerlink" title="嵌套桶"></a>嵌套桶</h3><p>对聚合的结果进一步聚合。每一层的聚合都可以添加单独的指标, 每一层聚合的指标之间相互独立。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 首先对每一个国家进行聚合, 并计算每一个国家的平均得分</span></span><br><span class="line"><span class="comment">// 其次对每一个省份进行聚合, 并计算每一个省份的平均得分</span></span><br><span class="line">GET swmgame-activity<span class="number">-2018.06</span>/my_index/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"size"</span>: <span class="number">0</span>,</span><br><span class="line">  <span class="string">"aggs"</span>: &#123;</span><br><span class="line">    <span class="string">"country_info"</span>: &#123;</span><br><span class="line">      <span class="string">"terms"</span>: &#123;</span><br><span class="line">        <span class="string">"field"</span>: <span class="string">"ipInfo.country.keyword"</span>,</span><br><span class="line">        <span class="string">"size"</span>: <span class="number">10</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">"aggs"</span>: &#123;</span><br><span class="line">        <span class="string">"avg_score"</span>: &#123;</span><br><span class="line">          <span class="string">"avg"</span>: &#123;</span><br><span class="line">            <span class="string">"field"</span>: <span class="string">"score"</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">"province_info"</span>: &#123;</span><br><span class="line">          <span class="string">"terms"</span>: &#123;</span><br><span class="line">            <span class="string">"field"</span>: <span class="string">"ipInfo.province.keyword"</span>,</span><br><span class="line">            <span class="string">"size"</span>: <span class="number">100</span></span><br><span class="line">          &#125;,</span><br><span class="line">          <span class="string">"aggs"</span>: &#123;</span><br><span class="line">            <span class="string">"avg_score"</span>: &#123;</span><br><span class="line">              <span class="string">"avg"</span>: &#123;</span><br><span class="line">                <span class="string">"field"</span>: <span class="string">"score"</span></span><br><span class="line">              &#125;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="直方图"><a href="#直方图" class="headerlink" title="直方图"></a>直方图</h2><h3 id="什么是直方图"><a href="#什么是直方图" class="headerlink" title="什么是直方图"></a>什么是直方图</h3><p>直方图就是柱状图, 创建直方图需要指定一个区间, elasticsearch可以对每一个区间进行聚合操作</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 根据durationCallAll字段,  从最小值开始, 每10000为1个区间进行聚合</span></span><br><span class="line">GET crm_statistics<span class="number">-2018.06</span>/my_index/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"size"</span>: <span class="number">0</span>,</span><br><span class="line">  <span class="string">"aggs"</span>: &#123;</span><br><span class="line">    <span class="string">"day_duration_call_all"</span>: &#123;</span><br><span class="line">      <span class="string">"histogram"</span>: &#123;</span><br><span class="line">        <span class="string">"field"</span>: <span class="string">"durationCallAll"</span>,</span><br><span class="line">        <span class="string">"interval"</span>: <span class="number">10000</span>,</span><br><span class="line">        <span class="string">"min_doc_count"</span>: <span class="number">0</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 返回的部分结果</span></span><br><span class="line"><span class="comment">// ......</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"key"</span>: <span class="number">20000</span>,</span><br><span class="line">  <span class="string">"doc_count"</span>: <span class="number">3</span></span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"key"</span>: <span class="number">30000</span>,</span><br><span class="line">  <span class="string">"doc_count"</span>: <span class="number">3</span></span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"key"</span>: <span class="number">40000</span>,</span><br><span class="line">  <span class="string">"doc_count"</span>: <span class="number">9</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// ......</span></span><br></pre></td></tr></table></figure>
+<h3 id="按时间统计"><a href="#按时间统计" class="headerlink" title="按时间统计"></a>按时间统计</h3><p>根据时间统计, 可以根据时间类型的字段进行聚合, 区间可以是每一日, 每一周, 每一月, 每一季度等等</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">GET crm_statistics<span class="number">-2018.06</span>/my_index/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"size"</span>: <span class="number">0</span>,</span><br><span class="line">  <span class="string">"aggs"</span>: &#123;</span><br><span class="line">    <span class="string">"at"</span>: &#123;</span><br><span class="line">      <span class="string">"date_histogram"</span>: &#123;</span><br><span class="line">        <span class="string">"field"</span>: <span class="string">"at"</span>, <span class="comment">// 根据时间类型的字段at进行聚合</span></span><br><span class="line">        <span class="string">"interval"</span>: <span class="string">"day"</span>, <span class="comment">// 区间是每一天</span></span><br><span class="line">        <span class="string">"min_doc_count"</span>: <span class="number">0</span>, <span class="comment">// 可以强制返回空的桶</span></span><br><span class="line">        <span class="string">"extended_bounds"</span>: &#123; <span class="comment">// 时间区间</span></span><br><span class="line">          <span class="string">"min"</span>: <span class="string">"2018-05-30"</span>,</span><br><span class="line">          <span class="string">"max"</span>: <span class="string">"2018-06-22"</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="返回空的桶"><a href="#返回空的桶" class="headerlink" title="返回空的桶"></a>返回空的桶</h4><ul>
+<li>min_doc_count, 可以强制返回长度为空的桶</li>
+<li>extended_boundss, 可以设置返回的时间区间(因为elasticsearch默认只返回最小值到最大值之间的桶)</li>
+</ul>
+<h3 id="扩展例子"><a href="#扩展例子" class="headerlink" title="扩展例子"></a>扩展例子</h3><p>🌰 按时间统计的直方图上进行聚合操作, 并计算度量指标的例子。</p>
+<p>下面的DSL, 按时间进行统计直方图, 以每一天作为区间, 并且计算区间内, 每一个省份的平均分数, 以及每一个省份下每一个城市的平均得分</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">GET swmgame-activity<span class="number">-2018.06</span>/my_index/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"size"</span>: <span class="number">0</span>,</span><br><span class="line">  <span class="string">"aggs"</span>: &#123;</span><br><span class="line">    <span class="string">"at_date_histogram"</span>: &#123;</span><br><span class="line">      <span class="string">"date_histogram"</span>: &#123;</span><br><span class="line">        <span class="string">"field"</span>: <span class="string">"at"</span>,</span><br><span class="line">        <span class="string">"interval"</span>: <span class="string">"day"</span>,</span><br><span class="line">        <span class="string">"min_doc_count"</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="string">"extended_bounds"</span>: &#123;</span><br><span class="line">          <span class="string">"min"</span>: <span class="string">"2018-05-01"</span>,</span><br><span class="line">          <span class="string">"max"</span>: <span class="string">"2018-06-22"</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">"aggs"</span>: &#123;</span><br><span class="line">        <span class="string">"province_info"</span>: &#123;</span><br><span class="line">          <span class="string">"terms"</span>: &#123;</span><br><span class="line">            <span class="string">"field"</span>: <span class="string">"ipInfo.province.keyword"</span>,</span><br><span class="line">            <span class="string">"size"</span>: <span class="number">50</span></span><br><span class="line">          &#125;,</span><br><span class="line">          <span class="string">"aggs"</span>: &#123;</span><br><span class="line">            <span class="string">"avg_score"</span>: &#123;</span><br><span class="line">              <span class="string">"avg"</span>: &#123;</span><br><span class="line">                <span class="string">"field"</span>: <span class="string">"score"</span></span><br><span class="line">              &#125;</span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="string">"city_info"</span>: &#123;</span><br><span class="line">              <span class="string">"terms"</span>: &#123;</span><br><span class="line">                <span class="string">"field"</span>: <span class="string">"ipInfo.city.keyword"</span>,</span><br><span class="line">                <span class="string">"size"</span>: <span class="number">100</span></span><br><span class="line">              &#125;,</span><br><span class="line">              <span class="string">"aggs"</span>: &#123;</span><br><span class="line">                <span class="string">"avg_score"</span>: &#123;</span><br><span class="line">                  <span class="string">"avg"</span>: &#123;</span><br><span class="line">                    <span class="string">"field"</span>: <span class="string">"score"</span></span><br><span class="line">                  &#125;</span><br><span class="line">                &#125;</span><br><span class="line">              &#125;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="限定范围聚合"><a href="#限定范围聚合" class="headerlink" title="限定范围聚合"></a>限定范围聚合</h2><p>没有指定query的情况下, 聚合操作针对的是整个索引</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 限定安徽和福建两个省份进行聚合操作</span></span><br><span class="line">GET swmgame-activity<span class="number">-2018.06</span>/my_index/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"size"</span>: <span class="number">0</span>, </span><br><span class="line">  <span class="string">"query"</span>: &#123;</span><br><span class="line">    <span class="string">"bool"</span>: &#123;</span><br><span class="line">      <span class="string">"should"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="string">"term"</span>: &#123;</span><br><span class="line">            <span class="string">"ipInfo.province.keyword"</span>: &#123;</span><br><span class="line">              <span class="string">"value"</span>: <span class="string">"安徽"</span></span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="string">"term"</span>: &#123;</span><br><span class="line">            <span class="string">"ipInfo.province.keyword"</span>: &#123;</span><br><span class="line">              <span class="string">"value"</span>: <span class="string">"福建"</span></span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"aggs"</span>: &#123;</span><br><span class="line">    <span class="string">"city_info"</span>: &#123;</span><br><span class="line">      <span class="string">"terms"</span>: &#123;</span><br><span class="line">        <span class="string">"field"</span>: <span class="string">"ipInfo.city.keyword"</span>,</span><br><span class="line">        <span class="string">"size"</span>: <span class="number">100</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">"aggs"</span>: &#123;</span><br><span class="line">        <span class="string">"avg_socre"</span>: &#123;</span><br><span class="line">          <span class="string">"avg"</span>: &#123;</span><br><span class="line">            <span class="string">"field"</span>: <span class="string">"score"</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="全局桶"><a href="#全局桶" class="headerlink" title="全局桶"></a>全局桶</h3><p>使用全局桶(global)可以在查询范围内聚合, 也可以全局文档上聚合</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">GET swmgame-activity<span class="number">-2018.06</span>/my_index/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"size"</span>: <span class="number">0</span>,</span><br><span class="line">  <span class="string">"query"</span>: &#123;</span><br><span class="line">    <span class="string">"bool"</span>: &#123;</span><br><span class="line">      <span class="string">"filter"</span>: &#123;</span><br><span class="line">        <span class="string">"term"</span>: &#123;</span><br><span class="line">          <span class="string">"ipInfo.province.keyword"</span>: <span class="string">"安徽"</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"aggs"</span>: &#123;</span><br><span class="line">    <span class="comment">// 查询限定的范围内聚合</span></span><br><span class="line">    <span class="string">"city_info"</span>: &#123;</span><br><span class="line">      <span class="string">"terms"</span>: &#123;</span><br><span class="line">        <span class="string">"field"</span>: <span class="string">"ipInfo.city.keyword"</span>,</span><br><span class="line">        <span class="string">"size"</span>: <span class="number">100</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">"all"</span>: &#123;</span><br><span class="line">      <span class="string">"global"</span>: &#123;&#125;,</span><br><span class="line">      <span class="comment">// 在全局范围内聚合</span></span><br><span class="line">      <span class="string">"aggs"</span>: &#123;</span><br><span class="line">        <span class="string">"city"</span>: &#123;</span><br><span class="line">          <span class="string">"terms"</span>: &#123;</span><br><span class="line">            <span class="string">"field"</span>: <span class="string">"ipInfo.city.keyword"</span>,</span><br><span class="line">            <span class="string">"size"</span>: <span class="number">1000</span></span><br><span class="line">          &#125;,</span><br><span class="line">          <span class="string">"aggs"</span>: &#123;</span><br><span class="line">            <span class="string">"all_avg_score"</span>: &#123;</span><br><span class="line">              <span class="string">"avg"</span>: &#123;</span><br><span class="line">                <span class="string">"field"</span>: <span class="string">"score"</span></span><br><span class="line">              &#125;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="过滤和聚合"><a href="#过滤和聚合" class="headerlink" title="过滤和聚合"></a>过滤和聚合</h2><h3 id="过滤"><a href="#过滤" class="headerlink" title="过滤"></a>过滤</h3><p>参考限定范围的聚合 🚗️ ✈️</p>
+<h3 id="过滤桶"><a href="#过滤桶" class="headerlink" title="过滤桶"></a>过滤桶</h3><p>对聚合的结果进行过滤</p>
+<h4 id="为什么使用过滤桶"><a href="#为什么使用过滤桶" class="headerlink" title="为什么使用过滤桶?"></a>为什么使用过滤桶?</h4><p>我们可能遇到这种情况, 我们想把查询条件a查询到数据显示到前端页面上, 但同时又想把查询条件a+b的聚合结果显示到页面上。所以在过滤的时候，我们并不能直接使用过滤条件a+b。而聚合桶就可以对聚合的结果进行过滤</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 查询显示的结果的过滤条件是 "安徽"</span></span><br><span class="line"><span class="comment">// 聚合显示的结果的过滤条件是 "安徽" + "蚌埠"</span></span><br><span class="line">GET swmgame-activity<span class="number">-2018.06</span>/my_index/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"size"</span>: <span class="number">20</span>,</span><br><span class="line">  <span class="string">"query"</span>: &#123;</span><br><span class="line">    <span class="string">"bool"</span>: &#123;</span><br><span class="line">      <span class="string">"filter"</span>: &#123;</span><br><span class="line">        <span class="string">"term"</span>: &#123;</span><br><span class="line">          <span class="string">"ipInfo.province.keyword"</span>: <span class="string">"安徽"</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"aggs"</span>: &#123;</span><br><span class="line">    <span class="string">"city_info"</span>: &#123;</span><br><span class="line">      <span class="string">"filter"</span>: &#123;</span><br><span class="line">        <span class="string">"term"</span>: &#123;</span><br><span class="line">          <span class="string">"ipInfo.city.keyword"</span>: <span class="string">"阜阳"</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;, </span><br><span class="line">      <span class="string">"aggs"</span>: &#123;</span><br><span class="line">        <span class="string">"city_info"</span>: &#123;</span><br><span class="line">          <span class="string">"terms"</span>: &#123;</span><br><span class="line">            <span class="string">"field"</span>: <span class="string">"ipInfo.city.keyword"</span>,</span><br><span class="line">            <span class="string">"size"</span>: <span class="number">20</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="后过滤器"><a href="#后过滤器" class="headerlink" title="后过滤器"></a>后过滤器</h3><p>对查询的结果进行过滤</p>
+<h3 id="为什么需要后过滤器"><a href="#为什么需要后过滤器" class="headerlink" title="为什么需要后过滤器?"></a>为什么需要后过滤器?</h3><p>我们可能遇到这种情况, 我们想在查询a条件的情况下对结果作出聚合, 但是又想在查询a+b条件下下显示结果。这种情况下可以使用后过滤器, 对查询的结果进行过滤。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 查询的条件是 福建 + 厦门</span></span><br><span class="line"><span class="comment">// 聚合的过滤条件是厦门</span></span><br><span class="line">GET swmgame-activity<span class="number">-2018.06</span>/my_index/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"size"</span>: <span class="number">5</span>,</span><br><span class="line">  <span class="string">"query"</span>: &#123;</span><br><span class="line">    <span class="string">"bool"</span>: &#123;</span><br><span class="line">      <span class="string">"filter"</span>: &#123;</span><br><span class="line">        <span class="string">"term"</span>: &#123;</span><br><span class="line">          <span class="string">"ipInfo.province.keyword"</span>: <span class="string">"福建"</span></span><br><span class="line">        &#125; </span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"post_filter"</span>: &#123;</span><br><span class="line">    <span class="string">"term"</span>: &#123;</span><br><span class="line">      <span class="string">"ipInfo.city.keyword"</span>: <span class="string">"厦门"</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"aggs"</span>: &#123;</span><br><span class="line">    <span class="string">"city_info"</span>: &#123;</span><br><span class="line">      <span class="string">"terms"</span>: &#123;</span><br><span class="line">        <span class="string">"field"</span>: <span class="string">"ipInfo.city.keyword"</span>,</span><br><span class="line">        <span class="string">"size"</span>: <span class="number">20</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="聚合排序"><a href="#聚合排序" class="headerlink" title="聚合排序"></a>聚合排序</h2><h3 id="内置排序"><a href="#内置排序" class="headerlink" title="内置排序"></a>内置排序</h3><ul>
+<li>_count 按照文档的数量排序</li>
+<li>_term 按词项的字符串值的字母顺序排序</li>
+<li><p>_key 按每个桶的键值数值排序。只在histogram和date_histogram内使用</p>
+</li>
+<li><p>desc 降序</p>
+</li>
+<li>asc 升序</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 文档的内容升序进行排序</span></span><br><span class="line">GET swmgame-activity<span class="number">-2018.06</span>/my_index/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"size"</span>: <span class="number">0</span>, </span><br><span class="line">  <span class="string">"aggs"</span>: &#123;</span><br><span class="line">    <span class="string">"province"</span>: &#123;</span><br><span class="line">      <span class="string">"terms"</span>: &#123;</span><br><span class="line">        <span class="string">"field"</span>: <span class="string">"ipInfo.province.keyword"</span>,</span><br><span class="line">        <span class="string">"size"</span>: <span class="number">50</span>,</span><br><span class="line">        <span class="string">"order"</span>: &#123;</span><br><span class="line">          <span class="string">"_count"</span>: <span class="string">"asc"</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 按照字符串的顺序进行排序, 只能用在term</span></span><br><span class="line">GET swmgame-activity<span class="number">-2018.06</span>/my_index/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"size"</span>: <span class="number">0</span>,</span><br><span class="line">  <span class="string">"aggs"</span>: &#123;</span><br><span class="line">    <span class="string">"game_id_info"</span>: &#123;</span><br><span class="line">      <span class="string">"terms"</span>: &#123;</span><br><span class="line">        <span class="string">"field"</span>: <span class="string">"gameId.keyword"</span>,</span><br><span class="line">        <span class="string">"size"</span>: <span class="number">50</span>,</span><br><span class="line">        <span class="string">"order"</span>: &#123;</span><br><span class="line">          <span class="string">"_term"</span>: <span class="string">"asc"</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 按照date_histogram或者histogram的key排序</span></span><br><span class="line">GET swmgame-activity<span class="number">-2018.06</span>/my_index/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"size"</span>: <span class="number">0</span>,</span><br><span class="line">  <span class="string">"aggs"</span>: &#123;</span><br><span class="line">    <span class="string">"date"</span>: &#123;</span><br><span class="line">      <span class="string">"date_histogram"</span>: &#123;</span><br><span class="line">        <span class="string">"field"</span>: <span class="string">"at"</span>,</span><br><span class="line">        <span class="string">"interval"</span>: <span class="string">"day"</span>,</span><br><span class="line">        <span class="string">"min_doc_count"</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="comment">// 时间区间按照降序排序</span></span><br><span class="line">        <span class="string">"order"</span>: &#123;</span><br><span class="line">          <span class="string">"_key"</span>: <span class="string">"desc"</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="度量排序"><a href="#度量排序" class="headerlink" title="度量排序"></a>度量排序</h3><p>直接使用度量的key作为排序的字段</p>
+<h4 id="单度量值排序"><a href="#单度量值排序" class="headerlink" title="单度量值排序"></a>单度量值排序</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">GET swmgame-activity<span class="number">-2018.06</span>/my_index/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"size"</span>: <span class="number">0</span>,</span><br><span class="line">  <span class="string">"aggs"</span>: &#123;</span><br><span class="line">    <span class="string">"province_info"</span>: &#123;</span><br><span class="line">      <span class="string">"terms"</span>: &#123;</span><br><span class="line">        <span class="string">"field"</span>: <span class="string">"ipInfo.province.keyword"</span>,</span><br><span class="line">        <span class="string">"size"</span>: <span class="number">50</span>,</span><br><span class="line">        <span class="string">"order"</span>: &#123;</span><br><span class="line">          <span class="string">"avg_score"</span>: <span class="string">"asc"</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">"aggs"</span>: &#123;</span><br><span class="line">        <span class="string">"avg_score"</span>: &#123;</span><br><span class="line">          <span class="string">"avg"</span>: &#123;</span><br><span class="line">            <span class="string">"field"</span>: <span class="string">"score"</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="多度量值排序"><a href="#多度量值排序" class="headerlink" title="多度量值排序"></a>多度量值排序</h4><p>使用点操作符号, 选择单个度量值进行排序</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">GET swmgame-activity<span class="number">-2018.06</span>/my_index/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"size"</span>: <span class="number">0</span>,</span><br><span class="line">  <span class="string">"aggs"</span>: &#123;</span><br><span class="line">    <span class="string">"province_info"</span>: &#123;</span><br><span class="line">      <span class="string">"terms"</span>: &#123;</span><br><span class="line">        <span class="string">"field"</span>: <span class="string">"ipInfo.province.keyword"</span>,</span><br><span class="line">        <span class="string">"size"</span>: <span class="number">50</span>,</span><br><span class="line">        <span class="string">"order"</span>: &#123;</span><br><span class="line">          <span class="string">"info.avg"</span>: <span class="string">"asc"</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">"aggs"</span>: &#123;</span><br><span class="line">        <span class="string">"info"</span>: &#123;</span><br><span class="line">          <span class="string">"extended_stats"</span>: &#123;</span><br><span class="line">            <span class="string">"field"</span>: <span class="string">"score"</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="近似聚合"><a href="#近似聚合" class="headerlink" title="近似聚合"></a>近似聚合</h2><p>对于一些复杂的操作，需要在精准性和实时性上作出权衡</p>
+<h3 id="近似聚合-——-去重"><a href="#近似聚合-——-去重" class="headerlink" title="近似聚合 —— 去重"></a>近似聚合 —— 去重</h3><p>cardinality可以实现去重操作, 但是数据量巨大的情况下精确性上可能存在误差, 但是可以设置更大的内存提供去重的精确性</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 查看有多少个城市</span></span><br><span class="line">GET swmgame-activity<span class="number">-2018.06</span>/my_index/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"size"</span>: <span class="number">0</span>,</span><br><span class="line">  <span class="string">"aggs"</span>: &#123;</span><br><span class="line">    <span class="string">"city_count"</span>: &#123;</span><br><span class="line">      <span class="string">"cardinality"</span>: &#123;</span><br><span class="line">        <span class="string">"field"</span>: <span class="string">"ipInfo.city.keyword"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 统计每一个省份的城市数量</span></span><br><span class="line">GET swmgame-activity<span class="number">-2018.06</span>/my_index/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"size"</span>: <span class="number">0</span>,</span><br><span class="line">  <span class="string">"aggs"</span>: &#123;</span><br><span class="line">    <span class="string">"country_info"</span>: &#123;</span><br><span class="line">      <span class="string">"terms"</span>: &#123;</span><br><span class="line">        <span class="string">"field"</span>: <span class="string">"ipInfo.country.keyword"</span>,</span><br><span class="line">        <span class="string">"size"</span>: <span class="number">10</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">"aggs"</span>: &#123;</span><br><span class="line">        <span class="string">"province_info"</span>: &#123;</span><br><span class="line">          <span class="string">"terms"</span>: &#123;</span><br><span class="line">            <span class="string">"field"</span>: <span class="string">"ipInfo.province.keyword"</span>,</span><br><span class="line">            <span class="string">"size"</span>: <span class="number">50</span></span><br><span class="line">          &#125;,</span><br><span class="line">          <span class="string">"aggs"</span>: &#123;</span><br><span class="line">            <span class="string">"city"</span>: &#123;</span><br><span class="line">              <span class="string">"terms"</span>: &#123;</span><br><span class="line">                <span class="string">"field"</span>: <span class="string">"ipInfo.city.keyword"</span>,</span><br><span class="line">                <span class="string">"size"</span>: <span class="number">50</span></span><br><span class="line">              &#125;</span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="string">"city_count"</span>: &#123;</span><br><span class="line">              <span class="string">"cardinality"</span>: &#123;</span><br><span class="line">                <span class="string">"field"</span>: <span class="string">"ipInfo.city.keyword"</span></span><br><span class="line">              &#125;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="precision-threshold"><a href="#precision-threshold" class="headerlink" title="precision_threshold"></a>precision_threshold</h4><p>cardinality精确性与内存的使用量有关，通过配置precision_threshold参数，设置去重需要的固定内存使用量。内存使用量只与你配置的精确度相关。</p>
+<p>precision_threshold 设置为100的时候，去重的需要的内存是 100 * 8 的字节。precision_threshold 接受的范围在0–40,000之间</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 统计每一个国家的数量</span></span><br><span class="line">GET swmgame-activity<span class="number">-2018.06</span>/my_index/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"size"</span>: <span class="number">0</span>,</span><br><span class="line">  <span class="string">"aggs"</span>: &#123;</span><br><span class="line">    <span class="string">"country_count"</span>: &#123;</span><br><span class="line">      <span class="string">"cardinality"</span>: &#123;</span><br><span class="line">        <span class="string">"field"</span>: <span class="string">"ipInfo.country.keyword"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="近似聚合-——-百分位"><a href="#近似聚合-——-百分位" class="headerlink" title="近似聚合 —— 百分位"></a>近似聚合 —— 百分位</h3><h4 id="什么是百分位"><a href="#什么是百分位" class="headerlink" title="什么是百分位"></a>什么是百分位</h4><p>以下是<a href="https://baike.baidu.com/item/%E7%99%BE%E5%88%86%E4%BD%8D%E6%95%B0/10064171?fr=aladdin" target="_blank" rel="noopener">百度百科</a>的内容</p>
+<p>统计学术语，<strong>如果将一组数据从小到大排序</strong>，并计算相应的累计百分位，则某一百分位所对应数据的值就称为这一百分位的百分位数。可表示为：一组n个观测值按数值大小排列。如，处于p%位置的值称第p百分位数。</p>
+<p>百分位通常用第几百分位来表示，如第五百分位，它表示在所有测量数据中，测量值的累计频次达5%。以身高为例，身高分布的第五百分位表示有5%的人的身高小于此测量值，95%的身高大于此测量值。</p>
+<p>高等院校的入学考试成绩经常以百分位数的形式报告。比如，假设某个考生在入学考试中的语文部分的原始分数为54分。相对于参加同一考试的其他学生来说，他的成绩如何并不容易知道。但是如果原始分数54分恰好对应的是第70百分位数，我们就能知道大约70%的学生的考分比他低，而约30%的学生考分比他高。</p>
+<h4 id="百分位计算"><a href="#百分位计算" class="headerlink" title="百分位计算"></a>百分位计算</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 添加测试数据, 网络延迟数据</span></span><br><span class="line">PUT test9_index</span><br><span class="line">POST /test9_index/doc/_bulk</span><br><span class="line">&#123; <span class="string">"index"</span>: &#123;&#125;&#125;</span><br><span class="line">&#123; <span class="string">"latency"</span> : <span class="number">100</span>, <span class="string">"zone"</span> : <span class="string">"US"</span>, <span class="string">"timestamp"</span> : <span class="string">"2014-10-28"</span> &#125;</span><br><span class="line">&#123; <span class="string">"index"</span>: &#123;&#125;&#125;</span><br><span class="line">&#123; <span class="string">"latency"</span> : <span class="number">80</span>, <span class="string">"zone"</span> : <span class="string">"US"</span>, <span class="string">"timestamp"</span> : <span class="string">"2014-10-29"</span> &#125;</span><br><span class="line">&#123; <span class="string">"index"</span>: &#123;&#125;&#125;</span><br><span class="line">&#123; <span class="string">"latency"</span> : <span class="number">99</span>, <span class="string">"zone"</span> : <span class="string">"US"</span>, <span class="string">"timestamp"</span> : <span class="string">"2014-10-29"</span> &#125;</span><br><span class="line">&#123; <span class="string">"index"</span>: &#123;&#125;&#125;</span><br><span class="line">&#123; <span class="string">"latency"</span> : <span class="number">102</span>, <span class="string">"zone"</span> : <span class="string">"US"</span>, <span class="string">"timestamp"</span> : <span class="string">"2014-10-28"</span> &#125;</span><br><span class="line">&#123; <span class="string">"index"</span>: &#123;&#125;&#125;</span><br><span class="line">&#123; <span class="string">"latency"</span> : <span class="number">75</span>, <span class="string">"zone"</span> : <span class="string">"US"</span>, <span class="string">"timestamp"</span> : <span class="string">"2014-10-28"</span> &#125;</span><br><span class="line">&#123; <span class="string">"index"</span>: &#123;&#125;&#125;</span><br><span class="line">&#123; <span class="string">"latency"</span> : <span class="number">82</span>, <span class="string">"zone"</span> : <span class="string">"US"</span>, <span class="string">"timestamp"</span> : <span class="string">"2014-10-29"</span> &#125;</span><br><span class="line">&#123; <span class="string">"index"</span>: &#123;&#125;&#125;</span><br><span class="line">&#123; <span class="string">"latency"</span> : <span class="number">100</span>, <span class="string">"zone"</span> : <span class="string">"EU"</span>, <span class="string">"timestamp"</span> : <span class="string">"2014-10-28"</span> &#125;</span><br><span class="line">&#123; <span class="string">"index"</span>: &#123;&#125;&#125;</span><br><span class="line">&#123; <span class="string">"latency"</span> : <span class="number">280</span>, <span class="string">"zone"</span> : <span class="string">"EU"</span>, <span class="string">"timestamp"</span> : <span class="string">"2014-10-29"</span> &#125;</span><br><span class="line">&#123; <span class="string">"index"</span>: &#123;&#125;&#125;</span><br><span class="line">&#123; <span class="string">"latency"</span> : <span class="number">155</span>, <span class="string">"zone"</span> : <span class="string">"EU"</span>, <span class="string">"timestamp"</span> : <span class="string">"2014-10-29"</span> &#125;</span><br><span class="line">&#123; <span class="string">"index"</span>: &#123;&#125;&#125;</span><br><span class="line">&#123; <span class="string">"latency"</span> : <span class="number">623</span>, <span class="string">"zone"</span> : <span class="string">"EU"</span>, <span class="string">"timestamp"</span> : <span class="string">"2014-10-28"</span> &#125;</span><br><span class="line">&#123; <span class="string">"index"</span>: &#123;&#125;&#125;</span><br><span class="line">&#123; <span class="string">"latency"</span> : <span class="number">380</span>, <span class="string">"zone"</span> : <span class="string">"EU"</span>, <span class="string">"timestamp"</span> : <span class="string">"2014-10-28"</span> &#125;</span><br><span class="line">&#123; <span class="string">"index"</span>: &#123;&#125;&#125;</span><br><span class="line">&#123; <span class="string">"latency"</span> : <span class="number">319</span>, <span class="string">"zone"</span> : <span class="string">"EU"</span>, <span class="string">"timestamp"</span> : <span class="string">"2014-10-29"</span> &#125;</span><br></pre></td></tr></table></figure>
+<p>计算网络延迟的百分位和网络延迟的平均数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">GET test9_index/doc/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"size"</span>: <span class="number">0</span>,</span><br><span class="line">  <span class="string">"aggs"</span>: &#123;</span><br><span class="line">    <span class="comment">// 计算网络延迟的平均数</span></span><br><span class="line">    <span class="string">"avg_ping"</span>: &#123;</span><br><span class="line">      <span class="string">"avg"</span>: &#123;</span><br><span class="line">        <span class="string">"field"</span>: <span class="string">"latency"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// 计算网络延迟的百分位</span></span><br><span class="line">    <span class="string">"percentiles_ping"</span>: &#123;</span><br><span class="line">      <span class="string">"percentiles"</span>: &#123;</span><br><span class="line">        <span class="string">"field"</span>: <span class="string">"latency"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>下面是返回的聚合结果，可以看到平均数有时并不能体现异常的数据。约有25%的用户的网络延迟是大于289的</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"aggregations"</span>: &#123;</span><br><span class="line">  <span class="string">"avg_ping"</span>: &#123;</span><br><span class="line">    <span class="string">"value"</span>: <span class="number">199.58333333333334</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"percentiles_ping"</span>: &#123;</span><br><span class="line">    <span class="string">"values"</span>: &#123;</span><br><span class="line">      <span class="string">"1.0"</span>: <span class="number">75.55</span>,</span><br><span class="line">      <span class="string">"5.0"</span>: <span class="number">77.75</span>,</span><br><span class="line">      <span class="string">"25.0"</span>: <span class="number">94.75</span>,</span><br><span class="line">      <span class="string">"50.0"</span>: <span class="number">101</span>,</span><br><span class="line">      <span class="string">"75.0"</span>: <span class="number">289.75</span>,</span><br><span class="line">      <span class="string">"95.0"</span>: <span class="number">489.34999999999985</span>,</span><br><span class="line">      <span class="string">"99.0"</span>: <span class="number">596.2700000000002</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>查看网络的延迟是否和地区有关，在聚合的基础上进行百分位计算。根据结果可以得知, 欧洲用户(EU)的网络延迟更高</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">GET test9_index/doc/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"size"</span>: <span class="number">0</span>,</span><br><span class="line">  <span class="string">"aggs"</span>: &#123;</span><br><span class="line">    <span class="string">"zone_info"</span>: &#123;</span><br><span class="line">      <span class="string">"terms"</span>: &#123;</span><br><span class="line">        <span class="string">"field"</span>: <span class="string">"zone.keyword"</span>,</span><br><span class="line">        <span class="string">"size"</span>: <span class="number">10</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="string">"aggs"</span>: &#123;</span><br><span class="line">        <span class="string">"zone_ping"</span>: &#123;</span><br><span class="line">          <span class="string">"percentiles"</span>: &#123;</span><br><span class="line">            <span class="string">"field"</span>: <span class="string">"latency"</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="百分位等级"><a href="#百分位等级" class="headerlink" title="百分位等级"></a>百分位等级</h4><p>得知具体的数值所占的百分位。以下是查看ping为75, 623的用户所占的百分位。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">GET test9_index/doc/_search</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"size"</span>: <span class="number">0</span>,</span><br><span class="line">  <span class="string">"aggs"</span>: &#123;</span><br><span class="line">    <span class="string">"ping"</span>: &#123;</span><br><span class="line">      <span class="string">"percentile_ranks"</span>: &#123;</span><br><span class="line">        <span class="string">"field"</span>: <span class="string">"latency"</span>,</span><br><span class="line">        <span class="string">"values"</span>: [</span><br><span class="line">          <span class="number">75</span>,</span><br><span class="line">          <span class="number">623</span></span><br><span class="line">        ]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到如下的结果, ping小于等于75的用户占到了4.16%, 有22.5%的用户ping是大于623的</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="string">"aggregations"</span>: &#123;</span><br><span class="line">  <span class="string">"ping"</span>: &#123;</span><br><span class="line">    <span class="string">"values"</span>: &#123;</span><br><span class="line">      <span class="string">"75.0"</span>: <span class="number">4.166666666666666</span>,</span><br><span class="line">      <span class="string">"623.0"</span>: <span class="number">87.5</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Elasticsearch会暂停更新, 未来有时间了还会继续更新, 目前为止我个人工作所需的知识已经足够了….</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Elasticsearch/" rel="tag"># Elasticsearch</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/19/Elasticsearch02/" rel="next" title="Elasticsearch入门 (2)">
+                <i class="fa fa-chevron-left"></i> Elasticsearch入门 (2)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            作者概述
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="张越" />
+            
+              <p class="site-author-name" itemprop="name">张越</p>
+              <p class="site-description motion-element" itemprop="description">所谓成长，就是经过不断的聚散离合，找到不太会伤害到彼此的距离</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-name">篇文章</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">Tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/BengBu-YueZhang" target="_blank" title="我的GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/5460100952/profile?topnav=1&wvr=6" target="_blank" title="我的微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的微博</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#聚合"><span class="nav-number">1.</span> <span class="nav-text">聚合</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本概念"><span class="nav-number">1.1.</span> <span class="nav-text">基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#桶"><span class="nav-number">1.1.1.</span> <span class="nav-text">桶</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指标"><span class="nav-number">1.1.2.</span> <span class="nav-text">指标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指标与桶"><span class="nav-number">1.1.3.</span> <span class="nav-text">指标与桶</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#初步聚合"><span class="nav-number">1.2.</span> <span class="nav-text">初步聚合</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#简单的聚合"><span class="nav-number">1.2.1.</span> <span class="nav-text">简单的聚合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#简单的指标"><span class="nav-number">1.2.2.</span> <span class="nav-text">简单的指标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#嵌套桶"><span class="nav-number">1.2.3.</span> <span class="nav-text">嵌套桶</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#直方图"><span class="nav-number">1.3.</span> <span class="nav-text">直方图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是直方图"><span class="nav-number">1.3.1.</span> <span class="nav-text">什么是直方图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#按时间统计"><span class="nav-number">1.3.2.</span> <span class="nav-text">按时间统计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#返回空的桶"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">返回空的桶</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#扩展例子"><span class="nav-number">1.3.3.</span> <span class="nav-text">扩展例子</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#限定范围聚合"><span class="nav-number">1.4.</span> <span class="nav-text">限定范围聚合</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#全局桶"><span class="nav-number">1.4.1.</span> <span class="nav-text">全局桶</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#过滤和聚合"><span class="nav-number">1.5.</span> <span class="nav-text">过滤和聚合</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#过滤"><span class="nav-number">1.5.1.</span> <span class="nav-text">过滤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#过滤桶"><span class="nav-number">1.5.2.</span> <span class="nav-text">过滤桶</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#为什么使用过滤桶"><span class="nav-number">1.5.2.1.</span> <span class="nav-text">为什么使用过滤桶?</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#后过滤器"><span class="nav-number">1.5.3.</span> <span class="nav-text">后过滤器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么需要后过滤器"><span class="nav-number">1.5.4.</span> <span class="nav-text">为什么需要后过滤器?</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#聚合排序"><span class="nav-number">1.6.</span> <span class="nav-text">聚合排序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#内置排序"><span class="nav-number">1.6.1.</span> <span class="nav-text">内置排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#度量排序"><span class="nav-number">1.6.2.</span> <span class="nav-text">度量排序</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#单度量值排序"><span class="nav-number">1.6.2.1.</span> <span class="nav-text">单度量值排序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多度量值排序"><span class="nav-number">1.6.2.2.</span> <span class="nav-text">多度量值排序</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#近似聚合"><span class="nav-number">1.7.</span> <span class="nav-text">近似聚合</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#近似聚合-——-去重"><span class="nav-number">1.7.1.</span> <span class="nav-text">近似聚合 —— 去重</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#precision-threshold"><span class="nav-number">1.7.1.1.</span> <span class="nav-text">precision_threshold</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#近似聚合-——-百分位"><span class="nav-number">1.7.2.</span> <span class="nav-text">近似聚合 —— 百分位</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是百分位"><span class="nav-number">1.7.2.1.</span> <span class="nav-text">什么是百分位</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#百分位计算"><span class="nav-number">1.7.2.2.</span> <span class="nav-text">百分位计算</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#百分位等级"><span class="nav-number">1.7.2.3.</span> <span class="nav-text">百分位等级</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张越</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
