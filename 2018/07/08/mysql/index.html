@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="新世紀エヴァンゲリオン">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://unsplash.it/1082/609?random">
-<meta property="og:updated_time" content="2018-07-08T12:27:37.000Z">
+<meta property="og:updated_time" content="2018-07-08T12:36:10.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mysql入门(1)">
 <meta name="twitter:image" content="https://unsplash.it/1082/609?random">
@@ -269,7 +269,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发布于</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-08T23:39:52+08:00">
                 2018-07-08
@@ -312,6 +312,7 @@
         <p><img src="https://unsplash.it/1082/609?random" alt="image"></p>
 <a id="more"></a>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文更像是《mysql必知必会》这本书的读书笔记, 还有就是 =&gt; <strong>方方, 我好中意你！</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">问现在 我如何能不心痛</span><br><span class="line">你的衣襟 挂起他的心口针</span><br><span class="line">为甚又 要时常和他比较</span><br><span class="line"></span><br><span class="line">似比刀锋  埋藏心中暗悲痛</span><br><span class="line"></span><br><span class="line">默默地  我诚惶诚恐的爱</span><br><span class="line">我的今天 无疑就是他的替身</span><br><span class="line">问问现在为何一起</span><br><span class="line">是你为了找那从前</span><br><span class="line">让我代当天失去的爱</span><br><span class="line"></span><br><span class="line">活像受罪但是又离不开</span><br><span class="line">我有我去爱 谁分担心里哀</span><br><span class="line">活在梦幻实在是蛮不该</span><br><span class="line">我有我去爱 情感的妄灾</span><br><span class="line"></span><br><span class="line">无奈痴痴的我 始终不知道</span><br><span class="line"></span><br><span class="line">其实你待我算不算爱</span><br><span class="line"></span><br><span class="line">^_^ 默默地  我诚惶诚恐的爱</span><br><span class="line">我的今天  无疑就是他的替身</span><br><span class="line">问问现在为何一起</span><br><span class="line">是你为了找那从前</span><br><span class="line">让我代当天失去的爱</span><br><span class="line"></span><br><span class="line">活像受罪但是又离不开</span><br><span class="line">我有我去爱  谁分担心里哀</span><br><span class="line">活在梦幻实在是蛮不该</span><br><span class="line">我有我去爱  情感的妄灾</span><br><span class="line">无奈痴痴的我  始终不知道</span><br><span class="line">其实你待我算不算爱</span><br><span class="line"></span><br><span class="line">活像受罪但是又离不开</span><br><span class="line">我有我去爱  谁分担心里哀</span><br><span class="line">活在梦幻实在是蛮不该</span><br><span class="line">我有我去爱  情感的妄灾</span><br><span class="line">无奈痴痴的我  始终不知道</span><br><span class="line">其实你待我算不算是爱</span><br><span class="line">如若非心所爱 好应该婉拒</span><br><span class="line">无谓接受我这一份爱</span><br></pre></td></tr></table></figure>
 <h2 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h2><h3 id="启动数据库"><a href="#启动数据库" class="headerlink" title="启动数据库"></a>启动数据库</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#</span> 设置mysql的root账号的密码</span><br><span class="line">mysqladmin -u root password '*****'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 启动mysql服务(我通过Homebrew安装)</span><br><span class="line">brew services start mysql</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 登录mysql客户端</span><br><span class="line">mysql -u root -p</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 查看数据库列表</span><br><span class="line">SHOW DATABASES;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 查看数据库中表的列表</span><br><span class="line">SHOW TABLES;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 切换数据库</span><br><span class="line">USE [数据库名]</span><br></pre></td></tr></table></figure>
 <h3 id="添加测试数据"><a href="#添加测试数据" class="headerlink" title="添加测试数据"></a>添加测试数据</h3><blockquote>
 <p><a href="https://github.com/datacharmer/test_db" target="_blank" rel="noopener">A sample MySQL database with an integrated test suite, used to test your applications and database servers</a></p>
@@ -628,10 +629,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
+            Table of Contents
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            作者概述
+            Overview
           </li>
         </ul>
       
@@ -656,7 +657,7 @@
                 <a href="/archives/">
               
                   <span class="site-state-item-count">36</span>
-                  <span class="site-state-item-name">篇文章</span>
+                  <span class="site-state-item-name">篇博文</span>
                 </a>
               </div>
             
@@ -669,7 +670,7 @@
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
                   <span class="site-state-item-count">16</span>
-                  <span class="site-state-item-name">Tags</span>
+                  <span class="site-state-item-name">tags</span>
                 </a>
               </div>
             
@@ -747,7 +748,7 @@
 </div>
 
 
-  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 
 
