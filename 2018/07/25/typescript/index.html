@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="TypeScript," />
+
+
+
+
+
+
+
+
+
+
+<meta name="keywords" content="TypeScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TypeScript(1)">
+<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2018/07/25/typescript/index.html">
+<meta property="og:site_name" content="新世紀エヴァンゲリオン">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://unsplash.it/1069/612?random">
+<meta property="og:updated_time" content="2018-07-25T06:30:03.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TypeScript(1)">
+<meta name="twitter:image" content="https://unsplash.it/1069/612?random">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/2018/07/25/typescript/"/>
+
+
+
+
+
+  <title>TypeScript(1) | 新世紀エヴァンゲリオン</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">新世紀エヴァンゲリオン</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">前端小学生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            主页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            时间轴
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://bengbu-yuezhang.github.io/yue.github.io/2018/07/25/typescript/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张越">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新世紀エヴァンゲリオン">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">TypeScript(1)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-25T14:30:00+08:00">
+                2018-07-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://unsplash.it/1069/612?random" alt="image"></p>
+<a id="more"></a>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>由于公司的内部项目,是由技术主导开发的而非产品。本着Geek的精神, 想在日志分析系统中使用Vue配合TypeScript作为前端的技术栈。可能因为个人能力有限, TS的文档有一部分内容，个人认为非常晦涩绕口, 我个人在看完前半部分的TS的文档后, 用自己的语言写下这篇博客帮助自己更好的理解TS。</p>
+<h2 id="基础类型"><a href="#基础类型" class="headerlink" title="基础类型"></a>基础类型</h2><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// boolean</span></span><br><span class="line"><span class="keyword">let</span> bool: <span class="built_in">boolean</span> = <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// number</span></span><br><span class="line"><span class="keyword">let</span> num: <span class="built_in">number</span> = <span class="number">123</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// string</span></span><br><span class="line"><span class="keyword">let</span> str: <span class="built_in">string</span> = <span class="string">'fangfang'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// array</span></span><br><span class="line"><span class="keyword">let</span> list: <span class="built_in">number</span>[] = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line"><span class="comment">// 数组泛型</span></span><br><span class="line"><span class="keyword">let</span> list2: <span class="built_in">Array</span>&lt;<span class="built_in">string</span>&gt; = [<span class="string">'1'</span>, <span class="string">'2'</span>, <span class="string">'3'</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">// tulp元组(定义数组的数量以及数组中类型的数组, 数组中内容的顺序必须和类型的顺序保持一致)</span></span><br><span class="line"><span class="keyword">let</span> tulpList: [<span class="built_in">string</span>, <span class="built_in">number</span>] = [<span class="string">'1'</span>, <span class="number">2</span>]</span><br><span class="line"><span class="comment">// tulpList[2] 会使用联合类型 tulpList[2]: string | number</span></span><br></pre></td></tr></table></figure>
+<h3 id="枚举"><a href="#枚举" class="headerlink" title="枚举"></a>枚举</h3><blockquote>
+<p>数字枚举以及字符串枚举。数字枚举在没有指定初始化的情况下，从0开始，依次加1递增。异构枚举则是，枚举可以混合字符串和数字成员。但是一般不会这样做。枚举可以指定表达式，会在后面介绍到。</p>
+</blockquote>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">enum</span> lover &#123;</span><br><span class="line">  girl = <span class="string">'fangfang'</span>,</span><br><span class="line">  boy = <span class="string">'yueyue'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Any"><a href="#Any" class="headerlink" title="Any"></a>Any</h3><p>Any指定的是通用的类型, 在非万不得已的情况下, 不要使用Any类型。</p>
+<h3 id="Void"><a href="#Void" class="headerlink" title="Void"></a>Void</h3><p>表示没有类型, 函数中使用void表示没有返回值</p>
+<h3 id="Null-Undefined"><a href="#Null-Undefined" class="headerlink" title="Null Undefined"></a>Null Undefined</h3><p><strong>Null Undefined</strong>可以赋值给任何类型的变量</p>
+<h3 id="Never"><a href="#Never" class="headerlink" title="Never"></a>Never</h3><p>表示异常的返回值, 返回never的函数，拥有不会到达终点</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span> (<span class="params"></span>): <span class="title">never</span> </span>&#123;</span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="类型断言"><a href="#类型断言" class="headerlink" title="类型断言"></a>类型断言</h3><p>我们通常比ts类型检查器更清楚，某一个变量的详细信息, 我们可以通过类型断言指定变量的类型。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">class</span> Foo &#123;</span><br><span class="line">  <span class="keyword">constructor</span> (<span class="params"><span class="keyword">public</span> a1: <span class="built_in">number</span></span>) &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> Bar &#123;</span><br><span class="line">  <span class="keyword">constructor</span> (<span class="params"><span class="keyword">public</span> a2: <span class="built_in">string</span></span>) &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span> (<span class="params">arg: Foo | Bar</span>): <span class="title">void</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 编译会产生错误, 因为只有Bar类型才拥有a2属性</span></span><br><span class="line">  <span class="comment">// console.log(arg.a1)</span></span><br><span class="line">  <span class="comment">// 使用类型断言指定参数的类型</span></span><br><span class="line">  <span class="built_in">console</span>.log((&lt;Bar&gt;arg).a2)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="interface"><a href="#interface" class="headerlink" title="interface"></a>interface</h2><blockquote>
+<p>接口的作用是为值, 参数, 类, 函数等进行类型检查。</p>
+</blockquote>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">interface</span> Bar &#123;</span><br><span class="line">  key: <span class="built_in">string</span></span><br><span class="line">  value: <span class="built_in">number</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> a1: Bar = &#123;</span><br><span class="line">  key: <span class="string">'key'</span>,</span><br><span class="line">  value: <span class="number">123</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 编译不通过</span></span><br><span class="line"><span class="keyword">let</span> a2: Bar = &#123;</span><br><span class="line">  key: <span class="number">123</span>,</span><br><span class="line">  value: <span class="number">123</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="可选属性"><a href="#可选属性" class="headerlink" title="可选属性 ?"></a>可选属性 ?</h3><blockquote>
+<p>interface中定义的属性, 并不完全都是必须的。可以使用?标记为可选属性。<strong>定义可选属性后, 可以不传递使用该属性, 但是不能使用interface中没有定义的属性</strong></p>
+</blockquote>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">interface</span> Bar &#123;</span><br><span class="line">  key: <span class="built_in">string</span></span><br><span class="line">  value: <span class="built_in">number</span></span><br><span class="line">  length?: <span class="built_in">number</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> a1: Bar = &#123;</span><br><span class="line">  key: <span class="string">'fangfang'</span>,</span><br><span class="line">  value: <span class="number">23</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 编译失败</span></span><br><span class="line"><span class="keyword">let</span> a2: Bar = &#123;</span><br><span class="line">  key: <span class="string">'fangfang'</span>,</span><br><span class="line">  value: <span class="number">23</span>,</span><br><span class="line">  weight: <span class="number">45</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="只读属性-readonly"><a href="#只读属性-readonly" class="headerlink" title="只读属性 readonly"></a>只读属性 readonly</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">interface</span> Foo &#123;</span><br><span class="line">  readonly name: <span class="built_in">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> a: Foo = &#123;</span><br><span class="line">  name: <span class="string">'fangfang'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 编译出错</span></span><br><span class="line">a.name = <span class="string">'fang'</span></span><br></pre></td></tr></table></figure>
+<h3 id="只读数组-ReadonlyArray"><a href="#只读数组-ReadonlyArray" class="headerlink" title="只读数组 ReadonlyArray"></a>只读数组 ReadonlyArray</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// arr不能修改，arr为只读数组</span></span><br><span class="line"><span class="keyword">let</span> arr: ReadonlyArray&lt;<span class="built_in">number</span>&gt; = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用类型断言, 重写数组的类型, 绕过ts的类型检查</span></span><br><span class="line"><span class="keyword">let</span> arr2 = &lt;<span class="built_in">number</span>[]&gt;arr</span><br></pre></td></tr></table></figure>
+<h3 id="函数类型"><a href="#函数类型" class="headerlink" title="函数类型"></a>函数类型</h3><blockquote>
+<p>interface可以用来描述函数类型, 需要指定参数的类型和返回值的类型</p>
+</blockquote>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 定义函数接口</span></span><br><span class="line"><span class="keyword">interface</span> Foo &#123;</span><br><span class="line">  (n: <span class="built_in">number</span>, m: <span class="built_in">string</span>): <span class="built_in">boolean</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> Bar: Foo = (n:<span class="built_in">number</span>, m:<span class="built_in">string</span>):<span class="function"><span class="params">boolean</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用类型推断, 可以推断出参数的类型</span></span><br><span class="line"><span class="keyword">let</span> Faz: Foo = <span class="function">(<span class="params">n, m</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="可索引类型"><a href="#可索引类型" class="headerlink" title="可索引类型"></a>可索引类型</h3><blockquote>
+<p>对于一些未知key值的属性，我们该如何在接口中定义它呢?答案是可以使用字符串索引类型。可索引分为字符串索引和数字索引。但是数字索引是等同于字符串索引的，因为对于key值, 100将会转换为”100”</p>
+</blockquote>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 数字索引类型</span></span><br><span class="line"><span class="keyword">interface</span> Foo &#123;</span><br><span class="line">  [key: <span class="built_in">string</span>]: <span class="built_in">any</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> fo: Foo = &#123;</span><br><span class="line">  name: <span class="string">'fangfang'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 字符串索引类型</span></span><br><span class="line"><span class="keyword">interface</span> Bar &#123;</span><br><span class="line">  [index: <span class="built_in">number</span>]: <span class="built_in">any</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> ba: Bar = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置只读属性的接口</span></span><br><span class="line"><span class="keyword">interface</span> Faz &#123;</span><br><span class="line">  readonly [key: <span class="built_in">string</span>]: <span class="built_in">any</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="类类型"><a href="#类类型" class="headerlink" title="类类型"></a>类类型</h3><blockquote>
+<p>interface可以强制一个类实现某一种规范。但是interface只定义类的实例的部分，没有定义类的静态的部分</p>
+</blockquote>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">interface</span> FangFang &#123;</span><br><span class="line">  name: <span class="built_in">string</span>,</span><br><span class="line">  age: <span class="built_in">number</span>,</span><br><span class="line">  weight: <span class="built_in">number</span>,</span><br><span class="line">  isLover (n: <span class="built_in">string</span>):<span class="built_in">boolean</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 实现定义的接口</span></span><br><span class="line"><span class="keyword">class</span> Fang <span class="keyword">implements</span> FangFang &#123;</span><br><span class="line">  <span class="keyword">constructor</span> (<span class="params"></span></span><br><span class="line"><span class="params">    <span class="keyword">public</span> name: <span class="built_in">string</span>,</span></span><br><span class="line"><span class="params">    <span class="keyword">public</span> age: <span class="built_in">number</span>,</span></span><br><span class="line"><span class="params">    <span class="keyword">public</span> weight: <span class="built_in">number</span></span></span><br><span class="line"><span class="params">  </span>) &#123;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  isLover (n: <span class="built_in">string</span>): <span class="built_in">boolean</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (n === <span class="string">'yue'</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="接口继承"><a href="#接口继承" class="headerlink" title="接口继承"></a>接口继承</h3><blockquote>
+<p>接口与接口之间可以相互继承, 可以达到复用接口的目的</p>
+</blockquote>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">interface</span> Foo &#123; name: <span class="built_in">string</span> &#125;</span><br><span class="line"><span class="keyword">interface</span> Bar &#123; age: <span class="built_in">number</span> &#125;</span><br><span class="line"><span class="keyword">interface</span> Faz <span class="keyword">extends</span> Foo, Bar &#123;</span><br><span class="line">  weight: <span class="built_in">number</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> fangfang: Faz = &#123;</span><br><span class="line">  name: <span class="string">'fangfang'</span>,</span><br><span class="line">  age: <span class="number">23</span>,</span><br><span class="line">  weight: <span class="number">90</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="接口继承类"><a href="#接口继承类" class="headerlink" title="接口继承类"></a>接口继承类</h3><blockquote>
+<p>interface可以继承class, interface会继承类的成员的定义(实例的属性以及实例的方法), 但是不包含实现。接口可以继承private和protected的成员，如果接口继承了private和protected的成员，那么这个接口只能被这个类以及它的子类所实现。因为private和protected的成员是私有的，private只能在定义的类的内部访问，protected可以在子类中访问。</p>
+</blockquote>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">class</span> Bar &#123;</span><br><span class="line">  <span class="keyword">constructor</span> (<span class="params"></span></span><br><span class="line"><span class="params">    <span class="keyword">public</span> name: <span class="built_in">string</span>,</span></span><br><span class="line"><span class="params">    <span class="keyword">public</span> age: <span class="built_in">number</span></span></span><br><span class="line"><span class="params">  </span>) &#123; &#125;</span><br><span class="line"></span><br><span class="line">  call ():<span class="built_in">void</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'嘤嘤'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 接口继承类</span></span><br><span class="line"><span class="keyword">interface</span> Foo <span class="keyword">extends</span> Bar&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Faz需要和Bar类同样的实现</span></span><br><span class="line"><span class="keyword">class</span> Faz <span class="keyword">implements</span> Foo &#123;</span><br><span class="line">  <span class="keyword">constructor</span> (<span class="params"></span></span><br><span class="line"><span class="params">    <span class="keyword">public</span> name: <span class="built_in">string</span>,</span></span><br><span class="line"><span class="params">    <span class="keyword">public</span> age: <span class="built_in">number</span></span></span><br><span class="line"><span class="params">  </span>) &#123; &#125;</span><br><span class="line"></span><br><span class="line">  call ():<span class="built_in">void</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'嘿嘿'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">class</span> Foo &#123;</span><br><span class="line">  <span class="keyword">constructor</span> (<span class="params"></span></span><br><span class="line"><span class="params">    <span class="keyword">protected</span> name: <span class="built_in">string</span></span></span><br><span class="line"><span class="params">  </span>) &#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> Baz <span class="keyword">extends</span> Foo &#123; &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// error</span></span><br><span class="line"><span class="comment">// Foo的name是私有的只能通过Foo的派生类实现</span></span><br><span class="line"><span class="keyword">class</span> Faz <span class="keyword">implements</span> Baz&#123;</span><br><span class="line">  <span class="keyword">constructor</span> (<span class="params"></span></span><br><span class="line"><span class="params">    <span class="keyword">protected</span> name: <span class="built_in">string</span></span></span><br><span class="line"><span class="params">  </span>) &#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// success</span></span><br><span class="line"><span class="keyword">class</span> Boo <span class="keyword">extends</span> Foo <span class="keyword">implements</span> Baz &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="class"><a href="#class" class="headerlink" title="class"></a>class</h2><blockquote>
+<p>部分与es6内容重合的部分不做介绍</p>
+</blockquote>
+<h3 id="修饰符"><a href="#修饰符" class="headerlink" title="修饰符"></a>修饰符</h3><h4 id="public"><a href="#public" class="headerlink" title="public"></a>public</h4><p>ts默认包含了public的修饰符, public修饰符可以自由的访问类的属性以及方法</p>
+<h4 id="private"><a href="#private" class="headerlink" title="private"></a>private</h4><p>当类的成员被标记为private, 被标记为private的成员将不能在类的外部访问，包括了派生类。</p>
+<p>⚠️ 🏁 <strong>TS是基于结构进行类型兼容的, 但是如果成员包含了private或者protected的修饰符, 即使两个类的结构一样，但是protected或者private的成员不来自同一个类型, 那么两个成员之间也是不兼容的（具体请看类型兼容这一章节）</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">class</span> Foo &#123;</span><br><span class="line">  <span class="keyword">constructor</span> (<span class="params"><span class="keyword">public</span> name: <span class="built_in">string</span></span>) &#123; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> Bar &#123;</span><br><span class="line">  <span class="keyword">constructor</span> (<span class="params"><span class="keyword">public</span> name: <span class="built_in">string</span></span>) &#123; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// success</span></span><br><span class="line"><span class="comment">// 类型是兼容的</span></span><br><span class="line"><span class="keyword">let</span> fo: Bar = <span class="keyword">new</span> Foo(<span class="string">'fangfang'</span>)</span><br><span class="line"><span class="keyword">let</span> ba: Foo = <span class="keyword">new</span> Bar(<span class="string">'yueyue'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> Faz &#123;</span><br><span class="line">  <span class="keyword">constructor</span> (<span class="params"><span class="keyword">private</span> name: <span class="built_in">string</span></span>) &#123; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> Boo &#123;</span><br><span class="line">  <span class="keyword">constructor</span> (<span class="params"><span class="keyword">private</span> name: <span class="built_in">string</span></span>) &#123; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// error</span></span><br><span class="line"><span class="comment">// 类型是不兼容的</span></span><br><span class="line"><span class="keyword">let</span> fa: Boo = <span class="keyword">new</span> Faz(<span class="string">'fangfang'</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="protected"><a href="#protected" class="headerlink" title="protected"></a>protected</h4><p>与private类似，但是区别在于protected的成员，虽然在类的外部无法访问，但是可以在派生类中访问父类的protected的成员。构造函数也可以被标记成protected。这意味着这个类不能在包含它的类外被实例化，但是能被继承。可以在派生类中实例化(super)</p>
+<h3 id="readonly"><a href="#readonly" class="headerlink" title="readonly"></a>readonly</h3><blockquote>
+<p>可以设置类的属性，为只读属性</p>
+</blockquote>
+<h3 id="构造函数中使用修饰符参数"><a href="#构造函数中使用修饰符参数" class="headerlink" title="构造函数中使用修饰符参数"></a>构造函数中使用修饰符参数</h3><blockquote>
+<p>在构造函数中使用修饰符参数, 相当于把类的声明与赋值放在了同一个地方</p>
+</blockquote>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 下面是等同的</span></span><br><span class="line"><span class="keyword">class</span> Foo &#123;</span><br><span class="line">  name: <span class="built_in">string</span></span><br><span class="line">  <span class="keyword">constructor</span> (<span class="params">name: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> Bar &#123;</span><br><span class="line">  <span class="keyword">constructor</span> (<span class="params"><span class="keyword">public</span> name: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="getter-setter"><a href="#getter-setter" class="headerlink" title="getter, setter"></a>getter, setter</h3><blockquote>
+<p>同es6一样</p>
+</blockquote>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">class</span> FangFang &#123;</span><br><span class="line">  <span class="keyword">constructor</span> (<span class="params"><span class="keyword">private</span> _lovename: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 通过控制lovename来控制_lovename</span></span><br><span class="line">  <span class="keyword">get</span> lovename (): <span class="built_in">string</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>._lovename</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">set</span> lovename (value: <span class="built_in">string</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (value !== <span class="string">'yueyue'</span>) &#123;</span><br><span class="line">      value = <span class="string">'yueyue'</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">this</span>._lovename = value</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="静态属性"><a href="#静态属性" class="headerlink" title="静态属性"></a>静态属性</h3><blockquote>
+<p>在es6中，并<strong>不支持静态方法</strong>, 但是在typescript中实现类的静态方法。通过[类名].的方式，访问静态属性和静态方法</p>
+</blockquote>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">class</span> Foo &#123;</span><br><span class="line">  <span class="keyword">static</span> myname = <span class="string">'fangfan'</span></span><br><span class="line">  <span class="keyword">static</span> call () &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'fangfang love yueyue'</span>)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">constructor</span> (<span class="params"></span>) &#123;&#125;</span><br><span class="line"></span><br><span class="line">  isLover () &#123;</span><br><span class="line">    Foo.call()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> foo = <span class="keyword">new</span> Foo()</span><br><span class="line">foo.isLover()</span><br></pre></td></tr></table></figure>
+<h3 id="抽象类-abstract"><a href="#抽象类-abstract" class="headerlink" title="抽象类 abstract"></a>抽象类 abstract</h3><p>抽象类，本身不会实例化，派生类通过继承抽象类进行实例化。抽象类与interface最大的区别在与抽象类中可以包括具体的实现细节，而interface只包含了成员的定义。（抽象类的抽象方法不包含方法的具体实现）</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">abstract</span> <span class="keyword">class</span> Foo &#123;</span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params"><span class="keyword">public</span> name: <span class="built_in">string</span>, <span class="keyword">public</span> age: <span class="built_in">number</span></span>) &#123;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">abstract</span> getlove (n: <span class="built_in">string</span>): <span class="built_in">void</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Bar实现了抽象类Foo   </span></span><br><span class="line"><span class="keyword">class</span> Bar <span class="keyword">extends</span> Foo &#123;</span><br><span class="line">  <span class="keyword">constructor</span> (<span class="params">name: <span class="built_in">string</span>, age: <span class="built_in">number</span></span>) &#123;</span><br><span class="line">    <span class="keyword">super</span>(name, age)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  getlove (n: <span class="built_in">string</span>) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'fangfang love yueyue'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="类的类型"><a href="#类的类型" class="headerlink" title="类的类型"></a>类的类型</h3><p>定义一个Foo类型, Foo类的实例的类型是Foo, 那么Foo本身的类型是什么呢? 答案是可以用”typeof Foo”获取类的类型</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">class</span> Foo &#123;</span><br><span class="line">  <span class="keyword">constructor</span> (<span class="params"><span class="keyword">public</span> name: <span class="built_in">string</span></span>) &#123; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Bar是Foo类本身的类型</span></span><br><span class="line"><span class="keyword">let</span> Bar: <span class="keyword">typeof</span> Foo = Foo</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> foo: Foo = <span class="keyword">new</span> Bar(<span class="string">'fangfang'</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="function"><a href="#function" class="headerlink" title="function"></a>function</h2><h3 id="定义函数类型"><a href="#定义函数类型" class="headerlink" title="定义函数类型"></a>定义函数类型</h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 定义函数类型</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span> (<span class="params">n: <span class="built_in">number</span></span>): <span class="title">void</span> </span>&#123; &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 完整的函数类型</span></span><br><span class="line"><span class="keyword">let</span> test: <span class="function">(<span class="params">n: <span class="built_in">number</span></span>) =&gt;</span> <span class="built_in">void</span> = <span class="function">(<span class="params">n: <span class="built_in">number</span> </span>) =&gt;</span> &#123; &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 如果在函数具体实现没有指定类型，ts会自动推断类型</span></span><br><span class="line"><span class="keyword">let</span> test: <span class="function">(<span class="params">n: <span class="built_in">number</span></span>) =&gt;</span> <span class="built_in">void</span> = <span class="function">(<span class="params">n</span>) =&gt;</span> &#123; &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="可选参数，默认参数"><a href="#可选参数，默认参数" class="headerlink" title="可选参数，默认参数"></a>可选参数，默认参数</h3><blockquote>
+<p>可选参数使用, “?”标记为可选参数, 可选择参数的后面必须没有必选参数, 可选参数必须放在所有参数的最后面。默认参数可以直接指定”=”设置为默认参数，带默认值的可选参数，可以不放在参数list的最后面，在使用的时候传入undefined就可以使用默认参数的默认值。</p>
+</blockquote>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">let</span> foo: <span class="function">(<span class="params">a?: <span class="built_in">number</span></span>) =&gt;</span> <span class="built_in">void</span> = <span class="function">(<span class="params">a</span>) =&gt;</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> bar: <span class="function">(<span class="params">a: <span class="built_in">number</span></span>) =&gt;</span> <span class="built_in">void</span> = <span class="function">(<span class="params">a = 5</span>) =&gt;</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="剩余参数"><a href="#剩余参数" class="headerlink" title="剩余参数"></a>剩余参数</h3><blockquote>
+<p>同ES6一样，未知长度的参数可以使用rest参数。</p>
+</blockquote>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">let</span> foo: <span class="function">(<span class="params">a: <span class="built_in">number</span>, ...rest: <span class="built_in">number</span>[]</span>) =&gt;</span> <span class="built_in">void</span> = <span class="function">(<span class="params">a, ...rest</span>) =&gt;</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="this"><a href="#this" class="headerlink" title="this"></a>this</h3><h4 id="箭头函数与this"><a href="#箭头函数与this" class="headerlink" title="箭头函数与this"></a>箭头函数与this</h4><blockquote>
+<p>箭头函数的this的值，是创建时this的值</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">let</span> foo = &#123;</span><br><span class="line">  a: <span class="number">1</span>,</span><br><span class="line">  b: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>)</span><br><span class="line">  &#125;,</span><br><span class="line">  c: <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>)</span><br><span class="line">  &#125;,</span><br><span class="line">  d: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="keyword">this</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  e: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="keyword">this</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// foo</span></span><br><span class="line">foo.b()</span><br><span class="line"><span class="comment">// windows</span></span><br><span class="line">foo.c()</span><br><span class="line"><span class="keyword">let</span> d = foo.d()</span><br><span class="line"><span class="comment">// foo</span></span><br><span class="line">d()</span><br><span class="line"><span class="keyword">let</span> e = foo.e()</span><br><span class="line">e()</span><br></pre></td></tr></table></figure>
+<h4 id="this参数"><a href="#this参数" class="headerlink" title="this参数"></a>this参数</h4><blockquote>
+<p>this参数，是假参数，位于参数列表的最前面。用来指定函数内部this的类型。<strong>因为在字面量对象，函数中的this类型为any</strong>, 而非字面量对象</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">interface</span> Deck &#123;</span><br><span class="line">  a (<span class="keyword">this</span>: Deck): <span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">void</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> Foo: Deck = &#123;</span><br><span class="line">  a (<span class="keyword">this</span>: Deck) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="comment">// this是Deck类型</span></span><br><span class="line">      <span class="built_in">console</span>.log(<span class="keyword">this</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="this参数在回调函数中"><a href="#this参数在回调函数中" class="headerlink" title="this参数在回调函数中"></a>this参数在回调函数中</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">class</span> Foo &#123;</span><br><span class="line">  handleClick (<span class="keyword">this</span>: Foo): <span class="built_in">void</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'click'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function onClick (callback: (this: void) =&gt; void) &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> foo = <span class="keyword">new</span> Foo()</span><br><span class="line"></span><br><span class="line"><span class="comment">// error</span></span><br><span class="line"><span class="comment">// handleClick内部的this为Foo, onClick的callback指定的this为void</span></span><br><span class="line">onClick(foo.handleClick)</span><br></pre></td></tr></table></figure>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">class</span> Foo &#123;</span><br><span class="line">  <span class="comment">// 修改函数的内部this的类型, this为windows</span></span><br><span class="line">  handleClick (<span class="keyword">this</span>: <span class="built_in">void</span>): <span class="built_in">void</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>)</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'click'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function onClick (callback: (this: void) =&gt; void) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(callback())</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> foo = <span class="keyword">new</span> Foo()</span><br><span class="line"></span><br><span class="line"><span class="comment">// success</span></span><br><span class="line">onClick(foo.handleClick)</span><br></pre></td></tr></table></figure>
+<p><strong>如果我们既想函数类型为void，同时this又指向实例呢？可以在类的方法声明的时候使用箭头函数，但是只有在ts中支持类中使用箭头函数</strong></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">class</span> Foo &#123;</span><br><span class="line">  <span class="comment">// 箭头函数不会捕获this，所以你总是可以把它们传给期望this: void的函数</span></span><br><span class="line">  handleClick = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>)</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'click'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function onClick (callback: (this: void) =&gt; void) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(callback())</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> foo = <span class="keyword">new</span> Foo()</span><br><span class="line"></span><br><span class="line"><span class="comment">// success</span></span><br><span class="line">onClick(foo.handleClick)</span><br></pre></td></tr></table></figure>
+<h3 id="重载"><a href="#重载" class="headerlink" title="重载"></a>重载</h3><blockquote>
+<p>有的时候需要为函数传入各种不同类型的参数，以及不同类型的返回值, 根据不同的参数和返回值需要定义不同的参数声明</p>
+</blockquote>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// function fn (x): any 不是重载的定义，而是重载函数的具体实现</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span> (<span class="params">x: <span class="built_in">number</span></span>): <span class="title">number</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span> (<span class="params">x: <span class="built_in">string</span></span>): <span class="title">string</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span> (<span class="params">x: <span class="built_in">boolean</span></span>): <span class="title">boolean</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span> (<span class="params">x</span>): <span class="title">any</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> x</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="泛型"><a href="#泛型" class="headerlink" title="泛型"></a>泛型</h2><h3 id="为什么需要使用泛型？"><a href="#为什么需要使用泛型？" class="headerlink" title="为什么需要使用泛型？"></a>为什么需要使用泛型？</h3><p>代码需要考虑到可重用性，可以使用泛型，支持多种数据类型</p>
+<p>假设遇到以下这种状况, 我们通过的传入和传出值要是类型统一的。如果使用不同类型重载显然是不现实的。如果使用的any, 则会丢失信息。(返回值any, 传入值any，意味着传入是number, 传出是string也是可以的)此时我们可以使用类型变量<t></t></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// T可以是任意类型, any, string, number都是可以的</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>&lt;<span class="title">T</span>&gt;(<span class="params">n: T</span>): <span class="title">T</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> n</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用泛型函数, 指定类型变量</span></span><br><span class="line">test&lt;<span class="built_in">string</span>&gt;(<span class="string">'fangfang'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用泛型函数, 使用类型推论</span></span><br><span class="line">test(<span class="string">'fangfang'</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="泛型变量"><a href="#泛型变量" class="headerlink" title="泛型变量"></a>泛型变量</h3><blockquote>
+<p>类型变量T, 可以是任何类型, 书写泛型函数的时候，请务必考虑到这一点 💭</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test1</span>&lt;<span class="title">T</span>&gt;(<span class="params">n: T</span>): <span class="title">T</span> </span>&#123;</span><br><span class="line">  <span class="comment">// error</span></span><br><span class="line">  <span class="comment">// 由于T可以是任意的类型, 所有不是每一种类型都拥有length属性的</span></span><br><span class="line">  <span class="built_in">console</span>.log(n.length)</span><br><span class="line">  <span class="keyword">return</span> n</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test2</span>&lt;<span class="title">T</span>&gt;(<span class="params">n: T[]</span>): <span class="title">void</span> </span>&#123;</span><br><span class="line">  <span class="comment">// success</span></span><br><span class="line">  <span class="comment">// 每一种数组都是拥有长度的</span></span><br><span class="line">  <span class="built_in">console</span>.log(n.length)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="泛型接口"><a href="#泛型接口" class="headerlink" title="泛型接口"></a>泛型接口</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 完整的泛型函数签名</span></span><br><span class="line"><span class="keyword">let</span> Foo: &lt;T&gt;<span class="function">(<span class="params">n: T</span>) =&gt;</span> T = &lt;T&gt;(n: T): <span class="function"><span class="params">T</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> n</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 泛型接口</span></span><br><span class="line"><span class="keyword">interface</span> Bar&lt;T&gt; &#123;</span><br><span class="line">  name: T</span><br><span class="line">  age: T</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> bar: Bar&lt;<span class="built_in">string</span>&gt; = &#123;</span><br><span class="line">  name: <span class="string">'fangfang'</span>,</span><br><span class="line">  age: <span class="string">'23'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用泛型接口描述函数</span></span><br><span class="line"><span class="comment">// 泛型接口支持传入参数，指定泛型的类型</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> Faz&lt;T&gt; &#123;</span><br><span class="line">  (arg: T): <span class="built_in">void</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>&lt;<span class="title">T</span>&gt;(<span class="params">n: T</span>):<span class="title">void</span> </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(n)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// n的类型为number</span></span><br><span class="line"><span class="keyword">const</span> faz: Faz&lt;<span class="built_in">number</span>&gt; = fn</span><br><span class="line"></span><br><span class="line"><span class="comment">// success</span></span><br><span class="line">faz(<span class="number">123</span>)</span><br><span class="line"><span class="comment">// error</span></span><br><span class="line">faz(<span class="string">'123'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// n的类型为string</span></span><br><span class="line"><span class="keyword">const</span> faz2: Faz&lt;<span class="built_in">string</span>&gt; = fn</span><br></pre></td></tr></table></figure>
+<h3 id="泛型类"><a href="#泛型类" class="headerlink" title="泛型类"></a>泛型类</h3><blockquote>
+<p>与interface类似, 同样可以指定类型变量参数。可以确认指定的属性使用同样类型的参数</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">class</span> Foo&lt;T&gt; &#123;</span><br><span class="line">  <span class="keyword">constructor</span> (<span class="params"><span class="keyword">public</span> name: T</span>) &#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> fangfang = <span class="keyword">new</span> Foo&lt;<span class="built_in">string</span>&gt;(<span class="string">'fangfang'</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="泛型约束"><a href="#泛型约束" class="headerlink" title="泛型约束"></a>泛型约束</h3><blockquote>
+<p>使用interface创建泛型的约束条件</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">interface</span> Baz &#123;</span><br><span class="line">  length: <span class="built_in">number</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 泛型别约束为必须包含length属性</span></span><br><span class="line"><span class="keyword">interface</span> Boo&lt;T <span class="keyword">extends</span> Baz&gt; &#123;</span><br><span class="line">  (n: T): <span class="built_in">void</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> foo: Boo&lt;<span class="built_in">string</span>&gt; = <span class="function">(<span class="params">n</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> n</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> foo2: Boo&lt;<span class="built_in">string</span>[]&gt; = <span class="function">(<span class="params">n</span>) =&gt;</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// error</span></span><br><span class="line"><span class="comment">// number类型是不包含length属性的</span></span><br><span class="line"><span class="keyword">let</span> foo3: Boo&lt;<span class="built_in">number</span>&gt; = <span class="function">(<span class="params">n</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> n</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="泛型与类类型"><a href="#泛型与类类型" class="headerlink" title="泛型与类类型"></a>泛型与类类型</h3><blockquote>
+<p>使用泛型的类型变量T, 指定类的构造函数的类型(构造函数的返回值)</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">class</span> Foo &#123;</span><br><span class="line">  <span class="keyword">constructor</span> (<span class="params"><span class="keyword">public</span> name: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> Faz <span class="keyword">extends</span> Foo &#123;</span><br><span class="line">  <span class="keyword">constructor</span> (<span class="params">name: <span class="built_in">string</span>, <span class="keyword">public</span> age: <span class="built_in">number</span></span>) &#123;</span><br><span class="line">    <span class="keyword">super</span>(name)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> Bar &#123;</span><br><span class="line">  <span class="keyword">constructor</span> (<span class="params"><span class="keyword">public</span> weight: <span class="built_in">number</span></span>) &#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用泛型指定类类型</span></span><br><span class="line"><span class="comment">// 使用Foo类作为泛型约束</span></span><br><span class="line">function test&lt;T extends Foo&gt;(c: new (m, n) =&gt; T, n: string, a: number):T &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> c(n, a)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// success</span></span><br><span class="line"><span class="comment">// Faz类型符合泛型的约束条件</span></span><br><span class="line">test(Faz, <span class="string">'fangfang'</span>, <span class="number">23</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// error</span></span><br><span class="line"><span class="comment">// Bar不符合泛型的约束条件</span></span><br><span class="line">test(Bar, <span class="string">'fangfang'</span>, <span class="number">15</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="enum"><a href="#enum" class="headerlink" title="enum"></a>enum</h2><blockquote>
+<p>枚举定义一组带有名字的常量, 如果第一个成员没有被初始化，那么第一个会被赋予0，后面的枚举值会依次递增。如果之前的枚举成员是一个 数字常量, 后面是根据第一个枚举成员依次递增加一的。字符串枚举则是把一些变量，用更加语义化的方法表达。枚举的值同样可以是表达式，如果表达式的计算结果，是NaN，或者Infinity编译后会报错。</p>
+</blockquote>
+<h3 id="反向映射"><a href="#反向映射" class="headerlink" title="反向映射"></a>反向映射</h3><blockquote>
+<p>从枚举的value，获取enum的key。但是反向映射只针对数字枚举</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">enum</span> Fang &#123;</span><br><span class="line">  name = <span class="number">0</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> value = Fang.name</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(Fang[value])</span><br></pre></td></tr></table></figure>
+<h3 id="常量枚举"><a href="#常量枚举" class="headerlink" title="常量枚举"></a>常量枚举</h3><blockquote>
+<p>常量枚举使用const修饰符，常量枚举不允许有计算成员，因为在ts完成编译后，枚举会被删除，枚举的值会被嵌入到代码里</p>
+</blockquote>
+<h2 id="类型推论-类型兼容"><a href="#类型推论-类型兼容" class="headerlink" title="类型推论, 类型兼容"></a>类型推论, 类型兼容</h2><p>💡 <strong>推论为联合类型最重要的一点就是类型需要是兼容的</strong></p>
+<h3 id="类型兼容"><a href="#类型兼容" class="headerlink" title="类型兼容"></a>类型兼容</h3><p>💡 <strong>typescript的类型兼容性是基于结构，而非名义的</strong>, TypeScript结构化类型系统的基本规则是，如果x要兼容y，那么y至少具有与x相同的属性。但是如果类型有private和protected的属性，只有它和它的子类才是兼容的</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// ts类型兼容性是基于结构子类型</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> A &#123;</span><br><span class="line">  <span class="keyword">constructor</span>(<span class="params"><span class="keyword">public</span> name: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> B <span class="keyword">extends</span> A &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> C &#123;</span><br><span class="line">  <span class="keyword">constructor</span> (<span class="params"><span class="keyword">public</span> name: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 基于结构的都是兼容的</span></span><br><span class="line"><span class="keyword">let</span> a: A = <span class="keyword">new</span> B(<span class="string">'fangfang'</span>)</span><br><span class="line"><span class="keyword">let</span> a1: A = <span class="keyword">new</span> C(<span class="string">'yueyue'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">class</span> Foo &#123;</span><br><span class="line">  <span class="keyword">constructor</span> (<span class="params"><span class="keyword">private</span> name: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> Faz <span class="keyword">extends</span> Foo &#123;</span><br><span class="line">  <span class="keyword">constructor</span> (<span class="params">name: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">    <span class="keyword">super</span>(name)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> Baz &#123;</span><br><span class="line">  <span class="keyword">constructor</span> (<span class="params"><span class="keyword">private</span> name: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// error</span></span><br><span class="line"><span class="comment">// 不兼容的</span></span><br><span class="line"><span class="keyword">let</span> a: Foo = <span class="keyword">new</span> Baz(<span class="string">'fangfang'</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="函数的兼容性"><a href="#函数的兼容性" class="headerlink" title="函数的兼容性"></a>函数的兼容性</h3><blockquote>
+<p>函数兼容性，比较是参数以及参数的类型，和函数的返回值</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 函数的参数的兼容性</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> a = <span class="function">(<span class="params">value1: <span class="built_in">string</span>, value2: <span class="built_in">number</span></span>) =&gt;</span> &#123; &#125;</span><br><span class="line"><span class="keyword">let</span> b = <span class="function">(<span class="params">value1: <span class="built_in">string</span></span>) =&gt;</span> &#123; &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// error</span></span><br><span class="line"><span class="comment">// 不能传递没有定义的参数</span></span><br><span class="line">b = a</span><br><span class="line"></span><br><span class="line"><span class="comment">// ok</span></span><br><span class="line"><span class="comment">// 函数可以忽略参数</span></span><br><span class="line">a = b</span><br></pre></td></tr></table></figure>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 函数的返回值兼容性</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> foo = <span class="function"><span class="params">()</span> =&gt;</span> (&#123; name: <span class="string">'fangfang'</span>, age: <span class="number">23</span> &#125;)</span><br><span class="line"><span class="keyword">let</span> bar = <span class="function"><span class="params">()</span> =&gt;</span> (&#123; name: <span class="string">'fangfang'</span> &#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// foo的返回值不说bar返回值的子集</span></span><br><span class="line"><span class="comment">// error</span></span><br><span class="line">foo = bar</span><br><span class="line"></span><br><span class="line"><span class="comment">// bar的返回值是foo返回值的子集</span></span><br><span class="line"><span class="comment">// ok</span></span><br><span class="line">bar = foo</span><br></pre></td></tr></table></figure>
+<h4 id="可选参数以及剩余参数"><a href="#可选参数以及剩余参数" class="headerlink" title="可选参数以及剩余参数"></a>可选参数以及剩余参数</h4><blockquote>
+<p>可选参数，不会影响到函数的兼容性。…参数也不会影响到函数的兼容性, …参数会被当作无限个可选参数</p>
+</blockquote>
+<h3 id="类"><a href="#类" class="headerlink" title="类"></a>类</h3><blockquote>
+<p>两个类进行兼容性比较的时候，只会对实例部分进行对比。如果类包含private和protected的成员，需要兼容则必须私有成员来着同一个类(继承)</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">class</span> Foo &#123;</span><br><span class="line">  <span class="keyword">constructor</span> (<span class="params"><span class="keyword">public</span> name: <span class="built_in">string</span>, <span class="keyword">public</span> age: <span class="built_in">number</span></span>) &#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> Bar &#123;</span><br><span class="line">  <span class="keyword">constructor</span> (<span class="params"><span class="keyword">public</span> name: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> a: Foo = <span class="keyword">new</span> Foo(<span class="string">'fangfang'</span>, <span class="number">23</span>)</span><br><span class="line"><span class="keyword">let</span> b: Bar = <span class="keyword">new</span> Bar(<span class="string">'fangfang'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// error</span></span><br><span class="line"><span class="comment">// a不是b的子集</span></span><br><span class="line">a = b</span><br><span class="line"></span><br><span class="line"><span class="comment">// b是a的子集</span></span><br><span class="line">b = a</span><br></pre></td></tr></table></figure>
+<h3 id="泛型-1"><a href="#泛型-1" class="headerlink" title="泛型"></a>泛型</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">interface</span> Fang&lt;T&gt; &#123;</span><br><span class="line">  name: T</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> a: Fang&lt;<span class="built_in">number</span>&gt;</span><br><span class="line"><span class="keyword">let</span> b: Fang&lt;<span class="built_in">string</span>&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不是兼容的，指定了不同的类型变量参数</span></span><br><span class="line"><span class="comment">// 对于没指定泛型类型的泛型参数时，会把所有泛型参数当成any比较</span></span><br><span class="line">a = b</span><br><span class="line">b = a</span><br></pre></td></tr></table></figure>
+<h2 id="高级类型"><a href="#高级类型" class="headerlink" title="高级类型"></a>高级类型</h2><h3 id="交叉类型"><a href="#交叉类型" class="headerlink" title="交叉类型"></a>交叉类型</h3><blockquote>
+<p>交叉类型是将多个类型合并为一个类型</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mixins</span>&lt;<span class="title">T</span>, <span class="title">U</span>&gt;(<span class="params">a: T, b: U</span>): <span class="title">T</span> &amp; <span class="title">U</span> </span>&#123;</span><br><span class="line">  <span class="comment">// result 为混合类型</span></span><br><span class="line">  <span class="keyword">let</span> result = (&lt;T &amp; U&gt;&#123;&#125;)</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 对 a和b进行类型断言为any类型</span></span><br><span class="line">  result = <span class="built_in">Object</span>.assign(&#123;...(&lt;<span class="built_in">any</span>&gt;a)&#125;, &#123;...(&lt;<span class="built_in">any</span>&gt;b)&#125;)</span><br><span class="line">  <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> A &#123;</span><br><span class="line">  <span class="keyword">constructor</span> (<span class="params"><span class="keyword">public</span> name: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> B &#123;</span><br><span class="line">  <span class="keyword">constructor</span> (<span class="params"><span class="keyword">public</span> age: <span class="built_in">number</span></span>) &#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// c为混合类型</span></span><br><span class="line"><span class="keyword">let</span> c = mixins&lt;A, B&gt;(<span class="keyword">new</span> A(<span class="string">'fangfang'</span>), <span class="keyword">new</span> B(<span class="number">23</span>))</span><br></pre></td></tr></table></figure>
+<h3 id="联合类型"><a href="#联合类型" class="headerlink" title="联合类型"></a>联合类型</h3><blockquote>
+<p>联合类型表示一个值，可以拥有多种类型，使用“ | ”的操作符</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Foo</span>(<span class="params">n: <span class="built_in">string</span> | <span class="built_in">number</span></span>): <span class="title">void</span> </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Foo(<span class="string">'test'</span>)</span><br><span class="line">Foo(<span class="number">123</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>如果一个值是联合类型，我们只能访问，两种类型的交集部分</strong></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">class</span> Faz &#123;</span><br><span class="line">  <span class="keyword">constructor</span> (<span class="params"><span class="keyword">public</span> name: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> Boo &#123;</span><br><span class="line">  <span class="keyword">constructor</span> (<span class="params"><span class="keyword">public</span> name: <span class="built_in">string</span>, <span class="keyword">public</span> age: <span class="built_in">number</span></span>) &#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">demo</span>(<span class="params">n: Faz | Bar</span>):<span class="title">void</span> </span>&#123;</span><br><span class="line">  <span class="comment">// error</span></span><br><span class="line">  <span class="comment">// 只能使用联合类型共有的部分</span></span><br><span class="line">  <span class="built_in">console</span>.log(n.age)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="类型保护和区分类型"><a href="#类型保护和区分类型" class="headerlink" title="类型保护和区分类型"></a>类型保护和区分类型</h3><h4 id="为什么需要使用类型保护？"><a href="#为什么需要使用类型保护？" class="headerlink" title="为什么需要使用类型保护？"></a>为什么需要使用类型保护？</h4><p><strong>如果不使用类型保护，面对联合类型，必须使用类型断言处理联合类型，请看下面的例子</strong></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">class</span> Foo &#123;</span><br><span class="line">  <span class="keyword">static</span> key = <span class="string">'foo'</span></span><br><span class="line">  <span class="keyword">constructor</span> (<span class="params"><span class="keyword">public</span> name: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> Bar &#123;</span><br><span class="line">  <span class="keyword">constructor</span> (<span class="params"><span class="keyword">public</span> name: <span class="built_in">string</span>, <span class="keyword">public</span> age: <span class="built_in">number</span></span>) &#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function test(c: new (m, n) =&gt; Foo | Bar, n: string, m: number):void &#123;</span><br><span class="line">  <span class="comment">// 进行类型断言</span></span><br><span class="line">  <span class="keyword">if</span>((&lt;<span class="keyword">typeof</span> Foo&gt;c).key) &#123;</span><br><span class="line">    <span class="comment">// 断言为Foo类型</span></span><br><span class="line">    <span class="keyword">let</span> foo = <span class="keyword">new</span> (&lt;<span class="keyword">typeof</span> Foo&gt;c)(n)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// 断言为Bar类型</span></span><br><span class="line">    <span class="keyword">let</span> bar = <span class="keyword">new</span> (&lt;<span class="keyword">typeof</span> Bar&gt;c)(n, m)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">test(Bar, <span class="string">'fangfang'</span>, <span class="number">23</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// call的类型断言</span></span><br><span class="line">function foo(callback: (n: string | number) =&gt; void, m: string | number): void &#123;</span><br><span class="line">  callback(m)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foo(</span><br><span class="line">  &lt;<span class="function">(<span class="params">n: <span class="built_in">string</span></span>) =&gt;</span> <span class="built_in">void</span>&gt;(<span class="function"><span class="params">n</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(n.length)</span><br><span class="line">  &#125;),</span><br><span class="line">  <span class="string">'456'</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h4 id="自定义类型保护-it-is-Class"><a href="#自定义类型保护-it-is-Class" class="headerlink" title="自定义类型保护 ( it is Class )"></a>自定义类型保护 ( it is Class )</h4><blockquote>
+<p>定义一个函数判断类型，函数的返回值安装规定定义为”it is Class”的形式</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">class</span> Foo &#123;</span><br><span class="line">  <span class="keyword">constructor</span> (<span class="params"><span class="keyword">public</span> name: <span class="built_in">string</span>, <span class="keyword">public</span> age: <span class="built_in">number</span></span>) &#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> Bar &#123;</span><br><span class="line">  <span class="keyword">constructor</span> (<span class="params"><span class="keyword">public</span> name: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 自定义类型保护</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isFoo</span>(<span class="params">n: Foo | Bar</span>): <span class="title">n</span> <span class="title">is</span> <span class="title">Foo</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> ((&lt;Foo&gt;n).age) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params">n: Foo | Bar</span>):<span class="title">void</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (isFoo(n)) &#123;</span><br><span class="line">    <span class="comment">// 使用自定义类型保护后，if分支里不再需要类型断言量</span></span><br><span class="line">    <span class="built_in">console</span>.log(n.age)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="typeof保护"><a href="#typeof保护" class="headerlink" title="typeof保护"></a>typeof保护</h4><blockquote>
+<p>typeof保护和自定义类型保护一样，可以避免在每一行的代码中使用类型断言，但是typeof保护只能用来，number，boolean，string类型</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span> (<span class="params">n: <span class="built_in">number</span> | <span class="built_in">string</span></span>): <span class="title">void</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> n === <span class="string">'number'</span>) &#123;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// 使用typeof类型保护，可以在else分支里，直接使用length属性，因为n是string类型</span></span><br><span class="line">    <span class="built_in">console</span>.log(n.length)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="instanceof保护"><a href="#instanceof保护" class="headerlink" title="instanceof保护"></a>instanceof保护</h4><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Foo &#123;</span><br><span class="line">  <span class="keyword">constructor</span> (<span class="params"><span class="keyword">public</span> name: <span class="built_in">string</span>, <span class="keyword">public</span> age: <span class="built_in">number</span></span>) &#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> Bar &#123;</span><br><span class="line">  <span class="keyword">constructor</span> (<span class="params"><span class="keyword">public</span> name: <span class="built_in">string</span>, <span class="keyword">public</span> weight: <span class="built_in">number</span></span>) &#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params">n: Foo | Bar</span>): <span class="title">void</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (n <span class="keyword">instanceof</span> Foo) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(n.age)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (n <span class="keyword">instanceof</span> Bar) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(n.weight)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="null-undefined"><a href="#null-undefined" class="headerlink" title="null, undefined"></a>null, undefined</h3><blockquote>
+<p>null和undefined可以赋值给任意的类型的参数。同时null与undefined不是一回事，需要用联合类型区分</p>
+</blockquote>
+<h4 id="null-undefined的类型断言"><a href="#null-undefined的类型断言" class="headerlink" title="null, undefined的类型断言"></a>null, undefined的类型断言</h4><blockquote>
+<p>使用 “!” 对null,undefined进行类型断言</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params">n: <span class="built_in">string</span> | <span class="literal">null</span> | <span class="literal">undefined</span></span>):<span class="title">void</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (n!) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`string:<span class="subst">$&#123;n.length&#125;</span>`</span>)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`null or undefined`</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">test(<span class="string">'123'</span>)</span><br><span class="line"></span><br><span class="line">test(<span class="literal">null</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="类型别名"><a href="#类型别名" class="headerlink" title="类型别名"></a>类型别名</h3><blockquote>
+<p>类型别名的作用与interface类似，对变量和属性的约束。类型别名不能继承不能作为类的接口。尽量使用接口而非类型别名</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">type</span> foo = <span class="built_in">string</span></span><br><span class="line"><span class="keyword">type</span> bar = <span class="function">(<span class="params">n: <span class="built_in">string</span> | <span class="built_in">number</span></span>) =&gt;</span> (<span class="built_in">string</span> | <span class="built_in">number</span>)</span><br><span class="line"><span class="keyword">type</span> faz&lt;T&gt; = &#123;</span><br><span class="line">  weight: T,</span><br><span class="line">  age: T</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> a: foo = <span class="string">'123'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// error</span></span><br><span class="line"><span class="keyword">let</span> b: foo = <span class="number">123</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> c: bar = <span class="function">(<span class="params">n: <span class="built_in">string</span> | <span class="built_in">number</span></span>): (<span class="params"><span class="built_in">string</span> | <span class="built_in">number</span></span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> n</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// error</span></span><br><span class="line"><span class="keyword">let</span> d: bar = (n: <span class="built_in">string</span> | <span class="built_in">number</span>): <span class="function"><span class="params">string</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> n</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> e: faz&lt;<span class="built_in">number</span>&gt; = &#123;</span><br><span class="line">  weight: <span class="number">90</span>,</span><br><span class="line">  age: <span class="number">23</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// error</span></span><br><span class="line"><span class="keyword">let</span> f: faz&lt;<span class="built_in">number</span>&gt; = &#123;</span><br><span class="line">  weight: <span class="string">'90'</span>,</span><br><span class="line">  age: <span class="number">23</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="字符串字面量类型-数字字面量类型"><a href="#字符串字面量类型-数字字面量类型" class="headerlink" title="字符串字面量类型, 数字字面量类型"></a>字符串字面量类型, 数字字面量类型</h3><blockquote>
+<p>定义一组字符串, 数字,使用的时候只能从字符串组，数字组中固定的值</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> numbers = <span class="number">1</span> | <span class="number">2</span> | <span class="number">3</span></span><br><span class="line"><span class="keyword">type</span> strings = <span class="string">'love'</span> | <span class="string">'fangfang'</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span> (<span class="params">n: strings</span>): <span class="title">void</span> </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span> (<span class="params">n: numbers</span>): <span class="title">void</span> </span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foo(<span class="string">'fangfang'</span>)</span><br><span class="line"><span class="comment">// error</span></span><br><span class="line">foo(<span class="string">'lala'</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h2><p>接下来，我会继续学习typescript剩余的文档，并且尝试用Ts配合Vue搭建出一个模版项目出来。然后接下来，想了解下Babel的原理以及AST抽象语法树</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/TypeScript/" rel="tag"># TypeScript</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/15/mood2018715/" rel="next" title="2018.7.15 心情小记">
+                <i class="fa fa-chevron-left"></i> 2018.7.15 心情小记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="张越" />
+            
+              <p class="site-author-name" itemprop="name">张越</p>
+              <p class="site-description motion-element" itemprop="description">所谓成长，就是经过不断的聚散离合，找到不太会伤害到彼此的距离</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-name">篇博文</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/BengBu-YueZhang" target="_blank" title="我的GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/5460100952/profile?topnav=1&wvr=6" target="_blank" title="我的微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的微博</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基础类型"><span class="nav-number">2.</span> <span class="nav-text">基础类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#枚举"><span class="nav-number">2.1.</span> <span class="nav-text">枚举</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Any"><span class="nav-number">2.2.</span> <span class="nav-text">Any</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Void"><span class="nav-number">2.3.</span> <span class="nav-text">Void</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Null-Undefined"><span class="nav-number">2.4.</span> <span class="nav-text">Null Undefined</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Never"><span class="nav-number">2.5.</span> <span class="nav-text">Never</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类型断言"><span class="nav-number">2.6.</span> <span class="nav-text">类型断言</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#interface"><span class="nav-number">3.</span> <span class="nav-text">interface</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#可选属性"><span class="nav-number">3.1.</span> <span class="nav-text">可选属性 ?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#只读属性-readonly"><span class="nav-number">3.2.</span> <span class="nav-text">只读属性 readonly</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#只读数组-ReadonlyArray"><span class="nav-number">3.3.</span> <span class="nav-text">只读数组 ReadonlyArray</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数类型"><span class="nav-number">3.4.</span> <span class="nav-text">函数类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可索引类型"><span class="nav-number">3.5.</span> <span class="nav-text">可索引类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类类型"><span class="nav-number">3.6.</span> <span class="nav-text">类类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#接口继承"><span class="nav-number">3.7.</span> <span class="nav-text">接口继承</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#接口继承类"><span class="nav-number">3.8.</span> <span class="nav-text">接口继承类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#class"><span class="nav-number">4.</span> <span class="nav-text">class</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#修饰符"><span class="nav-number">4.1.</span> <span class="nav-text">修饰符</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#public"><span class="nav-number">4.1.1.</span> <span class="nav-text">public</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#private"><span class="nav-number">4.1.2.</span> <span class="nav-text">private</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#protected"><span class="nav-number">4.1.3.</span> <span class="nav-text">protected</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#readonly"><span class="nav-number">4.2.</span> <span class="nav-text">readonly</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构造函数中使用修饰符参数"><span class="nav-number">4.3.</span> <span class="nav-text">构造函数中使用修饰符参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#getter-setter"><span class="nav-number">4.4.</span> <span class="nav-text">getter, setter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#静态属性"><span class="nav-number">4.5.</span> <span class="nav-text">静态属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#抽象类-abstract"><span class="nav-number">4.6.</span> <span class="nav-text">抽象类 abstract</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类的类型"><span class="nav-number">4.7.</span> <span class="nav-text">类的类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#function"><span class="nav-number">5.</span> <span class="nav-text">function</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义函数类型"><span class="nav-number">5.1.</span> <span class="nav-text">定义函数类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可选参数，默认参数"><span class="nav-number">5.2.</span> <span class="nav-text">可选参数，默认参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#剩余参数"><span class="nav-number">5.3.</span> <span class="nav-text">剩余参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#this"><span class="nav-number">5.4.</span> <span class="nav-text">this</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#箭头函数与this"><span class="nav-number">5.4.1.</span> <span class="nav-text">箭头函数与this</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#this参数"><span class="nav-number">5.4.2.</span> <span class="nav-text">this参数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#this参数在回调函数中"><span class="nav-number">5.5.</span> <span class="nav-text">this参数在回调函数中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重载"><span class="nav-number">5.6.</span> <span class="nav-text">重载</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#泛型"><span class="nav-number">6.</span> <span class="nav-text">泛型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么需要使用泛型？"><span class="nav-number">6.1.</span> <span class="nav-text">为什么需要使用泛型？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#泛型变量"><span class="nav-number">6.2.</span> <span class="nav-text">泛型变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#泛型接口"><span class="nav-number">6.3.</span> <span class="nav-text">泛型接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#泛型类"><span class="nav-number">6.4.</span> <span class="nav-text">泛型类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#泛型约束"><span class="nav-number">6.5.</span> <span class="nav-text">泛型约束</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#泛型与类类型"><span class="nav-number">6.6.</span> <span class="nav-text">泛型与类类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#enum"><span class="nav-number">7.</span> <span class="nav-text">enum</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#反向映射"><span class="nav-number">7.1.</span> <span class="nav-text">反向映射</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常量枚举"><span class="nav-number">7.2.</span> <span class="nav-text">常量枚举</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类型推论-类型兼容"><span class="nav-number">8.</span> <span class="nav-text">类型推论, 类型兼容</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#类型兼容"><span class="nav-number">8.1.</span> <span class="nav-text">类型兼容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数的兼容性"><span class="nav-number">8.2.</span> <span class="nav-text">函数的兼容性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#可选参数以及剩余参数"><span class="nav-number">8.2.1.</span> <span class="nav-text">可选参数以及剩余参数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类"><span class="nav-number">8.3.</span> <span class="nav-text">类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#泛型-1"><span class="nav-number">8.4.</span> <span class="nav-text">泛型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#高级类型"><span class="nav-number">9.</span> <span class="nav-text">高级类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#交叉类型"><span class="nav-number">9.1.</span> <span class="nav-text">交叉类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#联合类型"><span class="nav-number">9.2.</span> <span class="nav-text">联合类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类型保护和区分类型"><span class="nav-number">9.3.</span> <span class="nav-text">类型保护和区分类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#为什么需要使用类型保护？"><span class="nav-number">9.3.1.</span> <span class="nav-text">为什么需要使用类型保护？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自定义类型保护-it-is-Class"><span class="nav-number">9.3.2.</span> <span class="nav-text">自定义类型保护 ( it is Class )</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#typeof保护"><span class="nav-number">9.3.3.</span> <span class="nav-text">typeof保护</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#instanceof保护"><span class="nav-number">9.3.4.</span> <span class="nav-text">instanceof保护</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#null-undefined"><span class="nav-number">9.4.</span> <span class="nav-text">null, undefined</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#null-undefined的类型断言"><span class="nav-number">9.4.1.</span> <span class="nav-text">null, undefined的类型断言</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类型别名"><span class="nav-number">9.5.</span> <span class="nav-text">类型别名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符串字面量类型-数字字面量类型"><span class="nav-number">9.6.</span> <span class="nav-text">字符串字面量类型, 数字字面量类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后续"><span class="nav-number">10.</span> <span class="nav-text">后续</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张越</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
