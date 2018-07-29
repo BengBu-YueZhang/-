@@ -185,7 +185,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            主页
+            Accueil
           </a>
         </li>
       
@@ -195,7 +195,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
-            标签
+            Tags
           </a>
         </li>
       
@@ -205,7 +205,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            时间轴
+            Archives
           </a>
         </li>
       
@@ -271,7 +271,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发布于</span>
+                <span class="post-meta-item-text">Posté le</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-25T14:42:20+08:00">
                 2018-07-25
@@ -390,7 +390,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发布于</span>
+                <span class="post-meta-item-text">Posté le</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-25T14:41:47+08:00">
                 2018-07-25
@@ -431,35 +431,14 @@
 
       
         
-          
-            <h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><blockquote>
-<p>参考: <a href="https://github.com/vuejs/vue-class-component" target="_blank" rel="noopener">vue-class-component</a>, <a href="https://github.com/kaorun343/vue-property-decorator" target="_blank" rel="noopener">vue-property-decorator</a>。下面是Vue中常见功能的class版本的语法规则。</p>
-</blockquote>
-<h3 id="Element—UI"><a href="#Element—UI" class="headerlink" title="Element—UI"></a>Element—UI</h3><blockquote>
-<p>Element—UI以及Muse-UI官方提供了d.ts文件, iview官方尚未提供ts的支持</p>
-</blockquote>
-<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> element <span class="keyword">from</span> <span class="string">'element-ui'</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">'element-ui/lib/theme-chalk/index.css'</span>;</span><br><span class="line"></span><br><span class="line">Vue.use(element);</span><br></pre></td></tr></table></figure>
-<h3 id="class组件"><a href="#class组件" class="headerlink" title="class组件"></a>class组件</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; Component &#125; <span class="keyword">from</span> <span class="string">'vue-property-decorator'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">class</span> TodoList <span class="keyword">extends</span> Vue &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 引入其他组件</span></span><br><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; Component &#125; <span class="keyword">from</span> <span class="string">'vue-property-decorator'</span>;</span><br><span class="line"><span class="keyword">import</span> DemoData <span class="keyword">from</span> <span class="string">'@/components/DemoData.vue'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span>(&#123;</span><br><span class="line">  components: &#123;</span><br><span class="line">    DemoData,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">class</span> Demos <span class="keyword">extends</span> Vue &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="组件生命周期"><a href="#组件生命周期" class="headerlink" title="组件生命周期"></a>组件生命周期</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">private</span> created(): <span class="built_in">void</span> &#123;</span><br><span class="line">  <span class="keyword">this</span>.init();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> mounted(): <span class="built_in">void</span> &#123;</span><br><span class="line">  <span class="keyword">this</span>.init();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="data"><a href="#data" class="headerlink" title="data"></a>data</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; Component &#125; <span class="keyword">from</span> <span class="string">'vue-property-decorator'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> Girl &#123;</span><br><span class="line">  name: <span class="built_in">string</span>;</span><br><span class="line">  age: <span class="built_in">number</span>;</span><br><span class="line">  hobbys: <span class="built_in">string</span>[];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">class</span> DemoData <span class="keyword">extends</span> Vue &#123;</span><br><span class="line">  <span class="keyword">private</span> name: <span class="built_in">string</span> = <span class="string">'fangfang'</span>;</span><br><span class="line">  <span class="keyword">private</span> lover: Girl = &#123;</span><br><span class="line">    name: <span class="string">'fangfang'</span>,</span><br><span class="line">    age: <span class="number">23</span>,</span><br><span class="line">    hobbys: [<span class="string">'旅行'</span>, <span class="string">'看书'</span>],</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">private</span> hobbys: <span class="built_in">string</span>[] = [<span class="string">'旅行'</span>, <span class="string">'看书'</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="props"><a href="#props" class="headerlink" title="props"></a>props</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; Component, Prop &#125; <span class="keyword">from</span> <span class="string">'vue-property-decorator'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">class</span> DemoProps <span class="keyword">extends</span> Vue &#123;</span><br><span class="line">  <span class="meta">@Prop</span>(&#123; <span class="keyword">default</span>: <span class="string">'fangfang'</span>, required: <span class="literal">true</span> &#125;) <span class="keyword">private</span> name!: <span class="built_in">string</span>;</span><br><span class="line">  <span class="meta">@Prop</span>(&#123; <span class="keyword">default</span>: <span class="string">'loveFangFang'</span>, required: <span class="literal">false</span> &#125;) <span class="keyword">private</span> oath!: <span class="built_in">string</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="computed"><a href="#computed" class="headerlink" title="computed"></a>computed</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; Component, Prop &#125; <span class="keyword">from</span> <span class="string">'vue-property-decorator'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">class</span> DemoComputed <span class="keyword">extends</span> Vue &#123;</span><br><span class="line">  <span class="meta">@Prop</span>(&#123; <span class="keyword">default</span>: <span class="string">'yueyue'</span> &#125;) <span class="keyword">private</span> boyname!: <span class="built_in">string</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">get</span> confession() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;this.boyname&#125;</span>, love, fangfang`</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="watch"><a href="#watch" class="headerlink" title="watch"></a>watch</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; Component, Watch &#125; <span class="keyword">from</span> <span class="string">'vue-property-decorator'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">class</span> DemoWatch <span class="keyword">extends</span> Vue &#123;</span><br><span class="line">  <span class="keyword">private</span> girlName: <span class="built_in">string</span> = <span class="string">'fangfang'</span>;</span><br><span class="line">  <span class="keyword">private</span> bodyName: <span class="built_in">string</span> = <span class="string">'zhangyue'</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> created(): <span class="built_in">void</span> &#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">this</span>.bodyName = <span class="string">`love <span class="subst">$&#123;this.bodyName&#125;</span>`</span>;</span><br><span class="line">    &#125;, <span class="number">3000</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Watch</span>(<span class="string">'bodyName'</span>)</span><br><span class="line">  <span class="keyword">private</span> onNameChange(val: <span class="built_in">string</span>, oldVal: <span class="built_in">string</span>): <span class="built_in">void</span> &#123;</span><br><span class="line">    <span class="keyword">this</span>.girlName = <span class="string">`<span class="subst">$&#123;this.girlName&#125;</span><span class="subst">$&#123;val&#125;</span>`</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 添加deep的选项</span></span><br><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; Component, Watch &#125; <span class="keyword">from</span> <span class="string">'vue-property-decorator'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> GrilInfo &#123;</span><br><span class="line">  name: <span class="built_in">string</span>;</span><br><span class="line">  age: <span class="built_in">number</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> Gril &#123;</span><br><span class="line">  info: GrilInfo;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">class</span> DemoWatch <span class="keyword">extends</span> Vue &#123;</span><br><span class="line">  <span class="keyword">private</span> girlName: <span class="built_in">string</span> = <span class="string">'fangfang'</span>;</span><br><span class="line">  <span class="keyword">private</span> bodyName: <span class="built_in">string</span> = <span class="string">'zhangyue'</span>;</span><br><span class="line">  <span class="keyword">private</span> girlInfo: Gril = &#123;</span><br><span class="line">    info: &#123;</span><br><span class="line">      name: <span class="string">'fangfang'</span>,</span><br><span class="line">      age: <span class="number">23</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> created(): <span class="built_in">void</span> &#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">this</span>.bodyName = <span class="string">`love <span class="subst">$&#123;this.bodyName&#125;</span>`</span>;</span><br><span class="line">    &#125;, <span class="number">3000</span>);</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">this</span>.girlInfo = <span class="built_in">Object</span>.assign(&#123;&#125;, <span class="keyword">this</span>.girlInfo, &#123;</span><br><span class="line">        info: &#123;</span><br><span class="line">          name: <span class="string">'fangfang love yueyue'</span>,</span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;, <span class="number">5000</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Watch</span>(<span class="string">'bodyName'</span>)</span><br><span class="line">  <span class="keyword">private</span> onNameChange(val: <span class="built_in">string</span>, oldVal: <span class="built_in">string</span>): <span class="built_in">void</span> &#123;</span><br><span class="line">    <span class="keyword">this</span>.girlName = <span class="string">`<span class="subst">$&#123;this.girlName&#125;</span><span class="subst">$&#123;val&#125;</span>`</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Watch</span>(<span class="string">'girlInfo'</span>, &#123; deep: <span class="literal">true</span> &#125;)</span><br><span class="line">  <span class="keyword">private</span> onGirlInfoChange(val: Gril, oldVal: Gril): <span class="built_in">void</span> &#123;</span><br><span class="line">    <span class="comment">// alert('love');</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="directives"><a href="#directives" class="headerlink" title="directives"></a>directives</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; Component &#125; <span class="keyword">from</span> <span class="string">'vue-property-decorator'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span>(&#123;</span><br><span class="line">  directives: &#123;</span><br><span class="line">    focus: &#123;</span><br><span class="line">      inserted(el): <span class="built_in">void</span> &#123;</span><br><span class="line">        el.focus();</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">class</span> DemoDirectives <span class="keyword">extends</span> Vue &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="filters"><a href="#filters" class="headerlink" title="filters"></a>filters</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; Component &#125; <span class="keyword">from</span> <span class="string">'vue-property-decorator'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span>(&#123;</span><br><span class="line">  filters: &#123;</span><br><span class="line">    gril(value: <span class="built_in">string</span>): <span class="built_in">string</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;value&#125;</span>, love, yueyue`</span>;</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">class</span> DemoFilter <span class="keyword">extends</span> Vue &#123;</span><br><span class="line">  <span class="keyword">private</span> name: <span class="built_in">string</span> = <span class="string">'fangfang'</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="mixins"><a href="#mixins" class="headerlink" title="mixins"></a>mixins</h3><h3 id="emit"><a href="#emit" class="headerlink" title="emit"></a>emit</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">@Emit</span>(<span class="string">'change'</span>)</span><br><span class="line">handleChange(n) &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 等同于</span></span><br><span class="line"><span class="keyword">this</span>.$emit(<span class="string">'change'</span>, n)</span><br></pre></td></tr></table></figure>
-<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 完整的示例</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 接受事件</span></span><br><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; Component, Emit &#125; <span class="keyword">from</span> <span class="string">'vue-property-decorator'</span>;</span><br><span class="line"><span class="keyword">import</span> DemoEmit <span class="keyword">from</span> <span class="string">'./DemoEmit.vue'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span>(&#123;</span><br><span class="line">  components: &#123;</span><br><span class="line">    DemoEmit,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">class</span> DemoOnEmit <span class="keyword">extends</span> Vue &#123;</span><br><span class="line">  <span class="keyword">private</span> content: <span class="built_in">string</span> = <span class="string">'空白'</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> onChangeName(content: <span class="built_in">string</span>): <span class="built_in">void</span> &#123;</span><br><span class="line">    <span class="keyword">this</span>.content = content;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 发送事件</span></span><br><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; Component, Emit &#125; <span class="keyword">from</span> <span class="string">'vue-property-decorator'</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">class</span> DemoEmit <span class="keyword">extends</span> Vue &#123;</span><br><span class="line">  <span class="keyword">private</span> created(): <span class="built_in">void</span> &#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">this</span>.handleChangeName(<span class="string">'yueyue love fangfang'</span>);</span><br><span class="line">    &#125;, <span class="number">3000</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Emit</span>(<span class="string">'chang-name'</span>)</span><br><span class="line">  <span class="keyword">private</span> handleChangeName(n: <span class="built_in">string</span>): <span class="built_in">void</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">undefined</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="methods"><a href="#methods" class="headerlink" title="methods"></a>methods</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">  <span class="keyword">private</span> init(): <span class="built_in">void</span> &#123;</span><br><span class="line">    alert(<span class="string">'init'</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="Vuex"><a href="#Vuex" class="headerlink" title="Vuex"></a>Vuex</h2><blockquote>
-<p>Vuex是Vue与TypeScript结合的痛点, <a href="https://github.com/ktsn/vuex-class" target="_blank" rel="noopener">vuex-class</a>虽然简单但是并不能对Vuex进行类型检查。ts的类型检查在这里是失效的。</p>
-</blockquote>
-<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// store</span></span><br><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span>;</span><br><span class="line"><span class="keyword">import</span> Vuex <span class="keyword">from</span> <span class="string">'vuex'</span>;</span><br><span class="line"><span class="keyword">import</span> ModuleA <span class="keyword">from</span> <span class="string">'./modules/moduleA'</span>;</span><br><span class="line"></span><br><span class="line">Vue.use(Vuex);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">new</span> Vuex.Store(&#123;</span><br><span class="line">  modules: &#123;</span><br><span class="line">    ModuleA,</span><br><span class="line">  &#125;,</span><br><span class="line">  state: &#123;</span><br><span class="line">    name: <span class="string">'test'</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// moduleA</span></span><br><span class="line"><span class="keyword">interface</span> ModuleA &#123;</span><br><span class="line">  name: <span class="built_in">string</span>;</span><br><span class="line">  hobby: <span class="built_in">string</span>[];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> ModuleAState: ModuleA = &#123;</span><br><span class="line">  name: <span class="string">'fangfang'</span>,</span><br><span class="line">  hobby: [<span class="string">'看书'</span>],</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> getters = &#123;</span><br><span class="line">  oath(state: ModuleA): <span class="built_in">string</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;state.name&#125;</span> love yueyue`</span>;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> actions = &#123;</span><br><span class="line">  addHobby(&#123; commit &#125;: &#123; commit: <span class="built_in">any</span> &#125;, hobby: <span class="built_in">string</span>) &#123;</span><br><span class="line">    commit(<span class="string">'ADD_HOBBY'</span>, hobby);</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> mutations = &#123;</span><br><span class="line">  ADD_HOBBY(state: ModuleA, hobby: <span class="built_in">string</span>): <span class="built_in">void</span> &#123;</span><br><span class="line">    state.hobby = [...state.hobby, hobby];</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  namespaced: <span class="literal">true</span>,</span><br><span class="line">  state: ModuleAState,</span><br><span class="line">  getters,</span><br><span class="line">  actions,</span><br><span class="line">  mutations,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// xxx.vue</span></span><br><span class="line"><span class="comment">// Vuex中类型是丢失的</span></span><br><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;</span><br><span class="line">  State,</span><br><span class="line">  Getter,</span><br><span class="line">  Action,</span><br><span class="line">  Mutation,</span><br><span class="line">  <span class="keyword">namespace</span>,</span><br><span class="line">&#125; <span class="keyword">from</span> <span class="string">'vuex-class'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> ModuleA = <span class="keyword">namespace</span>(<span class="string">'ModuleA/'</span>);</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">class</span> Demos <span class="keyword">extends</span> Vue &#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@State</span>(<span class="string">'name'</span>) <span class="keyword">public</span> stateName!: <span class="built_in">string</span>;</span><br><span class="line">  <span class="meta">@ModuleA</span>.State(<span class="string">'name'</span>) <span class="keyword">public</span> ModuleAStateName!: <span class="built_in">any</span>;</span><br><span class="line">  <span class="meta">@ModuleA</span>.Getter(<span class="string">'oath'</span>) <span class="keyword">public</span> ModuleAGetterOath!: <span class="built_in">any</span>;</span><br><span class="line">  <span class="meta">@ModuleA</span>.Action(<span class="string">'addHobby'</span>) <span class="keyword">public</span> ModuleAActionAddHobby!: <span class="built_in">any</span>;</span><br><span class="line">  <span class="meta">@ModuleA</span>.State(<span class="string">'hobby'</span>) <span class="keyword">public</span> ModuleAStateHobby!: <span class="built_in">any</span>;</span><br><span class="line">  <span class="meta">@ModuleA</span>.Mutation(<span class="string">'ADD_HOBBY'</span>) <span class="keyword">public</span> ModuleAMutationAddHobby!: <span class="built_in">any</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> created(): <span class="built_in">void</span> &#123;</span><br><span class="line">    <span class="keyword">this</span>.init();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> init(): <span class="built_in">void</span> &#123;</span><br><span class="line">    <span class="comment">// 全局的state状态</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.stateName);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 命名空间的state状态</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.ModuleAStateName);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 命名空间的getter</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.ModuleAGetterOath);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 使用dispath</span></span><br><span class="line">    <span class="keyword">this</span>.ModuleAActionAddHobby(<span class="number">456</span>);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.ModuleAStateHobby);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 使用commit</span></span><br><span class="line">    <span class="keyword">this</span>.ModuleAMutationAddHobby(<span class="number">1243</span>);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.ModuleAStateHobby);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-          
+          <p><img src="https://unsplash.it/1069/613?random" alt="image"></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/07/25/TS与Vue/#more" rel="contents">
+              Lire la suite &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -535,7 +514,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发布于</span>
+                <span class="post-meta-item-text">Posté le</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-25T14:30:00+08:00">
                 2018-07-25
@@ -579,8 +558,8 @@
           <p><img src="https://unsplash.it/1069/612?random" alt="image"></p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/07/25/typescript/#espandi" rel="contents">
-              查看全文 &raquo;
+            <a class="btn" href="/2018/07/25/typescript/#more" rel="contents">
+              Lire la suite &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -659,7 +638,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发布于</span>
+                <span class="post-meta-item-text">Posté le</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-15T18:36:13+08:00">
                 2018-07-15
@@ -780,7 +759,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发布于</span>
+                <span class="post-meta-item-text">Posté le</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-08T23:39:52+08:00">
                 2018-07-08
@@ -824,8 +803,8 @@
           <p><img src="https://unsplash.it/1082/609?random" alt="image"></p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/07/08/mysql/#espandi" rel="contents">
-              查看全文 &raquo;
+            <a class="btn" href="/2018/07/08/mysql/#more" rel="contents">
+              Lire la suite &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -904,7 +883,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发布于</span>
+                <span class="post-meta-item-text">Posté le</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-28T16:00:31+08:00">
                 2018-06-28
@@ -948,8 +927,8 @@
           <p><img src="https://unsplash.it/1270/763?random" alt="image"></p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/06/28/shell01/#espandi" rel="contents">
-              查看全文 &raquo;
+            <a class="btn" href="/2018/06/28/shell01/#more" rel="contents">
+              Lire la suite &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -1028,7 +1007,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发布于</span>
+                <span class="post-meta-item-text">Posté le</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-24T06:00:00+08:00">
                 2018-06-24
@@ -1072,8 +1051,8 @@
           <p><img src="https://unsplash.it/1280/760?random" alt="image"></p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/06/24/Elasticsearch03/#espandi" rel="contents">
-              查看全文 &raquo;
+            <a class="btn" href="/2018/06/24/Elasticsearch03/#more" rel="contents">
+              Lire la suite &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -1152,7 +1131,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发布于</span>
+                <span class="post-meta-item-text">Posté le</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-19T22:15:51+08:00">
                 2018-06-19
@@ -1196,8 +1175,8 @@
           <p><img src="https://unsplash.it/1280/765?random" alt="image"></p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/06/19/Elasticsearch02/#espandi" rel="contents">
-              查看全文 &raquo;
+            <a class="btn" href="/2018/06/19/Elasticsearch02/#more" rel="contents">
+              Lire la suite &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -1276,7 +1255,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发布于</span>
+                <span class="post-meta-item-text">Posté le</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-12T23:10:00+08:00">
                 2018-06-12
@@ -1320,8 +1299,8 @@
           <p><img src="https://unsplash.it/1280/768?random" alt="image"></p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/06/12/Elasticsearch/#espandi" rel="contents">
-              查看全文 &raquo;
+            <a class="btn" href="/2018/06/12/Elasticsearch/#more" rel="contents">
+              Lire la suite &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -1400,7 +1379,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发布于</span>
+                <span class="post-meta-item-text">Posté le</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-02T14:08:55+08:00">
                 2018-06-02
@@ -1444,8 +1423,8 @@
           <p><img src="https://unsplash.it/1081/609?random" alt="image"></p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/06/02/nginx/#espandi" rel="contents">
-              查看全文 &raquo;
+            <a class="btn" href="/2018/06/02/nginx/#more" rel="contents">
+              Lire la suite &raquo;
             </a>
           </div>
           <!--/noindex-->
@@ -1537,7 +1516,7 @@
                 <a href="/archives/">
               
                   <span class="site-state-item-count">40</span>
-                  <span class="site-state-item-name">篇文章</span>
+                  <span class="site-state-item-name">articles</span>
                 </a>
               </div>
             
@@ -1550,7 +1529,7 @@
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
                   <span class="site-state-item-count">19</span>
-                  <span class="site-state-item-name">Tags</span>
+                  <span class="site-state-item-name">tags</span>
                 </a>
               </div>
             
@@ -1612,7 +1591,7 @@
 </div>
 
 
-  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 
 
@@ -1620,7 +1599,7 @@
 
 
 
-  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+  <div class="theme-info">Thème &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
 
 
 
