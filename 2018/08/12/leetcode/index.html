@@ -100,7 +100,8 @@
 <meta property="og:image" content="https://i.loli.net/2018/08/12/5b6fc2484099f.png">
 <meta property="og:image" content="https://i.loli.net/2018/08/12/5b6fbf9f8cbc0.png">
 <meta property="og:image" content="https://i.loli.net/2018/08/12/5b6fbeb431a15.png">
-<meta property="og:updated_time" content="2018-08-12T06:22:20.000Z">
+<meta property="og:image" content="https://i.loli.net/2018/08/12/5b6fd2a9a451e.png">
+<meta property="og:updated_time" content="2018-08-12T06:25:10.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="leetcode SQL(1)">
 <meta name="twitter:image" content="https://unsplash.it/1069/600?random">
@@ -400,8 +401,9 @@
 <p><img src="https://i.loli.net/2018/08/12/5b6fbeb431a15.png" alt="题目"></p>
 <h3 id="解答-12"><a href="#解答-12" class="headerlink" title="解答"></a>解答</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">UPDATE salary</span><br><span class="line">SET salary.sex = (</span><br><span class="line">    CASE</span><br><span class="line">        WHEN salary.sex = 'm' THEN 'f'</span><br><span class="line">        WHEN salary.sex = 'f' THEN 'm'</span><br><span class="line">        ELSE 'sex'</span><br><span class="line">    END</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
 <h2 id="题目14-连续出现的数字"><a href="#题目14-连续出现的数字" class="headerlink" title="题目14: 连续出现的数字"></a>题目14: 连续出现的数字</h2><blockquote>
-<p>与“上升的温度”的题目类似, 考察了自联结的使用</p>
+<p>与”上升的温度”的题目类似, 合理的使用自联结, 就可以解答出本题</p>
 </blockquote>
+<p><img src="https://i.loli.net/2018/08/12/5b6fd2a9a451e.png" alt="题目"></p>
 <h3 id="解答-13"><a href="#解答-13" class="headerlink" title="解答"></a>解答</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">SELECT Consecutive.ConsecutiveNums</span><br><span class="line">FROM (</span><br><span class="line">    SELECT l1.Num AS ConsecutiveNums</span><br><span class="line">    FROM Logs AS l1 INNER JOIN Logs AS l2 INNER JOIN Logs AS l3</span><br><span class="line">    ON l1.id = l2.id - 1 AND l2.id = l3.id - 1 AND l1.id = l3.id - 2</span><br><span class="line">    WHERE l1.Num = l2.Num AND l2.Num = l3.Num AND l1.Num = l3.Num</span><br><span class="line">) AS Consecutive</span><br><span class="line">GROUP BY Consecutive.ConsecutiveNums</span><br></pre></td></tr></table></figure>
 
       
