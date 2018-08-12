@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="leetcode," />
+
+
+
+
+
+
+
+
+
+
+<meta name="keywords" content="leetcode">
+<meta property="og:type" content="article">
+<meta property="og:title" content="leetcode SQL(1)">
+<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2018/08/12/leetcode/index.html">
+<meta property="og:site_name" content="新世紀エヴァンゲリオン">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://unsplash.it/1069/600?random">
+<meta property="og:image" content="https://i.loli.net/2018/08/12/5b6f9fa18d88b.png">
+<meta property="og:image" content="https://i.loli.net/2018/08/12/5b6fa2298ed60.png">
+<meta property="og:image" content="https://i.loli.net/2018/08/12/5b6fc9087f3e4.png">
+<meta property="og:image" content="https://i.loli.net/2018/08/12/5b6fcb149ee78.png">
+<meta property="og:image" content="https://i.loli.net/2018/08/12/5b6fa44d25cde.png">
+<meta property="og:image" content="https://i.loli.net/2018/08/12/5b6fa52edfecc.png">
+<meta property="og:image" content="https://i.loli.net/2018/08/12/5b6fa5e2d620b.png">
+<meta property="og:image" content="https://i.loli.net/2018/08/12/5b6fa75d10af5.png">
+<meta property="og:image" content="https://i.loli.net/2018/08/12/5b6fc60a4a489.png">
+<meta property="og:image" content="https://i.loli.net/2018/08/12/5b6fc46de66e0.png">
+<meta property="og:image" content="https://i.loli.net/2018/08/12/5b6fc419a5986.png">
+<meta property="og:image" content="https://i.loli.net/2018/08/12/5b6fc2484099f.png">
+<meta property="og:image" content="https://i.loli.net/2018/08/12/5b6fbf9f8cbc0.png">
+<meta property="og:image" content="https://i.loli.net/2018/08/12/5b6fbeb431a15.png">
+<meta property="og:updated_time" content="2018-08-12T05:55:16.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="leetcode SQL(1)">
+<meta name="twitter:image" content="https://unsplash.it/1069/600?random">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/2018/08/12/leetcode/"/>
+
+
+
+
+
+  <title>leetcode SQL(1) | 新世紀エヴァンゲリオン</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">新世紀エヴァンゲリオン</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">前端小学生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            主页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            时间轴
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://bengbu-yuezhang.github.io/yue.github.io/2018/08/12/leetcode/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张越">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新世紀エヴァンゲリオン">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">leetcode SQL(1)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发布于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-12T10:28:28+08:00">
+                2018-08-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://unsplash.it/1069/600?random" alt="image"></p>
+<a id="more"></a>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这一篇文章, 是对<a href="https://leetcode-cn.com/problemset/database/" target="_blank" rel="noopener">leetcode</a>上部分SQL题目(13/19)的解析, 所有的题目均使用MySQL的语法。这些题目的SQL的写法可能不是最优的, 但是它们都通过了leetcode上的所有的测试用例, 如果你有更好的SQL请务必联系我, 🐧: 1025873823。leetcode上的SQL类的题目不是很多, 只有19题。很遗憾, 我没有将它们全部攻克。未来我会尝试将它们全部解答出来。</p>
+<h2 id="题目1-组合两张表"><a href="#题目1-组合两张表" class="headerlink" title="题目1: 组合两张表"></a>题目1: 组合两张表</h2><blockquote>
+<p><a href="https://leetcode-cn.com/problems/combine-two-tables/description/" target="_blank" rel="noopener">组合两张表</a>, 题目很简单, 主要考察JOIN语法的使用。唯一需要注意的一点, 是题目中的这句话, <strong>“无论 person 是否有地址信息”</strong>。说明即使Person表, 没有信息我们也需要将Person表的内容进行返回。所以我选择使用左外查询, 当然你也可以选择RIGHT OUTER JOIN, 这取决于你查询语句的写法。</p>
+</blockquote>
+<p><img src="https://i.loli.net/2018/08/12/5b6f9fa18d88b.png" alt="题目"></p>
+<h3 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">SELECT Person.FirstName, Person.LastName, Address.City, Address.State</span><br><span class="line">FROM Person LEFT OUTER JOIN Address ON Person.PersonId = Address.PersonId</span><br></pre></td></tr></table></figure>
+<h2 id="题目2-第二高的薪水"><a href="#题目2-第二高的薪水" class="headerlink" title="题目2: 第二高的薪水"></a>题目2: 第二高的薪水</h2><blockquote>
+<p><a href="https://leetcode-cn.com/problems/second-highest-salary/description/" target="_blank" rel="noopener">第二高的薪水</a>, 题目本身并不难, 但是请注意, 题目中的描述<strong>“如果不存在第二高的薪水，那么查询应返回 null”</strong>, 这意味着, 如果SQL没有查询到结果, SQL本身需要一个默认的返回值。如何才能做到, 即使没有结果也返回一个值。通过谷歌, 我查找到了解决方案<a href="https://stackoverflow.com/questions/12449899/returning-a-value-even-if-no-result" target="_blank" rel="noopener">Returning a value even if no result
+</a>。使用IFNULL函数, 并且将整个SQL语句作为IFNULL函数的参数。如果IFNULL函数第一个的参数为NULL, 则返回IFNULL函数的第二个参数, 否则返回第一个参数。</p>
+</blockquote>
+<p><img src="https://i.loli.net/2018/08/12/5b6fa2298ed60.png" alt="题目"></p>
+<h3 id="解答-1"><a href="#解答-1" class="headerlink" title="解答"></a>解答</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">SELECT IFNULL( </span><br><span class="line">    (</span><br><span class="line">        SELECT Employee.Salary</span><br><span class="line">        FROM Employee</span><br><span class="line">        GROUP BY Employee.Salary</span><br><span class="line">        ORDER BY Employee.Salary DESC</span><br><span class="line">        LIMIT 1 OFFSET 1</span><br><span class="line">    ),</span><br><span class="line">    NULL</span><br><span class="line">) AS SecondHighestSalary;</span><br></pre></td></tr></table></figure>
+<h2 id="题目3-分数排名"><a href="#题目3-分数排名" class="headerlink" title="题目3: 分数排名"></a>题目3: 分数排名</h2><blockquote>
+<p>本题主要考察了, 如何在SQL查询中生成序号, 因为在表中本身是不含有RANK字段的。我通过谷歌, 在stackoverflow上找到了答案, <a href="https://stackoverflow.com/questions/11094466/generate-serial-number-in-mysql-query" target="_blank" rel="noopener">Generate serial number in mysql query</a>。</p>
+</blockquote>
+<p><img src="https://i.loli.net/2018/08/12/5b6fc9087f3e4.png" alt="题目"></p>
+<h3 id="为查询结果添加序号"><a href="#为查询结果添加序号" class="headerlink" title="为查询结果添加序号"></a>为查询结果添加序号</h3><p><img src="https://i.loli.net/2018/08/12/5b6fcb149ee78.png" alt="添加序号"></p>
+<h3 id="解答-2"><a href="#解答-2" class="headerlink" title="解答"></a>解答</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 3. 通过INNER JOIN为没有去重的分数表添加名次的字段</span><br><span class="line">SELECT Scores.Score, RANKINDEX.rank AS RANK</span><br><span class="line">FROM Scores INNER JOIN (</span><br><span class="line"><span class="meta">#</span> 2. 为排序去重后分数表, 添加名次字段(序号)</span><br><span class="line">    SELECT RANK.Score AS Score, @a:=@a+1 rank</span><br><span class="line">    FROM (</span><br><span class="line"><span class="meta">#</span> 1. 首先排序并去重分数表</span><br><span class="line">        SELECT DISTINCT Scores.Score</span><br><span class="line">        FROM Scores</span><br><span class="line">        ORDER BY Scores.Score DESC</span><br><span class="line">    ) RANK, (SELECT @a:=0) AS a</span><br><span class="line">) AS RANKINDEX</span><br><span class="line">ON RANKINDEX.Score = Scores.Score</span><br><span class="line">ORDER BY Scores.Score DESC</span><br></pre></td></tr></table></figure>
+<h2 id="题目4-超过经理收入的员工"><a href="#题目4-超过经理收入的员工" class="headerlink" title="题目4: 超过经理收入的员工"></a>题目4: 超过经理收入的员工</h2><blockquote>
+<p>非常简单的一道题目, 这里不在多做解释</p>
+</blockquote>
+<p><img src="https://i.loli.net/2018/08/12/5b6fa44d25cde.png" alt="题目"></p>
+<h3 id="解答-3"><a href="#解答-3" class="headerlink" title="解答"></a>解答</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">SELECT emp1.Name AS Employee</span><br><span class="line">FROM Employee AS emp1, Employee AS emp2</span><br><span class="line">WHERE emp1.ManagerId = emp2.Id AND emp1.Salary &gt; emp2.Salary</span><br></pre></td></tr></table></figure>
+<h2 id="题目5-查找重复的电子邮箱"><a href="#题目5-查找重复的电子邮箱" class="headerlink" title="题目5: 查找重复的电子邮箱"></a>题目5: 查找重复的电子邮箱</h2><blockquote>
+<p>同样是非常简单的一道题目, 唯一可能需要了解的就是, <strong>GROUP BY Person.Email</strong>的字句, 可以对Person.Email字段起到<strong>去重</strong>的作用</p>
+</blockquote>
+<p><img src="https://i.loli.net/2018/08/12/5b6fa52edfecc.png" alt="题目"></p>
+<h3 id="解答-4"><a href="#解答-4" class="headerlink" title="解答"></a>解答</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">SELECT Person.Email AS Email</span><br><span class="line">FROM Person</span><br><span class="line">GROUP BY Person.Email</span><br><span class="line">HAVING COUNT(Person.Email) &gt; 1</span><br></pre></td></tr></table></figure>
+<h2 id="题目6-从不订购的客户"><a href="#题目6-从不订购的客户" class="headerlink" title="题目6: 从不订购的客户"></a>题目6: 从不订购的客户</h2><blockquote>
+<p>依然是非常简单的一道题目, 主要考察对子查询的使用</p>
+</blockquote>
+<p><img src="https://i.loli.net/2018/08/12/5b6fa5e2d620b.png" alt="题目"></p>
+<h3 id="解答-5"><a href="#解答-5" class="headerlink" title="解答"></a>解答</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">SELECT Customers.Name AS Customers</span><br><span class="line">FROM Customers</span><br><span class="line">WHERE Customers.Id NOT IN (</span><br><span class="line">   SELECT Orders.CustomerId FROM Orders</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h2 id="题目7-部门工资最高的员工"><a href="#题目7-部门工资最高的员工" class="headerlink" title="题目7: 部门工资最高的员工"></a>题目7: 部门工资最高的员工</h2><blockquote>
+<p><a href="https://leetcode-cn.com/problems/department-highest-salary/description/" target="_blank" rel="noopener">部门工资最高的员工</a>, 在对这一题目进行解答之前。我们需要明确知道一点。<strong>“除聚合, 计算语句外，SELECT语句中的每个列都必须在GROUP BY子句中给出”</strong>。也就是说, 我们并不能在求, 每一个部门工资的Max最大值的时候, 把员工的id也计算出来。</p>
+</blockquote>
+<blockquote>
+<p>对于这道题目，我们解答的步骤分为两步, <strong>1. 求出每一个部门对应的最高工资, 并且将结果存储为派生表 2. 根据员工的部门id, 以及员工的工资, 与派生表联结, 比较对应员工的工资是否等于派生表的部门的最高工资</strong>。如果等于, 此人的工资就是部门的最高工资</p>
+</blockquote>
+<p><img src="https://i.loli.net/2018/08/12/5b6fa75d10af5.png" alt="题目"></p>
+<h3 id="解答-6"><a href="#解答-6" class="headerlink" title="解答"></a>解答</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">SELECT Department.Name AS Department, Employee.Name AS Employee, Employee.Salary AS Salary</span><br><span class="line">FROM Employee INNER JOIN Department INNER JOIN (</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 第一步求出每一个部门的最高工资, 并作为派生表使用</span><br><span class="line">    SELECT Max(Employee.Salary) AS Salary, Department.Id AS DepartmentId</span><br><span class="line">    FROM Employee INNER JOIN Department</span><br><span class="line">    ON Employee.DepartmentId = Department.Id</span><br><span class="line">    GROUP BY Employee.DepartmentId</span><br><span class="line"></span><br><span class="line">) AS DepartmentBigSalary</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 三张表进行联结</span><br><span class="line">ON Employee.DepartmentId = Department.Id AND Department.Id = DepartmentBigSalary.DepartmentId</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 比较对应员工的工资是否等于派生表的部门的最高工资</span><br><span class="line">WHERE Employee.Salary = DepartmentBigSalary.Salary</span><br></pre></td></tr></table></figure>
+<h2 id="题目8-删除重复的电子邮箱"><a href="#题目8-删除重复的电子邮箱" class="headerlink" title="题目8: 删除重复的电子邮箱"></a>题目8: 删除重复的电子邮箱</h2><blockquote>
+<p>DELETE语句在不指定WHERE子句的时候, 默认是删除表中全部的行。题目指定了两个条件, <strong>“删除 Person 表中所有重复的电子邮箱，重复的邮箱里只保留 Id 最小 的那个”</strong>, WHERE同时也需要指定两个条件。两个条件, 请参考下面的代码。唯一值的注意的一点是, DELETE本身是更新操作, 所以在FROM需要新建一个派生表, 否则会产生错误(You can’t specify target table ‘Person’ for update in FROM clause)</p>
+</blockquote>
+<p><img src="https://i.loli.net/2018/08/12/5b6fc60a4a489.png" alt="题目"></p>
+<h3 id="解答-7"><a href="#解答-7" class="headerlink" title="解答"></a>解答</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">DELETE</span><br><span class="line">FROM Person</span><br><span class="line">WHERE Person.Email IN (</span><br><span class="line">    # 条件1: 删除长度大于2的行</span><br><span class="line">    SELECT table1.Email</span><br><span class="line">    FROM (</span><br><span class="line">        SELECT Person.Email AS Email</span><br><span class="line">        FROM Person</span><br><span class="line">        GROUP BY Person.Email</span><br><span class="line">        HAVING COUNT(Person.Email) &gt; 1</span><br><span class="line">    ) AS table1</span><br><span class="line">) AND Person.Id NOT IN (</span><br><span class="line">    # 条件1: 删除长度大于2的行, 但是不包含id最小的行</span><br><span class="line">    SELECT table2.id</span><br><span class="line">    FROM (</span><br><span class="line">        SELECT MIN(Person.Id) AS id</span><br><span class="line">        FROM Person</span><br><span class="line">        GROUP BY Person.Email</span><br><span class="line">        HAVING COUNT(Person.Email) &gt; 1</span><br><span class="line">    ) AS table2</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h2 id="题目9-上升的温度"><a href="#题目9-上升的温度" class="headerlink" title="题目9: 上升的温度"></a>题目9: 上升的温度</h2><blockquote>
+<p>本题主要考察了对<strong>自联结</strong>的使用。如何判断两个相邻的RecordDate的Temperature的大小？通过对同一张表进行JOIN联结, JOIN的ON的条件修改为w1.RecordDate = DATE_SUB(w2.RecordDate,INTERVAL -1 DAY), w1表的RecordDate是w2表RecordDate前一天, w1的每一行关联的w2的每一行其实w1的后一天。</p>
+</blockquote>
+<p><img src="https://i.loli.net/2018/08/12/5b6fc46de66e0.png" alt="题目"></p>
+<h3 id="解答-8"><a href="#解答-8" class="headerlink" title="解答"></a>解答</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">SELECT w1.Id AS Id</span><br><span class="line">FROM Weather AS w1 INNER JOIN Weather AS w2</span><br><span class="line">ON w1.RecordDate = DATE_SUB(w2.RecordDate,INTERVAL -1 DAY)</span><br><span class="line">WHERE w1.Temperature &gt; w2.Temperature</span><br></pre></td></tr></table></figure>
+<h2 id="题目10-大的国家"><a href="#题目10-大的国家" class="headerlink" title="题目10: 大的国家"></a>题目10: 大的国家</h2><blockquote>
+<p>非常简单的一道题, 这里不在赘述</p>
+</blockquote>
+<p><img src="https://i.loli.net/2018/08/12/5b6fc419a5986.png" alt="题目"></p>
+<h3 id="解答-9"><a href="#解答-9" class="headerlink" title="解答"></a>解答</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">SELECT World.Name AS Name, World.population AS population, World.area AS area</span><br><span class="line">FROM World</span><br><span class="line">WHERE World.population &gt; 25000000 OR World.area &gt; 3000000</span><br></pre></td></tr></table></figure>
+<h2 id="题目11-超过5名学生的课"><a href="#题目11-超过5名学生的课" class="headerlink" title="题目11: 超过5名学生的课"></a>题目11: 超过5名学生的课</h2><blockquote>
+<p><a href="https://leetcode-cn.com/problems/classes-more-than-5-students/description/" target="_blank" rel="noopener">超过5名学生的课</a>, 本道题目注意考察点在于对GROUP BY去重效果的认知上。</p>
+</blockquote>
+<blockquote>
+<p>首先子查询的采用嵌套分组。首先使用课程分组然后根据学生进行分组。可以有效去除课程, 学生重复的行。为什么不直接使用学生分组呢？因为这样做会丢失学生的课程信息。在外层的查询中只需要查找中COUNT大于5的课程即可。</p>
+</blockquote>
+<p><img src="https://i.loli.net/2018/08/12/5b6fc2484099f.png" alt="题目"></p>
+<h3 id="解答-10"><a href="#解答-10" class="headerlink" title="解答"></a>解答</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">SELECT ClassLength.class FROM (</span><br><span class="line"><span class="meta">#</span> 排除了学生和课程重复的行</span><br><span class="line">    SELECT courses.class AS class</span><br><span class="line">    FROM courses</span><br><span class="line">    GROUP BY courses.class, courses.student</span><br><span class="line">) AS ClassLength</span><br><span class="line">GROUP BY ClassLength.class</span><br><span class="line">HAVING COUNT(ClassLength.class) &gt;= 5</span><br></pre></td></tr></table></figure>
+<h2 id="题目12-有趣的电影"><a href="#题目12-有趣的电影" class="headerlink" title="题目12: 有趣的电影"></a>题目12: 有趣的电影</h2><blockquote>
+<p>本道题目也较为简单, 考察点在于对于奇偶数的判断上, 我们可以使用MySQL的MOD函数。MOD(N, M), MOD函数将返回N/M的余数</p>
+</blockquote>
+<p><img src="https://i.loli.net/2018/08/12/5b6fbf9f8cbc0.png" alt="题目"></p>
+<h3 id="解答-11"><a href="#解答-11" class="headerlink" title="解答"></a>解答</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">SELECT cinema.id AS id, cinema.movie AS movie, cinema.description AS description, cinema.rating AS rating</span><br><span class="line">FROM cinema</span><br><span class="line">WHERE cinema.description &lt;&gt; 'boring' AND MOD(cinema.id, 2) = 1</span><br><span class="line">ORDER BY rating DESC</span><br></pre></td></tr></table></figure>
+<h2 id="题目13-交换工资"><a href="#题目13-交换工资" class="headerlink" title="题目13: 交换工资"></a>题目13: 交换工资</h2><blockquote>
+<p>题目本身要求使用一个更新查询，并且没有中间临时表。所以SQL中避免不了需要使用逻辑判断, 这里使用MySQl的<a href="https://stackoverflow.com/questions/12754470/mysql-update-case-when-then-else" target="_blank" rel="noopener">CASE WHEN语句</a></p>
+</blockquote>
+<p><img src="https://i.loli.net/2018/08/12/5b6fbeb431a15.png" alt="题目"></p>
+<h3 id="解答-12"><a href="#解答-12" class="headerlink" title="解答"></a>解答</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">UPDATE salary</span><br><span class="line">SET salary.sex = (</span><br><span class="line">    CASE</span><br><span class="line">        WHEN salary.sex = 'm' THEN 'f'</span><br><span class="line">        WHEN salary.sex = 'f' THEN 'm'</span><br><span class="line">        ELSE 'sex'</span><br><span class="line">    END</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/leetcode/" rel="tag"># leetcode</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/02/mocha/" rel="next" title="单元测试(1)">
+                <i class="fa fa-chevron-left"></i> 单元测试(1)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/01/01/todolist/" rel="prev" title="置顶 - 待办事项">
+                置顶 - 待办事项 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            作者概述
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="张越" />
+            
+              <p class="site-author-name" itemprop="name">张越</p>
+              <p class="site-description motion-element" itemprop="description">所谓成长，就是经过不断的聚散离合，找到不太会伤害到彼此的距离</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-name">篇文章</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">Tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/BengBu-YueZhang" target="_blank" title="我的GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/5460100952/profile?topnav=1&wvr=6" target="_blank" title="我的微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的微博</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#题目1-组合两张表"><span class="nav-number">2.</span> <span class="nav-text">题目1: 组合两张表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#解答"><span class="nav-number">2.1.</span> <span class="nav-text">解答</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#题目2-第二高的薪水"><span class="nav-number">3.</span> <span class="nav-text">题目2: 第二高的薪水</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#解答-1"><span class="nav-number">3.1.</span> <span class="nav-text">解答</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#题目3-分数排名"><span class="nav-number">4.</span> <span class="nav-text">题目3: 分数排名</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#为查询结果添加序号"><span class="nav-number">4.1.</span> <span class="nav-text">为查询结果添加序号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解答-2"><span class="nav-number">4.2.</span> <span class="nav-text">解答</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#题目4-超过经理收入的员工"><span class="nav-number">5.</span> <span class="nav-text">题目4: 超过经理收入的员工</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#解答-3"><span class="nav-number">5.1.</span> <span class="nav-text">解答</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#题目5-查找重复的电子邮箱"><span class="nav-number">6.</span> <span class="nav-text">题目5: 查找重复的电子邮箱</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#解答-4"><span class="nav-number">6.1.</span> <span class="nav-text">解答</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#题目6-从不订购的客户"><span class="nav-number">7.</span> <span class="nav-text">题目6: 从不订购的客户</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#解答-5"><span class="nav-number">7.1.</span> <span class="nav-text">解答</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#题目7-部门工资最高的员工"><span class="nav-number">8.</span> <span class="nav-text">题目7: 部门工资最高的员工</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#解答-6"><span class="nav-number">8.1.</span> <span class="nav-text">解答</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#题目8-删除重复的电子邮箱"><span class="nav-number">9.</span> <span class="nav-text">题目8: 删除重复的电子邮箱</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#解答-7"><span class="nav-number">9.1.</span> <span class="nav-text">解答</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#题目9-上升的温度"><span class="nav-number">10.</span> <span class="nav-text">题目9: 上升的温度</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#解答-8"><span class="nav-number">10.1.</span> <span class="nav-text">解答</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#题目10-大的国家"><span class="nav-number">11.</span> <span class="nav-text">题目10: 大的国家</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#解答-9"><span class="nav-number">11.1.</span> <span class="nav-text">解答</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#题目11-超过5名学生的课"><span class="nav-number">12.</span> <span class="nav-text">题目11: 超过5名学生的课</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#解答-10"><span class="nav-number">12.1.</span> <span class="nav-text">解答</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#题目12-有趣的电影"><span class="nav-number">13.</span> <span class="nav-text">题目12: 有趣的电影</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#解答-11"><span class="nav-number">13.1.</span> <span class="nav-text">解答</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#题目13-交换工资"><span class="nav-number">14.</span> <span class="nav-text">题目13: 交换工资</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#解答-12"><span class="nav-number">14.1.</span> <span class="nav-text">解答</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张越</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
