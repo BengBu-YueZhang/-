@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="自动化测试," />
+
+
+
+
+
+
+
+
+
+
+<meta name="keywords" content="自动化测试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="单元测试(1)">
+<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2018/08/17/mocha/index.html">
+<meta property="og:site_name" content="新世紀エヴァンゲリオン">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://unsplash.it/1069/610?random">
+<meta property="og:image" content="https://i.loli.net/2018/08/17/5b763a3290166.png">
+<meta property="og:updated_time" content="2018-08-17T05:19:58.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="单元测试(1)">
+<meta name="twitter:image" content="https://unsplash.it/1069/610?random">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/2018/08/17/mocha/"/>
+
+
+
+
+
+  <title>单元测试(1) | 新世紀エヴァンゲリオン</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">新世紀エヴァンゲリオン</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">前端小学生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            主页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            时间轴
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://bengbu-yuezhang.github.io/yue.github.io/2018/08/17/mocha/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张越">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新世紀エヴァンゲリオン">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">单元测试(1)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-17T13:20:00+08:00">
+                2018-08-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://unsplash.it/1069/610?random" alt="image"></p>
+<a id="more"></a>
+<h2 id="Mocha"><a href="#Mocha" class="headerlink" title="Mocha"></a>Mocha</h2><blockquote>
+<p>Mocha是JavaScript的测试框架, 浏览器和Node端均可以使用。但是Mocha本身并不提供断言的功能, 需要借助例如: Chai, 这样的断言库完成测试的功能。</p>
+</blockquote>
+<h3 id="Mocha-API-速览"><a href="#Mocha-API-速览" class="headerlink" title="Mocha API 速览"></a>Mocha API 速览</h3><blockquote>
+<p>Mocha的API快速浏览, 更多细节请参考<a href="https://mochajs.org/" target="_blank" rel="noopener">文档</a></p>
+</blockquote>
+<p>最佳实践:</p>
+<ol>
+<li>Mocha不推荐使用箭头函数作为Callback的函数</li>
+<li>不要用例中什么都不做, 推荐使用skip跳过不需要的测试</li>
+</ol>
+<h4 id="Mocha简单的示例"><a href="#Mocha简单的示例" class="headerlink" title="Mocha简单的示例"></a>Mocha简单的示例</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">describe(<span class="string">'unit'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  it(<span class="string">'example'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="Mocha测试异步代码"><a href="#Mocha测试异步代码" class="headerlink" title="Mocha测试异步代码"></a>Mocha测试异步代码</h4><blockquote>
+<p>Mocha支持Promise, Async, callback的形式</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// callback</span></span><br><span class="line">describe(<span class="string">'异步测试Callback'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  it(<span class="string">'Done用例'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">done</span>) </span>&#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      done()</span><br><span class="line">    &#125;, <span class="number">1000</span>)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// promise</span></span><br><span class="line">describe(<span class="string">'异步测试Promise'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  it(<span class="string">'Promise用例'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">      resolve(<span class="literal">true</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// async</span></span><br><span class="line">describe(<span class="string">'异步测试Async'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  it(<span class="string">'Async用例'</span>, <span class="keyword">async</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">await</span> <span class="built_in">Promise</span>.resolve()</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="hook"><a href="#hook" class="headerlink" title="hook"></a>hook</h4><ol>
+<li>before, 全部的测试用例之前执行</li>
+<li>after, 全部的测试用例结束后执行</li>
+<li>beforeEach, 每一个测试用例前执行</li>
+<li>afterEach, 每一个测试用例后执行</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// before, beforeEach, 1, afterEach, beforeEach, 2, afterEach, after</span></span><br><span class="line">describe(<span class="string">'MochaHook'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  before(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'before'</span>)</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  after(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'after'</span>)</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  beforeEach(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'beforeEach'</span>)</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  afterEach(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'afterEach'</span>)</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  it(<span class="string">'example1'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">1</span>)</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  it(<span class="string">'example2'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">2</span>)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="async-hook"><a href="#async-hook" class="headerlink" title="async hook"></a>async hook</h4><blockquote>
+<p>Mocha Hook可以是异步的函数, 支持done，promise, async</p>
+</blockquote>
+<h4 id="root-hook"><a href="#root-hook" class="headerlink" title="root hook"></a>root hook</h4><blockquote>
+<p>如果beforeEach在任何descride之外添加, 那么这个beforeEach将被视为root hook。beforeEach将会在任何文件, 任何的测试用例前执行。</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">beforeEach(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'root beforeEach'</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">describe(<span class="string">'unit1'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">describe(<span class="string">'unit2'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="DELAYED-ROOT-SUITE"><a href="#DELAYED-ROOT-SUITE" class="headerlink" title="DELAYED ROOT SUITE"></a>DELAYED ROOT SUITE</h4><blockquote>
+<p>如果需要在任何测试用例前执行异步操作也可以使用(DELAYED ROOT SUITE)。使用”mocha –delay”执行测试脚本。”mocha –delay”会添加一个特殊的函数run()到全局的上下文。当异步操作完成后, 执行run函数可以开始执行测试用例</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">deplay</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">      resolve()</span><br><span class="line">    &#125;, <span class="number">1000</span>)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">deplay().then(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  run()</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">describe(<span class="string">'unit'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  it(<span class="string">'example'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="skip"><a href="#skip" class="headerlink" title="skip"></a>skip</h4><blockquote>
+<p>describe, 或者it之后添加skip。可以让Mocha忽略测试单元或者测试用例。使用skip, 测试会标记为待处理, 会比直接注释更优雅。</p>
+</blockquote>
+<h4 id="重试测试"><a href="#重试测试" class="headerlink" title="重试测试"></a>重试测试</h4><blockquote>
+<p>测试失败后, 重试的次数</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">describe(<span class="string">'retries'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  it(<span class="string">'retries'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 设置测试的重试次数</span></span><br><span class="line">    <span class="keyword">this</span>.retries(<span class="number">3</span>)</span><br><span class="line">    <span class="keyword">const</span> number = <span class="built_in">Math</span>.random()</span><br><span class="line">    <span class="keyword">if</span> (number &gt; <span class="number">0.5</span>) <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>()</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="动态生成测试"><a href="#动态生成测试" class="headerlink" title="动态生成测试"></a>动态生成测试</h4><blockquote>
+<p>对于一些接口的测试, 可以使用动态生产测试用例, 配置请求参数的数组, 循环数组动态生成测试用例</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">describe(<span class="string">'动态生成测试用例'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> result = []</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i ++) &#123;</span><br><span class="line">    result.push(<span class="built_in">Math</span>.random())</span><br><span class="line">  &#125;</span><br><span class="line">  result.forEach(<span class="function">(<span class="params">r, i</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 动态生成测试用例</span></span><br><span class="line">    it(<span class="string">`测试用例<span class="subst">$&#123;i + <span class="number">1</span>&#125;</span>`</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> r &lt; <span class="number">1</span></span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="slow"><a href="#slow" class="headerlink" title="slow"></a>slow</h4><blockquote>
+<p>如果测试用例, 运行时间超过了slow的时间, 会被标红。</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">describe(<span class="string">'unit'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  it(<span class="string">'example'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">done</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.slow(<span class="number">100</span>)</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      done()</span><br><span class="line">    &#125;, <span class="number">200</span>)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="timeout"><a href="#timeout" class="headerlink" title="timeout"></a>timeout</h4><blockquote>
+<p>设置测试用例的最大超时时间, 如果超过了最大超时时间，测试结果将为错误</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">describe(<span class="string">'unit'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  it(<span class="string">'example'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">done</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.timeout(<span class="number">100</span>)</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      done()</span><br><span class="line">    &#125;, <span class="number">200</span>)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="Chai"><a href="#Chai" class="headerlink" title="Chai"></a>Chai</h2><blockquote>
+<p>下面将介绍, BDD风格的API, expect。should兼容性较差。</p>
+</blockquote>
+<h3 id="Chai-API-速览"><a href="#Chai-API-速览" class="headerlink" title="Chai API 速览"></a>Chai API 速览</h3><blockquote>
+<p>Chai的API快速浏览, 更多细节请参考<a href="http://www.chaijs.com/api/bdd/#method_include" target="_blank" rel="noopener">文档</a></p>
+</blockquote>
+<p>最佳实践: </p>
+<ol>
+<li>进行更多的断言操作前, 首先进行类型的判断</li>
+</ol>
+<h4 id="not"><a href="#not" class="headerlink" title="not"></a>not</h4><blockquote>
+<p>对断言结果取反</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">it(<span class="string">'not'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> foo = <span class="number">1</span></span><br><span class="line">  expect(foo).to.equal(<span class="number">1</span>)</span><br><span class="line">  expect(foo).to.not.equal(<span class="number">2</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="deep"><a href="#deep" class="headerlink" title="deep"></a>deep</h4><blockquote>
+<p>进行断言比较的时候, 将进行深比较</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">it(<span class="string">'deep'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> foo = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">  <span class="keyword">const</span> bar = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">  expect(foo).to.deep.equal(bar)</span><br><span class="line">  expect(foo).to.not.equal(bar)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="nested"><a href="#nested" class="headerlink" title="nested"></a>nested</h4><blockquote>
+<p>启用点和括号表示法</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">it(<span class="string">'nested'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> foo = &#123;</span><br><span class="line">    a: [</span><br><span class="line">      &#123;</span><br><span class="line">        a: <span class="number">1</span></span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">  expect(foo.a[<span class="number">0</span>].a).to.equals(<span class="number">1</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="own"><a href="#own" class="headerlink" title="own"></a>own</h4><blockquote>
+<p>断言时将会忽略对象prototype上的属性</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">it(<span class="string">'own'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">Object</span>.prototype.own = <span class="number">1</span></span><br><span class="line">  <span class="keyword">const</span> a = &#123;&#125;</span><br><span class="line">  expect(a).to.not.have.own.property(<span class="string">'own'</span>)</span><br><span class="line">  expect(a).to.have.property(<span class="string">'own'</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="ordered"><a href="#ordered" class="headerlink" title="ordered"></a>ordered</h4><blockquote>
+<p>ordered.members比较数组的顺序是否一致, 使用include.ordered.members可以进行部分比较, 配合deep则可以进行深比较</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">it(<span class="string">'order'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> foo = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">  <span class="keyword">const</span> bar = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">  <span class="keyword">const</span> faz = [<span class="number">1</span>, <span class="number">2</span>]</span><br><span class="line">  <span class="keyword">const</span> baz = [&#123;<span class="attr">a</span>: <span class="number">1</span>&#125;, &#123;<span class="attr">b</span>: <span class="number">2</span>&#125;]</span><br><span class="line">  <span class="keyword">const</span> fzo = [&#123;<span class="attr">a</span>: <span class="number">1</span>&#125;, &#123;<span class="attr">b</span>: <span class="number">2</span>&#125;]</span><br><span class="line">  expect(baz).to.have.deep.ordered.members(fzo)</span><br><span class="line">  expect(foo).to.have.ordered.members(bar)</span><br><span class="line">  expect(foo).to.have.include.ordered.members(faz)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="any"><a href="#any" class="headerlink" title="any"></a>any</h4><blockquote>
+<p>要求对象至少包含一个给定的属性</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">it(<span class="string">'any'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> foo = &#123;<span class="attr">a</span>: <span class="number">1</span>, <span class="attr">b</span>: <span class="number">2</span>&#125;</span><br><span class="line">  expect(foo).to.have.any.keys(<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="all"><a href="#all" class="headerlink" title="all"></a>all</h4><blockquote>
+<p>要求对象包含全部给定的属性</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">it(<span class="string">'all'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> foo = &#123;<span class="attr">a</span>: <span class="number">1</span>, <span class="attr">b</span>: <span class="number">2</span>&#125;</span><br><span class="line">  expect(foo).to.not.have.all.keys(<span class="string">'a'</span>, <span class="string">'c'</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="a-an"><a href="#a-an" class="headerlink" title="a, an"></a>a, an</h4><blockquote>
+<p>用来断言数据类型</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">it(<span class="string">'a'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  expect(<span class="string">'123'</span>).to.a(<span class="string">'string'</span>)</span><br><span class="line">  expect(<span class="literal">false</span>).to.a(<span class="string">'boolean'</span>)</span><br><span class="line">  expect(&#123;<span class="attr">a</span>: <span class="number">1</span>&#125;).to.a(<span class="string">'object'</span>)</span><br><span class="line">  expect(<span class="string">'123'</span>).to.an(<span class="string">'string'</span>)</span><br><span class="line">  expect(<span class="literal">false</span>).to.an(<span class="string">'boolean'</span>)</span><br><span class="line">  expect(&#123;<span class="attr">a</span>: <span class="number">1</span>&#125;).to.an(<span class="string">'object'</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="include"><a href="#include" class="headerlink" title="include"></a>include</h4><blockquote>
+<p>include断言是否包含, include可以字符串, 数组以及对象(key: value的形式)。同时可以配合deep进行深度比较。</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">it(<span class="string">'include'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  expect(<span class="string">'love fangfang'</span>).to.an(<span class="string">'string'</span>).to.have.include(<span class="string">'fangfang'</span>)</span><br><span class="line">  expect([<span class="string">'foo'</span>, <span class="string">'bar'</span>]).to.an(<span class="string">'array'</span>).to.have.include(<span class="string">'foo'</span>, <span class="string">'bar'</span>)</span><br><span class="line">  expect(&#123;<span class="attr">a</span>: <span class="number">1</span>, <span class="attr">b</span>: <span class="number">2</span>, <span class="attr">c</span>: <span class="number">3</span>&#125;).to.an(<span class="string">'object'</span>).to.have.include(&#123;<span class="attr">a</span>: <span class="number">1</span>&#125;)</span><br><span class="line">  expect(&#123;<span class="attr">a</span>: &#123;<span class="attr">b</span>: <span class="number">1</span>&#125;&#125;).to.an(<span class="string">'object'</span>).to.deep.have.include(&#123;<span class="attr">a</span>: &#123;<span class="attr">b</span>: <span class="number">1</span>&#125;&#125;)</span><br><span class="line">  expect(&#123;<span class="attr">a</span>: &#123;<span class="attr">b</span>: [<span class="number">1</span>, <span class="number">2</span>]&#125;&#125;).to.an(<span class="string">'object'</span>).to.nested.deep.have.include(&#123;<span class="string">'a.b[0]'</span>: <span class="number">1</span>&#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="ok-true-false-null-undefined-NaN"><a href="#ok-true-false-null-undefined-NaN" class="headerlink" title="ok, true, false, null, undefined, NaN"></a>ok, true, false, null, undefined, NaN</h4><blockquote>
+<p>ok类似==, true类似===, 与false进行强比较, 与null进行强比较, 与undefined进行强比较, 与NaN进行强比较</p>
+</blockquote>
+<h4 id="empty"><a href="#empty" class="headerlink" title="empty"></a>empty</h4><blockquote>
+<p>断言数组, 字符串长度为空。或者对象的可枚举的属性数组长度为0</p>
+</blockquote>
+<h4 id="equal"><a href="#equal" class="headerlink" title="equal"></a>equal</h4><blockquote>
+<p>严格比较的断言</p>
+</blockquote>
+<h4 id="eql"><a href="#eql" class="headerlink" title="eql"></a>eql</h4><blockquote>
+<p>可以不使用deep进行严格类型的比较</p>
+</blockquote>
+<h4 id="above-least-below-most"><a href="#above-least-below-most" class="headerlink" title="above, least, below, most"></a>above, least, below, most</h4><blockquote>
+<p>大于断言, 大于等于断言, 小于断言, 小于等于断言</p>
+</blockquote>
+<h4 id="within"><a href="#within" class="headerlink" title="within"></a>within</h4><blockquote>
+<p>范围断言</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">it(<span class="string">'within'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  expect(<span class="number">2</span>).to.within(<span class="number">1</span>, <span class="number">4</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="property"><a href="#property" class="headerlink" title="property"></a>property</h4><blockquote>
+<p>断言目标是否包含指定的属性</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">it(<span class="string">'property'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  expect(&#123;<span class="attr">a</span>: <span class="number">1</span>&#125;).to.have.property(<span class="string">'a'</span>)</span><br><span class="line">  <span class="comment">// property可以同时对key, value断言</span></span><br><span class="line">  expect(&#123;<span class="attr">a</span>: &#123; <span class="attr">b</span>: <span class="number">1</span> &#125;&#125;).to.deep.have.property(<span class="string">'a'</span>, &#123;<span class="attr">b</span>: <span class="number">1</span>&#125;)</span><br><span class="line">  expect(&#123;<span class="attr">a</span>: <span class="number">1</span>&#125;).to.have.property(<span class="string">'a'</span>).to.an(<span class="string">'number'</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="lengthOf"><a href="#lengthOf" class="headerlink" title="lengthOf"></a>lengthOf</h4><blockquote>
+<p>断言数组, 字符串的长度</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">it(<span class="string">'lengthOf'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  expect([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]).to.lengthOf(<span class="number">3</span>)</span><br><span class="line">  expect(<span class="string">'test'</span>).to.lengthOf(<span class="number">4</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="keys"><a href="#keys" class="headerlink" title="keys"></a>keys</h4><blockquote>
+<p>断言目标是否具有指定的key</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">it(<span class="string">'keys'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  expect(&#123;<span class="attr">a</span>: <span class="number">1</span>&#125;).to.have.any.keys(<span class="string">'a'</span>, <span class="string">'b'</span>)</span><br><span class="line">  expect(&#123;<span class="attr">a</span>: <span class="number">1</span>, <span class="attr">b</span>: <span class="number">2</span>&#125;).to.have.any.keys(&#123;<span class="attr">a</span>: <span class="number">1</span>&#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="respondTo"><a href="#respondTo" class="headerlink" title="respondTo"></a>respondTo</h4><blockquote>
+<p>断言目标是否具有指定的方法</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">it(<span class="string">'respondTo'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">Foo</span> </span>&#123;</span><br><span class="line">    getName () &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="string">'fangfang'</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  expect(<span class="keyword">new</span> Foo()).to.have.respondsTo(<span class="string">'getName'</span>)</span><br><span class="line">  expect(&#123;<span class="attr">a</span>: <span class="number">1</span>, <span class="attr">b</span>: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;&#125;).to.have.respondsTo(<span class="string">'b'</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="satisfy"><a href="#satisfy" class="headerlink" title="satisfy"></a>satisfy</h4><blockquote>
+<p>断言函数的返回值为true, expect的参数是函数的参数</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">it(<span class="string">'satisfy'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">bar</span> (<span class="params">n</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> n &gt; <span class="number">0</span></span><br><span class="line">  &#125;</span><br><span class="line">  expect(<span class="number">1</span>).to.satisfy(bar)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="oneOf"><a href="#oneOf" class="headerlink" title="oneOf"></a>oneOf</h4><blockquote>
+<p>断言目标是否为数组的成员</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">it(<span class="string">'oneOf'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  expect(<span class="number">1</span>).to.oneOf([<span class="number">2</span>, <span class="number">3</span>, <span class="number">1</span>])</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="change"><a href="#change" class="headerlink" title="change"></a>change</h4><blockquote>
+<p>断言函数执行完成后。函数的返回值发生变化</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">it(<span class="string">'change'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> a = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">add</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    a += <span class="number">3</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">getA</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 断言getA的返回值发生变化</span></span><br><span class="line">  expect(add).to.change(getA)</span><br><span class="line">  <span class="comment">// 断言变化的大小</span></span><br><span class="line">  expect(add).to.change(getA).by(<span class="number">3</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="Karma"><a href="#Karma" class="headerlink" title="Karma"></a>Karma</h2><p>最佳实践:</p>
+<p>  👇👇👇👇👇</p>
+<ol>
+<li><strong>Karma会将测试文件, 模拟运行在浏览器环境中。所以推荐使用webpack, babel, 对测试文件进行编译。Karma中提供了处理文件中间件的配置。(之前由于浏览器环境不支持require, 而且我没有将测试文件进行编译, 耽误了我半天的时间:()</strong></li>
+</ol>
+<h3 id="什么是Karma"><a href="#什么是Karma" class="headerlink" title="什么是Karma?"></a>什么是Karma?</h3><p>Karma是一个测试工具，能让你的代码在浏览器环境下测试。代码可能是设计在浏览器端执行的，在node环境下测试可能有些bug暴露不出来；另外，浏览器有兼容问题，karma提供了手段让你的代码自动在多个浏览器（chrome，firefox，ie等）环境下运行。如果你的代码只会运行在node端，那么你不需要用karma。</p>
+<h3 id="安装Karma"><a href="#安装Karma" class="headerlink" title="安装Karma"></a>安装Karma</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install karma --save-dev</span><br></pre></td></tr></table></figure>
+<p>通过Karma测试项目, 需要在项目中添加配置karam.conf.js的文件。推荐使用karam init生成配置文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">1. Which testing framework do you want to use(使用的测试框架)?</span><br><span class="line">  mocha</span><br><span class="line">2. Do you want to use Require.js(是否使用Require)?</span><br><span class="line">  no</span><br><span class="line">3. Do you want to capture any browsers automatically(需要测试的浏览器)?</span><br><span class="line">  Chrome, IE,</span><br><span class="line">4. What is the location of your source and test files(测试文件的位置)?</span><br><span class="line">  test/*.test.js</span><br><span class="line">5. Should any of the files included by the previous patterns be excluded(需要排除的文件) ?</span><br><span class="line">  node_modules</span><br><span class="line">6. Do you want Karma to watch all the files and run the tests on change(什么时候开始测试) ?</span><br><span class="line">  change</span><br></pre></td></tr></table></figure>
+<h3 id="添加断言-测试库"><a href="#添加断言-测试库" class="headerlink" title="添加断言, 测试库"></a>添加断言, 测试库</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 安装</span></span><br><span class="line">npm install mocha karma-mocha --save-dev</span><br><span class="line">npm install --save-dev chai karma-chai</span><br></pre></td></tr></table></figure>
+<h3 id="配置karma-conf-js"><a href="#配置karma-conf-js" class="headerlink" title="配置karma.conf.js"></a>配置karma.conf.js</h3><blockquote>
+<p>karma.conf.js配置的更多的细节，可以查看<a href="http://karma-runner.github.io/2.0/config/configuration-file.html" target="_blank" rel="noopener">karma文档</a></p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 安装babel</span></span><br><span class="line">npm install --save-dev karma-webpack webpack babel-core babel-loader babel-preset-env</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 对文件添加webpack的配置, 对配置文件使用babel进行处理</span></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span>(<span class="params">config</span>) </span>&#123;</span><br><span class="line">  config.set(&#123;</span><br><span class="line"></span><br><span class="line">    basePath: <span class="string">''</span>,</span><br><span class="line"></span><br><span class="line">    frameworks: [<span class="string">'mocha'</span>, <span class="string">'chai'</span>],</span><br><span class="line"></span><br><span class="line">    files: [</span><br><span class="line">      <span class="string">'test/*.test.js'</span></span><br><span class="line">    ],</span><br><span class="line"></span><br><span class="line">    exclude: [</span><br><span class="line">      <span class="string">'node_modules'</span></span><br><span class="line">    ],</span><br><span class="line"></span><br><span class="line">    preprocessors: &#123;</span><br><span class="line">      <span class="string">'test/*.test.js'</span>: [<span class="string">'webpack'</span>]</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    webpack: &#123;</span><br><span class="line">      <span class="comment">// webpack4中新增的mode模式</span></span><br><span class="line">      mode: <span class="string">"development"</span>,</span><br><span class="line"></span><br><span class="line">      <span class="built_in">module</span>: &#123; </span><br><span class="line">        rules: [</span><br><span class="line">          &#123; <span class="attr">test</span>: <span class="regexp">/\.js?$/</span>, <span class="attr">loader</span>: <span class="string">"babel-loader"</span>,  <span class="attr">options</span>: &#123; <span class="attr">presets</span>: [<span class="string">"env"</span>] &#125;, &#125;,</span><br><span class="line">        ]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    reporters: [<span class="string">'progress'</span>],</span><br><span class="line"></span><br><span class="line">    port: <span class="number">9876</span>,</span><br><span class="line"></span><br><span class="line">    colors: <span class="literal">true</span>,</span><br><span class="line"></span><br><span class="line">    logLevel: config.LOG_INFO,</span><br><span class="line"></span><br><span class="line">    autoWatch: <span class="literal">true</span>,</span><br><span class="line"></span><br><span class="line">    browsers: [<span class="string">'Chrome'</span>],</span><br><span class="line"></span><br><span class="line">    singleRun: <span class="literal">false</span>,</span><br><span class="line"></span><br><span class="line">    concurrency: <span class="literal">Infinity</span></span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="编写测试文件"><a href="#编写测试文件" class="headerlink" title="编写测试文件"></a>编写测试文件</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 通过babel, 浏览器可以正常的解析测试文件中的require</span></span><br><span class="line"><span class="keyword">const</span> modeA = <span class="built_in">require</span>(<span class="string">'../lib/a'</span>)</span><br><span class="line"><span class="keyword">const</span> expect = <span class="built_in">require</span>(<span class="string">'chai'</span>).expect</span><br><span class="line"></span><br><span class="line">describe(<span class="string">'test'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  it(<span class="string">'example'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    expect(modeA.a).to.equals(<span class="number">1</span>)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>最后通过karma start命令即可以开始测试</p>
+<h2 id="Vue与Karma集成"><a href="#Vue与Karma集成" class="headerlink" title="Vue与Karma集成"></a>Vue与Karma集成</h2><blockquote>
+<p>与处理浏览器中的require同理, 我们需要对.vue文件进行babel转码操作。这里我们需要添加vue-loader的依赖。</p>
+</blockquote>
+<p>我们首先通过vue-cli初始化我们的项目, 这里我使用的是vue-cli2.x的版本, 3.x的版本vue-cli对webpack做了抽象, 没有将webpack的配置暴露出来。我尝试添加karma.conf.js的配置, 虽然可以运行，但是存在问题。<a href="https://github.com/vuejs/vue-cli/issues/2241" target="_blank" rel="noopener">issue</a>中, 官方建议我在vue-cli3版本中使用vue-cli的karma的插件解决。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 安装karma以及karam的相关插件</span></span><br><span class="line">npm install karma mocha karma-mocha chai karma-chai karma-webpack --save-dev</span><br><span class="line"></span><br><span class="line"><span class="comment">// 配置karma.conf</span></span><br><span class="line"><span class="comment">// 直接使用webpack暴露的配置</span></span><br><span class="line"><span class="keyword">const</span> webpackConfig = <span class="built_in">require</span>(<span class="string">'./build/webpack.test.conf'</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span>(<span class="params">config</span>) </span>&#123;</span><br><span class="line">  config.set(&#123;</span><br><span class="line"></span><br><span class="line">    basePath: <span class="string">''</span>,</span><br><span class="line"></span><br><span class="line">    frameworks: [<span class="string">'mocha'</span>],</span><br><span class="line"></span><br><span class="line">    files: [</span><br><span class="line">      <span class="string">'test/*.test.js'</span></span><br><span class="line">    ],</span><br><span class="line"></span><br><span class="line">    exclude: [</span><br><span class="line">    ],</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 测试文件添加中间件处理</span></span><br><span class="line">    preprocessors: &#123;</span><br><span class="line">      <span class="string">'test/*.test.js'</span>: [<span class="string">'webpack'</span>]</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    webpack: webpackConfig,</span><br><span class="line"></span><br><span class="line">    reporters: [<span class="string">'progress'</span>],</span><br><span class="line"></span><br><span class="line">    port: <span class="number">9876</span>,</span><br><span class="line"></span><br><span class="line">    colors: <span class="literal">true</span>,</span><br><span class="line"></span><br><span class="line">    logLevel: config.LOG_INFO,</span><br><span class="line"></span><br><span class="line">    autoWatch: <span class="literal">true</span>,</span><br><span class="line"></span><br><span class="line">    browsers: [<span class="string">'Chrome'</span>],</span><br><span class="line"></span><br><span class="line">    singleRun: <span class="literal">false</span>,</span><br><span class="line"></span><br><span class="line">    concurrency: <span class="literal">Infinity</span></span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>⚠️ 注意: 这里依然存在一个问题<a href="https://github.com/webpack-contrib/karma-webpack/issues/24" target="_blank" rel="noopener">Can’t find variable: webpackJsonp</a>, 可以将webpackConfig的CommonsChunkPlugin插件注释后, karma将会正常的工作</p>
+<p><img src="https://i.loli.net/2018/08/17/5b763a3290166.png" alt="图片"></p>
+<h3 id="编写测试"><a href="#编写测试" class="headerlink" title="编写测试"></a>编写测试</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; expect &#125; <span class="keyword">from</span> <span class="string">'chai'</span></span><br><span class="line"><span class="keyword">import</span> &#123; mount &#125; <span class="keyword">from</span> <span class="string">'@vue/test-utils'</span></span><br><span class="line"><span class="keyword">import</span> HelloWorld <span class="keyword">from</span> <span class="string">'../src/components/HelloWorld.vue'</span></span><br><span class="line"></span><br><span class="line">describe(<span class="string">'HelloWorld.vue'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> wrapper = mount(Counter)</span><br><span class="line">  it(<span class="string">'Welcome to Your Vue.js App'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'Welcome to Your Vue.js App'</span>)</span><br><span class="line">    expect(wrapper.vm.msg).to.equals(<span class="string">'Welcome to Your Vue.js App'</span>)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="Vue-cli3与Karma集成"><a href="#Vue-cli3与Karma集成" class="headerlink" title="Vue-cli3与Karma集成"></a>Vue-cli3与Karma集成</h2><p>😊 使用<a href="https://github.com/davidwallacejackson/vue-cli-plugin-unit-karma" target="_blank" rel="noopener">vue-cli-plugin-unit-karma</a>插件, 集成vue-cli3与karma</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/自动化测试/" rel="tag"># 自动化测试</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/12/leetcode/" rel="next" title="leetcode SQL(1)">
+                <i class="fa fa-chevron-left"></i> leetcode SQL(1)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/01/01/todolist/" rel="prev" title="置顶 - 待办事项">
+                置顶 - 待办事项 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="张越" />
+            
+              <p class="site-author-name" itemprop="name">张越</p>
+              <p class="site-description motion-element" itemprop="description">所谓成长，就是经过不断的聚散离合，找到不太会伤害到彼此的距离</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-name">篇博文</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/BengBu-YueZhang" target="_blank" title="我的GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/5460100952/profile?topnav=1&wvr=6" target="_blank" title="我的微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的微博</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Mocha"><span class="nav-number">1.</span> <span class="nav-text">Mocha</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Mocha-API-速览"><span class="nav-number">1.1.</span> <span class="nav-text">Mocha API 速览</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Mocha简单的示例"><span class="nav-number">1.1.1.</span> <span class="nav-text">Mocha简单的示例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Mocha测试异步代码"><span class="nav-number">1.1.2.</span> <span class="nav-text">Mocha测试异步代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hook"><span class="nav-number">1.1.3.</span> <span class="nav-text">hook</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#async-hook"><span class="nav-number">1.1.4.</span> <span class="nav-text">async hook</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#root-hook"><span class="nav-number">1.1.5.</span> <span class="nav-text">root hook</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DELAYED-ROOT-SUITE"><span class="nav-number">1.1.6.</span> <span class="nav-text">DELAYED ROOT SUITE</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#skip"><span class="nav-number">1.1.7.</span> <span class="nav-text">skip</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#重试测试"><span class="nav-number">1.1.8.</span> <span class="nav-text">重试测试</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#动态生成测试"><span class="nav-number">1.1.9.</span> <span class="nav-text">动态生成测试</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#slow"><span class="nav-number">1.1.10.</span> <span class="nav-text">slow</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#timeout"><span class="nav-number">1.1.11.</span> <span class="nav-text">timeout</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Chai"><span class="nav-number">2.</span> <span class="nav-text">Chai</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Chai-API-速览"><span class="nav-number">2.1.</span> <span class="nav-text">Chai API 速览</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#not"><span class="nav-number">2.1.1.</span> <span class="nav-text">not</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#deep"><span class="nav-number">2.1.2.</span> <span class="nav-text">deep</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#nested"><span class="nav-number">2.1.3.</span> <span class="nav-text">nested</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#own"><span class="nav-number">2.1.4.</span> <span class="nav-text">own</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ordered"><span class="nav-number">2.1.5.</span> <span class="nav-text">ordered</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#any"><span class="nav-number">2.1.6.</span> <span class="nav-text">any</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#all"><span class="nav-number">2.1.7.</span> <span class="nav-text">all</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#a-an"><span class="nav-number">2.1.8.</span> <span class="nav-text">a, an</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#include"><span class="nav-number">2.1.9.</span> <span class="nav-text">include</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ok-true-false-null-undefined-NaN"><span class="nav-number">2.1.10.</span> <span class="nav-text">ok, true, false, null, undefined, NaN</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#empty"><span class="nav-number">2.1.11.</span> <span class="nav-text">empty</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#equal"><span class="nav-number">2.1.12.</span> <span class="nav-text">equal</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#eql"><span class="nav-number">2.1.13.</span> <span class="nav-text">eql</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#above-least-below-most"><span class="nav-number">2.1.14.</span> <span class="nav-text">above, least, below, most</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#within"><span class="nav-number">2.1.15.</span> <span class="nav-text">within</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#property"><span class="nav-number">2.1.16.</span> <span class="nav-text">property</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#lengthOf"><span class="nav-number">2.1.17.</span> <span class="nav-text">lengthOf</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#keys"><span class="nav-number">2.1.18.</span> <span class="nav-text">keys</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#respondTo"><span class="nav-number">2.1.19.</span> <span class="nav-text">respondTo</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#satisfy"><span class="nav-number">2.1.20.</span> <span class="nav-text">satisfy</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#oneOf"><span class="nav-number">2.1.21.</span> <span class="nav-text">oneOf</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#change"><span class="nav-number">2.1.22.</span> <span class="nav-text">change</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Karma"><span class="nav-number">3.</span> <span class="nav-text">Karma</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是Karma"><span class="nav-number">3.1.</span> <span class="nav-text">什么是Karma?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装Karma"><span class="nav-number">3.2.</span> <span class="nav-text">安装Karma</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加断言-测试库"><span class="nav-number">3.3.</span> <span class="nav-text">添加断言, 测试库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置karma-conf-js"><span class="nav-number">3.4.</span> <span class="nav-text">配置karma.conf.js</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编写测试文件"><span class="nav-number">3.5.</span> <span class="nav-text">编写测试文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vue与Karma集成"><span class="nav-number">4.</span> <span class="nav-text">Vue与Karma集成</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#编写测试"><span class="nav-number">4.1.</span> <span class="nav-text">编写测试</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vue-cli3与Karma集成"><span class="nav-number">5.</span> <span class="nav-text">Vue-cli3与Karma集成</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张越</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
