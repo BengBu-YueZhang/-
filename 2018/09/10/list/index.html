@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="数据结构," />
+
+
+
+
+
+
+
+
+
+
+<meta name="keywords" content="数据结构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="leetcode linked list">
+<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2018/09/10/list/index.html">
+<meta property="og:site_name" content="新世紀エヴァンゲリオン">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://unsplash.it/1069/600?random">
+<meta property="og:image" content="https://i.loli.net/2018/09/10/5b967bd4d7b38.png">
+<meta property="og:image" content="https://i.loli.net/2018/09/10/5b968f821e3f3.png">
+<meta property="og:image" content="https://i.loli.net/2018/09/10/5b96905038f07.png">
+<meta property="og:image" content="https://i.loli.net/2018/09/10/5b96909bbbc9c.png">
+<meta property="og:image" content="https://i.loli.net/2018/09/10/5b9690e542d74.png">
+<meta property="og:image" content="https://i.loli.net/2018/09/11/5b96f92cba8f1.png">
+<meta property="og:image" content="https://i.loli.net/2018/09/11/5b96fd06e6b8d.png">
+<meta property="og:updated_time" content="2018-09-12T05:10:25.914Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="leetcode linked list">
+<meta name="twitter:image" content="https://unsplash.it/1069/600?random">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/2018/09/10/list/"/>
+
+
+
+
+
+  <title>leetcode linked list | 新世紀エヴァンゲリオン</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">新世紀エヴァンゲリオン</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">前端小学生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            主页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            时间轴
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://bengbu-yuezhang.github.io/yue.github.io/2018/09/10/list/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张越">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新世紀エヴァンゲリオン">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">leetcode linked list</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发布于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-10T21:57:12+08:00">
+                2018-09-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://unsplash.it/1069/600?random" alt="image"></p>
+<a id="more"></a>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文基于leetcode的探索<a href="https://leetcode-cn.com/explore/learn/card/linked-list/193/singly-linked-list/741/" target="_blank" rel="noopener">链表卡片</a>所编写。遗憾的是, 我的卡片的进度为80%, 依然没有全部完成。我在探索卡片的时候, 免不了谷歌搜索。并且有一些题目, 我的解答可能不是最优解。敬请见谅。</p>
+<h2 id="关于链表"><a href="#关于链表" class="headerlink" title="关于链表"></a>关于链表</h2><p><img src="https://i.loli.net/2018/09/10/5b967bd4d7b38.png" alt="链表"></p>
+<p>链表属于比较简单的数据结构, 在这里我在过多的赘述。值的注意的是, 本文都是基于单链表的, 双链表的设计我还没有实现。</p>
+<h2 id="常见的套路"><a href="#常见的套路" class="headerlink" title="常见的套路"></a>常见的套路</h2><p>关于链表的算法题目, 我自己总结了以下几种套路, 或者说常见的手段</p>
+<ol>
+<li>同时保有当前节点的指针, 以及当前节点的前一个节点的指针。</li>
+<li>快慢指针, fast指针的移动速度是slow指针的两倍, 如果链表成环那么fast和slow必然会相遇。</li>
+<li>虚假的链表头, 通过 new ListNode(0), 创建一个虚假的头部。获取真正链表只需返回head.next(这在需要生成一个新链表的时候很有用)。</li>
+<li>同时保有当前链表的尾部的指针, 以及头部的节点指针。</li>
+<li>善用while循环。</li>
+<li>链表的头部和尾部是链表比较特殊的节点, 需要注意区别对待</li>
+</ol>
+<h2 id="设计单链表"><a href="#设计单链表" class="headerlink" title="设计单链表"></a>设计单链表</h2><blockquote>
+<p><a href="https://leetcode-cn.com/explore/learn/card/linked-list/193/singly-linked-list/741/" target="_blank" rel="noopener">原题的地址</a>, 我在原题的基础使用了TypeScript模拟实现了链表。</p>
+</blockquote>
+<p>链表需要拥有以下几种方法:</p>
+<ul>
+<li><p>get, 根据链表的索引获取链表节点的value</p>
+</li>
+<li><p>addAtTail, 添加一个节点到链表的尾部</p>
+</li>
+</ul>
+<p><img src="https://i.loli.net/2018/09/10/5b968f821e3f3.png" alt="addAtTail"></p>
+<ul>
+<li>addAtHead, 添加一个节点到链表的头部</li>
+</ul>
+<p><img src="https://i.loli.net/2018/09/10/5b96905038f07.png" alt="addAtHead"></p>
+<ul>
+<li>addAtIndex, 添加一个节点到链表的任意位置</li>
+</ul>
+<p><img src="https://i.loli.net/2018/09/10/5b96909bbbc9c.png" alt="addAtIndex"></p>
+<ul>
+<li>deleteAtIndex, 删除任意位置的节点</li>
+</ul>
+<p><img src="https://i.loli.net/2018/09/10/5b9690e542d74.png" alt="deleteAtIndex"></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 定义链表节点类以及链表类的接口</span></span><br><span class="line"><span class="keyword">interface</span> LinkedListNodeInterface &#123;</span><br><span class="line">  val: <span class="built_in">number</span>;</span><br><span class="line">  next: LinkedListNode;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> LinkedListInterface &#123;</span><br><span class="line">  head: LinkedListNode;</span><br><span class="line">  length: <span class="built_in">number</span>;</span><br><span class="line">  <span class="keyword">get</span>(index: <span class="built_in">number</span>): <span class="built_in">number</span>;</span><br><span class="line">  addAtHead(val: <span class="built_in">number</span>): <span class="built_in">void</span>;</span><br><span class="line">  addAtTail(val: <span class="built_in">number</span>): <span class="built_in">void</span>;</span><br><span class="line">  addAtIndex(index: <span class="built_in">number</span>, val: <span class="built_in">number</span>): <span class="built_in">void</span>;</span><br><span class="line">  deleteAtIndex(index: <span class="built_in">number</span>): <span class="built_in">void</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> LinkedListNode <span class="keyword">implements</span> LinkedListNodeInterface &#123;</span><br><span class="line">  <span class="keyword">constructor</span> (<span class="params"></span></span><br><span class="line"><span class="params">    <span class="keyword">public</span> val: <span class="built_in">number</span> = <span class="literal">null</span>,</span></span><br><span class="line"><span class="params">    <span class="keyword">public</span> next: LinkedListNode = <span class="literal">null</span></span></span><br><span class="line"><span class="params">  </span>) &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> LinkedList <span class="keyword">implements</span> LinkedListInterface &#123;</span><br><span class="line">  <span class="keyword">constructor</span> (<span class="params"></span></span><br><span class="line"><span class="params">    <span class="keyword">public</span> head: LinkedListNode = <span class="literal">null</span>,</span></span><br><span class="line"><span class="params">    <span class="keyword">public</span> length: <span class="built_in">number</span> = 0</span></span><br><span class="line"><span class="params">  </span>) &#123;&#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 通过while循环链表, 同时在循环的过程中使用计数器计数, 既可以实现</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">get</span>(index: <span class="built_in">number</span>): <span class="built_in">number</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (index &gt;= <span class="number">0</span> &amp;&amp; index &lt; <span class="keyword">this</span>.length) &#123;</span><br><span class="line">      <span class="keyword">let</span> num: <span class="built_in">number</span> = <span class="number">0</span></span><br><span class="line">      <span class="keyword">let</span> currentNode: LinkedListNode = <span class="keyword">this</span>.head</span><br><span class="line">      <span class="keyword">while</span> (index !== num) &#123;</span><br><span class="line">        num += <span class="number">1</span></span><br><span class="line">        currentNode = currentNode.next</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> currentNode.val</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 将新节点的next属性指向当前的head, 将head指针指向新节点</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="keyword">public</span> addAtHead (val: <span class="built_in">number</span>): <span class="built_in">void</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> newNode: LinkedListNode = <span class="keyword">new</span> LinkedListNode(val, <span class="keyword">this</span>.head)</span><br><span class="line">    <span class="keyword">this</span>.head = newNode</span><br><span class="line">    <span class="keyword">this</span>.length += <span class="number">1</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 将链表尾部的节点的next属性指向新生成的节点, 获取链表尾部的节点需要遍历链表</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="keyword">public</span> addAtTail(val: <span class="built_in">number</span>): <span class="built_in">void</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> newNode: LinkedListNode = <span class="keyword">new</span> LinkedListNode(val, <span class="literal">null</span>)</span><br><span class="line">    <span class="keyword">let</span> currentNode: LinkedListNode = <span class="keyword">this</span>.head</span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">this</span>.head) &#123;</span><br><span class="line">      <span class="keyword">this</span>.head = newNode</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">while</span> (currentNode &amp;&amp; currentNode.next) &#123;</span><br><span class="line">        currentNode = currentNode.next</span><br><span class="line">      &#125;</span><br><span class="line">      currentNode.next = newNode</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">this</span>.length += <span class="number">1</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 这里需要需要运用技巧, 遍历链表的同时, 同时保留当前的节点和当前节点的前一个节点的指针</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="keyword">public</span> addAtIndex(index: <span class="built_in">number</span>, val: <span class="built_in">number</span>): <span class="built_in">void</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (index &gt;= <span class="number">0</span> &amp;&amp; index &lt;= <span class="keyword">this</span>.length) &#123;</span><br><span class="line">      <span class="keyword">let</span> newNode: LinkedListNode = <span class="literal">null</span></span><br><span class="line">      <span class="keyword">if</span> (index === <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">// 如果index为0, 插入头部需要与其他位置区别对待</span></span><br><span class="line">        <span class="keyword">this</span>.addAtHead(val)</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> pointer: <span class="built_in">number</span> = <span class="number">1</span></span><br><span class="line">        <span class="keyword">let</span> prevNode: LinkedListNode = <span class="keyword">this</span>.head</span><br><span class="line">        <span class="keyword">let</span> currentNode: LinkedListNode = <span class="keyword">this</span>.head.next</span><br><span class="line">        <span class="keyword">while</span> (pointer !== index &amp;&amp; currentNode) &#123;</span><br><span class="line">          prevNode = currentNode</span><br><span class="line">          currentNode = currentNode.next</span><br><span class="line">          pointer += <span class="number">1</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 中间插入</span></span><br><span class="line">        newNode = <span class="keyword">new</span> LinkedListNode(val, currentNode)</span><br><span class="line">        prevNode.next = newNode</span><br><span class="line">        <span class="keyword">this</span>.length += <span class="number">1</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> deleteAtIndex(index: <span class="built_in">number</span>): <span class="built_in">void</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (index &gt;= <span class="number">0</span> &amp;&amp; index &lt; <span class="keyword">this</span>.length &amp;&amp; <span class="keyword">this</span>.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">      <span class="keyword">if</span> (index === <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">this</span>.head = <span class="keyword">this</span>.head.next</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> pointer: <span class="built_in">number</span> = <span class="number">1</span></span><br><span class="line">        <span class="keyword">let</span> prevNode: LinkedListNode = <span class="keyword">this</span>.head</span><br><span class="line">        <span class="keyword">let</span> currentNode: LinkedListNode = <span class="keyword">this</span>.head.next</span><br><span class="line">        <span class="comment">// 值得注意的是这里的判断条件使用的是currentNode.next</span></span><br><span class="line">        <span class="comment">// 这意味着currentNode最远到达当前链表的尾部的节点，而非null</span></span><br><span class="line">        <span class="comment">// 这是因为prevNode.next = prevNode.next.next, 我们不能取null的next属性</span></span><br><span class="line">        <span class="keyword">while</span> (pointer !== index &amp;&amp; currentNode.next) &#123;</span><br><span class="line">          prevNode = currentNode</span><br><span class="line">          currentNode = currentNode.next</span><br><span class="line">          pointer += <span class="number">1</span></span><br><span class="line">        &#125;</span><br><span class="line">        prevNode.next = prevNode.next.next</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">this</span>.length -= <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="环形链表"><a href="#环形链表" class="headerlink" title="环形链表"></a>环形链表</h2><blockquote>
+<p><a href="https://leetcode-cn.com/explore/learn/card/linked-list/194/two-pointer-technique/744/" target="_blank" rel="noopener">原题地址</a>, 将环形链表想象成一个跑道, 运动员的速度是肥宅的两倍, 那么经过一段时间后, 运动员必然会超过肥宅一圈。这个时候, 运动员和肥宅必然会相遇。快慢指针的思想就是源于此。</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 判断链表是否成环</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">hasCycle</span> (<span class="params">head: LinkedListNode</span>): <span class="title">boolean</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 快指针</span></span><br><span class="line">  <span class="keyword">let</span> flst = head</span><br><span class="line">  <span class="comment">// 慢指针</span></span><br><span class="line">  <span class="keyword">let</span> slow = head</span><br><span class="line"></span><br><span class="line">  <span class="keyword">while</span> (flst &amp;&amp; flst.next &amp;&amp; flst.next.next) &#123;</span><br><span class="line">    flst = flst.next.next</span><br><span class="line">    slow = flst.next</span><br><span class="line">    <span class="keyword">if</span> (flst === slow) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="环形链表II"><a href="#环形链表II" class="headerlink" title="环形链表II"></a>环形链表II</h2><blockquote>
+<p><a href="https://leetcode-cn.com/explore/learn/card/linked-list/194/two-pointer-technique/745/" target="_blank" rel="noopener">原题地址</a>, 在环形链表的基础上, 我们需要获取环形链表的入口。同样使用快慢指针实现。但是值的注意的是。链表可能只有<strong>部分</strong>成环, 这意味着。快慢指针相遇的点, 可能并不是环的入口。</p>
+</blockquote>
+<p><img src="https://i.loli.net/2018/09/11/5b96f92cba8f1.png" alt="image"></p>
+<p>慢节点的运动距离为, a + b - c</p>
+<p>快节点的运动距离为, 2b + a - c</p>
+<p>快节点的运动距离是慢节点的两倍。可以得出这个公式 2(a + b - c) = 2b + a - c, 化简 2a - 2c = a - c, 可以得出 a = c。</p>
+<p><strong>相遇的点距离入口的距离, 等于起点距离入口距离</strong></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">hasCycleEntrance</span> (<span class="params">head: LinkedListNode</span>): <span class="title">LinkedListNode</span> | <span class="title">Boolean</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 快指针</span></span><br><span class="line">  <span class="keyword">let</span> flst = head</span><br><span class="line">  <span class="comment">// 慢指针</span></span><br><span class="line">  <span class="keyword">let</span> slow = head</span><br><span class="line">  <span class="keyword">while</span> (flst &amp;&amp; flst.next &amp;&amp; flst.next.next) &#123;</span><br><span class="line">    flst = flst.next.next</span><br><span class="line">    slow = flst.next</span><br><span class="line">    <span class="comment">// 快指针移动到入口，并且速度变为1</span></span><br><span class="line">    <span class="keyword">if</span> (flst === slow) &#123;</span><br><span class="line">      <span class="comment">// 变道起点</span></span><br><span class="line">      flst = head</span><br><span class="line">      <span class="comment">// a 和 c距离是一致的</span></span><br><span class="line">      <span class="comment">// 每一次移动一个next，必然会在入口出相遇</span></span><br><span class="line">      <span class="keyword">while</span> (flst !== slow) &#123;</span><br><span class="line">        flst = flst.next</span><br><span class="line">        slow = slow.next</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> flst</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="相交链表"><a href="#相交链表" class="headerlink" title="相交链表"></a>相交链表</h2><blockquote>
+<p><a href="https://leetcode-cn.com/explore/learn/card/linked-list/194/two-pointer-technique/746/" target="_blank" rel="noopener">原题地址</a>, 相交链表的解题思路依然是使用快慢指针。思路见下图, 将a链的tail链接到b链head, 如果a与b链相交, 那么就会成环。套用上一题的思路就可以获取到a与b的交点。</p>
+</blockquote>
+<p><img src="https://i.loli.net/2018/09/11/5b96fd06e6b8d.png" alt="image"></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">hasCross</span> (<span class="params">headA: LinkedListNode, headB: LinkedListNode</span>): <span class="title">LinkedListNode</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (headA &amp;&amp; headB) &#123;</span><br><span class="line">        </span><br><span class="line">    <span class="comment">// 自身相等的情况下</span></span><br><span class="line">    <span class="keyword">if</span> (headA === headB) &#123;</span><br><span class="line">        <span class="keyword">return</span> headA</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// a链的tail连上b链的head</span></span><br><span class="line">    <span class="keyword">let</span> lastA: LinkedListNode = headA</span><br><span class="line">    <span class="keyword">let</span> lastB: LinkedListNode = headB</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span> (lastA &amp;&amp; lastA.next) &#123;</span><br><span class="line">        lastA = lastA.next</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    lastA.next = headB</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">let</span> fast: LinkedListNode = headA</span><br><span class="line">    <span class="keyword">let</span> slow: LinkedListNode = headA</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span> (fast &amp;&amp; fast.next &amp;&amp; fast.next.next) &#123;</span><br><span class="line">        slow = slow.next</span><br><span class="line">        fast = fast.next.next</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (slow === fast) &#123;</span><br><span class="line">            fast = headA</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">while</span> (slow !== fast) &#123;</span><br><span class="line">                slow = slow.next</span><br><span class="line">                fast = fast.next</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span> (slow === fast) &#123;</span><br><span class="line">                    lastA.next = <span class="literal">null</span></span><br><span class="line">                    <span class="keyword">return</span> slow</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            lastA.next = <span class="literal">null</span></span><br><span class="line">            <span class="keyword">return</span> fast</span><br><span class="line">        &#125; </span><br><span class="line">    &#125;</span><br><span class="line">    lastA.next = <span class="literal">null</span>  </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span>  </span><br><span class="line">  &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="删除链表的倒数第N个节点"><a href="#删除链表的倒数第N个节点" class="headerlink" title="删除链表的倒数第N个节点"></a>删除链表的倒数第N个节点</h2><blockquote>
+<p><a href="https://leetcode-cn.com/explore/learn/card/linked-list/194/two-pointer-technique/747/" target="_blank" rel="noopener">原题地址</a>, 这里我使用的是比较笨的办法, 先计算链表的长度, 获取正序的时n的大小。然后按照删除链表中某一个节点的方法进行删除即可。需要区分删除的是否是第一个。</p>
+</blockquote>
+<h2 id="反转链表"><a href="#反转链表" class="headerlink" title="反转链表"></a>反转链表</h2><blockquote>
+<p><a href="https://leetcode-cn.com/explore/learn/card/linked-list/195/classic-problems/750/" target="_blank" rel="noopener">原题地址</a>, 常见的反转链表的方式就是使用递归或者迭代的方式。反转链表的过程, 如果拆解开来, 可以分为下面几步。从拆解的过程可以看出, 反转链表的过程就是依次将head的后面的节点, 放到链表的头部。</p>
+</blockquote>
+<p>1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; null</p>
+<p>2 -&gt; 1 -&gt; 3 -&gt; 4 -&gt; null</p>
+<p>3 -&gt; 2 -&gt; 1 -&gt; 4 -&gt; null</p>
+<p>4 -&gt; 3 -&gt; 2 -&gt; 1 -&gt; null</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> reverseList = <span class="function"><span class="keyword">function</span>(<span class="params">head: LinkedListNode</span>): <span class="title">LinkedListNode</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">let</span> newHead: LinkedListNode = head</span><br><span class="line">    <span class="keyword">let</span> current: LinkedListNode = head</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// current的指针将会向后移动</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">reverse</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">let</span> a = current.next</span><br><span class="line">        <span class="keyword">let</span> b = current.next.next</span><br><span class="line">        a.next = head</span><br><span class="line">        current.next = b</span><br><span class="line">        head = a</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span> (current &amp;&amp; current.next) &#123;</span><br><span class="line">       reverse() </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> head</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="删除链表中的节点"><a href="#删除链表中的节点" class="headerlink" title="删除链表中的节点"></a>删除链表中的节点</h2><blockquote>
+<p><a href="https://leetcode-cn.com/explore/learn/card/linked-list/195/classic-problems/752/" target="_blank" rel="noopener">原题地址</a>。我使用的也是笨办法。由于链表头部特殊性，删除头部时需要进行递归(因为在第一次删除头部的节点后, 新的头部也有可能是满足删除条件的节点)。对于其他位置的节点使用常规办法即可。</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">removeElements</span> (<span class="params">head: LinkedListNode, val: <span class="built_in">number</span></span>): <span class="title">LinkedListNode</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 删除链表的头部</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">deleteHead</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    head = head.next</span><br><span class="line">    <span class="keyword">if</span> (head &amp;&amp; head.val === val) &#123;</span><br><span class="line">        deleteHead()</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; </span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (head) &#123;</span><br><span class="line">      <span class="keyword">if</span> (head.val === val) &#123;</span><br><span class="line">          <span class="comment">// 递归删除头部的节点</span></span><br><span class="line">          deleteHead()</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (head &amp;&amp; head.next) &#123;</span><br><span class="line">        <span class="keyword">let</span> prevNode = head</span><br><span class="line">        <span class="keyword">let</span> currentNode = head.next</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (currentNode) &#123;</span><br><span class="line">          <span class="comment">// 删除链表中间符合条件的节点</span></span><br><span class="line">            <span class="keyword">if</span> (currentNode.val === val) &#123;</span><br><span class="line">                prevNode.next = currentNode.next</span><br><span class="line">                currentNode = currentNode.next</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                prevNode = prevNode.next</span><br><span class="line">                currentNode = currentNode.next</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;  </span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> head</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="奇偶链表"><a href="#奇偶链表" class="headerlink" title="奇偶链表"></a>奇偶链表</h2><blockquote>
+<p><a href="https://leetcode-cn.com/explore/learn/card/linked-list/195/classic-problems/753/" target="_blank" rel="noopener">原题地址</a>, 对于这道题目我们就需要运用上之前提到的两种套路(同时保留头部的指针以及当前的节点的指针和虚假的头部)</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">oddEvenList</span> (<span class="params">head: LinkedListNode</span>): <span class="title">LinkedListNode</span> </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> oddHead: LinkedListNode = <span class="keyword">new</span> LinkedListNode(<span class="number">0</span>)</span><br><span class="line">  <span class="keyword">let</span> evenHead: LinkedListNode = <span class="keyword">new</span> LinkedListNode(<span class="number">0</span>)</span><br><span class="line">  <span class="keyword">let</span> oddTail: LinkedListNode = oddHead</span><br><span class="line">  <span class="keyword">let</span> evenTail: LinkedListNode = evenHead</span><br><span class="line">  <span class="keyword">let</span> index: <span class="built_in">number</span> = <span class="number">1</span></span><br><span class="line">  </span><br><span class="line">  <span class="keyword">while</span> (head) &#123;</span><br><span class="line">      <span class="comment">// 链接不同奇偶两条链</span></span><br><span class="line">      <span class="comment">// 这里默认开头是1，所以index从1开始</span></span><br><span class="line">      <span class="keyword">if</span> (index % <span class="number">2</span> !== <span class="number">0</span>) &#123;</span><br><span class="line">          oddTail.next = head</span><br><span class="line">          oddTail = oddTail.next</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          evenTail.next = head</span><br><span class="line">          evenTail = evenTail.next</span><br><span class="line">      &#125;</span><br><span class="line">      head = head.next</span><br><span class="line">      index += <span class="number">1</span></span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 偶数链的结尾是null，因为是尾部</span></span><br><span class="line">  evenTail.next = <span class="literal">null</span></span><br><span class="line">  <span class="comment">// evenHead.next忽略到假头</span></span><br><span class="line">  oddTail.next = evenHead.next</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// oddHead.next忽略到假头</span></span><br><span class="line">  <span class="keyword">return</span> oddHead.next</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="回文链表"><a href="#回文链表" class="headerlink" title="回文链表"></a>回文链表</h2><blockquote>
+<p><a href="https://leetcode-cn.com/explore/learn/card/linked-list/195/classic-problems/754/" target="_blank" rel="noopener">原题地址</a>, 何为所谓的回文链表, 1 -&gt; 2 -&gt; 1 或者 1 -&gt; 1 亦或则 1 -&gt; 2 -&gt; 2 -&gt; 1 可以被称为回文链表。回文链表如果长度为奇数, 那么除去中间点, 两头的链表应当是在反转后应当是相同的。如果是偶数个, 链表的一半经过反转应该等于前半部分。当然有两种情况需要特殊考虑, 比如链表为 1 或者 1 -&gt; 1 的情况下。在排除了这两种特色情况后, 可以通过快慢指针获取链表的中点(fast的速度是slow的两倍)。反转中点之后的链表后, 然后从头部开始和中点开始对比每一个节点的val。</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isPalindrome</span> (<span class="params">head: LinkedListNode</span>): <span class="title">boolean</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!head) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 通过快慢指针获取中点</span></span><br><span class="line">  <span class="keyword">let</span> fast: LinkedListNode = head</span><br><span class="line">  <span class="keyword">let</span> slow: LinkedListNode = head</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 链表中点</span></span><br><span class="line">  <span class="keyword">let</span> middle = <span class="literal">null</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 循环结束后慢节点就是链表的中点</span></span><br><span class="line">  <span class="keyword">while</span> (fast &amp;&amp; fast.next &amp;&amp; fast.next.next) &#123;</span><br><span class="line">      fast = fast.next.next</span><br><span class="line">      slow = slow.next</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 一个和两个的情况</span></span><br><span class="line">  <span class="keyword">if</span> (fast === slow) &#123;</span><br><span class="line">      <span class="keyword">if</span> (!fast.next) &#123;</span><br><span class="line">          <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> ( fast.val === fast.next.val ) &#123;</span><br><span class="line">          <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// middle保持对中点的引用</span></span><br><span class="line">  <span class="comment">// slow往后移动</span></span><br><span class="line">  middle = slow</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 反转中点以后的链表</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">reverse</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="keyword">let</span> a = slow.next</span><br><span class="line">      <span class="keyword">let</span> b = slow.next.next</span><br><span class="line">      a.next = middle</span><br><span class="line">      slow.next = b</span><br><span class="line">      middle = a</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">while</span> (slow &amp;&amp; slow.next) &#123;</span><br><span class="line">      reverse()</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 从头部和中点开始对比</span></span><br><span class="line">  <span class="keyword">while</span> (head &amp;&amp; middle) &#123;</span><br><span class="line">      </span><br><span class="line">      <span class="keyword">if</span> (head.val !== middle.val) &#123;</span><br><span class="line">          <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">      &#125;</span><br><span class="line">      </span><br><span class="line">      head = head.next</span><br><span class="line">      middle = middle.next</span><br><span class="line">      </span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="literal">true</span>    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="合并两个有序链表"><a href="#合并两个有序链表" class="headerlink" title="合并两个有序链表"></a>合并两个有序链表</h2><blockquote>
+<p><a href="https://leetcode-cn.com/explore/learn/card/linked-list/197/conclusion/762/" target="_blank" rel="noopener">原题地址</a>, 对于创建一个新的链表使用的思路就是创建一个虚假的头部, 这道题目的解答也是如此。以及同时保留头部的指针以及尾部的指针, 无论是添加节点还是返回链表都会非常方便。</p>
+</blockquote>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mergeTwoLists</span> (<span class="params">l1: LinkedListNode, l2: LinkedListNode</span>): <span class="title">LinkedListNode</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 头部的引用</span></span><br><span class="line">  <span class="keyword">let</span> newHead: LinkedListNode = <span class="keyword">new</span> LinkedListNode(<span class="number">0</span>)</span><br><span class="line">  <span class="comment">// 尾部的引用</span></span><br><span class="line">  <span class="keyword">let</span> newTail: LinkedListNode = newHead</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">while</span> (l1 &amp;&amp; l2) &#123;</span><br><span class="line">    <span class="keyword">if</span> (l1.val &lt; l2.val) &#123;</span><br><span class="line">        newTail.next = l1</span><br><span class="line">        l1 = l1.next</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        newTail.next = l2</span><br><span class="line">        l2 = l2.next</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 始终指向尾部</span></span><br><span class="line">    newTail = newTail.next</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">if</span> (!l1) &#123;</span><br><span class="line">    newTail.next = l2</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">if</span> (!l2) &#123;</span><br><span class="line">    newTail.next = l1</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 忽略虚假的头部</span></span><br><span class="line">  <span class="keyword">return</span> newHead.next</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="链表相加"><a href="#链表相加" class="headerlink" title="链表相加"></a>链表相加</h2><blockquote>
+<p><a href="https://leetcode-cn.com/explore/learn/card/linked-list/197/conclusion/763/" target="_blank" rel="noopener">原题地址</a>。生成虚假的头部后, 两个链表两两相加, 注意<strong>进位</strong>以及<strong>保留位</strong>即可。如果val不存在, 取0。</p>
+</blockquote>
+<p>(2 -&gt; 4 -&gt; 3) + (5 -&gt; 6 -&gt; 7 -&gt; 8)</p>
+<p>  0343</p>
+<ul>
+<li>8765</li>
+</ul>
+<hr>
+<p>  9108</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addTwoNumbers</span> (<span class="params">l1: LinkedListNode, l2: LinkedListNode</span>): <span class="title">LinkedListNode</span> </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> newHead: LinkedListNode = <span class="keyword">new</span> LinkedListNode(<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">let</span> newTail: LinkedListNode = newHead</span><br><span class="line">    <span class="comment">// carry是进位，8 + 8 = 16 ，进位为1</span></span><br><span class="line">    <span class="keyword">let</span> carry: <span class="built_in">number</span> = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> (l1 || l2) &#123;</span><br><span class="line">        <span class="keyword">let</span> a: <span class="built_in">number</span> = l1 ? l1.val : <span class="number">0</span></span><br><span class="line">        <span class="keyword">let</span> b: <span class="built_in">number</span> = l2 ? l2.val : <span class="number">0</span></span><br><span class="line">        <span class="comment">// val是保留的位</span></span><br><span class="line">        <span class="keyword">let</span> val: <span class="built_in">number</span> = (a + b + carry) % <span class="number">10</span></span><br><span class="line">        carry = <span class="built_in">Math</span>.floor((a + b + carry) / <span class="number">10</span>)</span><br><span class="line">        <span class="keyword">let</span> newNode = <span class="keyword">new</span> LinkedListNode(val)</span><br><span class="line">        newTail.next = newNode</span><br><span class="line">        newTail = newTail.next</span><br><span class="line">        <span class="keyword">if</span> (l1) &#123;</span><br><span class="line">            l1 = l1.next</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (l2) &#123;</span><br><span class="line">            l2 = l2.next</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (carry !== <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">// 注意最后一位的进位</span></span><br><span class="line">        <span class="keyword">let</span> newNode: LinkedListNode = <span class="keyword">new</span> LinkedListNode(carry)</span><br><span class="line">        newTail.next = newNode</span><br><span class="line">        newTail = newTail.next</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> newHead.next</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="旋转链表"><a href="#旋转链表" class="headerlink" title="旋转链表"></a>旋转链表</h2><blockquote>
+<p><a href="https://leetcode-cn.com/explore/learn/card/linked-list/197/conclusion/767/" target="_blank" rel="noopener">原题地址</a>, 通过观察可知, 所谓的旋转就是依次将链表尾部的节点移动到链表的头部, 同时可以发现如果旋转的次数等于链表的长度。链表是没有发生改变的。所以通过提前计算出链表的长度, 可以减少旋转的次数。</p>
+</blockquote>
+<p>输入: 0-&gt; 1-&gt; 2 -&gt; NULL</p>
+<p>向右旋转 1 步: 2 -&gt; 0 -&gt; 1 -&gt; NULL<br>向右旋转 2 步: 1 -&gt; 2 -&gt; 0 -&gt; NULL<br>向右旋转 3 步: 0 -&gt; 1 -&gt; 2 -&gt; NULL<br>向右旋转 4 步: 2 -&gt; 0 -&gt; 1 -&gt; NULL</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> rotateRight = <span class="function"><span class="keyword">function</span>(<span class="params">head, k</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!head || !head.next) &#123;</span><br><span class="line">        <span class="keyword">return</span> head</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">let</span> length = <span class="number">0</span></span><br><span class="line">    <span class="keyword">let</span> c = head</span><br><span class="line">    <span class="comment">// 计算出链表的长度</span></span><br><span class="line">    <span class="keyword">while</span> (c) &#123;</span><br><span class="line">        length += <span class="number">1</span></span><br><span class="line">        c = c.next</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 将链表的尾部移动到链表的头部</span></span><br><span class="line">    <span class="comment">// 链表尾部的前一个next指向null</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">rotate</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">let</span> a = head</span><br><span class="line">        <span class="keyword">let</span> b = head.next</span><br><span class="line">        <span class="keyword">while</span> (b &amp;&amp; b.next) &#123;</span><br><span class="line">            a = b</span><br><span class="line">            b = b.next</span><br><span class="line">        &#125;</span><br><span class="line">        b.next = head</span><br><span class="line">        head = b</span><br><span class="line">        a.next = <span class="literal">null</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 避免没有必要的选装</span></span><br><span class="line">    <span class="keyword">let</span> newK = k % length</span><br><span class="line">    <span class="keyword">let</span> index = <span class="number">1</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span> (index &lt;= newK) &#123;</span><br><span class="line">        rotate()</span><br><span class="line">        index += <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> head</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据结构/" rel="tag"># 数据结构</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/18/mocha/" rel="next" title="单元测试(修正版)">
+                <i class="fa fa-chevron-left"></i> 单元测试(修正版)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/01/01/todolist/" rel="prev" title="置顶 - 待办事项">
+                置顶 - 待办事项 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            作者概述
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="张越" />
+            
+              <p class="site-author-name" itemprop="name">张越</p>
+              <p class="site-description motion-element" itemprop="description">所谓成长，就是经过不断的聚散离合，找到不太会伤害到彼此的距离</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">篇文章</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">Tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/BengBu-YueZhang" target="_blank" title="我的GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/5460100952/profile?topnav=1&wvr=6" target="_blank" title="我的微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的微博</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于链表"><span class="nav-number">2.</span> <span class="nav-text">关于链表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常见的套路"><span class="nav-number">3.</span> <span class="nav-text">常见的套路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设计单链表"><span class="nav-number">4.</span> <span class="nav-text">设计单链表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#环形链表"><span class="nav-number">5.</span> <span class="nav-text">环形链表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#环形链表II"><span class="nav-number">6.</span> <span class="nav-text">环形链表II</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相交链表"><span class="nav-number">7.</span> <span class="nav-text">相交链表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除链表的倒数第N个节点"><span class="nav-number">8.</span> <span class="nav-text">删除链表的倒数第N个节点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#反转链表"><span class="nav-number">9.</span> <span class="nav-text">反转链表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除链表中的节点"><span class="nav-number">10.</span> <span class="nav-text">删除链表中的节点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#奇偶链表"><span class="nav-number">11.</span> <span class="nav-text">奇偶链表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#回文链表"><span class="nav-number">12.</span> <span class="nav-text">回文链表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#合并两个有序链表"><span class="nav-number">13.</span> <span class="nav-text">合并两个有序链表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#链表相加"><span class="nav-number">14.</span> <span class="nav-text">链表相加</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#旋转链表"><span class="nav-number">15.</span> <span class="nav-text">旋转链表</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张越</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
