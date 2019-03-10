@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="新世紀エヴァンゲリオン">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://unsplash.it/1380/768?random">
-<meta property="og:updated_time" content="2019-03-09T15:44:40.757Z">
+<meta property="og:updated_time" content="2019-03-10T07:56:29.089Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ES6 proxy 初体验">
 <meta name="twitter:image" content="https://unsplash.it/1380/768?random">
@@ -185,7 +185,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Home
+            主页
           </a>
         </li>
       
@@ -195,7 +195,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
-            Tags
+            标签
           </a>
         </li>
       
@@ -205,7 +205,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archives
+            时间轴
           </a>
         </li>
       
@@ -269,9 +269,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">发布于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-10T12:00:00+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-10T16:00:00+08:00">
                 2019-03-10
               </time>
             
@@ -345,10 +345,19 @@
 <p><strong>阮老师的书看到目前为止, 经过对proxy apply的实验发现一个问题, 代理后的对象如果不通过call, apply指定this的指向, ctx指向undefined</strong></p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="built_in">window</span>.name = <span class="string">'Hello JavaScript'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> source = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; <span class="keyword">return</span> <span class="keyword">this</span>.name &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> proxyFunc = <span class="keyword">new</span> <span class="built_in">Proxy</span>(source, &#123;</span><br><span class="line">  apply (target, ctx, params) &#123;</span><br><span class="line">    <span class="comment">// proxy代理后的this, 始终指向proxy对象</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>)</span><br><span class="line">    <span class="keyword">return</span> ctx.name</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Hello JavaScript</span></span><br><span class="line"><span class="built_in">console</span>.log(source())</span><br><span class="line"><span class="comment">// call</span></span><br><span class="line"><span class="built_in">console</span>.log(proxyFunc.call(&#123;<span class="attr">name</span>: <span class="string">'call'</span>&#125;))</span><br><span class="line"><span class="comment">// apply</span></span><br><span class="line"><span class="built_in">console</span>.log(proxyFunc.apply(&#123;<span class="attr">name</span>: <span class="string">'apply'</span>&#125;))</span><br><span class="line"><span class="comment">// throw error 抛出错误, ctx为undefined</span></span><br><span class="line"><span class="built_in">console</span>.log(proxyFunc())</span><br></pre></td></tr></table></figure>
 <h2 id="Proxy-revocable"><a href="#Proxy-revocable" class="headerlink" title="Proxy.revocable()"></a>Proxy.revocable()</h2><p>Proxy.revocable方法返回一个可取消的Proxy实例, Proxy.revocable会返回一个对象, 对象拥有两个属性, proxy以及revoke。proxy属性对应proxy的实例, revoke是取消proxy实例的函数, 调用revoke函数后, 访问proxy实例会抛出错误</p>
-<h2 id="this问题"><a href="#this问题" class="headerlink" title="this问题"></a>this问题</h2><p>不做任何拦截的情况下，也无法保证与目标对象的行为一致。<strong>在Proxy代理的情况下，目标对象内部的this关键字会指向Proxy代理</strong></p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">let</span> source = &#123;</span><br><span class="line">  test () &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span> === proxyObject</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// proxy代理, proxyObject内部的this指向proxyObject</span></span><br><span class="line"><span class="keyword">let</span> proxyObject = <span class="keyword">new</span> <span class="built_in">Proxy</span>(source, &#123;&#125;)</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(source.test())</span><br><span class="line"><span class="built_in">console</span>.log(proxyObject.test())</span><br></pre></td></tr></table></figure>
+<h2 id="this问题"><a href="#this问题" class="headerlink" title="this问题"></a>this问题</h2><p>不做任何拦截的情况下，也无法保证与目标对象的行为一致。<strong>在Proxy代理的情况下，目标对象内部的this关键字会指向Proxy代理</strong>。proxy无法代理部分原生对象的属性, 即使在不做任何的拦截的情况下, proxy代理后Date对象无法获取getDate方法。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">let</span> source = &#123;</span><br><span class="line">  test () &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span> === proxyObject</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// proxy代理, proxyObject内部的this指向proxyObject</span></span><br><span class="line"><span class="keyword">let</span> proxyObject = <span class="keyword">new</span> <span class="built_in">Proxy</span>(source, &#123;&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// false</span></span><br><span class="line"><span class="built_in">console</span>.log(source.test())</span><br><span class="line"><span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(proxyObject.test())</span><br></pre></td></tr></table></figure>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> _name = <span class="keyword">new</span> <span class="built_in">WeakMap</span>();</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(name) &#123;</span><br><span class="line">    _name.set(<span class="keyword">this</span>, name);</span><br><span class="line">  &#125;</span><br><span class="line">  get name() &#123;</span><br><span class="line">    <span class="keyword">return</span> _name.get(<span class="keyword">this</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// _name记录的key为jane实例</span></span><br><span class="line"><span class="keyword">const</span> jane = <span class="keyword">new</span> Person(<span class="string">'Jane'</span>);</span><br><span class="line"><span class="comment">// this指向jane的实例</span></span><br><span class="line">jane.name <span class="comment">// 'Jane'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> proxy = <span class="keyword">new</span> <span class="built_in">Proxy</span>(jane, &#123;&#125;);</span><br><span class="line"><span class="comment">// 经过代理的对象，目标对象(jane实例)内部的this指向proxy代理, 所以在WeakMap找不到</span></span><br><span class="line">proxy.name <span class="comment">// undefined</span></span><br></pre></td></tr></table></figure>
-<h2 id="proxy的使用场景"><a href="#proxy的使用场景" class="headerlink" title="proxy的使用场景"></a>proxy的使用场景</h2><h3 id="实现私有属性-禁止外部的读写操作"><a href="#实现私有属性-禁止外部的读写操作" class="headerlink" title="实现私有属性, 禁止外部的读写操作"></a>实现私有属性, 禁止外部的读写操作</h3><h3 id="数据绑定-每当对象发生变化时，会自动更新DOM-观察者模式"><a href="#数据绑定-每当对象发生变化时，会自动更新DOM-观察者模式" class="headerlink" title="数据绑定, 每当对象发生变化时，会自动更新DOM(观察者模式)"></a>数据绑定, 每当对象发生变化时，会自动更新DOM(观察者模式)</h3><h3 id="属性的校验和保护-可以验证设置属性value的类型"><a href="#属性的校验和保护-可以验证设置属性value的类型" class="headerlink" title="属性的校验和保护, 可以验证设置属性value的类型"></a>属性的校验和保护, 可以验证设置属性value的类型</h3><h3 id="访问日志"><a href="#访问日志" class="headerlink" title="访问日志"></a>访问日志</h3><h3 id="过滤操作"><a href="#过滤操作" class="headerlink" title="过滤操作"></a>过滤操作</h3><h3 id="中断代理"><a href="#中断代理" class="headerlink" title="中断代理"></a>中断代理</h3><p>### </p>
+<h2 id="proxy的使用场景"><a href="#proxy的使用场景" class="headerlink" title="proxy的使用场景"></a>proxy的使用场景</h2><ul>
+<li>实现私有属性, 禁止外部的读写操作</li>
+<li>为一些特定的key设置为私有属性, proxy代理set, get操作返回undefined</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">let</span> proxy = <span class="keyword">new</span> <span class="built_in">Proxy</span>(target, &#123;</span><br><span class="line">  get (target, key) &#123;</span><br><span class="line">    <span class="keyword">if</span> (key.indexOf(<span class="string">'_'</span>)) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'私有属性'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  &#125;,</span><br><span class="line">  set (target, key, value) &#123;</span><br><span class="line">    <span class="keyword">if</span> (key.indexOf(<span class="string">'_'</span>)) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'私有属性'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>数据绑定, 每当对象发生变化时，会自动更新DOM(观察者模式)</li>
+<li>属性的校验和保护, 可以验证设置属性value的类型</li>
+<li>访问日志, 对对象访问, 通过日志的形式记录下来</li>
+</ul>
 <h2 id="感谢"><a href="#感谢" class="headerlink" title="感谢"></a>感谢</h2><p><a href="https://www.dodoblog.cn/blogs/5c7726b14122ac2a34b2b9de" target="_blank" rel="noopener">小寒的博客</a><br><a href="http://es6.ruanyifeng.com/#docs/proxy#Proxy-%E5%AE%9E%E4%BE%8B%E7%9A%84%E6%96%B9%E6%B3%95" target="_blank" rel="noopener">ES6入门</a><br><a href="https://www.w3cplus.com/javascript/use-cases-for-es6-proxies.html" target="_blank" rel="noopener">实例解析ES6 Proxy使用场景</a></p>
 
       
@@ -380,8 +389,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/10/Reflect/" rel="next" title="ES6 Reflect">
-                <i class="fa fa-chevron-left"></i> ES6 Reflect
+              <a href="/2019/03/09/编写vscode插件/" rel="next" title="编写vscode插件">
+                <i class="fa fa-chevron-left"></i> 编写vscode插件
               </a>
             
           </div>
@@ -389,6 +398,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/10/Reflect/" rel="prev" title="ES6 Reflect 初体验">
+                ES6 Reflect 初体验 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -442,10 +455,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
+            文章目录
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
+            作者概述
           </li>
         </ul>
       
@@ -470,7 +483,7 @@
                 <a href="/archives/">
               
                   <span class="site-state-item-count">59</span>
-                  <span class="site-state-item-name">posts</span>
+                  <span class="site-state-item-name">篇文章</span>
                 </a>
               </div>
             
@@ -483,7 +496,7 @@
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
                   <span class="site-state-item-count">29</span>
-                  <span class="site-state-item-name">tags</span>
+                  <span class="site-state-item-name">Tags</span>
                 </a>
               </div>
             
@@ -531,7 +544,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是Proxy"><span class="nav-number">2.</span> <span class="nav-text">什么是Proxy?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Proxy支持的拦截操作"><span class="nav-number">3.</span> <span class="nav-text">Proxy支持的拦截操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用方法介绍"><span class="nav-number">4.</span> <span class="nav-text">常用方法介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#🌟get"><span class="nav-number">4.1.</span> <span class="nav-text">🌟get</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#🌟set"><span class="nav-number">4.2.</span> <span class="nav-text">🌟set</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#🌟-apply"><span class="nav-number">4.3.</span> <span class="nav-text">🌟 apply</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Proxy-revocable"><span class="nav-number">5.</span> <span class="nav-text">Proxy.revocable()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#this问题"><span class="nav-number">6.</span> <span class="nav-text">this问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#proxy的使用场景"><span class="nav-number">7.</span> <span class="nav-text">proxy的使用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实现私有属性-禁止外部的读写操作"><span class="nav-number">7.1.</span> <span class="nav-text">实现私有属性, 禁止外部的读写操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据绑定-每当对象发生变化时，会自动更新DOM-观察者模式"><span class="nav-number">7.2.</span> <span class="nav-text">数据绑定, 每当对象发生变化时，会自动更新DOM(观察者模式)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#属性的校验和保护-可以验证设置属性value的类型"><span class="nav-number">7.3.</span> <span class="nav-text">属性的校验和保护, 可以验证设置属性value的类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#访问日志"><span class="nav-number">7.4.</span> <span class="nav-text">访问日志</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#过滤操作"><span class="nav-number">7.5.</span> <span class="nav-text">过滤操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#中断代理"><span class="nav-number">7.6.</span> <span class="nav-text">中断代理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#感谢"><span class="nav-number">8.</span> <span class="nav-text">感谢</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是Proxy"><span class="nav-number">2.</span> <span class="nav-text">什么是Proxy?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Proxy支持的拦截操作"><span class="nav-number">3.</span> <span class="nav-text">Proxy支持的拦截操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用方法介绍"><span class="nav-number">4.</span> <span class="nav-text">常用方法介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#🌟get"><span class="nav-number">4.1.</span> <span class="nav-text">🌟get</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#🌟set"><span class="nav-number">4.2.</span> <span class="nav-text">🌟set</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#🌟-apply"><span class="nav-number">4.3.</span> <span class="nav-text">🌟 apply</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Proxy-revocable"><span class="nav-number">5.</span> <span class="nav-text">Proxy.revocable()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#this问题"><span class="nav-number">6.</span> <span class="nav-text">this问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#proxy的使用场景"><span class="nav-number">7.</span> <span class="nav-text">proxy的使用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#感谢"><span class="nav-number">8.</span> <span class="nav-text">感谢</span></a></li></ol></div>
             
 
           </div>
@@ -561,7 +574,7 @@
 </div>
 
 
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 
 
