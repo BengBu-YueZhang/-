@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="新世紀エヴァンゲリオン">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://unsplash.it/1380/804?random">
-<meta property="og:updated_time" content="2019-03-10T07:36:46.993Z">
+<meta property="og:updated_time" content="2019-03-10T14:52:44.856Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="初窥xterm.js">
 <meta name="twitter:image" content="https://unsplash.it/1380/804?random">
@@ -311,8 +311,23 @@
       
         <p><img src="https://unsplash.it/1380/804?random" alt="image"></p>
 <a id="more"></a>
-<p>占坑</p>
-
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>入职的新公司所在的事业部专注于K12的编程教育。公司项目里有使用xterm.js这个库, 并基于master分支做出了一定的修改。为了尽快的熟悉业务以及公司的代码, 所以这里打算学习xterm.js的文档(粗略的翻译, 方便自己查阅)</p>
+<h2 id="xterm-js是什么"><a href="#xterm-js是什么" class="headerlink" title="xterm.js是什么?"></a>xterm.js是什么?</h2><p>xterm是一个使用TypeScript编写的前端终端组件。并在Vscode等热门项目中得到了应用</p>
+<h2 id="文档"><a href="#文档" class="headerlink" title="文档"></a>文档</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">npm install xterm</span><br></pre></td></tr></table></figure>
+<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 初始化终端</span></span><br><span class="line"><span class="keyword">import</span> &#123; Terminal &#125; <span class="keyword">from</span> <span class="string">'xterm'</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">'xterm/dist/xterm.css'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> term = <span class="keyword">new</span> Terminal()</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将term挂砸到dom节点上</span></span><br><span class="line">term.open(<span class="built_in">document</span>.getElementById(<span class="string">'app'</span>))</span><br><span class="line"></span><br><span class="line">term.write(<span class="string">'Hello from \x1B[1;3;31mxterm.js\x1B[0m $ '</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="与服务器端进行通讯"><a href="#与服务器端进行通讯" class="headerlink" title="与服务器端进行通讯"></a>与服务器端进行通讯</h3><blockquote>
+<p>xterm需要与后端建立WebSocket的通讯协议, 官方文档中示例后端代码基于的py。py和WebSocket我本身不是很了解，所以尝试搭建基于node和socketio的后端服务。🐻🙅🇩🇪👌🏠, node_modules下的好慢啊……</p>
+</blockquote>
+<h3 id="使用插件"><a href="#使用插件" class="headerlink" title="使用插件"></a>使用插件</h3><p>插件为javascript的模块可以扩展Terminal的原型</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123; Terminal &#125; <span class="keyword">from</span> <span class="string">'xterm'</span>;</span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> fit <span class="keyword">from</span> <span class="string">'xterm/lib/addons/fit/fit'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 扩展Terminal</span></span><br><span class="line">Terminal.applyAddon(fit)</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> term = <span class="keyword">new</span> Terminal()</span><br><span class="line">term.open(<span class="built_in">document</span>.getElementById(<span class="string">'#terminal'</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用fit方法</span></span><br><span class="line">term.fit()</span><br></pre></td></tr></table></figure>
+<h3 id="API"><a href="#API" class="headerlink" title="API"></a>API</h3><h4 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h4><h5 id="xterm"><a href="#xterm" class="headerlink" title="xterm"></a>xterm</h5><p>包含了xterm.js的<a href="https://github.com/xtermjs/xterm.js/blob/3.12.0/typings/xterm.d.ts#L16" target="_blank" rel="noopener">类型声明文件d.ts</a></p>
+<h6 id="FontWeight"><a href="#FontWeight" class="headerlink" title="FontWeight"></a>FontWeight</h6><p>设置终端的字体粗细</p>
+<h6 id="RendererType"><a href="#RendererType" class="headerlink" title="RendererType"></a>RendererType</h6><p>设置终端的渲染方式, dom渲染或者是canvas渲染</p>
+<h4 id="类"><a href="#类" class="headerlink" title="类"></a>类</h4><h5 id="Terminal"><a href="#Terminal" class="headerlink" title="Terminal"></a>Terminal</h5><h6 id="构造函数-constructor"><a href="#构造函数-constructor" class="headerlink" title="构造函数 constructor"></a>构造函数 constructor</h6><p>创建一个新的Terminal对象</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 参数类型, ITerminalOptions接口</span></span><br><span class="line"><span class="comment">// 返回Terminal类型</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Terminal(options?: ITerminalOptions): Terminal</span><br></pre></td></tr></table></figure>
+<h6 id="属性-cols"><a href="#属性-cols" class="headerlink" title="属性 cols"></a>属性 cols</h6><p>终端窗口的列数, 可以在创建Terminal指定cols</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 终端中每一行最多一列</span></span><br><span class="line"><span class="keyword">let</span> term = <span class="keyword">new</span> Terminal(&#123;</span><br><span class="line">  cols: <span class="number">1</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h4><h4 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h4>
       
     </div>
     
@@ -351,6 +366,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/12/Binarytree/" rel="prev" title="二叉树, 前缀树, N叉树">
+                二叉树, 前缀树, N叉树 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -402,8 +421,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            作者概述
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -422,7 +450,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">59</span>
+                  <span class="site-state-item-count">61</span>
                   <span class="site-state-item-name">篇文章</span>
                 </a>
               </div>
@@ -435,7 +463,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-count">30</span>
                   <span class="site-state-item-name">Tags</span>
                 </a>
               </div>
@@ -474,6 +502,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#xterm-js是什么"><span class="nav-number">2.</span> <span class="nav-text">xterm.js是什么?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文档"><span class="nav-number">3.</span> <span class="nav-text">文档</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装"><span class="nav-number">3.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化"><span class="nav-number">3.2.</span> <span class="nav-text">初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#与服务器端进行通讯"><span class="nav-number">3.3.</span> <span class="nav-text">与服务器端进行通讯</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用插件"><span class="nav-number">3.4.</span> <span class="nav-text">使用插件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#API"><span class="nav-number">3.5.</span> <span class="nav-text">API</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#模块"><span class="nav-number">3.5.1.</span> <span class="nav-text">模块</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#xterm"><span class="nav-number">3.5.1.1.</span> <span class="nav-text">xterm</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#FontWeight"><span class="nav-number">3.5.1.1.1.</span> <span class="nav-text">FontWeight</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#RendererType"><span class="nav-number">3.5.1.1.2.</span> <span class="nav-text">RendererType</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#类"><span class="nav-number">3.5.2.</span> <span class="nav-text">类</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Terminal"><span class="nav-number">3.5.2.1.</span> <span class="nav-text">Terminal</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#构造函数-constructor"><span class="nav-number">3.5.2.1.1.</span> <span class="nav-text">构造函数 constructor</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#属性-cols"><span class="nav-number">3.5.2.1.2.</span> <span class="nav-text">属性 cols</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#接口"><span class="nav-number">3.5.3.</span> <span class="nav-text">接口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#插件"><span class="nav-number">3.5.4.</span> <span class="nav-text">插件</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

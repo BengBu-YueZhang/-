@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="基础," />
 
 
 
@@ -79,13 +79,14 @@
 
 
 
+<meta name="keywords" content="基础">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ES6 Reflect 初体验">
 <meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2019/03/10/Reflect/index.html">
 <meta property="og:site_name" content="新世紀エヴァンゲリオン">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://unsplash.it/1380/769?random">
-<meta property="og:updated_time" content="2019-03-10T07:34:01.264Z">
+<meta property="og:updated_time" content="2019-03-10T11:04:20.853Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ES6 Reflect 初体验">
 <meta name="twitter:image" content="https://unsplash.it/1380/769?random">
@@ -310,7 +311,23 @@
       
         <p><img src="https://unsplash.it/1380/769?random" alt="image"></p>
 <a id="more"></a>
-<p>占坑</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>同Proxy一样, 之前在学习《ES6入门》时这两个章节直接略过。现在因为需要学习PReact的源码所以把这两个章节重新拿出来补习。</p>
+<h2 id="什么是Reflect"><a href="#什么是Reflect" class="headerlink" title="什么是Reflect"></a>什么是Reflect</h2><p>将Object对象上一些属于语言内部的方法(<strong>Object.defineProperty设置属性描述符</strong>)放到Reflect对象上, 目前同时在Reflect和Object对象上部署。</p>
+<p>修改Object对象一些方法的返回结果, 例如defineProperty在设置不可配置的key时抛出错误, 而Reflect.defineProperty则会返回false。</p>
+<p>命令式的代码 =&gt; 函数式的代码。之前删除对象的key使用delete操作符, delete key =&gt; Reflect.deleteProperty(obj, name)</p>
+<p><strong>Reflect上的方法和Proxy上的方法是一一对应</strong>。在Proxy上获取默认行为, 无论在Proxy怎么修改默认行为，总能使用Reflect对象还原默认行为。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 使用Reflect对象完成默认的行为操作</span></span><br><span class="line"><span class="keyword">var</span> loggedObj = <span class="keyword">new</span> <span class="built_in">Proxy</span>(obj, &#123;</span><br><span class="line">  get(target, name) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'get'</span>, target, name);</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Reflect</span>.get(target, name);</span><br><span class="line">  &#125;,</span><br><span class="line">  deleteProperty(target, name) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'delete'</span> + name);</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Reflect</span>.deleteProperty(target, name);</span><br><span class="line">  &#125;,</span><br><span class="line">  has(target, name) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'has'</span> + name);</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Reflect</span>.has(target, name);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="常用的方法"><a href="#常用的方法" class="headerlink" title="常用的方法"></a>常用的方法</h2><p>Reflect的方法同proxy方法是一一对应的。Reflect的方法的作用同Object上同名的方法作用是一致的</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 经过实验, receiver只能修改setter, getter内部this的指向, 并不能直接target的指向</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> p = &#123; <span class="attr">a</span>: <span class="number">1</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 1</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Reflect</span>.get(p, <span class="string">'a'</span>, &#123; <span class="attr">a</span>: <span class="number">2</span> &#125;))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> p = &#123; <span class="attr">a</span>: <span class="number">1</span>, get a () &#123; <span class="keyword">return</span> <span class="keyword">this</span>.a &#125; &#125;</span><br><span class="line"><span class="comment">// 2</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">Reflect</span>.get(p, <span class="string">'a'</span>, &#123; <span class="attr">a</span>: <span class="number">2</span> &#125;))</span><br></pre></td></tr></table></figure>
+<h3 id="get"><a href="#get" class="headerlink" title="get"></a>get</h3><p>Reflect.get(target, key, receiver)</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="built_in">Reflect</span>.get(target, key)</span><br></pre></td></tr></table></figure>
+<p>查找并返回target上的属性</p>
+<p>如果属性设置了getter, getter中this的指向取决于<strong>Reflect.get的第三个参数, 如果设置了第三个参数, getter函数中this指向第三个参数</strong></p>
+<h3 id="set"><a href="#set" class="headerlink" title="set"></a>set</h3><p>Reflect.set(target, key, value, receiver)。同get一样如果属于有setter, <strong>setter函数中的this指向第四个参数。</strong></p>
+<h3 id="apply"><a href="#apply" class="headerlink" title="apply"></a>apply</h3><p>Reflect.apply等同于。Function.prototype.apply.call(func, thisArg, args), Reflect.apply(需要改变this指向的func, 新的this指向, 其他参数)</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// old</span></span><br><span class="line"><span class="keyword">const</span> youngest = <span class="built_in">Math</span>.min.apply(<span class="built_in">Math</span>, ages)</span><br><span class="line"></span><br><span class="line"><span class="comment">// new</span></span><br><span class="line"><span class="keyword">const</span> youngest = <span class="built_in">Reflect</span>.apply(<span class="built_in">Math</span>.min, <span class="built_in">Math</span>, ages)</span><br></pre></td></tr></table></figure>
+<h2 id="实现观察者模式"><a href="#实现观察者模式" class="headerlink" title="实现观察者模式"></a>实现观察者模式</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 观察者的集合</span></span><br><span class="line"><span class="keyword">const</span> queuedObservers = <span class="keyword">new</span> <span class="built_in">Set</span>()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">set</span>(<span class="params">target, key, value, receiver</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 指向默认行为</span></span><br><span class="line">  <span class="keyword">const</span> result = <span class="built_in">Reflect</span>.set(target, key, value, receiver)</span><br><span class="line">  <span class="comment">// 通知所有的观察者, 执行所有的观察者函数</span></span><br><span class="line">  queuedObservers.forEach(<span class="function"><span class="params">observer</span> =&gt;</span> observer())</span><br><span class="line">  <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置代理</span></span><br><span class="line"><span class="keyword">const</span> observable = <span class="function"><span class="params">obj</span> =&gt;</span> <span class="keyword">new</span> <span class="built_in">Proxy</span>(obj, &#123;set&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 观察者</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">print</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123;person.name&#125;</span>, <span class="subst">$&#123;person.age&#125;</span>`</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 添加到观察者的集合中</span></span><br><span class="line">observe(print)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> person = observable(&#123;</span><br><span class="line">  name: <span class="string">'张三'</span>,</span><br><span class="line">  age: <span class="number">20</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// set会触发代理</span></span><br><span class="line">person.name = <span class="string">'李四'</span></span><br></pre></td></tr></table></figure>
+<h2 id="感谢"><a href="#感谢" class="headerlink" title="感谢"></a>感谢</h2><p><a href="http://es6.ruanyifeng.com/#docs/reflect#%E5%AE%9E%E4%BE%8B%EF%BC%9A%E4%BD%BF%E7%94%A8-Proxy-%E5%AE%9E%E7%8E%B0%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F" target="_blank" rel="noopener">ECMAScript 6 入门</a></p>
 
       
     </div>
@@ -325,6 +342,12 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/基础/" rel="tag"># 基础</a>
+          
+        </div>
       
 
       
@@ -399,8 +422,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            作者概述
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -419,7 +451,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">59</span>
+                  <span class="site-state-item-count">61</span>
                   <span class="site-state-item-name">篇文章</span>
                 </a>
               </div>
@@ -432,7 +464,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-count">30</span>
                   <span class="site-state-item-name">Tags</span>
                 </a>
               </div>
@@ -471,6 +503,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是Reflect"><span class="nav-number">2.</span> <span class="nav-text">什么是Reflect</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用的方法"><span class="nav-number">3.</span> <span class="nav-text">常用的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#get"><span class="nav-number">3.1.</span> <span class="nav-text">get</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#set"><span class="nav-number">3.2.</span> <span class="nav-text">set</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#apply"><span class="nav-number">3.3.</span> <span class="nav-text">apply</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现观察者模式"><span class="nav-number">4.</span> <span class="nav-text">实现观察者模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#感谢"><span class="nav-number">5.</span> <span class="nav-text">感谢</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
