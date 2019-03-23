@@ -88,7 +88,7 @@
 <meta property="og:image" content="https://i.loli.net/2019/03/23/5c95c84e04269.png">
 <meta property="og:image" content="https://unsplash.it/1181/609?random">
 <meta property="og:image" content="https://i.loli.net/2019/03/23/5c95d08034a47.png">
-<meta property="og:updated_time" content="2019-03-23T06:24:41.416Z">
+<meta property="og:updated_time" content="2019-03-23T06:57:17.649Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="preact源码分析(一)">
 <meta name="twitter:image" content="https://i.loli.net/2019/03/23/5c95c84e04269.png">
@@ -107,7 +107,7 @@
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     duoshuo: {
       userId: '0',
-      author: 'Author'
+      author: 'Penulis'
     },
     algolia: {
       applicationID: '',
@@ -187,7 +187,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            主页
+            Beranda
           </a>
         </li>
       
@@ -197,7 +197,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
-            标签
+            Tags
           </a>
         </li>
       
@@ -207,7 +207,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            时间轴
+            Arsip
           </a>
         </li>
       
@@ -271,7 +271,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发布于</span>
+                <span class="post-meta-item-text">Diposting di</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-23T14:00:00+08:00">
                 2019-03-23
@@ -312,8 +312,8 @@
 
       
         <p><img src="https://i.loli.net/2019/03/23/5c95c84e04269.png" alt="image"></p>
-<p><img src="https://unsplash.it/1181/609?random" alt="image"></p>
 <a id="more"></a>
+<p><img src="https://unsplash.it/1181/609?random" alt="image"></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>我在写这篇文章的时候, 源码也只是看了一部分, 而且有一些部分也不是非常的明白清除。各位看官还请酌情参考。发现错误还请指出。</p>
 <h2 id="什么是preact"><a href="#什么是preact" class="headerlink" title="什么是preact?"></a>什么是preact?</h2><p>官方给出的定义如下<strong>Fast 3kB React alternative with the same modern API. Components &amp; Virtual DOM.</strong>。preact是react的精简实现。废话少说, 接下来我们直接看preact的源码。</p>
 <h2 id="src-create-element-js"><a href="#src-create-element-js" class="headerlink" title="src/create-element.js"></a>src/create-element.js</h2><p>create-element.js里一共定义了5个方法, 我们在这里先讨论其中的3个。其余的方法会在后序的文章中涉及。</p>
@@ -369,6 +369,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2019/03/23/preact源码分析2/" rel="prev" title="preact源码分析(二)">
+                preact源码分析(二) <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -421,10 +425,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
+            Daftar Isi
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            作者概述
+            Ikhtisar
           </li>
         </ul>
       
@@ -448,8 +452,8 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">62</span>
-                  <span class="site-state-item-name">篇文章</span>
+                  <span class="site-state-item-count">63</span>
+                  <span class="site-state-item-name">posting</span>
                 </a>
               </div>
             
@@ -462,7 +466,7 @@
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
                   <span class="site-state-item-count">30</span>
-                  <span class="site-state-item-name">Tags</span>
+                  <span class="site-state-item-name">tags</span>
                 </a>
               </div>
             
@@ -540,7 +544,7 @@
 </div>
 
 
-  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 
 
@@ -548,7 +552,7 @@
 
 
 
-  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+  <div class="theme-info">Tema &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
 
 
 
