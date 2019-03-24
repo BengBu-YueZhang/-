@@ -87,7 +87,9 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://i.loli.net/2019/03/23/5c95c84e04269.png">
 <meta property="og:image" content="https://unsplash.it/1181/619?random">
-<meta property="og:updated_time" content="2019-03-23T08:51:07.169Z">
+<meta property="og:image" content="https://i.loli.net/2019/03/23/5c95f3b81544c.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/23/5c95f3bb0b492.png">
+<meta property="og:updated_time" content="2019-03-23T14:55:49.056Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="preact源码分析(二)">
 <meta name="twitter:image" content="https://i.loli.net/2019/03/23/5c95c84e04269.png">
@@ -106,7 +108,7 @@
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     duoshuo: {
       userId: '0',
-      author: 'Penulis'
+      author: 'Author'
     },
     algolia: {
       applicationID: '',
@@ -186,7 +188,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Beranda
+            主页
           </a>
         </li>
       
@@ -196,7 +198,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
-            Tags
+            标签
           </a>
         </li>
       
@@ -206,7 +208,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Arsip
+            时间轴
           </a>
         </li>
       
@@ -270,7 +272,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Diposting di</span>
+                <span class="post-meta-item-text">发布于</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-23T16:00:00+08:00">
                 2019-03-23
@@ -328,13 +330,19 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">enqueueRender</span>(<span class="params">c</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 只有当_dirty为false时, 并且队列的长度为1的情况下才会处理队列</span></span><br><span class="line">	<span class="keyword">if</span> (!c._dirty &amp;&amp; (c._dirty = <span class="literal">true</span>) &amp;&amp; q.push(c) === <span class="number">1</span>) &#123;</span><br><span class="line">		(options.debounceRendering || defer)(process);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="process"><a href="#process" class="headerlink" title="process"></a>process</h3><p>process函数中将会遍历q队列, 调用forceUpdate方法重新渲染组件。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">process</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> p;</span><br><span class="line">  <span class="comment">// 迭代将会在q队列被清空时结束</span></span><br><span class="line">	<span class="keyword">while</span> ((p=q.pop())) &#123;</span><br><span class="line">		<span class="comment">// 只有当_dirty为true时才会更新组件, forceUpdate方法因为涉及到diff算法的内容这里暂不涉及</span></span><br><span class="line">		<span class="keyword">if</span> (p._dirty) p.forceUpdate(<span class="literal">false</span>)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="render"><a href="#render" class="headerlink" title="render"></a>render</h3><p>render函数接受props和state返回需要更新的Dom树。</p>
+<p>render函数默认Fragment。Fragment在create-element.js中定义为空函数, Fragment可以用来包裹一组节点。具体作用可以参考React中Fragment。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Component.prototype.render = Fragment;</span><br></pre></td></tr></table></figure>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>目前我们简略的概览component文件, 从我们目前已知的内容, 可以总结出以下的内容。</p>
+<p><img src="https://i.loli.net/2019/03/23/5c95f3b81544c.png" alt="image"></p>
+<p><img src="https://i.loli.net/2019/03/23/5c95f3bb0b492.png" alt="image"></p>
+<p><strong>forceUpdate</strong>会在以后的文章中介绍。</p>
 <!-- ### forceUpdate
 
 更新组件。
 
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Component.prototype.forceUpdate = <span class="function"><span class="keyword">function</span>(<span class="params">callback</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 这里出现了几种我们目前还没有见过的属性, 因为我之前看过了diff方法, 所以在这里将会剧透下这几个私有属性的含义</span></span><br><span class="line">  <span class="comment">// _vnode属性挂载的是组件的虚拟dom</span></span><br><span class="line">  <span class="comment">// _dom属性为挂载_vnode上的对应的dom节点</span></span><br><span class="line">  <span class="comment">// _parentDom为组件需要挂载的父级dom</span></span><br><span class="line">	<span class="keyword">let</span> vnode = <span class="keyword">this</span>._vnode, dom = <span class="keyword">this</span>._vnode._dom, parentDom = <span class="keyword">this</span>._parentDom;</span><br><span class="line">	<span class="keyword">if</span> (parentDom) &#123;</span><br><span class="line">		<span class="keyword">const</span> force = callback!==<span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">let</span> mounts = [];</span><br><span class="line">    <span class="comment">// 通过diff算法, 返回比对后的dom节点</span></span><br><span class="line">		dom = diff(</span><br><span class="line">      dom,</span><br><span class="line">      parentDom,</span><br><span class="line">      vnode,</span><br><span class="line">      vnode,</span><br><span class="line">      <span class="keyword">this</span>._context,</span><br><span class="line">      parentDom.ownerSVGElement!==<span class="literal">undefined</span>,</span><br><span class="line">      <span class="literal">null</span>,</span><br><span class="line">      mounts,</span><br><span class="line">      <span class="keyword">this</span>._ancestorComponent,</span><br><span class="line">      force</span><br><span class="line">    );</span><br><span class="line">		<span class="keyword">if</span> (dom!=<span class="literal">null</span> &amp;&amp; dom.parentNode!==parentDom) &#123;</span><br><span class="line">			parentDom.appendChild(dom);</span><br><span class="line">		&#125;</span><br><span class="line">		commitRoot(mounts, vnode);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (callback) &#123;</span><br><span class="line">    callback();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="string">``</span><span class="string">` --&gt;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">### render</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">render函数接受props和state返回需要更新的Dom树。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">render函数默认Fragment。Fragment在create-element.js中定义为空函数, Fragment可以用来包裹一组节点。具体作用可以参考React中Fragment。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">`</span><span class="string">``</span>js</span><br><span class="line">Component.prototype.render = Fragment;</span><br></pre></td></tr></table></figure>
-<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>目前我们简略的概览component文件, 从我们目前已知的内容, 可以总结出以下的内容。</p>
-<p><strong>forceUpdate</strong>会在以后的文章中介绍。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Component.prototype.forceUpdate = <span class="function"><span class="keyword">function</span>(<span class="params">callback</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 这里出现了几种我们目前还没有见过的属性, 因为我之前看过了diff方法, 所以在这里将会剧透下这几个私有属性的含义</span></span><br><span class="line">  <span class="comment">// _vnode属性挂载的是组件的虚拟dom</span></span><br><span class="line">  <span class="comment">// _dom属性为挂载_vnode上的对应的dom节点</span></span><br><span class="line">  <span class="comment">// _parentDom为组件需要挂载的父级dom</span></span><br><span class="line">	<span class="keyword">let</span> vnode = <span class="keyword">this</span>._vnode, dom = <span class="keyword">this</span>._vnode._dom, parentDom = <span class="keyword">this</span>._parentDom;</span><br><span class="line">	<span class="keyword">if</span> (parentDom) &#123;</span><br><span class="line">		<span class="keyword">const</span> force = callback!==<span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">let</span> mounts = [];</span><br><span class="line">    <span class="comment">// 通过diff算法, 返回比对后的dom节点</span></span><br><span class="line">		dom = diff(</span><br><span class="line">      dom,</span><br><span class="line">      parentDom,</span><br><span class="line">      vnode,</span><br><span class="line">      vnode,</span><br><span class="line">      <span class="keyword">this</span>._context,</span><br><span class="line">      parentDom.ownerSVGElement!==<span class="literal">undefined</span>,</span><br><span class="line">      <span class="literal">null</span>,</span><br><span class="line">      mounts,</span><br><span class="line">      <span class="keyword">this</span>._ancestorComponent,</span><br><span class="line">      force</span><br><span class="line">    );</span><br><span class="line">		<span class="keyword">if</span> (dom!=<span class="literal">null</span> &amp;&amp; dom.parentNode!==parentDom) &#123;</span><br><span class="line">			parentDom.appendChild(dom);</span><br><span class="line">		&#125;</span><br><span class="line">		commitRoot(mounts, vnode);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (callback) &#123;</span><br><span class="line">    callback();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>–&gt;</p>
 -->
       
     </div>
@@ -374,6 +382,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/24/preact源码分析3/" rel="prev" title="preact源码分析(三)">
+                preact源码分析(三) <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -427,10 +439,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Daftar Isi
+            文章目录
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Ikhtisar
+            作者概述
           </li>
         </ul>
       
@@ -454,8 +466,8 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">63</span>
-                  <span class="site-state-item-name">posting</span>
+                  <span class="site-state-item-count">64</span>
+                  <span class="site-state-item-name">篇文章</span>
                 </a>
               </div>
             
@@ -468,7 +480,7 @@
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
                   <span class="site-state-item-count">30</span>
-                  <span class="site-state-item-name">tags</span>
+                  <span class="site-state-item-name">Tags</span>
                 </a>
               </div>
             
@@ -516,7 +528,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#src-component-js"><span class="nav-number">1.</span> <span class="nav-text">src/component.js</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#constructor-NaN"><span class="nav-number">1.1.</span> <span class="nav-text">constructor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#setState"><span class="nav-number">1.2.</span> <span class="nav-text">setState</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#q"><span class="nav-number">1.3.</span> <span class="nav-text">q</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#defer"><span class="nav-number">1.4.</span> <span class="nav-text">defer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#enqueueRender"><span class="nav-number">1.5.</span> <span class="nav-text">enqueueRender</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#process"><span class="nav-number">1.6.</span> <span class="nav-text">process</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#src-component-js"><span class="nav-number">1.</span> <span class="nav-text">src/component.js</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#constructor-NaN"><span class="nav-number">1.1.</span> <span class="nav-text">constructor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#setState"><span class="nav-number">1.2.</span> <span class="nav-text">setState</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#q"><span class="nav-number">1.3.</span> <span class="nav-text">q</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#defer"><span class="nav-number">1.4.</span> <span class="nav-text">defer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#enqueueRender"><span class="nav-number">1.5.</span> <span class="nav-text">enqueueRender</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#process"><span class="nav-number">1.6.</span> <span class="nav-text">process</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#render"><span class="nav-number">1.7.</span> <span class="nav-text">render</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结语"><span class="nav-number">2.</span> <span class="nav-text">结语</span></a></li></ol></div>
             
 
           </div>
@@ -546,7 +558,7 @@
 </div>
 
 
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 
 
@@ -554,7 +566,7 @@
 
 
 
-  <div class="theme-info">Tema &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
 
 
 
