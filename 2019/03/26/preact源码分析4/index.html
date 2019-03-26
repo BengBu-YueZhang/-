@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="原理," />
+
+
+
+
+
+
+
+
+
+
+<meta name="keywords" content="原理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="preact源码分析(四)">
+<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2019/03/26/preact源码分析4/index.html">
+<meta property="og:site_name" content="新世紀エヴァンゲリオン">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://i.loli.net/2019/03/23/5c95c84e04269.png">
+<meta property="og:image" content="https://unsplash.it/1132/619?random">
+<meta property="og:image" content="https://i.loli.net/2019/03/26/5c9a335d2ef23.png">
+<meta property="og:updated_time" content="2019-03-26T14:16:39.726Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="preact源码分析(四)">
+<meta name="twitter:image" content="https://i.loli.net/2019/03/23/5c95c84e04269.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/2019/03/26/preact源码分析4/"/>
+
+
+
+
+
+  <title>preact源码分析(四) | 新世紀エヴァンゲリオン</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">新世紀エヴァンゲリオン</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">前端小学生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            主页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            时间轴
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://bengbu-yuezhang.github.io/yue.github.io/2019/03/26/preact源码分析4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张越">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新世紀エヴァンゲリオン">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">preact源码分析(四)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-03-26T22:30:00+08:00">
+                2019-03-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://i.loli.net/2019/03/23/5c95c84e04269.png" alt="image"></p>
+<a id="more"></a>
+<p><img src="https://unsplash.it/1132/619?random" alt="image"></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>上一期我们了解到了Preact渲染普通的节点(<strong>VNode的type不是Function类型</strong>)时的过程。本期我带大家来了解下当渲染的是一个组件时preact中发生了什么。当然为了降低阅读源码的复杂度, 我们本次只讨论初次渲染组件的情况。暂不考虑setState时组件更新的情况。</p>
+<p>我们将从官方的Demo入手, 一步步了解渲染的过程</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123; h, render, Component &#125; <span class="keyword">from</span> <span class="string">'preact'</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Clock</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">    render() &#123;</span><br><span class="line">        <span class="keyword">let</span> time = <span class="keyword">new</span> <span class="built_in">Date</span>().toLocaleTimeString();</span><br><span class="line">        <span class="keyword">return</span> &lt;span&gt;&#123; time &#125;&lt;/span&gt;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将一个时钟渲染到 &lt;body &gt; 标签:</span></span><br><span class="line">render(&lt;Clock /&gt;, document.body);</span><br></pre></td></tr></table></figure>
+<h2 id="src-render-js"><a href="#src-render-js" class="headerlink" title="src/render.js"></a>src/render.js</h2><p>同渲染普通类型的VNode节点一样, 将VNode包裹一层Fragment后, VNode进入了diffChildren方法中。唯一值得注意的时VNode的type为Clock, 而非普通的字符串类型。我们将在diff方法看到两者的具体的区别。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">render</span>(<span class="params">vnode, parentDom</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// render时_prevVNode还没没有挂载, 此时为null</span></span><br><span class="line">  <span class="keyword">let</span> oldVNode = parentDom._prevVNode;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 使用Fragment包裹VNode</span></span><br><span class="line">  <span class="comment">// &#123;</span></span><br><span class="line">  <span class="comment">//   type: 'Fragment',</span></span><br><span class="line">  <span class="comment">//   props: &#123;</span></span><br><span class="line">  <span class="comment">//     children: [</span></span><br><span class="line">  <span class="comment">//       &#123;</span></span><br><span class="line">  <span class="comment">//         type: Clock, 这里类型不是字符串</span></span><br><span class="line">  <span class="comment">//         props: &#123;</span></span><br><span class="line">  <span class="comment">//         &#125;</span></span><br><span class="line">  <span class="comment">//       &#125;</span></span><br><span class="line">  <span class="comment">//     ]</span></span><br><span class="line">  <span class="comment">//   &#125;</span></span><br><span class="line">  <span class="comment">// &#125;</span></span><br><span class="line">	vnode = createElement(Fragment, <span class="literal">null</span>, [vnode]);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> mounts = [];</span><br><span class="line">  <span class="comment">// 将当前的VNode挂载到parentDom的_prevVNode属性  </span></span><br><span class="line">  diffChildren(</span><br><span class="line">    parentDom,</span><br><span class="line">    parentDom._prevVNode = vnode,</span><br><span class="line">    oldVNode,</span><br><span class="line">    EMPTY_OBJ,</span><br><span class="line">    parentDom.ownerSVGElement!==<span class="literal">undefined</span>, oldVNode ? <span class="literal">null</span> : EMPTY_ARR.slice.call(parentDom.childNodes), mounts,</span><br><span class="line">    vnode</span><br><span class="line">  );</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 执行已挂载组件的componentDidMount生命周期</span></span><br><span class="line">	commitRoot(mounts, vnode);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="src-diff-children-js"><a href="#src-diff-children-js" class="headerlink" title="src/diff/children.js"></a>src/diff/children.js</h2><p>在渲染组件VNode时, 流程大致和渲染普通的VNode一致。都是将通过diff算法返回Dom节点append到parentDom中。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">diffChildren</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  parentDom,</span></span></span><br><span class="line"><span class="function"><span class="params">  newParentVNode,</span></span></span><br><span class="line"><span class="function"><span class="params">  oldParentVNode,</span></span></span><br><span class="line"><span class="function"><span class="params">  context,</span></span></span><br><span class="line"><span class="function"><span class="params">  isSvg,</span></span></span><br><span class="line"><span class="function"><span class="params">  excessDomChildren,</span></span></span><br><span class="line"><span class="function"><span class="params">  mounts,</span></span></span><br><span class="line"><span class="function"><span class="params">  ancestorComponent</span></span></span><br><span class="line"><span class="function"><span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="keyword">let</span> childVNode, i, j, p, index, oldVNode, newDom,</span><br><span class="line">		nextDom, sibDom, focus,</span><br><span class="line">		childDom;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 将扁平的的VNode挂载到_children属性上</span></span><br><span class="line">  <span class="comment">// [ &#123; type: Clock, props: &#123; ... &#125; &#125; ]</span></span><br><span class="line">  <span class="keyword">let</span> newChildren = newParentVNode._children || toChildArray(newParentVNode.props.children, newParentVNode._children=[], coerceToVNode);</span><br><span class="line">  <span class="comment">// oldChildren此时为[]</span></span><br><span class="line">	<span class="keyword">let</span> oldChildren = []</span><br><span class="line"></span><br><span class="line">	<span class="keyword">let</span> oldChildrenLength = oldChildren.length;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// ... 省略一部分源码</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 遍历VNode节点</span></span><br><span class="line">	<span class="keyword">for</span> (i=<span class="number">0</span>; i&lt;newChildren.length; i++) &#123;</span><br><span class="line">		childVNode = newChildren[i] = coerceToVNode(newChildren[i]);</span><br><span class="line">    oldVNode = index = <span class="literal">null</span>;</span><br><span class="line">    </span><br><span class="line">    p = oldChildren[i];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// ... 省略一部分源码，这里主要是查询可以复用的DOM节点,</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 进入diff算法比较新旧VNode节点</span></span><br><span class="line">		newDom = diff(</span><br><span class="line">      oldVNode==<span class="literal">null</span> ? <span class="literal">null</span> : oldVNode._dom,</span><br><span class="line">      parentDom,</span><br><span class="line">      childVNode,</span><br><span class="line">      oldVNode,</span><br><span class="line">      context,</span><br><span class="line">      isSvg,</span><br><span class="line">      excessDomChildren,</span><br><span class="line">      mounts,</span><br><span class="line">      ancestorComponent,</span><br><span class="line">      <span class="literal">null</span></span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> (childVNode!=<span class="literal">null</span> &amp;&amp; newDom !=<span class="literal">null</span>) &#123;</span><br><span class="line"></span><br><span class="line">      </span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span> (excessDomChildren==oldVNode || newDom!=childDom || newDom.parentNode==<span class="literal">null</span>) &#123;</span><br><span class="line"></span><br><span class="line">				<span class="keyword">if</span> (childDom==<span class="literal">null</span> || childDom.parentNode!==parentDom) &#123;</span><br><span class="line">					parentDom.appendChild(newDom);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="src-diff-index-js"><a href="#src-diff-index-js" class="headerlink" title="src/diff/index.js"></a>src/diff/index.js</h2><p>在diff方法中, 主要会比较三种类型的节点。第一种Fragment类型, 第二种Function类型, 和其他类型的节点。我们的示例会用到两种判断，请仔细阅读我给源码添加的注释。</p>
+<p>我们在首次diff中, newVNode为Clock组件, 所以我们会进入VNode.type为Functiond的分支。我们接下来会调用组件实例的render函数, 返回VNode<strong>( { tpye: ‘span’, props: { //… } } )</strong>。接下来, 递归的使用diff算法比较render返回的VNode。我们在递归的时, diff函数将进入其他类型的节点的分支，比较返回的VNode, 并且会调用diffElementNodes函数, 返回创建后dom节点。最后并添加到parentDom中。 </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 这里每一个参数的含义请参考, 上一期的文章</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">diff</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  dom,</span></span></span><br><span class="line"><span class="function"><span class="params">  parentDom,</span></span></span><br><span class="line"><span class="function"><span class="params">  newVNode,</span></span></span><br><span class="line"><span class="function"><span class="params">  oldVNode,</span></span></span><br><span class="line"><span class="function"><span class="params">  context,</span></span></span><br><span class="line"><span class="function"><span class="params">  isSvg,</span></span></span><br><span class="line"><span class="function"><span class="params">  excessDomChildren,</span></span></span><br><span class="line"><span class="function"><span class="params">  mounts,</span></span></span><br><span class="line"><span class="function"><span class="params">  ancestorComponent,</span></span></span><br><span class="line"><span class="function"><span class="params">  force</span></span></span><br><span class="line"><span class="function"><span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 因为是初始化渲染, dom是不能复用, 我们删除整个子树, oldVNode重置为null</span></span><br><span class="line">	<span class="keyword">if</span> (oldVNode==<span class="literal">null</span> || newVNode==<span class="literal">null</span> || oldVNode.type!==newVNode.type) &#123;</span><br><span class="line">		dom = <span class="literal">null</span>;</span><br><span class="line">		oldVNode = EMPTY_OBJ;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> c, p, isNew = <span class="literal">false</span>, oldProps, oldState, oldContext</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 组件的类型(组件的类)</span></span><br><span class="line">	<span class="keyword">let</span> newType = newVNode.type;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">		outer: <span class="keyword">if</span> (oldVNode.type===Fragment || newType===Fragment) &#123;</span><br><span class="line">			<span class="comment">// ... 省略一部分源码, 这里是对Fragment类型的处理</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> newType===<span class="string">'function'</span>) &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">			<span class="keyword">if</span> (oldVNode._component) &#123;</span><br><span class="line">        <span class="comment">// ... 省略一部分源码，如果是，不是第一次渲染组件的处理</span></span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 第一次渲染的组件处理</span></span><br><span class="line">        isNew = <span class="literal">true</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 如果组件的类拥有render函数, c和_component存储的是组件的实例</span></span><br><span class="line">				<span class="keyword">if</span> (newType.prototype &amp;&amp; newType.prototype.render) &#123;</span><br><span class="line">					newVNode._component = c = <span class="keyword">new</span> newType(newVNode.props, cctx);</span><br><span class="line">				&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="comment">// 如果组件的类没有render函数, 使用基础的Component类构建组件的实例</span></span><br><span class="line">          newVNode._component = c = <span class="keyword">new</span> Component(newVNode.props, cctx);</span><br><span class="line">          <span class="comment">// 实例c的构造函数等于组件类的构造函数</span></span><br><span class="line">          c.constructor = newType;</span><br><span class="line">          <span class="comment">// render函数直接返回构造函数返回的结果</span></span><br><span class="line">					c.render = doRender;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// _ancestorComponent挂载的是自己父VNode, 目前指的是被Fragment包裹的那一层组件</span></span><br><span class="line">        c._ancestorComponent = ancestorComponent;</span><br><span class="line">      </span><br><span class="line">        <span class="comment">// 初始化c的props和state</span></span><br><span class="line">				c.props = newVNode.props;</span><br><span class="line">        <span class="keyword">if</span> (!c.state) c.state = &#123;&#125;;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// _dirty属性表明是否更新组件</span></span><br><span class="line">        c._dirty = <span class="literal">true</span>;</span><br><span class="line">        <span class="comment">// 用于存储setState回调的数组</span></span><br><span class="line">				c._renderCallbacks = [];</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// _vnode挂载组件实例的VNode节点</span></span><br><span class="line">			c._vnode = newVNode;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// s变量存储了组件的state状态</span></span><br><span class="line">      <span class="keyword">let</span> s = c._nextState || c.state;</span><br><span class="line">      </span><br><span class="line">      <span class="comment">// 调用静态的生命周期方法getDerivedStateFromProps</span></span><br><span class="line">      <span class="comment">// getDerivedStateFromProps生命周期返回的对象用于更新state</span></span><br><span class="line">			<span class="keyword">if</span> (newType.getDerivedStateFromProps!=<span class="literal">null</span>) &#123;</span><br><span class="line">				oldState = assign(&#123;&#125;, c.state);</span><br><span class="line">				<span class="keyword">if</span> (s === c.state) &#123;</span><br><span class="line">          s = assign(&#123;&#125;, s);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 更新state, 如果返回null, 不更新</span></span><br><span class="line">				assign(s, newType.getDerivedStateFromProps(newVNode.props, s));</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">if</span> (isNew) &#123;</span><br><span class="line">        <span class="comment">// 如果是第一次渲染, 并且componentWillMount不为null, 执行componentWillMount的生命周期函数</span></span><br><span class="line">				<span class="keyword">if</span> (newType.getDerivedStateFromProps==<span class="literal">null</span> &amp;&amp; c.componentWillMount!=<span class="literal">null</span>) &#123;</span><br><span class="line">          c.componentWillMount();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 将组件的实例push到已经挂载的组件的列表中</span></span><br><span class="line">				<span class="keyword">if</span> (c.componentDidMount!=<span class="literal">null</span>) &#123;</span><br><span class="line">          mounts.push(c);</span><br><span class="line">        &#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> &#123;</span><br><span class="line">				<span class="comment">// ... 省略一部分源码，不是第一次渲染组件的处理</span></span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 渲染更新前的oldProps，oldState</span></span><br><span class="line">      oldProps = c.props;</span><br><span class="line">			<span class="keyword">if</span> (!oldState) &#123;</span><br><span class="line">        oldState = c.state;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 更新组件的props和state</span></span><br><span class="line">			c.props = newVNode.props;</span><br><span class="line">			c.state = s;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 初次渲染prev为null</span></span><br><span class="line">      <span class="keyword">let</span> prev = c._prevVNode;</span><br><span class="line">      <span class="comment">// 组件实例上挂载的_prevVNode的属性为当前实例调用render函数返回的VNode节点(之前c存储的是组件的实例)</span></span><br><span class="line">      <span class="keyword">let</span> vnode = c._prevVNode = coerceToVNode(c.render(c.props, c.state, c.context));</span><br><span class="line">      <span class="comment">// 这个组件禁止更新</span></span><br><span class="line">			c._dirty = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 调用getSnapshotBeforeUpdate的生命周期函数</span></span><br><span class="line">      <span class="comment">// getSnapshotBeforeUpdate()在最新的渲染输出提交给DOM前将会立即调用</span></span><br><span class="line">			<span class="keyword">if</span> (!isNew &amp;&amp; c.getSnapshotBeforeUpdate!=<span class="literal">null</span>) &#123;</span><br><span class="line">				oldContext = c.getSnapshotBeforeUpdate(oldProps, oldState);</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// vnode现在存储的是组件实例render返回的VNode</span></span><br><span class="line">      <span class="comment">// 将render返回VNode，递归的使用diff方法继续比较，返回的dom存储base属性中</span></span><br><span class="line">			c.base = dom = diff(</span><br><span class="line">        dom,</span><br><span class="line">        parentDom,</span><br><span class="line">        vnode,</span><br><span class="line">        prev,</span><br><span class="line">        context,</span><br><span class="line">        isSvg,</span><br><span class="line">        excessDomChildren,</span><br><span class="line">        mounts,</span><br><span class="line">        c,</span><br><span class="line">        <span class="literal">null</span></span><br><span class="line">      );</span><br><span class="line"></span><br><span class="line">			c._parentDom = parentDom;</span><br><span class="line"></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// 当上面的c组件render后, 将render返回VNode节点，使用diff进行递归的比较时</span></span><br><span class="line">      <span class="comment">// render返回VNode的type是string类型, 所以进入这个分支中, 进行dom比较, 具体内容可以参考上一篇文章</span></span><br><span class="line">			dom = diffElementNodes(dom, newVNode, oldVNode, context, isSvg, excessDomChildren, mounts, ancestorComponent);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 将dom挂载到_dom中</span></span><br><span class="line">		newVNode._dom = dom;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">catch</span> (e) &#123;&#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 返回dom</span></span><br><span class="line">	<span class="keyword">return</span> dom;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>我们通过上面👆精简后的源码可知，如果render中是VNode的组件时渲染的大致流程如下图。</p>
+<p><img src="https://i.loli.net/2019/03/26/5c9a335d2ef23.png" alt="image"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/原理/" rel="tag"># 原理</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/24/preact源码分析3/" rel="next" title="preact源码分析(三)">
+                <i class="fa fa-chevron-left"></i> preact源码分析(三)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="张越" />
+            
+              <p class="site-author-name" itemprop="name">张越</p>
+              <p class="site-description motion-element" itemprop="description">所谓成长，就是经过不断的聚散离合，找到不太会伤害到彼此的距离</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">65</span>
+                  <span class="site-state-item-name">篇博文</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">30</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/BengBu-YueZhang" target="_blank" title="我的GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/5460100952/profile?topnav=1&wvr=6" target="_blank" title="我的微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的微博</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#src-render-js"><span class="nav-number">2.</span> <span class="nav-text">src/render.js</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#src-diff-children-js"><span class="nav-number">3.</span> <span class="nav-text">src/diff/children.js</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#src-diff-index-js"><span class="nav-number">4.</span> <span class="nav-text">src/diff/index.js</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结语"><span class="nav-number">5.</span> <span class="nav-text">结语</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张越</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
