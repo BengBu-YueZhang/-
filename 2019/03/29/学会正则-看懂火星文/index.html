@@ -96,7 +96,7 @@
 <meta property="og:image" content="https://i.loli.net/2019/03/28/5c9cc0ed017c7.png">
 <meta property="og:image" content="https://i.loli.net/2019/03/28/5c9cc4f524d58.png">
 <meta property="og:image" content="https://i.loli.net/2019/03/28/5c9cd108e6cb3.png">
-<meta property="og:updated_time" content="2019-03-29T06:06:36.113Z">
+<meta property="og:updated_time" content="2019-03-30T05:41:20.881Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="学会正则, 看懂火星文(一)">
 <meta name="twitter:image" content="https://unsplash.it/1382/781?random">
@@ -473,6 +473,7 @@
 <h3 id="💻-匹配HTML中id属性"><a href="#💻-匹配HTML中id属性" class="headerlink" title="💻 匹配HTML中id属性"></a>💻 匹配HTML中id属性</h3><h4 id="分析-4"><a href="#分析-4" class="headerlink" title="分析"></a>分析</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;div id=<span class="string">"app"</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">"app"</span>&gt;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> reg = <span class="regexp">/id=".*"/</span></span><br></pre></td></tr></table></figure>
 <p>如果使用此正则, 由于<em>是贪婪的, 并且.是通配符包含了”, 所以</em>会匹配到最后一个”之前的所用内容(包括其他的”)。我们可以使用惰性匹配模式(在量词后面添加问号)</p>
 <h4 id="实现-4"><a href="#实现-4" class="headerlink" title="实现"></a>实现</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// .*后遇到第一个"就会停止匹配</span></span><br><span class="line"><span class="keyword">var</span> reg1 = <span class="regexp">/id=".*?"/g</span></span><br></pre></td></tr></table></figure>
+
       
     </div>
     
@@ -502,8 +503,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/27/preact源码分析5/" rel="next" title="preact源码分析(五)">
-                <i class="fa fa-chevron-left"></i> preact源码分析(五)
+              <a href="/2019/03/26/preact源码分析4/" rel="next" title="preact源码分析(四)">
+                <i class="fa fa-chevron-left"></i> preact源码分析(四)
               </a>
             
           </div>
@@ -511,6 +512,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/30/学会正则看懂火星文2/" rel="prev" title="学会正则, 看懂火星文(二)">
+                学会正则, 看懂火星文(二) <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -591,7 +596,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">66</span>
+                  <span class="site-state-item-count">67</span>
                   <span class="site-state-item-name">篇博文</span>
                 </a>
               </div>
