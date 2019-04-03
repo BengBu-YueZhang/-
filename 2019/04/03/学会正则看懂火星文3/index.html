@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="正则表达式," />
+
+
+
+
+
+
+
+
+
+
+<meta name="keywords" content="正则表达式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="学会正则, 看懂火星文(三) 2019.4.3更新 🎉">
+<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2019/04/03/学会正则看懂火星文3/index.html">
+<meta property="og:site_name" content="新世紀エヴァンゲリオン">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://unsplash.it/1362/781?random">
+<meta property="og:image" content="https://i.loli.net/2019/03/28/5c9c796ce2d0c.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/02/5ca2c967344e5.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/02/5ca2c9c619968.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/02/5ca307b84bb58.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/02/5ca30a0333133.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/03/5ca45a024045e.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/03/5ca45aaba3f35.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/03/5ca45e3e8e684.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/03/5ca4724c084b5.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/03/5ca4770485e3b.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/03/5ca479f712dfd.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/03/5ca479f92842d.png">
+<meta property="og:updated_time" content="2019-04-03T11:39:57.161Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="学会正则, 看懂火星文(三) 2019.4.3更新 🎉">
+<meta name="twitter:image" content="https://unsplash.it/1362/781?random">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/2019/04/03/学会正则看懂火星文3/"/>
+
+
+
+
+
+  <title>学会正则, 看懂火星文(三) 2019.4.3更新 🎉 | 新世紀エヴァンゲリオン</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">新世紀エヴァンゲリオン</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">前端小学生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            主页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            时间轴
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://bengbu-yuezhang.github.io/yue.github.io/2019/04/03/学会正则看懂火星文3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张越">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新世紀エヴァンゲリオン">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">学会正则, 看懂火星文(三) 2019.4.3更新 🎉</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-03T19:30:00+08:00">
+                2019-04-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://unsplash.it/1362/781?random" alt="image"></p>
+<a id="more"></a>
+<h2 id="感谢"><a href="#感谢" class="headerlink" title="感谢"></a>感谢</h2><p>本文参考《正则表达式迷你书》</p>
+<p><img src="https://i.loli.net/2019/03/28/5c9c796ce2d0c.png" alt="image"></p>
+<h2 id="分组和分支结构"><a href="#分组和分支结构" class="headerlink" title="分组和分支结构"></a>分组和分支结构</h2><h3 id="分组"><a href="#分组" class="headerlink" title="分组"></a>分组</h3><p>括号可以提供分组的功能。/a+/, 标示a出现多次。/(ab)+/, 则是将ab作为一组，表示ab出现多次。</p>
+<h2 id="分组引用"><a href="#分组引用" class="headerlink" title="分组引用"></a>分组引用</h2><p>使用括号可以实现数据提取和替换操作。我们以匹配日期(yyyy-mm-dd)为例</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 无括号版本</span></span><br><span class="line"><span class="keyword">var</span> reg1 = <span class="regexp">/\d&#123;4&#125;-\d&#123;2&#125;-\d&#123;2&#125;/</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/04/02/5ca2c967344e5.png" alt="image"></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 有括号版本</span></span><br><span class="line"><span class="keyword">var</span> reg2 = <span class="regexp">/(\d&#123;4&#125;)-(\d&#123;2&#125;)-(\d&#123;2&#125;)/</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/04/02/5ca2c9c619968.png" alt="image"></p>
+<p>正则引擎在匹配的过程中，会存储每一个分组匹配到的数据</p>
+<h3 id="提取分组数据"><a href="#提取分组数据" class="headerlink" title="提取分组数据"></a>提取分组数据</h3><h4 id="match方法"><a href="#match方法" class="headerlink" title="match方法"></a>match方法</h4><p>match接受一个正则表达式作为参数。如果正则表达式中有g标示, 将返回与完整正则表达式匹配的所有结果，但不会返回捕获组。如果没有使用g标示，则仅返回第一个完整匹配及其相关的捕获组。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> regex = <span class="regexp">/(\d&#123;4&#125;)-(\d&#123;2&#125;)-(\d&#123;2&#125;)/g</span></span><br><span class="line"><span class="keyword">var</span> string = <span class="string">"2017-06-12 2017-06-12"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// ["2017-06-12", "2017-06-12"]</span></span><br><span class="line"><span class="comment">// 返回与完整正则表达式匹配的所有结果, 不含分组的结果</span></span><br><span class="line">string.match(regex)</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> regex = <span class="regexp">/(\d&#123;4&#125;)-(\d&#123;2&#125;)-(\d&#123;2&#125;)/</span></span><br><span class="line"><span class="keyword">var</span> string = <span class="string">"2017-06-12 2017-06-12"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 只返回第一个完整匹配和其分组</span></span><br><span class="line"><span class="comment">// ["2017-06-12", "2017", "06", "12", index: 0, input: "2017-06-12 2017-06-12", groups: undefined]</span></span><br><span class="line">string.match(regex)</span><br></pre></td></tr></table></figure>
+<h4 id="exec方法"><a href="#exec方法" class="headerlink" title="exec方法"></a>exec方法</h4><p>exec方法接受一个字符串作为参数。如果exec匹配失败将会返回null, 如果匹配成功exec方法将会返回一个数组。</p>
+<p>返回的数组将完全匹配成功的文本作为第一项，而分组匹配的结果在数组位置0的后面。返回的结果同时拥有index属性, 标示了匹配字符为于原始字符的索引。input属性则是原始的字符串。</p>
+<p>注意当正则对象是否包含g返回结果是不一样的。如果正则中含有g标示, 那么正则对象的lastIndex(下一次匹配开始的位置), 会更新。而如果不含有g, 正则的lastIndex不会更新。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> regex = <span class="regexp">/(\d&#123;4&#125;)-(\d&#123;2&#125;)-(\d&#123;2&#125;)/</span></span><br><span class="line"><span class="keyword">var</span> string = <span class="string">"2017-06-12 2017-06-12"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// ["2017-06-12", "2017", "06", "12", index: 0, input: "2017-06-12 2017-06-12", groups: undefined]</span></span><br><span class="line"><span class="comment">// regex.lastIndex === 0</span></span><br><span class="line">regex.exec(string)</span><br><span class="line"><span class="comment">// ["2017-06-12", "2017", "06", "12", index: 0, input: "2017-06-12 2017-06-12", groups: undefined]</span></span><br><span class="line"><span class="comment">// regex.lastIndex === 0</span></span><br><span class="line">regex.exec(string)</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> regex = <span class="regexp">/(\d&#123;4&#125;)-(\d&#123;2&#125;)-(\d&#123;2&#125;)/g</span></span><br><span class="line"><span class="keyword">var</span> string = <span class="string">"2017-06-12 2017-06-12"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// ["2017-06-12", "2017", "06", "12", index: 0, input: "2017-06-12 2017-06-12", groups: undefined]</span></span><br><span class="line">regex.exec(string)</span><br><span class="line"><span class="comment">// ["2017-06-12", "2017", "06", "12", index: 11, input: "2017-06-12 2017-06-12", groups: undefined]</span></span><br><span class="line"><span class="comment">// regex.lastIndex === 21</span></span><br><span class="line">regex.exec(string)</span><br></pre></td></tr></table></figure>
+<h4 id="RegEx"><a href="#RegEx" class="headerlink" title="RegEx"></a>RegEx</h4><p>我们也可以通过RegEx全局的构造函数来获取分组匹配的结果。构造函数的全局属性$1到$9存储了分组匹配的结果。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> regex = <span class="regexp">/(\d&#123;4&#125;)-(\d&#123;2&#125;)-(\d&#123;2&#125;)/g</span></span><br><span class="line"><span class="keyword">var</span> string = <span class="string">"2017-06-12 2017-06-12"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 任何正则操作即可</span></span><br><span class="line">regex.exec(string)</span><br><span class="line"></span><br><span class="line"><span class="comment">// "2017"</span></span><br><span class="line"><span class="built_in">RegExp</span>.$<span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h3 id="替换分组数据"><a href="#替换分组数据" class="headerlink" title="替换分组数据"></a>替换分组数据</h3><p>我们可以通过replace方法配合分组匹配的结果, 实现替换分组数据</p>
+<h4 id="replace"><a href="#replace" class="headerlink" title="replace"></a>replace</h4><p>str.replace(regexp|substr, newSubStr|func)</p>
+<ul>
+<li>regexp 一个正则表达式对象，该正则所匹配的内容会被replace的第二个参数(或者函数的返回值)替换掉</li>
+<li>substr 当str中含有substr, 会被第二个参数替换, 仅有第一个匹配项会被替换</li>
+<li>newSubStr 用于替换掉第一个参数在原字符串中的匹配部分的字符串。该字符串中可以内插一些特殊的变量名(见下表)</li>
+<li>func 函数的返回值将替换掉第一个参数匹配到的结果</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>变量名</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$1, $2, $3……</td>
+<td>第n个分组匹配的结果</td>
+</tr>
+<tr>
+<td>$`</td>
+<td>插入当前匹配的子串左边的内容</td>
+</tr>
+<tr>
+<td>$’</td>
+<td>插入当前匹配的子串右边的内容</td>
+</tr>
+<tr>
+<td>$&amp;</td>
+<td>当前匹配的子串</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// "🍰loHel🍕"</span></span><br><span class="line"><span class="string">'🍰Hello🍕'</span>.replace(<span class="regexp">/(Hel)(lo)/</span>, <span class="string">'$2$1'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// "🍰ello🍕ello🍕"</span></span><br><span class="line"><span class="comment">// H被替换为ello🍕</span></span><br><span class="line"><span class="string">'🍰Hello🍕'</span>.replace(<span class="regexp">/H/</span>, <span class="string">"$'"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// "🍰🍰ello🍕"</span></span><br><span class="line"><span class="comment">// H被替换为🍰</span></span><br><span class="line"><span class="string">'🍰Hello🍕'</span>.replace(<span class="regexp">/H/</span>, <span class="string">"$`"</span>)</span><br></pre></td></tr></table></figure>
+<h5 id="指定一个函数作为参数"><a href="#指定一个函数作为参数" class="headerlink" title="指定一个函数作为参数"></a>指定一个函数作为参数</h5><p>函数的返回值作为替换字符串。 (注意：上面提到的特殊替换参数在这里不能被使用。) 另外要注意的是，如果第一个参数是正则表达式，并且其为全局匹配模式，那么这个方法将被多次调用，每次匹配都会被调用。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 函数每匹配到一次, 就会被调用</span></span><br><span class="line"><span class="string">'🍰🍕🍔🍕🥪'</span>.replace(<span class="string">'/🍕/g'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">'🍬'</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>函数的参数</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>match</td>
+<td>当前匹配的子串</td>
+</tr>
+<tr>
+<td>p1, p2, …… pn</td>
+<td>匹配的分组数据</td>
+</tr>
+</tbody>
+</table>
+<h4 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h4><p>将’2019-01-01’替换为01/01/2019</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> str = <span class="string">'2019-01-01'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> reg = <span class="regexp">/(\d&#123;4&#125;)-(\d&#123;2&#125;)-(\d&#123;2&#125;)/</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 01/01/2019</span></span><br><span class="line"><span class="keyword">var</span> result = str.replace(reg, <span class="string">'$2/$3/$1'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 01/01/2019</span></span><br><span class="line">result = str.replace(reg, <span class="function"><span class="keyword">function</span> (<span class="params">match, year, month, day</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;month&#125;</span>/<span class="subst">$&#123;day&#125;</span>/<span class="subst">$&#123;year&#125;</span>`</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="反向引用"><a href="#反向引用" class="headerlink" title="反向引用"></a>反向引用</h2><p>我们现在有一个需求, 使用一个正则表达式匹配如下格式的📅日期字符串</p>
+<p>2019-01-01, 2019.01.01, 2019/01/01, 并且前后的分割符号需要保持一致</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> reg = <span class="regexp">/\d&#123;4&#125;(\/|\.|-)\d&#123;2&#125;(\/|\.|-)\d&#123;2&#125;/</span></span><br></pre></td></tr></table></figure>
+<p>👆 上面的正则达到了最基本的目的, 但是我们还没有解决前后分割符需要保持一致的问题。</p>
+<p>这时我们可以到<strong>反向引用</strong>, <strong>\1表示第一个分组所匹配到的具体的字符</strong>, \2, \3同理</p>
+<p><img src="https://i.loli.net/2019/04/02/5ca307b84bb58.png" alt="image"></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> reg = <span class="regexp">/\d&#123;4&#125;(-|\/|\.)\d&#123;2&#125;\1\d&#123;2&#125;/</span></span><br></pre></td></tr></table></figure>
+<h3 id="括号嵌套"><a href="#括号嵌套" class="headerlink" title="括号嵌套"></a>括号嵌套</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> regex = <span class="regexp">/^((\d)(\d(\d)))\1\2\3\4$/</span></span><br><span class="line"><span class="keyword">var</span> string = <span class="string">"1231231233"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 分组一</span></span><br><span class="line"><span class="comment">// \d\d\d \1对应 123</span></span><br><span class="line"><span class="comment">// 分组二</span></span><br><span class="line"><span class="comment">// \d \2 对应 1</span></span><br><span class="line"><span class="comment">// 分组三</span></span><br><span class="line"><span class="comment">// \d\d \3 对应 23</span></span><br><span class="line"><span class="comment">// 分组四</span></span><br><span class="line"><span class="comment">// \d \4 对应3</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/04/02/5ca30a0333133.png" alt="image"></p>
+<h3 id="10"><a href="#10" class="headerlink" title="\10"></a>\10</h3><p>\10表示第10个分组呢?还是\1和0？</p>
+<p>\10表示的是第十个分组</p>
+<h3 id="引用不存在的分组"><a href="#引用不存在的分组" class="headerlink" title="引用不存在的分组"></a>引用不存在的分组</h3><p>引用不存在的分组不会报错。例如\2, \2分组不存在, \2匹配的就是字符串”\2”</p>
+<h3 id="如果分组后面添加量词"><a href="#如果分组后面添加量词" class="headerlink" title="如果分组后面添加量词"></a>如果分组后面添加量词</h3><p><strong>分组后面有量词的话，分组最终捕获到的数据是最后一次的匹配</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> str = <span class="string">'12345'</span></span><br><span class="line"><span class="keyword">var</span> reg = <span class="regexp">/\d+/</span></span><br><span class="line"><span class="keyword">var</span> reg1 = <span class="regexp">/(\d)+/</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// ["12345", index: 0, input: "12345", groups: undefined]</span></span><br><span class="line">str.match(reg)</span><br><span class="line"><span class="comment">// ["12345", index: 0, input: "12345", groups: undefined]</span></span><br><span class="line">str.match(reg1)</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// \1 应当是匹配的最后一次结果</span></span><br><span class="line"><span class="keyword">var</span> regex = <span class="regexp">/(\d)+ \1/</span>;</span><br><span class="line"><span class="comment">// false</span></span><br><span class="line">regex.test(<span class="string">"12345 1"</span>)</span><br><span class="line"><span class="comment">// true</span></span><br><span class="line">regex.test(<span class="string">"12345 5"</span>) );</span><br></pre></td></tr></table></figure>
+<h2 id="非捕获括号"><a href="#非捕获括号" class="headerlink" title="非捕获括号"></a>非捕获括号</h2><p>之前的括号都被称为捕获型的分组, 捕获到的组的数据会在API中引用。如果只想使用括号最原始的功能，不在API和反向引用中使用可以使用非捕获括号。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> str = <span class="string">'HelloWorld'</span></span><br><span class="line"><span class="keyword">var</span> reg1 = <span class="regexp">/(?:Hello)(?:World)/</span></span><br><span class="line"><span class="keyword">var</span> reg2 = <span class="regexp">/(Hello)(World)/</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// ["HelloWorld", index: 0, input: "HelloWorld", groups: undefined]</span></span><br><span class="line"><span class="comment">// 捕获组的数据不会引用</span></span><br><span class="line">reg1.exec(str)</span><br><span class="line"><span class="comment">// ["HelloWorld", "Hello", "World", index: 0, input: "HelloWorld", groups: undefined]</span></span><br><span class="line">reg2.exec(str)</span><br></pre></td></tr></table></figure>
+<h2 id="示例-1"><a href="#示例-1" class="headerlink" title="示例"></a>示例</h2><h3 id="实现trim功能"><a href="#实现trim功能" class="headerlink" title="实现trim功能"></a>实现trim功能</h3><p>第一种思路是匹配空格, 然后替换空格为空字符串</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> reg = <span class="regexp">/^\s+|\s+$/g</span></span><br><span class="line"><span class="keyword">var</span> str = <span class="string">'  reg '</span></span><br><span class="line">str.replace(reg, <span class="string">''</span>)</span><br></pre></td></tr></table></figure>
+<p>第二种思路是使用分组把内容提取出来, 进行替换。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> str = <span class="string">'  reg '</span></span><br><span class="line"><span class="keyword">var</span> reg = <span class="regexp">/^\s+(.*)\s+$/g</span></span><br><span class="line"></span><br><span class="line">str.replace(reg, <span class="string">'$1'</span>)</span><br></pre></td></tr></table></figure>
+<p>如果使用量词<em>, 我们需要使用惰性匹配, 因为(.</em>)\s<em>$中(.</em>)的部分会匹配除了最后一个空格之外的其他空格</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> str = <span class="string">'  reg '</span></span><br><span class="line"><span class="keyword">var</span> reg = <span class="regexp">/^\s*(.*)\s*$/g</span></span><br><span class="line"></span><br><span class="line">str.replace(reg, <span class="string">'$1'</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="将每个单词的首字母转换成大写"><a href="#将每个单词的首字母转换成大写" class="headerlink" title="将每个单词的首字母转换成大写"></a>将每个单词的首字母转换成大写</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> str = <span class="string">'hello world'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Hello World</span></span><br><span class="line"><span class="comment">// 我们匹配单词边界后的第一个字母</span></span><br><span class="line">str.replace(<span class="regexp">/\b\w&#123;1&#125;/g</span>, <span class="function"><span class="keyword">function</span> (<span class="params">word</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> word.toLocaleUpperCase()</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="匹配成对标签"><a href="#匹配成对标签" class="headerlink" title="匹配成对标签"></a>匹配成对标签</h3><p>我们可以使用反向引用, 我们将前面的标签作为分组用括号包起来, \1将会是分组匹配的结果。我们这样就能保证前后两个标签的类型是一致的</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> reg = <span class="regexp">/&lt;([^&gt;]+)&gt;\w+&lt;\/\1&gt;/</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// true</span></span><br><span class="line">reg.test(<span class="string">'&lt;p&gt;123&lt;/p&gt;'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// false</span></span><br><span class="line">reg.test(<span class="string">'&lt;p&gt;123&lt;/div&gt;'</span>)</span><br></pre></td></tr></table></figure>
+<hr>
+<p>4月3号更新 🎉🎉🎉🎉🎉🎉</p>
+<h2 id="回溯"><a href="#回溯" class="headerlink" title="回溯"></a>回溯</h2><h3 id="没有回溯的匹配"><a href="#没有回溯的匹配" class="headerlink" title="没有回溯的匹配"></a>没有回溯的匹配</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> reg = <span class="regexp">/ab&#123;1,3&#125;c/</span></span><br><span class="line"><span class="keyword">var</span> str = <span class="string">'abbbc'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 匹配是没有回溯的</span></span><br><span class="line">reg.test(str)</span><br></pre></td></tr></table></figure>
+<p>匹配过程的拆分</p>
+<p><img src="https://i.loli.net/2019/04/03/5ca45a024045e.png" alt="image"></p>
+<h3 id="有回溯的匹配"><a href="#有回溯的匹配" class="headerlink" title="有回溯的匹配"></a>有回溯的匹配</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> reg = <span class="regexp">/ab&#123;1,3&#125;c/</span></span><br><span class="line"><span class="keyword">var</span> str = <span class="string">'abbc'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 匹配是有回溯的</span></span><br><span class="line">reg.test(str)</span><br></pre></td></tr></table></figure>
+<p>匹配过程的拆分</p>
+<p><img src="https://i.loli.net/2019/04/03/5ca45aaba3f35.png" alt="image"></p>
+<p>匹配b字符的量词是{1,3}。第5步的时候, 我们需要匹配第3个b的时候, 结果匹配到了c, 匹配发送了错误, 但是量词时{1,3}, b{1,3}已经匹配完成了。所以会到之前的匹配状态(第6步), 回退状态的过程就被称为回溯。</p>
+<h4 id="为什么-通配符-是非常影响效率的"><a href="#为什么-通配符-是非常影响效率的" class="headerlink" title="为什么.(通配符)是非常影响效率的?"></a>为什么.(通配符)是非常影响效率的?</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> reg = <span class="regexp">/".*"/</span></span><br><span class="line"><span class="keyword">var</span> str = <span class="string">'"abc"de'</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/04/03/5ca45e3e8e684.png" alt="image"></p>
+<p>.*表示任意字符的任意长度, 它会匹配到字符串的结尾的部分。然后在逐步的回溯。直到’”‘匹配’”‘, 所以说通配符是非常低效的。我们在这个例子中可以使用[^”]代替通配符。</p>
+<h3 id="常见的回溯形式"><a href="#常见的回溯形式" class="headerlink" title="常见的回溯形式"></a>常见的回溯形式</h3><h4 id="贪婪量词"><a href="#贪婪量词" class="headerlink" title="贪婪量词"></a>贪婪量词</h4><p>b{1, 3}会首先尝试匹配bbb, 然后bb, 最后是b。如果还不行则匹配失败。贪婪量词从多往少尝试的过程就是回溯的过程。如果多个贪婪量词在一起时, 前面的贪婪量词会优先匹配。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> str = <span class="string">'12345'</span></span><br><span class="line"><span class="keyword">var</span> reg = <span class="regexp">/(\d&#123;1,3&#125;)(\d&#123;2,3&#125;)/</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// true</span></span><br><span class="line">reg.test(str)</span><br><span class="line"></span><br><span class="line"><span class="comment">// ["12345", "123", "45", index: 0, input: "12345", groups: undefined]</span></span><br><span class="line">reg.exec(str)</span><br></pre></td></tr></table></figure>
+<h4 id="惰性量词"><a href="#惰性量词" class="headerlink" title="惰性量词"></a>惰性量词</h4><p>惰性量词依然可能存在回溯的情况</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> reg = <span class="regexp">/^\d&#123;1,3&#125;?\d&#123;1,3&#125;$/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> str = <span class="string">'12345'</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/04/03/5ca4724c084b5.png" alt="image"></p>
+<p>为了满足整体的匹配, 只能给只需要匹配1个的惰性量词, 匹配两个字符。 形成回溯。</p>
+<h4 id="分支结构"><a href="#分支结构" class="headerlink" title="分支结构"></a>分支结构</h4><p>当/分支1|分支2|分支3/, 当分支1不满足会尝试分支2，分支2不满足会尝试分支3。这种尝试也是回溯的一种</p>
+<h2 id="正则表达式的拆分"><a href="#正则表达式的拆分" class="headerlink" title="正则表达式的拆分"></a>正则表达式的拆分</h2><h3 id="操作符的优先级"><a href="#操作符的优先级" class="headerlink" title="操作符的优先级"></a>操作符的优先级</h3><table>
+<thead>
+<tr>
+<th>操作符号</th>
+<th>操作符</th>
+<th>优先级</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>转义符</td>
+<td>\</td>
+<td>1</td>
+</tr>
+<tr>
+<td>括号和方括号</td>
+<td>(…)、(?:…)、(?=…)、(?!…)、[…]</td>
+<td>2</td>
+</tr>
+<tr>
+<td>量词限定符</td>
+<td>{m}、{m,n}、{m,}、?、*、+</td>
+<td>3</td>
+</tr>
+<tr>
+<td>位置和序列</td>
+<td>^、$、\元字符、一般字符</td>
+<td>4</td>
+</tr>
+<tr>
+<td>管道符(竖杠)</td>
+<td></td>
+<td></td>
+<td>5</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> reg = <span class="regexp">/ab?(c|de*)+|fg/</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>(c|de*)是一个整体</li>
+<li>de*中, e作为一个整体</li>
+<li>c|de*中，c和de是不同的整体</li>
+<li>ab?(c|de<em>)+|fg中, ab?(c|de</em>)+和fg作为不同的整体</li>
+</ol>
+<p><img src="https://i.loli.net/2019/04/03/5ca4770485e3b.png" alt="image"></p>
+<h3 id="注意要点"><a href="#注意要点" class="headerlink" title="注意要点"></a>注意要点</h3><h4 id="匹配字符串整体问题"><a href="#匹配字符串整体问题" class="headerlink" title="匹配字符串整体问题"></a>匹配字符串整体问题</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// ^abc 和 bcd$ 是两个不同的整体</span></span><br><span class="line"><span class="keyword">var</span> reg1 = <span class="regexp">/^abc|bcd$/</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 可以通过括号把(abc|bcd)作为同一个整体</span></span><br><span class="line"><span class="keyword">var</span> reg2 = <span class="regexp">/^(abc|bcd)$/</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/04/03/5ca479f712dfd.png" alt="image"></p>
+<p><img src="https://i.loli.net/2019/04/03/5ca479f92842d.png" alt="image"></p>
+<h4 id="量词连缀问题"><a href="#量词连缀问题" class="headerlink" title="量词连缀问题"></a>量词连缀问题</h4><p>/^[abc]{3}+$/会产生错误🙅, 量词无法对量词使用。我们可以使用括号/^([abc]{3})+$/, 将([abc]{3})作为一个整体。</p>
+<h4 id="元字符转义问题"><a href="#元字符转义问题" class="headerlink" title="元字符转义问题"></a>元字符转义问题</h4><p>在正则表达式中, 元字符因为具有特殊的含义。所以如果需要匹配元字符本身, 必须对元字符转义。</p>
+<p>正则表达式中的元字符, ^、$、.、*、+、?、|、\、/、(、)、[、]、{、}、=、!、:、- </p>
+<h5 id="字符组中的元字符"><a href="#字符组中的元字符" class="headerlink" title="字符组中的元字符"></a>字符组中的元字符</h5><p>假设我们需要匹配一组字符, ^, +, ?</p>
+<p>[^+?]的含义并不是一组字符而是反义字符组。我们必须对^符号进行转义。修改为[\^+\?]才符合要求。</p>
+<h5 id="匹配字符组本身"><a href="#匹配字符组本身" class="headerlink" title="匹配字符组本身"></a>匹配字符组本身</h5><p>如果我们需要匹配{2,4}或者[123]呢？</p>
+<p>我们可以对两个括号进行转义或者只对一个括号转义, 使它无法构成字符组。修改为{2,\4}, 或者{2,4}即可。</p>
+<h3 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h3><h4 id="IPV4"><a href="#IPV4" class="headerlink" title="IPV4"></a>IPV4</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> reg = <span class="regexp">/^((0&#123;0,2&#125;\d|0?\d&#123;2&#125;|1\d&#123;2&#125;|2[0-4]\d|25[0-5])\.)&#123;3&#125;(0&#123;0,2&#125;\d|0?\d&#123;2&#125;|1\d&#123;2&#125;|2[0-4]\d|25[0-5])$/</span></span><br></pre></td></tr></table></figure>
+<p>这个正则看似很复杂，但我们根据操作符的优先级，我们可以分为((…).){3}, (…)这两部分。而((…).)中里面的括号其实是4个分支语句。可以继续拆分。(0{0,2}\d|0?\d{2}|1\d{2}|2[0-4]\d|25[0-5])内容可以分成5个分支。</p>
+<ul>
+<li>0{0,2}\d 匹配1位数, 并补0</li>
+<li>0?\d{2} 匹配2位数, 并补0</li>
+<li>1\d{2} 匹配100-199</li>
+<li>2[0-4]\d 匹配200-249</li>
+<li>25[0-5] 匹配250-255</li>
+</ul>
+<h2 id="正则表达式的构建"><a href="#正则表达式的构建" class="headerlink" title="正则表达式的构建"></a>正则表达式的构建</h2><blockquote>
+<p>书中本章节更多的是介绍, 是否应当能使用正则, 和是否有必要使用正则，以及正则效率的问题。有兴趣的同学可以直接去看书。但是我觉得本章中，介绍了两个正则的例子🌰还是很值得思考🤔的？</p>
+</blockquote>
+<h3 id="匹配固定电话-☎️"><a href="#匹配固定电话-☎️" class="headerlink" title="匹配固定电话 ☎️"></a>匹配固定电话 ☎️</h3><p>电话的格式如下055188888888，0551-88888888，(0551)88888888我们该如何通过一个正则进行匹配, 我们将书写正则过程拆分成几步。</p>
+<p>我们首先书写✍️3种正则分别匹配3种格式的电话号码</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> reg1 = <span class="regexp">/^0\d&#123;2,3&#125;[1-9]\d&#123;6,7&#125;$/</span></span><br><span class="line"><span class="keyword">var</span> reg2 = <span class="regexp">/^0\d&#123;2,3&#125;-[1-9]\d&#123;6,7&#125;$/</span></span><br><span class="line"><span class="keyword">var</span> reg3 = <span class="regexp">/^\(0\d&#123;2,3&#125;\)[1-9]\d&#123;6,7&#125;$/</span></span><br></pre></td></tr></table></figure>
+<p>接下来我们使用或者分割符把3个正则链接为1一个正则表达式</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> reg = <span class="regexp">/^0\d&#123;2,3&#125;[1-9]\d&#123;6,7&#125;$|^0\d&#123;2,3&#125;-[1-9]\d&#123;6,7&#125;$|^\(0\d&#123;2,3&#125;\)[1-9]\d&#123;6,7&#125;$/</span></span><br></pre></td></tr></table></figure>
+<p>我们提交公共的部分</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> reg = <span class="regexp">/^(0d&#123;2,3&#125;|0d&#123;2,3&#125;-|\(0\d&#123;2,3&#125;\))[1-9]\d&#123;6,7&#125;$/</span></span><br></pre></td></tr></table></figure>
+<p>公共部分的第一个分支和第二个分支只差别一个-符号，可以对-使用量词?，还可以进一步简化</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> reg = <span class="regexp">/^(0d&#123;2,3&#125;-?|\(0\d&#123;2,3&#125;\))[1-9]\d&#123;6,7&#125;$/</span></span><br></pre></td></tr></table></figure>
+<h3 id="匹配浮点数"><a href="#匹配浮点数" class="headerlink" title="匹配浮点数"></a>匹配浮点数</h3><p>如果通过一个正则匹配1.23、+1.23、-1.23 10、+10、-10 .2、+.2、-.2</p>
+<p>我们将这些例子分为两种类型, “1.23”、”+1.23”、”-1.23”(有整数位有小数位), “10”、”+10”、”-10”(只有整数位), “.2”、”+.2”、”-.2”(只有小数位)</p>
+<p>我们先写三个正则匹配三种类型</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> reg1 = <span class="regexp">/^[-+]?\d+\.\d+$/</span></span><br><span class="line"><span class="keyword">var</span> reg2 = <span class="regexp">/^[-+]?\d+$/</span></span><br><span class="line"><span class="keyword">var</span> reg3 = <span class="regexp">/^[-+]?\.\d+/</span></span><br></pre></td></tr></table></figure>
+<p>我们合并这三种正则</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> reg = <span class="regexp">/^[-+]?\d+\.\d+$|^[-+]?\d+$|^[-+]?\.\d+/</span></span><br></pre></td></tr></table></figure>
+<p>简化正则</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> reg = <span class="regexp">/^[-+]?(\d+\.\d+|\d+|\.\d+)$/</span></span><br></pre></td></tr></table></figure>
+<h2 id="正则表达式编程"><a href="#正则表达式编程" class="headerlink" title="正则表达式编程"></a>正则表达式编程</h2><h3 id="⚠️-相关API注意要点"><a href="#⚠️-相关API注意要点" class="headerlink" title="⚠️ 相关API注意要点"></a>⚠️ 相关API注意要点</h3><h4 id="match返回结果的格式问题"><a href="#match返回结果的格式问题" class="headerlink" title="match返回结果的格式问题"></a>match返回结果的格式问题</h4><p>match接受一个正则表达式作为参数。如果正则表达式中有g标示, 将返回与完整正则表达式匹配的所有结果，但不会返回捕获组。</p>
+<p>如果没有使用g标示，则仅返回第一个完整匹配及其相关的捕获组。</p>
+<h4 id="exec比match更🐂🍺"><a href="#exec比match更🐂🍺" class="headerlink" title="exec比match更🐂🍺"></a>exec比match更🐂🍺</h4><p>当正则没有g时，使用match返回的信息比较多。但是有g后，match就没有关键的信息index了(只会返回全部匹配的内容)。</p>
+<p>而exec方法即使正则包含g，它也能接着上一次匹配后继续匹配。reg的lastIndex会更新(<strong>如果不含g不会更新</strong>), exec可以配合while使用。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> str = <span class="string">'2019.01.01'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> reg1 = <span class="regexp">/\./</span></span><br><span class="line"><span class="keyword">var</span> reg2 = <span class="regexp">/\./g</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// [".", index: 4, input: "2019.01.01", groups: undefined]</span></span><br><span class="line">reg1.exec(str)</span><br><span class="line"><span class="comment">// 0</span></span><br><span class="line">reg1.lastIndex</span><br><span class="line"></span><br><span class="line"><span class="comment">// [".", index: 4, input: "2019.01.01", groups: undefined]</span></span><br><span class="line">reg2.exec(str)</span><br><span class="line"><span class="comment">// 5</span></span><br><span class="line">reg2.lastIndex</span><br><span class="line"></span><br><span class="line"><span class="comment">// [".", index: 4, input: "2019.01.01", groups: undefined]</span></span><br><span class="line">str.match(reg1)</span><br><span class="line"><span class="comment">// 0</span></span><br><span class="line">reg1.lastIndex</span><br><span class="line"></span><br><span class="line"><span class="comment">// [".", "."]</span></span><br><span class="line">str.match(reg2)</span><br><span class="line"><span class="comment">// 0</span></span><br><span class="line">reg2.lastIndex</span><br></pre></td></tr></table></figure>
+<h4 id="修饰符-g，对exec和test的影响"><a href="#修饰符-g，对exec和test的影响" class="headerlink" title="修饰符 g，对exec和test的影响"></a>修饰符 g，对exec和test的影响</h4><p><strong>字符串的方法, 每次匹配后不会影响正则对象的lastIndex属性的值</strong></p>
+<p><strong>exec和test方法, 在全局匹配下会影响正则对象的lastIndex, 如果找不到了lastIndex会重置为0</strong></p>
+<p><strong>exec和test方法, 如果正则没有g, lastIndex不会改变</strong></p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>📖看到这里也结束了, 大家如果有兴趣可以看原书, 书本身是开源免费的, 很精简80多页</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/正则表达式/" rel="tag"># 正则表达式</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/01/实现一个属于自己的React框架1/" rel="next" title="实现一个属于自己的React框架(一)">
+                <i class="fa fa-chevron-left"></i> 实现一个属于自己的React框架(一)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/03/实现一个属于自己的React框架2/" rel="prev" title="实现一个属于自己的React框架(二)">
+                实现一个属于自己的React框架(二) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="张越" />
+            
+              <p class="site-author-name" itemprop="name">张越</p>
+              <p class="site-description motion-element" itemprop="description">所谓成长，就是经过不断的聚散离合，找到不太会伤害到彼此的距离</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">70</span>
+                  <span class="site-state-item-name">篇博文</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/BengBu-YueZhang" target="_blank" title="我的GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/5460100952/profile?topnav=1&wvr=6" target="_blank" title="我的微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的微博</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#感谢"><span class="nav-number">1.</span> <span class="nav-text">感谢</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分组和分支结构"><span class="nav-number">2.</span> <span class="nav-text">分组和分支结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#分组"><span class="nav-number">2.1.</span> <span class="nav-text">分组</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分组引用"><span class="nav-number">3.</span> <span class="nav-text">分组引用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#提取分组数据"><span class="nav-number">3.1.</span> <span class="nav-text">提取分组数据</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#match方法"><span class="nav-number">3.1.1.</span> <span class="nav-text">match方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#exec方法"><span class="nav-number">3.1.2.</span> <span class="nav-text">exec方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RegEx"><span class="nav-number">3.1.3.</span> <span class="nav-text">RegEx</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#替换分组数据"><span class="nav-number">3.2.</span> <span class="nav-text">替换分组数据</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#replace"><span class="nav-number">3.2.1.</span> <span class="nav-text">replace</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#指定一个函数作为参数"><span class="nav-number">3.2.1.1.</span> <span class="nav-text">指定一个函数作为参数</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#示例"><span class="nav-number">3.2.2.</span> <span class="nav-text">示例</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#反向引用"><span class="nav-number">4.</span> <span class="nav-text">反向引用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#括号嵌套"><span class="nav-number">4.1.</span> <span class="nav-text">括号嵌套</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10"><span class="nav-number">4.2.</span> <span class="nav-text">\10</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引用不存在的分组"><span class="nav-number">4.3.</span> <span class="nav-text">引用不存在的分组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如果分组后面添加量词"><span class="nav-number">4.4.</span> <span class="nav-text">如果分组后面添加量词</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#非捕获括号"><span class="nav-number">5.</span> <span class="nav-text">非捕获括号</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#示例-1"><span class="nav-number">6.</span> <span class="nav-text">示例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实现trim功能"><span class="nav-number">6.1.</span> <span class="nav-text">实现trim功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将每个单词的首字母转换成大写"><span class="nav-number">6.2.</span> <span class="nav-text">将每个单词的首字母转换成大写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#匹配成对标签"><span class="nav-number">6.3.</span> <span class="nav-text">匹配成对标签</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#回溯"><span class="nav-number">7.</span> <span class="nav-text">回溯</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#没有回溯的匹配"><span class="nav-number">7.1.</span> <span class="nav-text">没有回溯的匹配</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有回溯的匹配"><span class="nav-number">7.2.</span> <span class="nav-text">有回溯的匹配</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#为什么-通配符-是非常影响效率的"><span class="nav-number">7.2.1.</span> <span class="nav-text">为什么.(通配符)是非常影响效率的?</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常见的回溯形式"><span class="nav-number">7.3.</span> <span class="nav-text">常见的回溯形式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#贪婪量词"><span class="nav-number">7.3.1.</span> <span class="nav-text">贪婪量词</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#惰性量词"><span class="nav-number">7.3.2.</span> <span class="nav-text">惰性量词</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分支结构"><span class="nav-number">7.3.3.</span> <span class="nav-text">分支结构</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正则表达式的拆分"><span class="nav-number">8.</span> <span class="nav-text">正则表达式的拆分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#操作符的优先级"><span class="nav-number">8.1.</span> <span class="nav-text">操作符的优先级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意要点"><span class="nav-number">8.2.</span> <span class="nav-text">注意要点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#匹配字符串整体问题"><span class="nav-number">8.2.1.</span> <span class="nav-text">匹配字符串整体问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#量词连缀问题"><span class="nav-number">8.2.2.</span> <span class="nav-text">量词连缀问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#元字符转义问题"><span class="nav-number">8.2.3.</span> <span class="nav-text">元字符转义问题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#字符组中的元字符"><span class="nav-number">8.2.3.1.</span> <span class="nav-text">字符组中的元字符</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#匹配字符组本身"><span class="nav-number">8.2.3.2.</span> <span class="nav-text">匹配字符组本身</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#案例"><span class="nav-number">8.3.</span> <span class="nav-text">案例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#IPV4"><span class="nav-number">8.3.1.</span> <span class="nav-text">IPV4</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正则表达式的构建"><span class="nav-number">9.</span> <span class="nav-text">正则表达式的构建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#匹配固定电话-☎️"><span class="nav-number">9.1.</span> <span class="nav-text">匹配固定电话 ☎️</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#匹配浮点数"><span class="nav-number">9.2.</span> <span class="nav-text">匹配浮点数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正则表达式编程"><span class="nav-number">10.</span> <span class="nav-text">正则表达式编程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#⚠️-相关API注意要点"><span class="nav-number">10.1.</span> <span class="nav-text">⚠️ 相关API注意要点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#match返回结果的格式问题"><span class="nav-number">10.1.1.</span> <span class="nav-text">match返回结果的格式问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#exec比match更🐂🍺"><span class="nav-number">10.1.2.</span> <span class="nav-text">exec比match更🐂🍺</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修饰符-g，对exec和test的影响"><span class="nav-number">10.1.3.</span> <span class="nav-text">修饰符 g，对exec和test的影响</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结语"><span class="nav-number">11.</span> <span class="nav-text">结语</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张越</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
