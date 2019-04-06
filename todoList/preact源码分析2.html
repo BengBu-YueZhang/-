@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content=",,,,," />
+
+
+
+
+
+
+
+
+
+
+<meta name="keywords" content="React">
+<meta property="og:type" content="website">
+<meta property="og:title" content="preact源码分析(二)">
+<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/todoList/preact源码分析2.html">
+<meta property="og:site_name" content="新世紀エヴァンゲリオン">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://i.loli.net/2019/03/23/5c95c84e04269.png">
+<meta property="og:image" content="https://unsplash.it/1181/619?random">
+<meta property="og:image" content="https://i.loli.net/2019/03/23/5c95f3b81544c.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/23/5c95f3bb0b492.png">
+<meta property="og:updated_time" content="2019-03-30T11:49:58.410Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="preact源码分析(二)">
+<meta name="twitter:image" content="https://i.loli.net/2019/03/23/5c95c84e04269.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/todoList/preact源码分析2.html"/>
+
+
+
+
+
+  <title>preact源码分析(二) | 新世紀エヴァンゲリオン</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">新世紀エヴァンゲリオン</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">前端小学生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            主页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            时间轴
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+    
+    
+    <div class="post-block page">
+      <header class="post-header">
+
+	<h1 class="post-title" itemprop="name headline">preact源码分析(二)</h1>
+
+
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+        
+        
+          <p><img src="https://i.loli.net/2019/03/23/5c95c84e04269.png" alt="image"></p>
+<a id="more"></a>
+<p><img src="https://unsplash.it/1181/619?random" alt="image"></p>
+<h2 id="src-component-js"><a href="#src-component-js" class="headerlink" title="src/component.js"></a>src/component.js</h2><p>component.js文件中定义了Preact中Component类。因为我们还没有涉及到Diff算法, 所以目前在这里只会介绍文件中的一部分代码, 其余的部分在接下来文章中会得到补充。</p>
+<h3 id="constructor-NaN"><a href="#constructor-NaN" class="headerlink" title="constructor"></a>constructor</h3><p>Component类的定义, Component类中定义了两个参数, props以及context。props为初始化组件的参数, context为父组件的上下文。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">Component</span>(<span class="params">props, context</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">this</span>.props = props</span><br><span class="line">	<span class="keyword">this</span>.context = context</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="setState"><a href="#setState" class="headerlink" title="setState"></a>setState</h3><p>setState方法中会初始化名为”_nextState”的属性。_nextState属性确保了每一次的setState都将在setState内部生成一个浅拷贝的对象。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Component.prototype.setState = <span class="function"><span class="keyword">function</span>(<span class="params">update, callback</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 在第一次初始化组件的时, _nextState为undefined, 所以将执行或语句的后半句</span></span><br><span class="line">  <span class="comment">// this._nextState = assign(&#123;&#125;, this.state), this._nextState将会被初始化</span></span><br><span class="line">	<span class="keyword">let</span> s = (<span class="keyword">this</span>._nextState!==<span class="keyword">this</span>.state &amp;&amp; <span class="keyword">this</span>._nextState) || (<span class="keyword">this</span>._nextState = assign(&#123;&#125;, <span class="keyword">this</span>.state));</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 在这里同React一样setState将会接受两种类型的参数, Object和Function类型</span></span><br><span class="line">  <span class="comment">// 如果是Object类型, 将会执行一层浅拷贝</span></span><br><span class="line">  <span class="comment">// 如果是Function类型, 则会把现在state和props传入函数, 返回的对象将作为执行一层浅拷贝</span></span><br><span class="line">	<span class="keyword">if</span> (<span class="keyword">typeof</span> update!==<span class="string">'function'</span> || (update = update(s, <span class="keyword">this</span>.props))) &#123;</span><br><span class="line">		assign(s, update);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (update==<span class="literal">null</span>) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 如果有setState存在第二个参数, 将会把callback保存到_renderCallbacks的数组中</span></span><br><span class="line">	<span class="keyword">if</span> (callback) <span class="keyword">this</span>._renderCallbacks.push(callback);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 将组件传入处理组件重新渲染(render)的队列中处理</span></span><br><span class="line">	enqueueRender(<span class="keyword">this</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="q"><a href="#q" class="headerlink" title="q"></a>q</h3><p>q定义了一个渲染(render)的队列</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">let</span> q = []</span><br></pre></td></tr></table></figure>
+<h3 id="defer"><a href="#defer" class="headerlink" title="defer"></a>defer</h3><p>defer将会返回一个Promise.resolve()的回调。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> defer = <span class="keyword">typeof</span> <span class="built_in">Promise</span>==<span class="string">'function'</span> ? <span class="built_in">Promise</span>.prototype.then.bind(<span class="built_in">Promise</span>.resolve()) : setTimeout;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">let</span> foo = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">'Hello World'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Promise &#123;&lt;resolved&gt;: "Hello World"&#125;</span></span><br><span class="line">defer(foo)</span><br></pre></td></tr></table></figure>
+<h3 id="enqueueRender"><a href="#enqueueRender" class="headerlink" title="enqueueRender"></a>enqueueRender</h3><p>enqueueRender函数会将需要render的组件push到q队列中。并根据条件判断是否需要渲染组件。</p>
+<p>为什么说setState是一个异步的过程, 可以从这里得到答案, defer将会返回一个Promise.resolve()对象。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">enqueueRender</span>(<span class="params">c</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 只有当_dirty为false时, 并且队列的长度为1的情况下才会处理队列</span></span><br><span class="line">	<span class="keyword">if</span> (!c._dirty &amp;&amp; (c._dirty = <span class="literal">true</span>) &amp;&amp; q.push(c) === <span class="number">1</span>) &#123;</span><br><span class="line">		(options.debounceRendering || defer)(process);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="process"><a href="#process" class="headerlink" title="process"></a>process</h3><p>process函数中将会遍历q队列, 调用forceUpdate方法重新渲染组件。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">process</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> p;</span><br><span class="line">  <span class="comment">// 迭代将会在q队列被清空时结束</span></span><br><span class="line">	<span class="keyword">while</span> ((p=q.pop())) &#123;</span><br><span class="line">		<span class="comment">// 只有当_dirty为true时才会更新组件, forceUpdate方法因为涉及到diff算法的内容这里暂不涉及</span></span><br><span class="line">		<span class="keyword">if</span> (p._dirty) p.forceUpdate(<span class="literal">false</span>)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="render"><a href="#render" class="headerlink" title="render"></a>render</h3><p>render函数接受props和state返回需要更新的Dom树。</p>
+<p>render函数默认Fragment。Fragment在create-element.js中定义为空函数, Fragment可以用来包裹一组节点。具体作用可以参考React中Fragment。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Component.prototype.render = Fragment;</span><br></pre></td></tr></table></figure>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>目前我们简略的概览component文件, 从我们目前已知的内容, 可以总结出以下的内容。</p>
+<p><img src="https://i.loli.net/2019/03/23/5c95f3b81544c.png" alt="image"></p>
+<p><img src="https://i.loli.net/2019/03/23/5c95f3bb0b492.png" alt="image"></p>
+<p><strong>forceUpdate</strong>会在以后的文章中介绍。</p>
+<!-- ### forceUpdate
+
+更新组件。
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Component.prototype.forceUpdate = <span class="function"><span class="keyword">function</span>(<span class="params">callback</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 这里出现了几种我们目前还没有见过的属性, 因为我之前看过了diff方法, 所以在这里将会剧透下这几个私有属性的含义</span></span><br><span class="line">  <span class="comment">// _vnode属性挂载的是组件的虚拟dom</span></span><br><span class="line">  <span class="comment">// _dom属性为挂载_vnode上的对应的dom节点</span></span><br><span class="line">  <span class="comment">// _parentDom为组件需要挂载的父级dom</span></span><br><span class="line">	<span class="keyword">let</span> vnode = <span class="keyword">this</span>._vnode, dom = <span class="keyword">this</span>._vnode._dom, parentDom = <span class="keyword">this</span>._parentDom;</span><br><span class="line">	<span class="keyword">if</span> (parentDom) &#123;</span><br><span class="line">		<span class="keyword">const</span> force = callback!==<span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">let</span> mounts = [];</span><br><span class="line">    <span class="comment">// 通过diff算法, 返回比对后的dom节点</span></span><br><span class="line">		dom = diff(</span><br><span class="line">      dom,</span><br><span class="line">      parentDom,</span><br><span class="line">      vnode,</span><br><span class="line">      vnode,</span><br><span class="line">      <span class="keyword">this</span>._context,</span><br><span class="line">      parentDom.ownerSVGElement!==<span class="literal">undefined</span>,</span><br><span class="line">      <span class="literal">null</span>,</span><br><span class="line">      mounts,</span><br><span class="line">      <span class="keyword">this</span>._ancestorComponent,</span><br><span class="line">      force</span><br><span class="line">    );</span><br><span class="line">		<span class="keyword">if</span> (dom!=<span class="literal">null</span> &amp;&amp; dom.parentNode!==parentDom) &#123;</span><br><span class="line">			parentDom.appendChild(dom);</span><br><span class="line">		&#125;</span><br><span class="line">		commitRoot(mounts, vnode);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (callback) &#123;</span><br><span class="line">    callback();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>–&gt;</p>
+-->
+        
+      </div>
+      
+      
+      
+    </div>
+    
+    
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            作者概述
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="张越" />
+            
+              <p class="site-author-name" itemprop="name">张越</p>
+              <p class="site-description motion-element" itemprop="description">所谓成长，就是经过不断的聚散离合，找到不太会伤害到彼此的距离</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">65</span>
+                  <span class="site-state-item-name">篇文章</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-name">Tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/BengBu-YueZhang" target="_blank" title="我的GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/5460100952/profile?topnav=1&wvr=6" target="_blank" title="我的微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的微博</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#src-component-js"><span class="nav-number">1.</span> <span class="nav-text">src/component.js</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#constructor-NaN"><span class="nav-number">1.1.</span> <span class="nav-text">constructor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#setState"><span class="nav-number">1.2.</span> <span class="nav-text">setState</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#q"><span class="nav-number">1.3.</span> <span class="nav-text">q</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#defer"><span class="nav-number">1.4.</span> <span class="nav-text">defer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#enqueueRender"><span class="nav-number">1.5.</span> <span class="nav-text">enqueueRender</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#process"><span class="nav-number">1.6.</span> <span class="nav-text">process</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#render"><span class="nav-number">1.7.</span> <span class="nav-text">render</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结语"><span class="nav-number">2.</span> <span class="nav-text">结语</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张越</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

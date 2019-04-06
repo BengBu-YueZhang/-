@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content=",,,,," />
+
+
+
+
+
+
+
+
+
+
+<meta name="keywords" content="React">
+<meta property="og:type" content="website">
+<meta property="og:title" content="实现一个属于自己的React框架(一)">
+<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/todoList/实现一个属于自己的React框架1.html">
+<meta property="og:site_name" content="新世紀エヴァンゲリオン">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/30/ADnbY4.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/31/ArgBEq.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/31/ArgdDs.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/31/ArgDU0.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/31/Argauj.jpg">
+<meta property="og:image" content="https://s2.ax1x.com/2019/03/31/Argwbn.jpg">
+<meta property="og:image" content="https://i.loli.net/2019/04/01/5ca1e77df377b.png">
+<meta property="og:updated_time" content="2019-04-05T13:55:17.062Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="实现一个属于自己的React框架(一)">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/03/30/ADnbY4.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/todoList/实现一个属于自己的React框架1.html"/>
+
+
+
+
+
+  <title>实现一个属于自己的React框架(一) | 新世紀エヴァンゲリオン</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">新世紀エヴァンゲリオン</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">前端小学生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            主页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            时间轴
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+    
+    
+    <div class="post-block page">
+      <header class="post-header">
+
+	<h1 class="post-title" itemprop="name headline">实现一个属于自己的React框架(一)</h1>
+
+
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+        
+        
+          <p><img src="https://s2.ax1x.com/2019/03/30/ADnbY4.png" alt="image"></p>
+<a id="more"></a>
+<p><img src="https://s2.ax1x.com/2019/03/31/ArgBEq.jpg" alt="image"></p>
+<p><img src="https://s2.ax1x.com/2019/03/31/ArgdDs.jpg" alt="image"></p>
+<p><img src="https://s2.ax1x.com/2019/03/31/ArgDU0.jpg" alt="image"></p>
+<p><img src="https://s2.ax1x.com/2019/03/31/Argauj.jpg" alt="image"></p>
+<p><img src="https://s2.ax1x.com/2019/03/31/Argwbn.jpg" alt="image"></p>
+<p>3月31日去颐和园转了一圈, 拍的比较满意的几张照片</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文主要参考了<a href="https://github.com/developit/preact" target="_blank" rel="noopener">preact的源码</a></p>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>我们首先搭建开发的环境, 我们选择webpack4。值得注意的是, 因为我们需要解析JSX的语法, 我们需要使用<strong>@babel/plugin-transform-react-jsx</strong>插件。</p>
+<p>@babel/plugin-transform-react-jsx插件会将JSX语法做出以下格式的转换。@babel/plugin-transform-react-jsx默认使用React.createElement, 我们可以通过设置插件的pragma配置项, 修改默认的函数名</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// before</span></span><br><span class="line"><span class="keyword">var</span> profile = &lt;div&gt;</span><br><span class="line">  &lt;img src="avatar.png" className="profile" /&gt;</span><br><span class="line">  &lt;h3&gt;&#123;[user.firstName, user.lastName].join(' ')&#125;&lt;/h3&gt;</span><br><span class="line">&lt;/div&gt;;</span><br><span class="line"></span><br><span class="line">// after</span><br><span class="line">var profile = React.createElement("div", null,</span><br><span class="line">  React.createElement("img", &#123; src: "avatar.png", className: "profile" &#125;),</span><br><span class="line">  React.createElement("h3", null, [user.firstName, user.lastName].join(" "))</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>)</span><br><span class="line"><span class="keyword">const</span> HtmlWebpackPlugin = <span class="built_in">require</span>(<span class="string">'html-webpack-plugin'</span>)</span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>)</span><br><span class="line"><span class="keyword">const</span> HappyPack = <span class="built_in">require</span>(<span class="string">'happypack'</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  devtool: <span class="string">'#cheap-module-eval-source-map'</span>,</span><br><span class="line"></span><br><span class="line">  mode: <span class="string">'development'</span>,</span><br><span class="line"></span><br><span class="line">  target: <span class="string">'web'</span>,</span><br><span class="line"></span><br><span class="line">  entry: &#123;</span><br><span class="line">    main: path.resolve(__dirname, <span class="string">'./example/index.js'</span>)</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  devServer: &#123;</span><br><span class="line">    host: <span class="string">'0.0.0.0'</span>,</span><br><span class="line">    port: <span class="number">8080</span>,</span><br><span class="line">    hot: <span class="literal">true</span></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  resolve: &#123;</span><br><span class="line">    extensions: [<span class="string">'.js'</span>]</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="built_in">module</span>: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.js$/</span>,</span><br><span class="line">        exclude: <span class="regexp">/node_modules/</span>,</span><br><span class="line">        use: <span class="string">'happypack/loader?id=js'</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        test: <span class="regexp">/\.css$/</span>,</span><br><span class="line">        use: [</span><br><span class="line">          &#123;</span><br><span class="line">            loader: <span class="string">'style-loader'</span></span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            loader: <span class="string">'css-loader'</span></span><br><span class="line">          &#125;</span><br><span class="line">        ]</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  plugins: [</span><br><span class="line">    <span class="keyword">new</span> webpack.HotModuleReplacementPlugin(),</span><br><span class="line">    <span class="keyword">new</span> HappyPack(&#123;</span><br><span class="line">      id: <span class="string">'js'</span>,</span><br><span class="line">      threads: <span class="number">4</span>,</span><br><span class="line">      use: [</span><br><span class="line">        &#123;</span><br><span class="line">          loader: <span class="string">'babel-loader'</span>,</span><br><span class="line">          options: &#123;</span><br><span class="line">            presets: [<span class="string">'@babel/preset-env'</span>],</span><br><span class="line">            plugins: [</span><br><span class="line">              <span class="string">'@babel/plugin-syntax-dynamic-import'</span>,</span><br><span class="line">              [</span><br><span class="line">                <span class="string">"@babel/plugin-transform-react-jsx"</span>,</span><br><span class="line">                &#123;</span><br><span class="line">                  pragma: <span class="string">'h'</span></span><br><span class="line">                &#125;</span><br><span class="line">              ]</span><br><span class="line">            ]</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;),</span><br><span class="line">    <span class="keyword">new</span> HtmlWebpackPlugin(&#123;</span><br><span class="line">      template: path.resolve(__dirname, <span class="string">'./public/index.html'</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面是完整的打包配置(如果严格来说, 类库应该单独打包的)。同时我们将@babel/plugin-transform-react-jsx插件, pragma参数设置为”h”。我们在使用的时候, 只需要在文件中引入h函数即可。</p>
+<h2 id="创建VNode"><a href="#创建VNode" class="headerlink" title="创建VNode"></a>创建VNode</h2><p>我们在这里将会实现h方法, h方法的作用是创建一个VNode。根据编译结果可知, h函数的参数如下。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * type为VNode的类型</span></span><br><span class="line"><span class="comment"> * props为VNode的属性</span></span><br><span class="line"><span class="comment"> * childrens为VNode的子节点, 可能用多组子节点, 我们使用es6的rest参数</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">h(type, props, ...childrens)</span><br></pre></td></tr></table></figure>
+<p>VNode本质就是Javascript中对象, 因此h函数只需要返回对应的对象即可。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">createElement</span> (<span class="params">type, props, ...children</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!props) props = &#123;&#125;</span><br><span class="line">  </span><br><span class="line">  props.children = [...children]</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> key = props.key</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (key) &#123;</span><br><span class="line">    <span class="keyword">delete</span> props.key</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> createVNode(type, props, <span class="literal">null</span>, key)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">createVNode</span> (<span class="params">type, props, text, key</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> VNode = &#123;</span><br><span class="line">    type,</span><br><span class="line">    props,</span><br><span class="line">    text,</span><br><span class="line">    key,</span><br><span class="line">    _dom: <span class="literal">null</span>,</span><br><span class="line">    _children: <span class="literal">null</span>,</span><br><span class="line">    _component: <span class="literal">null</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> VNode</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们来使用一下，看一下h函数返回的结果, h函数返回的结果即是虚拟DOM</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; h &#125; <span class="keyword">from</span> <span class="string">'yy-react'</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    &lt;h1&gt;Hello&lt;<span class="regexp">/h1&gt;</span></span><br><span class="line"><span class="regexp">    &lt;h1&gt;World&lt;/</span>h1&gt;</span><br><span class="line">  &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">)</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/04/01/5ca1e77df377b.png" alt="image"></p>
+<h2 id="实现render"><a href="#实现render" class="headerlink" title="实现render"></a>实现render</h2><p>我们可以参考React的render函数的实现, render函数接受两个参数, React元素(VNode)以及container(挂载的DOM)。我们将要把VNode渲染成了真实的DOM节点。</p>
+<p>下面是render函数的实现, 我们在本期还没有来得及实现Diff方法, 读者可以不用关注于这些。</p>
+<p>整体代码的实现，参考(抄)了preact的源码的实现😏。(我还给preact的项目提交了pr😊，不过还没有merge😢)</p>
+<p>👇 <strong>文章的最后是具体实现, 但是一大坨对阅读不是很友好，不想看的可以略过，直接看解说。</strong></p>
+<p>我们首先将视角转向render, render函数里调用里diff函数, 将返回的dom挂载到document中。_prevVNode等属性我们会在以后用到，目前可以忽略。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">render</span> (<span class="params">vnode, root</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> oldVNode = root._prevVNode</span><br><span class="line">  <span class="keyword">let</span> newVNode = root._prevVNode = vnode</span><br><span class="line">  <span class="keyword">let</span> dom = oldVNode ? oldVNode._dom : <span class="literal">null</span></span><br><span class="line">  <span class="keyword">let</span> mounts = []</span><br><span class="line">  <span class="keyword">let</span> newDom = diff(dom, root, newVNode, oldVNode, mounts)</span><br><span class="line">  <span class="keyword">if</span> (newDom) &#123;</span><br><span class="line">    root.appendChild(newDom)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在diff中，我们将对节点类型做出判断, VNode类型可以是普通的节点也可以是组件类型的节点, 我们这里先对普通类型的节点做出处理。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">diff</span> (<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  dom,</span></span></span><br><span class="line"><span class="function"><span class="params">  root,</span></span></span><br><span class="line"><span class="function"><span class="params">  newVNode,</span></span></span><br><span class="line"><span class="function"><span class="params">  oldVNode,</span></span></span><br><span class="line"><span class="function"><span class="params">  mounts,</span></span></span><br><span class="line"><span class="function"><span class="params">  force</span></span></span><br><span class="line"><span class="function"><span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> newType = newVNode.type</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> newType === <span class="string">'function'</span>) &#123;</span><br><span class="line">    <span class="comment">// render component</span></span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    dom = diffElementNodes(</span><br><span class="line">      dom,</span><br><span class="line">      newVNode,</span><br><span class="line">      oldVNode,</span><br><span class="line">      mounts</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  newVNode._dom = dom</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> dom</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们接着将目光转向diffElementNodes函数, 在diffElementNodes函数中我们会根据具体节点类型创建对应的真实的DOM节点。<br>例如文本类型的节点我们使用createTextNode, 而普通类型的我们使用createElement</p>
+<p>因为整个VNode呈现的一种树状结构, 面对树状结构免不了使用递归去遍历每一颗节点。我们这里将创建后dom，作为父节点传入diffChildren函数中(<strong>新创建的节点会append到这个父节点中</strong>)。递归的转换的每一个子节点以及子节点的子节点。</p>
+<p>由此我们也可知道，整个VNode树的渲染的顺序是由外向里的。但是设置VNode的props的顺序则是由里向外的。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">diffElementNodes</span> (<span class="params">dom, newVNode, oldVNode, mounts</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (!dom) &#123;</span><br><span class="line">    dom = newVNode.type === <span class="literal">null</span> ? <span class="built_in">document</span>.createTextNode(newVNode.text) : <span class="built_in">document</span>.createElement(newVNode.type)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  newVNode._dom = dom</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (newVNode.type) &#123;</span><br><span class="line">    <span class="keyword">if</span> (newVNode !== oldVNode) &#123;</span><br><span class="line">      <span class="keyword">let</span> newProps = newVNode.props</span><br><span class="line">      <span class="keyword">let</span> oldProps = oldVNode.props</span><br><span class="line">      <span class="keyword">if</span> (!oldProps) &#123;</span><br><span class="line">        oldProps = &#123;&#125;</span><br><span class="line">      &#125;</span><br><span class="line">      diffChildren(dom, newVNode, oldVNode, mounts)</span><br><span class="line">      diffProps(dom, newProps, oldProps)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> dom</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在diffChildren中, 我们将VNode的子VNode挂载到_children属性上, 遍历每一个子节点, 将子节点带入到diff中, 完成创建的过程</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">diffChildren</span> (<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  root,</span></span></span><br><span class="line"><span class="function"><span class="params">  newParentVNode,</span></span></span><br><span class="line"><span class="function"><span class="params">  oldParentVNode,</span></span></span><br><span class="line"><span class="function"><span class="params">  mounts</span></span></span><br><span class="line"><span class="function"><span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> oldVNode, newVNode, newDom, i, j, index, p, oldChildrenLength</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> newChildren = newParentVNode._children || </span><br><span class="line">                    toChildVNodeArray(newParentVNode.props.children, newParentVNode._children = [])</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; newChildren.length; i++) &#123;</span><br><span class="line">    newVNode = newChildren[i]</span><br><span class="line">    oldVNode = index = <span class="literal">null</span></span><br><span class="line"></span><br><span class="line">    newDom = diff(</span><br><span class="line">      oldVNode ? oldVNode._dom : <span class="literal">null</span>,</span><br><span class="line">      root,</span><br><span class="line">      newVNode,</span><br><span class="line">      oldVNode,</span><br><span class="line">      mounts,</span><br><span class="line">      <span class="literal">null</span></span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (newVNode &amp;&amp; newDom) &#123;</span><br><span class="line">      root.appendChild(newDom)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们在遍历递归完子节点后, 就可以使用diffProps来设置我们的root节点了。我们遍历newProps中的每一个key, 并使用setProperty将props设置到dom上, setProperty中对一些dom属性做了特殊的处理。比如处理了驼峰的css的key, 和数字的value自动添加px等。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">diffProps</span> (<span class="params">dom, newProps, oldProps</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">in</span> newProps) &#123;</span><br><span class="line">    <span class="keyword">if</span> (</span><br><span class="line">      key !==<span class="string">'children'</span> &amp;&amp;</span><br><span class="line">      key!==<span class="string">'key'</span> &amp;&amp;</span><br><span class="line">      (</span><br><span class="line">        !oldProps ||</span><br><span class="line">        ((key === <span class="string">'value'</span> || key === <span class="string">'checked'</span>) ? dom : oldProps)[key] !== newProps[key]</span><br><span class="line">      )</span><br><span class="line">    ) &#123;</span><br><span class="line">			setProperty(dom, key, newProps[key], oldProps[key])</span><br><span class="line">		&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setProperty</span> (<span class="params">dom, name, value, oldValue</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (name === <span class="string">'style'</span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> s = dom.style</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> value === <span class="string">'string'</span>) &#123;</span><br><span class="line">			s.cssText = value</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">if</span> (<span class="keyword">typeof</span> oldValue === <span class="string">'string'</span>) &#123;</span><br><span class="line">        s.cssText = <span class="string">''</span></span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				<span class="keyword">for</span> (<span class="keyword">let</span> i <span class="keyword">in</span> oldValue) &#123;</span><br><span class="line">					<span class="keyword">if</span> (value==<span class="literal">null</span> || !(i <span class="keyword">in</span> value)) &#123;</span><br><span class="line">            s.setProperty(i.replace(CAMEL_REG, <span class="string">'-'</span>), <span class="string">''</span>)</span><br><span class="line">          &#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">let</span> i <span class="keyword">in</span> value) &#123;</span><br><span class="line">				v = value[i];</span><br><span class="line">				<span class="keyword">if</span> (oldValue==<span class="literal">null</span> || v!==oldValue[i]) &#123;</span><br><span class="line">					s.setProperty(i.replace(CAMEL_REG, <span class="string">'-'</span>), <span class="keyword">typeof</span> v===<span class="string">'number'</span> &amp;&amp; IS_NON_DIMENSIONAL.test(i)===<span class="literal">false</span> ? (v + <span class="string">'px'</span>) : v)</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (value == <span class="literal">null</span>) &#123;</span><br><span class="line">    dom.removeAttribute(name)</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> value !== <span class="string">'function'</span>) &#123;</span><br><span class="line">    dom.setAttribute(name, value)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后我们再次回到render函数，render函数最后的会将创建好的dom, append到挂载的dom中完成渲染。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">root.appendChild(newDom)</span><br></pre></td></tr></table></figure>
+<h2 id="完整示例"><a href="#完整示例" class="headerlink" title="完整示例"></a>完整示例</h2><blockquote>
+<p>github的仓库地址将在完成后放出</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// create-element.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">render</span> (<span class="params">vnode, root</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> oldVNode = root._prevVNode</span><br><span class="line">  <span class="keyword">let</span> newVNode = root._prevVNode = vnode</span><br><span class="line">  <span class="keyword">let</span> dom = oldVNode ? oldVNode._dom : <span class="literal">null</span></span><br><span class="line">  <span class="keyword">let</span> mounts = []</span><br><span class="line">  <span class="keyword">let</span> newDom = diff(dom, root, newVNode, oldVNode, mounts)</span><br><span class="line">  <span class="keyword">if</span> (newDom) &#123;</span><br><span class="line">    root.appendChild(newDom)</span><br><span class="line">  &#125;</span><br><span class="line">  runDidMount(mounts, vnode)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// diff.js</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">diff</span> (<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  dom,</span></span></span><br><span class="line"><span class="function"><span class="params">  root,</span></span></span><br><span class="line"><span class="function"><span class="params">  newVNode,</span></span></span><br><span class="line"><span class="function"><span class="params">  oldVNode,</span></span></span><br><span class="line"><span class="function"><span class="params">  mounts,</span></span></span><br><span class="line"><span class="function"><span class="params">  force</span></span></span><br><span class="line"><span class="function"><span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (oldVNode == <span class="literal">null</span> || newVNode == <span class="literal">null</span> || newVNode.type !== oldVNode.type) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!newVNode) <span class="keyword">return</span> <span class="literal">null</span></span><br><span class="line">    dom = <span class="literal">null</span></span><br><span class="line">    oldVNode = &#123;&#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> newType = newVNode.type</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> newType === <span class="string">'function'</span>) &#123;</span><br><span class="line">    <span class="comment">// render component</span></span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    dom = diffElementNodes(</span><br><span class="line">      dom,</span><br><span class="line">      newVNode,</span><br><span class="line">      oldVNode,</span><br><span class="line">      mounts</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  newVNode._dom = dom</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> dom</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">diffElementNodes</span> (<span class="params">dom, newVNode, oldVNode, mounts</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (!dom) &#123;</span><br><span class="line">    dom = newVNode.type === <span class="literal">null</span> ? <span class="built_in">document</span>.createTextNode(newVNode.text) : <span class="built_in">document</span>.createElement(newVNode.type)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  newVNode._dom = dom</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (newVNode.type) &#123;</span><br><span class="line">    <span class="keyword">if</span> (newVNode !== oldVNode) &#123;</span><br><span class="line">      <span class="keyword">let</span> newProps = newVNode.props</span><br><span class="line">      <span class="keyword">let</span> oldProps = oldVNode.props</span><br><span class="line">      <span class="keyword">if</span> (!oldProps) &#123;</span><br><span class="line">        oldProps = &#123;&#125;</span><br><span class="line">      &#125;</span><br><span class="line">      diffChildren(dom, newVNode, oldVNode, mounts)</span><br><span class="line">      diffProps(dom, newProps, oldProps)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> dom</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// diff-children.js</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">diffChildren</span> (<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  root,</span></span></span><br><span class="line"><span class="function"><span class="params">  newParentVNode,</span></span></span><br><span class="line"><span class="function"><span class="params">  oldParentVNode,</span></span></span><br><span class="line"><span class="function"><span class="params">  mounts</span></span></span><br><span class="line"><span class="function"><span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> oldVNode, newVNode, newDom, i, j, index, p, oldChildrenLength</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> newChildren = newParentVNode._children || </span><br><span class="line">                    toChildVNodeArray(newParentVNode.props.children, newParentVNode._children = [])</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; newChildren.length; i++) &#123;</span><br><span class="line">    newVNode = newChildren[i]</span><br><span class="line">    oldVNode = index = <span class="literal">null</span></span><br><span class="line"></span><br><span class="line">    newDom = diff(</span><br><span class="line">      oldVNode ? oldVNode._dom : <span class="literal">null</span>,</span><br><span class="line">      root,</span><br><span class="line">      newVNode,</span><br><span class="line">      oldVNode,</span><br><span class="line">      mounts,</span><br><span class="line">      <span class="literal">null</span></span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (newVNode &amp;&amp; newDom) &#123;</span><br><span class="line">      root.appendChild(newDom)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// diffProps.js</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">diffProps</span> (<span class="params">dom, newProps, oldProps</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">in</span> newProps) &#123;</span><br><span class="line">    <span class="keyword">if</span> (</span><br><span class="line">      key !==<span class="string">'children'</span> &amp;&amp;</span><br><span class="line">      key!==<span class="string">'key'</span> &amp;&amp;</span><br><span class="line">      (</span><br><span class="line">        !oldProps ||</span><br><span class="line">        ((key === <span class="string">'value'</span> || key === <span class="string">'checked'</span>) ? dom : oldProps)[key] !== newProps[key]</span><br><span class="line">      )</span><br><span class="line">    ) &#123;</span><br><span class="line">			setProperty(dom, key, newProps[key], oldProps[key])</span><br><span class="line">		&#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">in</span> oldProps) &#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// diff-props</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">diffProps</span> (<span class="params">dom, newProps, oldProps</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">in</span> newProps) &#123;</span><br><span class="line">    <span class="keyword">if</span> (</span><br><span class="line">      key !==<span class="string">'children'</span> &amp;&amp;</span><br><span class="line">      key!==<span class="string">'key'</span> &amp;&amp;</span><br><span class="line">      (</span><br><span class="line">        !oldProps ||</span><br><span class="line">        ((key === <span class="string">'value'</span> || key === <span class="string">'checked'</span>) ? dom : oldProps)[key] !== newProps[key]</span><br><span class="line">      )</span><br><span class="line">    ) &#123;</span><br><span class="line">			setProperty(dom, key, newProps[key], oldProps[key])</span><br><span class="line">		&#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">in</span> oldProps) &#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setProperty</span> (<span class="params">dom, name, value, oldValue</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (name === <span class="string">'style'</span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> s = dom.style</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> value === <span class="string">'string'</span>) &#123;</span><br><span class="line">			s.cssText = value</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">if</span> (<span class="keyword">typeof</span> oldValue === <span class="string">'string'</span>) &#123;</span><br><span class="line">        s.cssText = <span class="string">''</span></span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				<span class="keyword">for</span> (<span class="keyword">let</span> i <span class="keyword">in</span> oldValue) &#123;</span><br><span class="line">					<span class="keyword">if</span> (value==<span class="literal">null</span> || !(i <span class="keyword">in</span> value)) &#123;</span><br><span class="line">            s.setProperty(i.replace(CAMEL_REG, <span class="string">'-'</span>), <span class="string">''</span>)</span><br><span class="line">          &#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">let</span> i <span class="keyword">in</span> value) &#123;</span><br><span class="line">				v = value[i];</span><br><span class="line">				<span class="keyword">if</span> (oldValue==<span class="literal">null</span> || v!==oldValue[i]) &#123;</span><br><span class="line">					s.setProperty(i.replace(CAMEL_REG, <span class="string">'-'</span>), <span class="keyword">typeof</span> v===<span class="string">'number'</span> &amp;&amp; IS_NON_DIMENSIONAL.test(i)===<span class="literal">false</span> ? (v + <span class="string">'px'</span>) : v)</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (value == <span class="literal">null</span>) &#123;</span><br><span class="line">    dom.removeAttribute(name)</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> value !== <span class="string">'function'</span>) &#123;</span><br><span class="line">    dom.setAttribute(name, value)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p><a href="https://juejin.im/post/5c97599fe51d450f357634fc" target="_blank" rel="noopener">preact源码分析(一)</a></p>
+<p><a href="https://juejin.im/post/5c9759cef265da611256430c" target="_blank" rel="noopener">preact源码分析(二)</a></p>
+<p><a href="https://juejin.im/post/5c975a1e6fb9a07107193af1" target="_blank" rel="noopener">preact源码分析(三)</a></p>
+<p><a href="https://juejin.im/post/5c9a36316fb9a070f03d083e" target="_blank" rel="noopener">preact源码分析(四)</a></p>
+<p><a href="https://juejin.im/post/5c9f7e126fb9a05e58493f9f" target="_blank" rel="noopener">preact源码分析(五)</a></p>
+
+        
+      </div>
+      
+      
+      
+    </div>
+    
+    
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            作者概述
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="张越" />
+            
+              <p class="site-author-name" itemprop="name">张越</p>
+              <p class="site-description motion-element" itemprop="description">所谓成长，就是经过不断的聚散离合，找到不太会伤害到彼此的距离</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">65</span>
+                  <span class="site-state-item-name">篇文章</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-name">Tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/BengBu-YueZhang" target="_blank" title="我的GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/5460100952/profile?topnav=1&wvr=6" target="_blank" title="我的微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的微博</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#准备工作"><span class="nav-number">2.</span> <span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建VNode"><span class="nav-number">3.</span> <span class="nav-text">创建VNode</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现render"><span class="nav-number">4.</span> <span class="nav-text">实现render</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#完整示例"><span class="nav-number">5.</span> <span class="nav-text">完整示例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#其他"><span class="nav-number">5.1.</span> <span class="nav-text">其他</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张越</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
