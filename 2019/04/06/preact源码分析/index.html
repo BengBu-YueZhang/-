@@ -87,8 +87,9 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://unsplash.it/979/612?random">
 <meta property="og:image" content="https://calendar.perfplanet.com/wp-content/uploads/2013/12/vjeux/1.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/08/5caaee5c9cd4c.png">
 <meta property="og:image" content="https://i.loli.net/2019/04/06/5ca88be74abba.jpg">
-<meta property="og:updated_time" content="2019-04-08T04:50:39.029Z">
+<meta property="og:updated_time" content="2019-04-08T07:21:00.647Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="preact源码分析">
 <meta name="twitter:image" content="https://unsplash.it/979/612?random">
@@ -107,7 +108,7 @@
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     duoshuo: {
       userId: '0',
-      author: 'Penulis'
+      author: 'Author'
     },
     algolia: {
       applicationID: '',
@@ -187,7 +188,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Beranda
+            主页
           </a>
         </li>
       
@@ -197,7 +198,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
-            Tags
+            标签
           </a>
         </li>
       
@@ -207,7 +208,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Arsip
+            时间轴
           </a>
         </li>
       
@@ -271,7 +272,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Diposting di</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-06T23:00:00+08:00">
                 2019-04-06
@@ -341,6 +342,7 @@
 <p>基类的render方法本身是一个空函数, 需要继承的子类自己具体实现。</p>
 <p>🎉component.js的模块的部分内容，我们已经介绍完成了, 同样不是很复杂。component.js的模块的其他的内容因为涉及了setState异步更新队列，所以我们将在setState一节中。回过头来介绍它。</p>
 <h2 id="diff算法"><a href="#diff算法" class="headerlink" title="diff算法"></a>diff算法</h2><p><img src="https://calendar.perfplanet.com/wp-content/uploads/2013/12/vjeux/1.png" alt="image"></p>
+<p><img src="https://i.loli.net/2019/04/08/5caaee5c9cd4c.png" alt="image"></p>
 <p>ps: 👆我们只需要比较同级的节点(相同颜色框内的), 如果两个节点type不一致, 我们会销毁当前的节点。不进行比较子节点的操作。</p>
 <p>在preact中diff算法以及真实dom的更新和渲染是杂糅在一起的。所以本节内容会比较多。</p>
 <p>preact会存储上一次的渲染的VNode(<strong>存储在_prevVNode的私有属性上</strong>)。而本次渲染过程中我们会比较本次的VNode上前一次的_prevVNode。判断是否需要生成新的Dom, 卸载Dom的操作, 更新真实dom的操作(<strong>我们将VNode对应的真实的dom存储在VNode的私有属性_dom, 可以实现在diff的过程中更新dom的操作</strong>)。</p>
@@ -370,8 +372,9 @@
 <p>在diffChildren中，我们会首先通过toChildArray函数将子节点以数组的形式存储在_children属性上。</p>
 <p>childDom为第一个子节点真实的dom(<strong>这很有用, 我们在后面将通过它来判断是使用appendChild插入newDom还是使用insertBefore插入newDom，或者什么都不做</strong>)</p>
 <p>接下来遍历_children属性。如果VNode有key属性, 则找到key与key相等的旧的VNode。如果没有key, 则找到最近的type相等的旧的VNode。然后将oldChildren对应的位置设置null, 避免重复的查找。使用diff算法对比, 新旧VNode。返回新的dom。</p>
-<p>如果childDom为null, 则将新dom, append的到父DOM中。如果找到了与新的dom相等的dom(引用类型), 我们则不做任何处理(props已经在diffElementNode中更新了)。如果在childDom的nextSibling没有找到和新的dom相等的dom, 我们将dom插入childDom的前面。接着更新childom。</p>
-<p>遍历剩余没有使用到oldChildren, 卸载这些节点或者组件。</p>
+<p><strong>如果childDom为null。只会在两种情况下出现，第一种可能是第一次渲染oldChildren尚不存在，第二种可能是我们已经比较到了列表最后的位置childDom已经为null。这两种情况都是则将diff返回的dom, append的到父DOM中。</strong></p>
+<p><strong>如果childDom不为null, 我们先查找childDom后面的dom是否存在与newDom相等的dom。如果存在我们不去做任何处理(dom属性相关的变更已经在diffElementNode完成了)。如果我们在childDom后面没有找到与newDom相等的dom，则说明列表不存在newDom，我们将插入到childDom的前面</strong></p>
+<p>下面遍历剩余没有使用到oldChildren, 卸载这些节点或者组件。</p>
 <h2 id="异步setState"><a href="#异步setState" class="headerlink" title="异步setState"></a>异步setState</h2><p>preact除了使用diff算法减少dom操作优化性能外, preact会将一段时间内的多次setState合并减少组件渲染的次数。</p>
 <p>我们首先在setState中, 并没有直接更新state, 或者直接重新渲染函数函数。而是将组件的实例带入到了enqueueRender函数中。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Component.prototype.setState = <span class="function"><span class="keyword">function</span>(<span class="params">update, callback</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">let</span> s = (<span class="keyword">this</span>._nextState!==<span class="keyword">this</span>.state &amp;&amp; <span class="keyword">this</span>._nextState) || (<span class="keyword">this</span>._nextState = assign(&#123;&#125;, <span class="keyword">this</span>.state));</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (<span class="keyword">typeof</span> update!==<span class="string">'function'</span> || (update = update(s, <span class="keyword">this</span>.props))) &#123;</span><br><span class="line">		assign(s, update);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (update==<span class="literal">null</span>) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (<span class="keyword">this</span>._vnode) &#123;</span><br><span class="line">		<span class="keyword">if</span> (callback) <span class="keyword">this</span>._renderCallbacks.push(callback);</span><br><span class="line">		enqueueRender(<span class="keyword">this</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
@@ -434,8 +437,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/04/11/vuerouter/" rel="prev" title="VueRouter源码分析">
-                VueRouter源码分析 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/04/11/vuerouter/" rel="prev" title="VueRouter源码分析(临时笔记📒)">
+                VueRouter源码分析(临时笔记📒) <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -490,10 +493,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Daftar Isi
+            Table of Contents
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Ikhtisar
+            Overview
           </li>
         </ul>
       
@@ -518,7 +521,7 @@
                 <a href="/archives/">
               
                   <span class="site-state-item-count">64</span>
-                  <span class="site-state-item-name">posting</span>
+                  <span class="site-state-item-name">篇博文</span>
                 </a>
               </div>
             
@@ -617,7 +620,7 @@
 
 
 
-  <div class="theme-info">Tema &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
 
 
 
