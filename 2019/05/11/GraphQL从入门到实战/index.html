@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Node," />
+
+
+
+
+
+
+
+
+
+
+<meta name="keywords" content="Node">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GraphQL从入门到实战">
+<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2019/05/11/GraphQL从入门到实战/index.html">
+<meta property="og:site_name" content="新世紀エヴァンゲリオン">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://unsplash.it/1380/928?random">
+<meta property="og:image" content="https://raw.githubusercontent.com/apollographql/apollo-server/HEAD/docs/source/images/index-diagram.svg?sanitize=true">
+<meta property="og:image" content="https://i.loli.net/2019/04/27/5cc4450965029.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/10/5cd5283df20d8.png">
+<meta property="og:updated_time" content="2019-05-11T08:37:55.434Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="GraphQL从入门到实战">
+<meta name="twitter:image" content="https://unsplash.it/1380/928?random">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/2019/05/11/GraphQL从入门到实战/"/>
+
+
+
+
+
+  <title>GraphQL从入门到实战 | 新世紀エヴァンゲリオン</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">新世紀エヴァンゲリオン</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">前端小学生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Accueil
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://bengbu-yuezhang.github.io/yue.github.io/2019/05/11/GraphQL从入门到实战/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张越">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新世紀エヴァンゲリオン">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">GraphQL从入门到实战</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posté le</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-11T04:30:00+08:00">
+                2019-05-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://unsplash.it/1380/928?random" alt="image"></p>
+<a id="more"></a>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>本来这篇文章准备51假期期间就发出来的，但是因为自己的笔记本电脑出了一点问题，所以拖到了现在😂。为了大家更好的学习GraphQL，我写一个前后端的GraphQL的Demo，包含了登陆，增加数据，获取数据一些常见的操作。前端使用了Vue和TypeScript，后端使用的是Koa和GraphQL。</p>
+<p>这个是预览的地址: <a href="http://gqldemo.bengbuzhangyue.xyz/" target="_blank" rel="noopener">GraphQLDeom</a> 默认用户root，密码root</p>
+<p>这个是源码的地址: <a href="https://github.com/BengBu-YueZhang/learn-graphql" target="_blank" rel="noopener">learn-graphql</a></p>
+<h1 id="GraphQL入门以及相关概念"><a href="#GraphQL入门以及相关概念" class="headerlink" title="GraphQL入门以及相关概念"></a>GraphQL入门以及相关概念</h1><h2 id="什么是GraphQL"><a href="#什么是GraphQL" class="headerlink" title="什么是GraphQL?"></a>什么是GraphQL?</h2><p>按照官方文档中给出的定义, <strong>“GraphQL 既是一种用于 API 的查询语言也是一个满足你数据查询的运行时。 GraphQL 对你的 API 中的数据提供了一套易于理解的完整描述，使得客户端能够准确地获得它需要的数据，而且没有任何冗余，也让 API 更容易地随着时间推移而演进，还能用于构建强大的开发者工具”</strong>。但是我在使用之后发现，gql需要后端做的太多了，类型系统对于前端很美好，但是对于后端来说可能意味着多次的数据库查询。虽然gql实现了http请求上的优化，但是后端io的性能也应当是我们所考虑的。</p>
+<h2 id="查询和变更"><a href="#查询和变更" class="headerlink" title="查询和变更"></a>查询和变更</h2><p>GraphQL中操作类型主要分为查询和变更（还有subscription订阅），分别对应query，mutation关键字。query，mutation的操作名称operation name是可以省略的。但是添加操作名称可以避免歧义。操作可以传递不同的参数，例如getHomeInfo中分页参数，AddNote中笔记的属性参数。下文中，我们主要对query和mutation进行展开。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">query getHomeInfo &#123;</span><br><span class="line">  users(pagestart: $&#123;pagestart&#125;, <span class="attr">pagesize</span>: $&#123;pagesize&#125;) &#123;</span><br><span class="line">    data &#123;</span><br><span class="line">      id</span><br><span class="line">      name</span><br><span class="line">      createDate</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">mutation AddNote &#123;</span><br><span class="line">  addNote(note: &#123;</span><br><span class="line">    title: <span class="string">"$&#123;title&#125;"</span>,</span><br><span class="line">    detail: <span class="string">"$&#123;detail&#125;"</span>,</span><br><span class="line">    uId: <span class="string">"$&#123;uId&#125;"</span></span><br><span class="line">  &#125;) &#123;</span><br><span class="line">    code</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Schema"><a href="#Schema" class="headerlink" title="Schema"></a>Schema</h2><p>全称Schema Definition Language。GraphQL实现了一种可读的模式语法，SDL和JavaScript类似，这种语法必须存储为String格式。我们需要区分GraphQL Schema和Mongoose Schema的区别。GraphQL Schema声明了返回的数据和结构。Mongoose Schema则声明了数据存储结构。</p>
+<h3 id="类型系统"><a href="#类型系统" class="headerlink" title="类型系统"></a>类型系统</h3><h4 id="标量类型"><a href="#标量类型" class="headerlink" title="标量类型"></a>标量类型</h4><p>GraphQL提供了一些默认的标量类型, Int, Float, String, Boolean, ID。GraphQL支持自定义标量类型，我们会在后面介绍到。</p>
+<h4 id="对象类型"><a href="#对象类型" class="headerlink" title="对象类型"></a>对象类型</h4><p>对象类型是Schema中最常见的类型，允许嵌套和循环引用</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">type TypeName &#123;</span><br><span class="line">  fieldA: <span class="built_in">String</span></span><br><span class="line">  fieldB: <span class="built_in">Boolean</span></span><br><span class="line">  fieldC: Int</span><br><span class="line">  fieldD: CustomType</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="查询类型"><a href="#查询类型" class="headerlink" title="查询类型"></a>查询类型</h4><p>查询类型用于获取数据，类似REST GET。Query是Schema的起点，是根级类型之一，Query描述了我们可以获取的数据。下面的例子中定义了两种查询，getBooks，getAuthors。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">type Query &#123;</span><br><span class="line">  getBooks: [Book]</span><br><span class="line">  getAuthors: [Author]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>getBooks，获取book列表</li>
+<li>getAuthors，获取作者的列表</li>
+</ul>
+<p>传统的REST API如果要获取两个列表需要发起两次http请求, 但是在gql中允许在一次请求中同时查询。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">query &#123;</span><br><span class="line">  getBooks &#123;</span><br><span class="line">    title</span><br><span class="line">  &#125;</span><br><span class="line">  getAuthors &#123;</span><br><span class="line">    name</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="突变类型"><a href="#突变类型" class="headerlink" title="突变类型"></a>突变类型</h4><p>突变类型类似与REST API中POST，PUT，DELETE。与查询类型类似，Mutation是所有指定数据操作的起点。下面的例子中定义了addBook mutation。它接受两个参数title，author均为String类型，mutation将会返回Book类型的结果。如果突变或者查询需要对象作为参数，我们则需要定义输入类型。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">type Mutation &#123;</span><br><span class="line">  addBook(title: <span class="built_in">String</span>, <span class="attr">author</span>: <span class="built_in">String</span>): Book</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>下面的突变操作中会在添加操作后，返回书的标题和作者的姓名</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">mutation &#123;</span><br><span class="line">  addBook(title: <span class="string">"Fox in Socks"</span>, <span class="attr">author</span>: <span class="string">"Dr. Seuss"</span>) &#123;</span><br><span class="line">    title</span><br><span class="line">    author &#123;</span><br><span class="line">      name</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="输入类型"><a href="#输入类型" class="headerlink" title="输入类型"></a>输入类型</h4><p>输入类型允许将对象作为参数传递给Query和Mutation。输入类型为普通的对象类型，使用input关键字进行定义。当不同参数需要完全相同的参数的时候，也可以使用输入类型。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">input PostAndMediaInput &#123;</span><br><span class="line">  title: <span class="built_in">String</span></span><br><span class="line">  body: <span class="built_in">String</span></span><br><span class="line">  mediaUrls: [<span class="built_in">String</span>]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type Mutation &#123;</span><br><span class="line">  createPost(post: PostAndMediaInput): Post</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="如何描述类型？（注释）"><a href="#如何描述类型？（注释）" class="headerlink" title="如何描述类型？（注释）"></a>如何描述类型？（注释）</h4><p>Scheam中支持多行文本和单行文本的注释风格</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">type MyObjectType &#123;</span><br><span class="line">  <span class="string">""</span><span class="string">"</span></span><br><span class="line"><span class="string">  Description</span></span><br><span class="line"><span class="string">  Description</span></span><br><span class="line"><span class="string">  "</span><span class="string">""</span></span><br><span class="line"></span><br><span class="line">  myField: <span class="built_in">String</span>!</span><br><span class="line"></span><br><span class="line">  otherField(</span><br><span class="line">    <span class="string">"Description"</span></span><br><span class="line">    arg: Int</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="🌟自定义标量类型"><a href="#🌟自定义标量类型" class="headerlink" title="🌟自定义标量类型"></a>🌟自定义标量类型</h4><p>如何自定义标量类型？我们将下面的字符串添加到Scheam的字符串中。MyCustomScalar是我们自定义标量的名称。然后需要在 resolver中传递<a href="http://graphql.cn/graphql-js/language/#parsevalue" target="_blank" rel="noopener">GraphQLScalarType</a>的实例，自定义标量的行为。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">scalar MyCustomScalar</span><br></pre></td></tr></table></figure>
+<p>我们来看下把Date类型作为标量的例子。首先在Scheam中添加Date标量</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> typeDefs = gql<span class="string">`</span></span><br><span class="line"><span class="string">  scalar Date</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  type MyType &#123;</span></span><br><span class="line"><span class="string">    created: Date</span></span><br><span class="line"><span class="string">  &#125;</span></span><br><span class="line"><span class="string">`</span></span><br></pre></td></tr></table></figure>
+<p>接下来需要在resolvers解释器中定义标量的行为。坑爹的是文档中只是简单的给出了示例，并没有解释一些参数的具体作用。我在<a href="https://stackoverflow.com/questions/41510880/whats-the-difference-between-parsevalue-and-parseliteral-in-graphqlscalartype" target="_blank" rel="noopener">stackoverlfow</a>上看到了一个不错的解释。</p>
+<p>serialize是将值发送给客户端的时候，将会调用该方法。parseValue和parseLiteral则是在接受客户端值，调用的方法。parseLiteral则会对Graphql的参数进行处理，参数会被解析转换为AST抽象语法树。parseLitera会接受ast，返回类型的解析值。parseValue则会对变量进行处理。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> &#123; GraphQLScalarType &#125; = <span class="built_in">require</span>(<span class="string">'graphql'</span>)</span><br><span class="line"><span class="keyword">const</span> &#123; Kind &#125; = <span class="built_in">require</span>(<span class="string">'graphql/language'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> resolvers = &#123;</span><br><span class="line">  <span class="built_in">Date</span>: <span class="keyword">new</span> GraphQLScalarType(&#123;</span><br><span class="line">    name: <span class="string">'Date'</span>,</span><br><span class="line">    description: <span class="string">'Date custom scalar type'</span>,</span><br><span class="line">    <span class="comment">// 对来自客户端的值进行处理, 对变量的处理</span></span><br><span class="line">    parseValue(value) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Date</span>(value) </span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// 对返回给客户端的值进行处理</span></span><br><span class="line">    serialize(value) &#123;</span><br><span class="line">      <span class="keyword">return</span> value.getTime()</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// 对来自客户端的值进行处理，对参数的处理</span></span><br><span class="line">    parseLiteral(ast) &#123;</span><br><span class="line">      <span class="keyword">if</span> (ast.kind === Kind.INT) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">parseInt</span>(ast.value, <span class="number">10</span>) </span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">null</span></span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;),</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h4><p>接口是一个抽象类型，包含了一些字段，如果对象类型需要实现这个接口，需要包含这些字段</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">interface Avengers &#123;</span><br><span class="line">  name: <span class="built_in">String</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type Ironman implements Avengers &#123;</span><br><span class="line">  id: ID!</span><br><span class="line">  name: <span class="built_in">String</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="解析器-resolvers"><a href="#解析器-resolvers" class="headerlink" title="解析器 resolvers"></a>解析器 resolvers</h2><p>解析器提供了将gql的操作(查询，突变或订阅)转换为数据的行为，它们会返回我们在Scheam的指定的数据，或者该数据的Promise。解析器拥有四个参数，parent, args, context, info。</p>
+<ul>
+<li>parent，父类型的解析结果</li>
+<li>args，操作的参数</li>
+<li>context，解析器的上下文，包含了请求状态和鉴权信息等</li>
+<li>info，Information about the execution state of the operation which should only be used in advanced cases</li>
+</ul>
+<h3 id="默认解析器"><a href="#默认解析器" class="headerlink" title="默认解析器"></a>默认解析器</h3><p>我们没有为Scheam中所有的字段编写解析器，但是查询依然会成功。gql拥有默认的解析器。如果父对象拥有同名的属性，则不需要为字段编写解释器。它会从上层对象中读取同名的属性。</p>
+<h3 id="类型解析器"><a href="#类型解析器" class="headerlink" title="类型解析器"></a>类型解析器</h3><p>我们可以为Schema中任何字段编写解析器，不仅仅是查询和突变。这也是GraphQL如此灵活的原因。</p>
+<p>下面例子中，我们为性别gender字段单独编写解析器，返回emoji表情。gender解析器的第一个参数是父类型的解析结果。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> typeDefs = gql<span class="string">`</span></span><br><span class="line"><span class="string">  type Query &#123;</span></span><br><span class="line"><span class="string">    users: [User]!</span></span><br><span class="line"><span class="string">  &#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  type User &#123;</span></span><br><span class="line"><span class="string">    id: ID!</span></span><br><span class="line"><span class="string">    gender: Gender</span></span><br><span class="line"><span class="string">    name: String</span></span><br><span class="line"><span class="string">    role: Role</span></span><br><span class="line"><span class="string">  &#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  enum Gender &#123;</span></span><br><span class="line"><span class="string">    MAN</span></span><br><span class="line"><span class="string">    WOMAN</span></span><br><span class="line"><span class="string">  &#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  type Role &#123;</span></span><br><span class="line"><span class="string">    id: ID!</span></span><br><span class="line"><span class="string">    name: String</span></span><br><span class="line"><span class="string">  &#125;</span></span><br><span class="line"><span class="string">`</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> resolves = &#123;</span><br><span class="line">  User: &#123;</span><br><span class="line">    gender(user) &#123;</span><br><span class="line">      <span class="keyword">const</span> &#123; gender &#125; = user</span><br><span class="line">      <span class="keyword">return</span> gender === <span class="string">'MAN'</span> ? <span class="string">'👨'</span> : <span class="string">'👩'</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="ApolloServer"><a href="#ApolloServer" class="headerlink" title="ApolloServer"></a>ApolloServer</h1><h2 id="什么是ApolloServer？"><a href="#什么是ApolloServer？" class="headerlink" title="什么是ApolloServer？"></a>什么是ApolloServer？</h2><p><img src="https://raw.githubusercontent.com/apollographql/apollo-server/HEAD/docs/source/images/index-diagram.svg?sanitize=true" alt="image"></p>
+<p>ApolloServer是一个开源的GraphQL框架，在ApolloServer 2中。ApolloServer可以单独的作为服务器，同时ApolloServer也可以作为Express，Koa等Node框架的插件</p>
+<h3 id="快速构建"><a href="#快速构建" class="headerlink" title="快速构建"></a>快速构建</h3><p>就像我们之前所说的一样。在ApolloServer2中，ApolloServer可以单独的构建一个GraphQL服务器（具体可以参考Apollo的文档）。但是我在个人的demo项目中，考虑到了社区活跃度以及中间件的丰富度，最终选择了Koa2作为开发框架，ApolloServer作为插件使用。下面是Koa2与Apollo构建服务的简单示例。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> Koa = <span class="built_in">require</span>(<span class="string">'koa'</span>)</span><br><span class="line"><span class="keyword">const</span> &#123; ApolloServer &#125; = <span class="built_in">require</span>(<span class="string">'apollo-server-koa'</span>)</span><br><span class="line"><span class="keyword">const</span> typeDefs = <span class="built_in">require</span>(<span class="string">'./schemas'</span>)</span><br><span class="line"><span class="keyword">const</span> resolvers = <span class="built_in">require</span>(<span class="string">'./resolvers'</span>)</span><br><span class="line"><span class="keyword">const</span> app = <span class="keyword">new</span> Koa()</span><br><span class="line"><span class="keyword">const</span> mode = process.env.mode</span><br><span class="line"></span><br><span class="line"><span class="comment">// KOA的中间件</span></span><br><span class="line">app.use(bodyparser())</span><br><span class="line">app.use(response())</span><br><span class="line"></span><br><span class="line"><span class="comment">// 初始化REST的路由</span></span><br><span class="line">initRouters()</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建apollo的实例</span></span><br><span class="line"><span class="keyword">const</span> server = <span class="keyword">new</span> ApolloServer(&#123;</span><br><span class="line">  <span class="comment">// Schema</span></span><br><span class="line">  typeDefs,</span><br><span class="line">  <span class="comment">// 解析器</span></span><br><span class="line">  resolvers,</span><br><span class="line">  <span class="comment">// 上下文对象</span></span><br><span class="line">  context: <span class="function">(<span class="params">&#123; ctx &#125;</span>) =&gt;</span> (&#123;</span><br><span class="line">    auth: ctx.req.headers[<span class="string">'x-access-token'</span>]</span><br><span class="line">  &#125;),</span><br><span class="line">  <span class="comment">// 数据源</span></span><br><span class="line">  dataSources: <span class="function"><span class="params">()</span> =&gt;</span> initDatasource(),</span><br><span class="line">  <span class="comment">// 内省</span></span><br><span class="line">  introspection: mode === <span class="string">'develop'</span> ? <span class="literal">true</span> : <span class="literal">false</span>,</span><br><span class="line">  <span class="comment">// 对错误信息的处理</span></span><br><span class="line">  formatError: <span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> err</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">server.applyMiddleware(&#123; app, <span class="attr">path</span>: config.URL.graphql &#125;)</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = app.listen(config.URL.port)</span><br></pre></td></tr></table></figure>
+<h3 id="构建Schema"><a href="#构建Schema" class="headerlink" title="构建Schema"></a>构建Schema</h3><p>从ApolloServer中导出gql函数。并通过gql函数，创建typeDefs。typeDefs就是我们所说的SDL。typeDefs中包含了gql中所有的数据类型，以及查询和突变。可以视为所有数据类型及其关系的蓝图。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123; gql &#125; = <span class="built_in">require</span>(<span class="string">'apollo-server-koa'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> typeDefs = gql<span class="string">`</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  type Query &#123;</span></span><br><span class="line"><span class="string">    # 会返回User的数组</span></span><br><span class="line"><span class="string">    # 参数是pagestart，pagesize</span></span><br><span class="line"><span class="string">    users(pagestart: Int = 1, pagesize: Int = 10): [User]!</span></span><br><span class="line"><span class="string">  &#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  type Mutation &#123;</span></span><br><span class="line"><span class="string">    # 返回新添加的用户</span></span><br><span class="line"><span class="string">    addUser(user: User): User!</span></span><br><span class="line"><span class="string">  &#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  type User &#123;</span></span><br><span class="line"><span class="string">    id: ID!</span></span><br><span class="line"><span class="string">    name: String</span></span><br><span class="line"><span class="string">    password: String</span></span><br><span class="line"><span class="string">    createDate: Date</span></span><br><span class="line"><span class="string">  &#125;</span></span><br><span class="line"><span class="string">`</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = typeDefs</span><br></pre></td></tr></table></figure>
+<p>由于我们需要把所有数据类型，都写在一个Schema的字符串中。如果把这些数据类型都在放在一个文件内，对未来的维护工作是一个障碍。我们可以借助<strong>merge-graphql-schemas</strong>，将schema进行拆分。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> &#123; mergeTypes &#125; = <span class="built_in">require</span>(<span class="string">'merge-graphql-schemas'</span>)</span><br><span class="line"><span class="comment">// 多个不同的Schema</span></span><br><span class="line"><span class="keyword">const</span> NoteSchema = <span class="built_in">require</span>(<span class="string">'./note.schema'</span>)</span><br><span class="line"><span class="keyword">const</span> UserSchema = <span class="built_in">require</span>(<span class="string">'./user.schema'</span>)</span><br><span class="line"><span class="keyword">const</span> CommonSchema = <span class="built_in">require</span>(<span class="string">'./common.schema'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> schemas = [</span><br><span class="line">  NoteSchema,</span><br><span class="line">  UserSchema,</span><br><span class="line">  CommonSchema</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="comment">// 对Schema进行合并</span></span><br><span class="line"><span class="built_in">module</span>.exports = mergeTypes(schemas, &#123; <span class="attr">all</span>: <span class="literal">true</span> &#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="连接数据源"><a href="#连接数据源" class="headerlink" title="连接数据源"></a>连接数据源</h3><p><img src="https://i.loli.net/2019/04/27/5cc4450965029.png" alt="image"></p>
+<p>我们在构建Scheam后，需要将<strong>数据源</strong>连接到Scheam API上。在我的demo示例中，我将GraphQL API分层到REST API的上面（相当于对REST API做了聚合）。Apollo的数据源，封装了所有数据的存取逻辑。在数据源中，可以直接对数据库进行操作，也可以通过REST API进行请求。我们接下来看看如何构建一个REST API的数据源。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 安装apollo-datasource-rest</span></span><br><span class="line"><span class="comment">// npm install apollo-datasource-rest </span></span><br><span class="line"><span class="keyword">const</span> &#123; RESTDataSource &#125; = <span class="built_in">require</span>(<span class="string">'apollo-datasource-rest'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 数据源继承RESTDataSource</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UserAPI</span> <span class="keyword">extends</span> <span class="title">RESTDataSource</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>() &#123;</span><br><span class="line">    <span class="keyword">super</span>()</span><br><span class="line">    <span class="comment">// baseURL是基础的API路径</span></span><br><span class="line">    <span class="keyword">this</span>.baseURL = <span class="string">`http://127.0.0.1:<span class="subst">$&#123;config.URL.port&#125;</span>/user/`</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 获取用户列表的方法</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="keyword">async</span> getUsers (params, auth) &#123;</span><br><span class="line">    <span class="comment">// 在服务内部发起一个http请求，请求地址 baseURL + users</span></span><br><span class="line">    <span class="comment">// 我们会在KoaRouter中处理这个请求</span></span><br><span class="line">    <span class="keyword">let</span> &#123; data &#125; = <span class="keyword">await</span> <span class="keyword">this</span>.get(<span class="string">'users'</span>, params, &#123;</span><br><span class="line">      headers: &#123;</span><br><span class="line">        <span class="string">'x-access-token'</span>: auth</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    data = <span class="built_in">Array</span>.isArray(data) ? data.map(<span class="function"><span class="params">user</span> =&gt;</span> <span class="keyword">this</span>.userReducer(user)) : []</span><br><span class="line">    <span class="comment">// 返回格式化的数据</span></span><br><span class="line">    <span class="keyword">return</span> data</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 对用户数据进行格式化的方法</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  userReducer (user) &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; id, name, password, createDate &#125; = user</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      id,</span><br><span class="line">      name,</span><br><span class="line">      password,</span><br><span class="line">      createDate</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = UserAPI</span><br></pre></td></tr></table></figure>
+<p>现在一个数据源就构建完成了，很简单吧😊。我们接下来将数据源添加到ApolloServer上。以后我们可以在解析器Resolve中获取使用数据源。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> server = <span class="keyword">new</span> ApolloServer(&#123;</span><br><span class="line">  typeDefs,</span><br><span class="line">  resolvers,</span><br><span class="line">  context: <span class="function">(<span class="params">&#123; ctx &#125;</span>) =&gt;</span> (&#123;</span><br><span class="line">    auth: ctx.req.headers[<span class="string">'x-access-token'</span>]</span><br><span class="line">  &#125;),</span><br><span class="line">  <span class="comment">// 添加数据源</span></span><br><span class="line">  dataSources: <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    UserAPI: <span class="keyword">new</span> UserAPI()</span><br><span class="line">  &#125;,</span><br><span class="line">  introspection: mode === <span class="string">'develop'</span> ? <span class="literal">true</span> : <span class="literal">false</span>,</span><br><span class="line">  formatError: <span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> err</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="编写resolvers"><a href="#编写resolvers" class="headerlink" title="编写resolvers"></a>编写resolvers</h3><p>目前我们还不能运行查询或者变更。我们现在需要编写解析器。在之前的介绍中，我们知道了解析器<strong>提供了将gql的操作(查询，突变或订阅)转换为数据的行为</strong>。解析器主要分为三种，查询解析器，突变解析器，类型解析器。下面是一个查询解析器和突变解析器的示例，它分别位于解析器对象的Query字段，Mutation字段中。因为是根解析器，所以第一个parent为空。第二个参数，是查询或变更传递给我们的参数。第三个参数则是我们apollo的上下文context对象，我们可以<strong>从上下文对象上拿到之前我们添加的数据源</strong>。解析器需要返回符合Scheam模式的数据，或者该数据的Promise。突变解析器，查询解析器中的字段应当和Scheam中的查询类型，突变类型的字段是对应的。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="comment">// 查询解析器</span></span><br><span class="line">  Query: &#123;</span><br><span class="line">    users (_, &#123; pagestart, pagesize &#125;, &#123; dataSources, auth &#125;) &#123;</span><br><span class="line">      <span class="comment">// 调用UserAPI数据源的getUsers方法, 返回User的数组</span></span><br><span class="line">      <span class="keyword">return</span> dataSources.UserAPI.getUsers(&#123;</span><br><span class="line">        pagestart,</span><br><span class="line">        pagesize</span><br><span class="line">      &#125;, auth)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">// 突变解析器</span></span><br><span class="line">  Mutation: &#123;</span><br><span class="line">    <span class="comment">// 调用UserAPI数据源的addUser方法</span></span><br><span class="line">    addUser (_, &#123; user &#125;, &#123; dataSources, auth &#125;) &#123;</span><br><span class="line">      <span class="keyword">return</span> dataSources.UserAPI.addUser(user, auth)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们接着将解析器连接到AppleServer中。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> server = <span class="keyword">new</span> ApolloServer(&#123;</span><br><span class="line">  <span class="comment">// Schema</span></span><br><span class="line">  typeDefs,</span><br><span class="line">  <span class="comment">// 解析器</span></span><br><span class="line">  resolvers,</span><br><span class="line">  <span class="comment">// 添加数据源</span></span><br><span class="line">  dataSources: <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    UserAPI: <span class="keyword">new</span> UserAPI()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>好了到了目前为止，graphql这一层我们基本完善了，我们的graphql层最终会在数据源中调用REST API接口。接下来的操作就是传统的MVC的那一套。相信熟悉Koa或者Express的小伙伴一定都很熟悉。如果有不熟悉的小伙伴，可以参阅<a href="https://github.com/BengBu-YueZhang/learn-graphql/tree/todo-list/server" target="_blank" rel="noopener">源码</a>中routes文件夹以及controller文件夹。下面一个请求的流程图。</p>
+<p><img src="https://i.loli.net/2019/05/10/5cd5283df20d8.png" alt="image"></p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><h3 id="关于鉴权"><a href="#关于鉴权" class="headerlink" title="关于鉴权"></a>关于鉴权</h3><p>关于鉴权Apollo提供了多种<a href="https://www.apollographql.com/docs/apollo-server/features/authentication" target="_blank" rel="noopener">解决方案</a>。</p>
+<h4 id="Schema鉴权"><a href="#Schema鉴权" class="headerlink" title="Schema鉴权"></a>Schema鉴权</h4><p>Schema鉴权适用于不对外公共的服务, 这是一种全有或者全无的鉴权方式。如果需要实现这种鉴权只需要修改context</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> server = <span class="keyword">new</span> ApolloServer(&#123;</span><br><span class="line">  context: <span class="function">(<span class="params">&#123; req &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> token = req.headers.authorization || <span class="string">''</span></span><br><span class="line">    <span class="keyword">const</span> user = getUser(token)</span><br><span class="line">    <span class="comment">// 所有的请求都会经过鉴权</span></span><br><span class="line">    <span class="keyword">if</span> (!user) <span class="keyword">throw</span> <span class="keyword">new</span> AuthorizationError(<span class="string">'you must be logged in'</span>);</span><br><span class="line">    <span class="keyword">return</span> &#123; user &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="解析器鉴权"><a href="#解析器鉴权" class="headerlink" title="解析器鉴权"></a>解析器鉴权</h4><p>更多的情况下，我们需要公开一些无需鉴权的API（例如登录接口）。这时我们需要更精细的权限控制，我们可以将权限控制放到解析器中。</p>
+<p>首先将权限信息添加到上下文对象上</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> server = <span class="keyword">new</span> ApolloServer(&#123;</span><br><span class="line">  context: <span class="function">(<span class="params">&#123; ctx &#125;</span>) =&gt;</span> (&#123;</span><br><span class="line">    auth: ctx.req.headers.authorization</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>针对特定的查询或者突变的解析器进行权限控制</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> resolves = &#123;</span><br><span class="line">  Query: &#123;</span><br><span class="line">    users: <span class="function">(<span class="params">parent, args, context</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (!context.auth) <span class="keyword">return</span> []</span><br><span class="line">      <span class="keyword">return</span> [<span class="string">'bob'</span>, <span class="string">'jake'</span>]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="GraphQL之外的授权"><a href="#GraphQL之外的授权" class="headerlink" title="GraphQL之外的授权"></a>GraphQL之外的授权</h4><p>我采用的方案，是在GraphQL之外授权。我会在REST API中使用中间件的形式进行鉴权操作。但是我们需要将request.header中包含的权限信息传递给REST API</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 数据源</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> getUserById (params, auth) &#123;</span><br><span class="line">  <span class="comment">// 将权限信息传递给REST API</span></span><br><span class="line">  <span class="keyword">const</span> &#123; data &#125; = <span class="keyword">await</span> <span class="keyword">this</span>.get(<span class="string">'/'</span>, params, &#123;</span><br><span class="line">    headers: &#123;</span><br><span class="line">      <span class="string">'x-access-token'</span>: auth</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">  data = <span class="keyword">this</span>.userReducer(data)</span><br><span class="line">  <span class="keyword">return</span> data</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// *.router.js</span></span><br><span class="line"><span class="keyword">const</span> Router = <span class="built_in">require</span>(<span class="string">'koa-router'</span>)</span><br><span class="line"><span class="keyword">const</span> router = <span class="keyword">new</span> Router(&#123; <span class="attr">prefix</span>: <span class="string">'/user'</span> &#125;)</span><br><span class="line"><span class="keyword">const</span> UserController = <span class="built_in">require</span>(<span class="string">'../controller/user.controller'</span>)</span><br><span class="line"><span class="keyword">const</span> authentication = <span class="built_in">require</span>(<span class="string">'../middleware/authentication'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 适用鉴权中间件</span></span><br><span class="line">router.get(<span class="string">'/users'</span>, authentication(), UserController.getUsers)</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = router</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// middleware authentication.js</span></span><br><span class="line"><span class="keyword">const</span> jwt = <span class="built_in">require</span>(<span class="string">'jsonwebtoken'</span>)</span><br><span class="line"><span class="keyword">const</span> config = <span class="built_in">require</span>(<span class="string">'../config'</span>)</span><br><span class="line"><span class="keyword">const</span> &#123; promisify &#125; = <span class="built_in">require</span>(<span class="string">'util'</span>)</span><br><span class="line"><span class="keyword">const</span> redisClient = <span class="built_in">require</span>(<span class="string">'../config/redis'</span>)</span><br><span class="line"><span class="keyword">const</span> getAsync = promisify(redisClient.get).bind(redisClient)</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">async</span> <span class="function"><span class="keyword">function</span> (<span class="params">ctx, next</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> token = ctx.headers[<span class="string">'x-access-token'</span>]</span><br><span class="line">    <span class="keyword">let</span> decoded = <span class="literal">null</span></span><br><span class="line">    <span class="keyword">if</span> (token) &#123;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 验证jwt</span></span><br><span class="line">        decoded = <span class="keyword">await</span> jwt.verify(token, config.jwt.secret)</span><br><span class="line">      &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">        ctx.throw(<span class="number">403</span>, <span class="string">'token失效'</span>)</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">const</span> &#123; id &#125; = decoded</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 验证redis存储的jwt</span></span><br><span class="line">        <span class="keyword">await</span> getAsync(id)</span><br><span class="line">      &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">        ctx.throw(<span class="number">403</span>, <span class="string">'token失效'</span>)</span><br><span class="line">      &#125;</span><br><span class="line">      ctx.decoded = decoded</span><br><span class="line">      <span class="comment">// 通过验证</span></span><br><span class="line">      <span class="keyword">await</span> next()</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      ctx.throw(<span class="number">403</span>, <span class="string">'缺少token'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Node/" rel="tag"># Node</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/18/Promise-A/" rel="next" title="自己鼓捣一个Promise">
+                <i class="fa fa-chevron-left"></i> 自己鼓捣一个Promise
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/15/redxucode/" rel="prev" title="redux源码解析">
+                redux源码解析 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table Des Matières
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Ensemble
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="张越" />
+            
+              <p class="site-author-name" itemprop="name">张越</p>
+              <p class="site-description motion-element" itemprop="description">所谓成长，就是经过不断的聚散离合，找到不太会伤害到彼此的距离</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">65</span>
+                  <span class="site-state-item-name">articles</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/BengBu-YueZhang" target="_blank" title="我的GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/5460100952/profile?topnav=1&wvr=6" target="_blank" title="我的微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的微博</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#GraphQL入门以及相关概念"><span class="nav-number">2.</span> <span class="nav-text">GraphQL入门以及相关概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是GraphQL"><span class="nav-number">2.1.</span> <span class="nav-text">什么是GraphQL?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查询和变更"><span class="nav-number">2.2.</span> <span class="nav-text">查询和变更</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Schema"><span class="nav-number">2.3.</span> <span class="nav-text">Schema</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#类型系统"><span class="nav-number">2.3.1.</span> <span class="nav-text">类型系统</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#标量类型"><span class="nav-number">2.3.1.1.</span> <span class="nav-text">标量类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#对象类型"><span class="nav-number">2.3.1.2.</span> <span class="nav-text">对象类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查询类型"><span class="nav-number">2.3.1.3.</span> <span class="nav-text">查询类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#突变类型"><span class="nav-number">2.3.1.4.</span> <span class="nav-text">突变类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#输入类型"><span class="nav-number">2.3.1.5.</span> <span class="nav-text">输入类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如何描述类型？（注释）"><span class="nav-number">2.3.1.6.</span> <span class="nav-text">如何描述类型？（注释）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#🌟自定义标量类型"><span class="nav-number">2.3.1.7.</span> <span class="nav-text">🌟自定义标量类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#接口"><span class="nav-number">2.3.1.8.</span> <span class="nav-text">接口</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解析器-resolvers"><span class="nav-number">2.4.</span> <span class="nav-text">解析器 resolvers</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#默认解析器"><span class="nav-number">2.4.1.</span> <span class="nav-text">默认解析器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类型解析器"><span class="nav-number">2.4.2.</span> <span class="nav-text">类型解析器</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ApolloServer"><span class="nav-number">3.</span> <span class="nav-text">ApolloServer</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是ApolloServer？"><span class="nav-number">3.1.</span> <span class="nav-text">什么是ApolloServer？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#快速构建"><span class="nav-number">3.1.1.</span> <span class="nav-text">快速构建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构建Schema"><span class="nav-number">3.1.2.</span> <span class="nav-text">构建Schema</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#连接数据源"><span class="nav-number">3.1.3.</span> <span class="nav-text">连接数据源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编写resolvers"><span class="nav-number">3.1.4.</span> <span class="nav-text">编写resolvers</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他"><span class="nav-number">3.2.</span> <span class="nav-text">其他</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#关于鉴权"><span class="nav-number">3.2.1.</span> <span class="nav-text">关于鉴权</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Schema鉴权"><span class="nav-number">3.2.1.1.</span> <span class="nav-text">Schema鉴权</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解析器鉴权"><span class="nav-number">3.2.1.2.</span> <span class="nav-text">解析器鉴权</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GraphQL之外的授权"><span class="nav-number">3.2.1.3.</span> <span class="nav-text">GraphQL之外的授权</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张越</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Thème &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
