@@ -91,7 +91,7 @@
 <meta property="og:image" content="https://i.loli.net/2019/04/19/5cb8a16f0fdfe.png">
 <meta property="og:image" content="https://i.loli.net/2019/04/21/5cbbc8e4c1b8a.png">
 <meta property="og:image" content="https://i.loli.net/2019/04/21/5cbbd0359b944.png">
-<meta property="og:updated_time" content="2019-05-11T08:36:12.624Z">
+<meta property="og:updated_time" content="2019-05-11T08:56:53.291Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript忍者秘籍（第2版）阅读摘要">
 <meta name="twitter:image" content="https://unsplash.it/1462/781?random">
@@ -190,7 +190,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Accueil
+            Home
           </a>
         </li>
       
@@ -274,7 +274,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posté le</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-30T20:00:00+08:00">
                 2019-05-30
@@ -321,7 +321,7 @@
 <li style="list-style: none"><input type="checkbox"> JavaScript忍者秘籍（第2版）🔖195页</li>
 <li style="list-style: none"><input type="checkbox"> Node.js实战（第2版）</li>
 </ul>
-<p>今年准备读8本技术书籍。第一本是一本小书《正则表达式迷你书》三天就读完了，收获还是挺大的。这本忍者秘籍是我准备读的第二本。第三本应该是Node.js实战（第2版）。当然读书和学习类库是并行的，接下来想用Koa2 + Graphql + React搭建一个项目。再然后想自己搭建一个SSR的项目。读书写笔记📒，并不是单纯的复读机，书里包含了想对我来说无用的信息，笔记是自己对书的知识的一种总结。本文不会发布到掘金专栏，只会在blog内存档。</p>
+<p>今年准备读8本技术书籍。第一本是一本小书《正则表达式迷你书》三天就读完了，收获还是挺大的。这本忍者秘籍是我准备读的第二本。第三本应该是Node.js实战（第2版）。当然读书和学习类库是并行的，接下来想用Koa2 + Graphql + React搭建一个项目。再然后想自己搭建一个SSR的项目。读书写笔记📒，并不是单纯的复读机，书里包含了对我来说无用的信息，笔记是自己对书的知识的一种总结。</p>
 <h1 id="第二章-运行时页面的构建过程"><a href="#第二章-运行时页面的构建过程" class="headerlink" title="第二章 运行时页面的构建过程"></a>第二章 运行时页面的构建过程</h1><h2 id="2-1-生命周期概览"><a href="#2-1-生命周期概览" class="headerlink" title="2.1 生命周期概览"></a>2.1 生命周期概览</h2><p><img src="https://i.loli.net/2019/04/18/5cb89cfc4d5e5.png" alt="image"></p>
 <h2 id="2-2-页面构建阶段"><a href="#2-2-页面构建阶段" class="headerlink" title="2.2 页面构建阶段"></a>2.2 页面构建阶段</h2><p><img src="https://i.loli.net/2019/04/18/5cb89efccb49f.png" alt="image"></p>
 <ol>
@@ -363,8 +363,7 @@
 <h3 id="3-4-1-剩余参数"><a href="#3-4-1-剩余参数" class="headerlink" title="3.4.1 剩余参数"></a>3.4.1 剩余参数</h3><p>rest parameters, 为函数的最后一个命名参数前加上省略号（…）前缀，这个参数就变成了一个叫作剩余参数的数组，数组内包含着传入的剩余的参数。 </p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">multiMax</span>(<span class="params">first, ...remainingNumbers</span>)</span>&#123;</span><br><span class="line">　<span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="3-4-2-默认参数"><a href="#3-4-2-默认参数" class="headerlink" title="3.4.2 默认参数"></a>3.4.2 默认参数</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 后面的默认参数可以引用前面的默认参数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">performAction</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  ninja,</span></span></span><br><span class="line"><span class="function"><span class="params">  action = <span class="string">"skulking"</span>, </span></span></span><br><span class="line"><span class="function"><span class="params">　message = ninja + <span class="string">" "</span> + action</span></span></span><br><span class="line"><span class="function"><span class="params"></span>) </span>&#123;</span><br><span class="line">　<span class="keyword">return</span> message;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="第四章-函数进阶-理解函数调用"><a href="#第四章-函数进阶-理解函数调用" class="headerlink" title="第四章 函数进阶: 理解函数调用"></a>第四章 函数进阶: 理解函数调用</h1><h2 id="4-1-隐式函数参数"><a href="#4-1-隐式函数参数" class="headerlink" title="4.1 隐式函数参数"></a>4.1 隐式函数参数</h2><h3 id="4-1-1-arguments参数"><a href="#4-1-1-arguments参数" class="headerlink" title="4.1.1 arguments参数"></a>4.1.1 arguments参数</h3><h1 id="书评"><a href="#书评" class="headerlink" title="书评"></a>书评</h1><p>🌟🌟，书看到了200页感觉内容有些流水。评分未来可能会更新。</p>
-
+<h1 id="第四章-函数进阶-理解函数调用"><a href="#第四章-函数进阶-理解函数调用" class="headerlink" title="第四章 函数进阶: 理解函数调用"></a>第四章 函数进阶: 理解函数调用</h1><h2 id="4-1-隐式函数参数"><a href="#4-1-隐式函数参数" class="headerlink" title="4.1 隐式函数参数"></a>4.1 隐式函数参数</h2><h3 id="4-1-1-arguments参数"><a href="#4-1-1-arguments参数" class="headerlink" title="4.1.1 arguments参数"></a>4.1.1 arguments参数</h3>
       
     </div>
     
@@ -456,10 +455,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table Des Matières
+            Table of Contents
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Ensemble
+            Overview
           </li>
         </ul>
       
@@ -484,7 +483,7 @@
                 <a href="/archives/">
               
                   <span class="site-state-item-count">65</span>
-                  <span class="site-state-item-name">articles</span>
+                  <span class="site-state-item-name">posts</span>
                 </a>
               </div>
             
@@ -496,7 +495,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">30</span>
+                  <span class="site-state-item-count">31</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
@@ -545,7 +544,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第二章-运行时页面的构建过程"><span class="nav-number">2.</span> <span class="nav-text">第二章 运行时页面的构建过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-生命周期概览"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 生命周期概览</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-页面构建阶段"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 页面构建阶段</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-1-HTML解析和DOM构建"><span class="nav-number">2.2.1.</span> <span class="nav-text">2.2.1 HTML解析和DOM构建</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-事件处理"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 事件处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-1-事件处理概览"><span class="nav-number">2.3.1.</span> <span class="nav-text">2.3.1 事件处理概览</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-2-注册事件处理器"><span class="nav-number">2.3.2.</span> <span class="nav-text">2.3.2 注册事件处理器</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第三章-新手的第一堂函数课"><span class="nav-number">3.</span> <span class="nav-text">第三章 新手的第一堂函数课</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-函数式的不同点是什么"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 函数式的不同点是什么?</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-1-函数是第一类对象"><span class="nav-number">3.1.1.</span> <span class="nav-text">3.1.1 函数是第一类对象</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-函数作为对象的乐趣"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 函数作为对象的乐趣</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-2-自记忆函数"><span class="nav-number">3.2.1.</span> <span class="nav-text">3.2.2 自记忆函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-函数定义"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 函数定义</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-1-函数声明和函数表达式"><span class="nav-number">3.3.1.</span> <span class="nav-text">3.3.1 函数声明和函数表达式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-函数的实参和形参"><span class="nav-number">3.4.</span> <span class="nav-text">3.4 函数的实参和形参</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-1-剩余参数"><span class="nav-number">3.4.1.</span> <span class="nav-text">3.4.1 剩余参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-2-默认参数"><span class="nav-number">3.4.2.</span> <span class="nav-text">3.4.2 默认参数</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第四章-函数进阶-理解函数调用"><span class="nav-number">4.</span> <span class="nav-text">第四章 函数进阶: 理解函数调用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-隐式函数参数"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 隐式函数参数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-1-arguments参数"><span class="nav-number">4.1.1.</span> <span class="nav-text">4.1.1 arguments参数</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#书评"><span class="nav-number">5.</span> <span class="nav-text">书评</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第二章-运行时页面的构建过程"><span class="nav-number">2.</span> <span class="nav-text">第二章 运行时页面的构建过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-生命周期概览"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 生命周期概览</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-页面构建阶段"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 页面构建阶段</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-1-HTML解析和DOM构建"><span class="nav-number">2.2.1.</span> <span class="nav-text">2.2.1 HTML解析和DOM构建</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-事件处理"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 事件处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-1-事件处理概览"><span class="nav-number">2.3.1.</span> <span class="nav-text">2.3.1 事件处理概览</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-2-注册事件处理器"><span class="nav-number">2.3.2.</span> <span class="nav-text">2.3.2 注册事件处理器</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第三章-新手的第一堂函数课"><span class="nav-number">3.</span> <span class="nav-text">第三章 新手的第一堂函数课</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-函数式的不同点是什么"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 函数式的不同点是什么?</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-1-函数是第一类对象"><span class="nav-number">3.1.1.</span> <span class="nav-text">3.1.1 函数是第一类对象</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-函数作为对象的乐趣"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 函数作为对象的乐趣</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-2-自记忆函数"><span class="nav-number">3.2.1.</span> <span class="nav-text">3.2.2 自记忆函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-函数定义"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 函数定义</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-1-函数声明和函数表达式"><span class="nav-number">3.3.1.</span> <span class="nav-text">3.3.1 函数声明和函数表达式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-函数的实参和形参"><span class="nav-number">3.4.</span> <span class="nav-text">3.4 函数的实参和形参</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-1-剩余参数"><span class="nav-number">3.4.1.</span> <span class="nav-text">3.4.1 剩余参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-2-默认参数"><span class="nav-number">3.4.2.</span> <span class="nav-text">3.4.2 默认参数</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第四章-函数进阶-理解函数调用"><span class="nav-number">4.</span> <span class="nav-text">第四章 函数进阶: 理解函数调用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-隐式函数参数"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 隐式函数参数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-1-arguments参数"><span class="nav-number">4.1.1.</span> <span class="nav-text">4.1.1 arguments参数</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
@@ -583,7 +582,7 @@
 
 
 
-  <div class="theme-info">Thème &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
 
 
 
