@@ -100,7 +100,8 @@
 <meta property="og:image" content="https://i.loli.net/2019/06/08/5cfb91d46c1da85699.png">
 <meta property="og:image" content="https://i.loli.net/2019/06/08/5cfb945f7279035597.png">
 <meta property="og:image" content="https://i.loli.net/2019/06/08/5cfb9e901c9b990218.png">
-<meta property="og:updated_time" content="2019-06-08T11:44:04.127Z">
+<meta property="og:image" content="https://i.loli.net/2019/06/08/5cfbd7fe2ec1176683.png">
+<meta property="og:updated_time" content="2019-06-08T15:45:28.002Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="redux源码解析">
 <meta name="twitter:image" content="https://unsplash.it/1380/810?random">
@@ -326,10 +327,12 @@
         <p><img src="https://unsplash.it/1380/810?random" alt="image"></p>
 <a id="more"></a>
 <p><img src="https://i.loli.net/2019/06/08/5cfb6f6a3f32b47492.png" alt="image"></p>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><h2 id="combineReducers"><a href="#combineReducers" class="headerlink" title="combineReducers"></a>combineReducers</h2><p><strong>combineReducers</strong>是redux中内置的工具函数，目的是将多个reducer函数合并为一个最终的reducer函数。这个最终的reducer函数可以用于<strong>createStore</strong>中作为参数。</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>redux的源码是我阅读过的一些库的源码中，相对简单的。如果大家的感兴趣强烈推荐大家亲自阅读一下。</p>
+<p>本文为了方便理解<strong>抛开了一些容错处理以及边缘条件的判断</strong>。</p>
+<h2 id="combineReducers"><a href="#combineReducers" class="headerlink" title="combineReducers"></a>combineReducers</h2><p><strong>combineReducers</strong>是redux中内置的工具函数，目的是将多个reducer函数合并为一个最终的reducer函数。这个最终的reducer函数可以用于<strong>createStore</strong>中作为参数。</p>
 <p>下面两种写法是完全等价的。</p>
 <p><img src="https://i.loli.net/2019/06/08/5cfb0080471db13628.png" alt="image"></p>
-<p>抛开容错处理以及边缘条件的判断，combineReducers的实现非常的简单。在<strong>A</strong>处首先对reducers对象进行遍历，排除value值的类型不是function的value。</p>
+<p>combineReducers的实现非常的简单。在<strong>A</strong>处首先对reducers对象进行遍历，排除value值的类型不是function的value。</p>
 <p>在<strong>B</strong>处，我们会遍历经过前一步过滤的reducers对象，依次的执行reducers对象中每一个reducer函数, 将返回的结果存储在新的对象nextState中，最后返回新的对象。</p>
 <p><img src="https://i.loli.net/2019/06/08/5cfb00eb91f6e57062.png" alt="image"></p>
 <h2 id="createStore"><a href="#createStore" class="headerlink" title="createStore"></a>createStore</h2><p><strong>createStore</strong>, 会创建一个Store, 存放应用中全部的state, 形成state树。</p>
@@ -359,9 +362,14 @@
 <p><img src="https://i.loli.net/2019/06/08/5cfb91d46c1da85699.png" alt="image"></p>
 <p>中间件会对dispatch进行一层包装，并且总是会返回包装后的dispath。下一个中间件，会基于上一个中间件返回的dispatch再次进行处理。</p>
 <h3 id="applyMiddleware"><a href="#applyMiddleware" class="headerlink" title="applyMiddleware"></a>applyMiddleware</h3><p>在前面我们说过applyMiddleware是redux内置的enhancer。我们先来回顾一下enhancer的使用方法。</p>
+<p>在createStore中调用enhancer。<strong>参数为createStore自身，enhancer会返回一个新的函数。接收reducer, preloadedState对象作为参数。</strong></p>
 <p><img src="https://i.loli.net/2019/06/08/5cfb945f7279035597.png" alt="image"></p>
+<p>在applyMiddleware中，利用js的闭包的特性使用createStore以及reducer, preloadedState参数创建store。</p>
+<p>使用<strong>管道compose</strong>，将<strong>store.dispatch</strong>逐层的进行包装📦，返回的dispath会覆盖store中dispatch。</p>
 <p><img src="https://i.loli.net/2019/06/08/5cfb9e901c9b990218.png" alt="image"></p>
-<h2 id="bindActionCreators"><a href="#bindActionCreators" class="headerlink" title="bindActionCreators"></a>bindActionCreators</h2>
+<h2 id="bindActionCreators"><a href="#bindActionCreators" class="headerlink" title="bindActionCreators"></a>bindActionCreators</h2><p>bindActionCreators在平时工作中出镜率很少，bindActionCreators主要用处是将dispatch方法包装到<strong>action creator</strong>中。bindActionCreators的源码很简单。下面是具体实现。</p>
+<p><img src="https://i.loli.net/2019/06/08/5cfbd7fe2ec1176683.png" alt="image"></p>
+
       
     </div>
     
