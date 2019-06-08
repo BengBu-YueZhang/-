@@ -86,10 +86,21 @@
 <meta property="og:site_name" content="新世紀エヴァンゲリオン">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://unsplash.it/1380/810?random">
+<meta property="og:image" content="https://i.loli.net/2019/06/08/5cfb6f6a3f32b47492.png">
 <meta property="og:image" content="https://i.loli.net/2019/06/08/5cfb0080471db13628.png">
 <meta property="og:image" content="https://i.loli.net/2019/06/08/5cfb00eb91f6e57062.png">
-<meta property="og:image" content="https://i.loli.net/2019/06/08/5cfb0e828648f17622.png">
-<meta property="og:updated_time" content="2019-06-08T01:32:25.814Z">
+<meta property="og:image" content="https://i.loli.net/2019/06/08/5cfb6d78c375983956.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/08/5cfb6a617e54f53791.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/08/5cfb6b0696a5f23779.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/08/5cfb6c07f302563743.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/08/5cfb6259d622f38313.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/08/5cfb73357710295054.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/08/5cfb83ae9a55e63185.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/08/5cfb7a691498816399.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/08/5cfb91d46c1da85699.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/08/5cfb945f7279035597.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/08/5cfb9e901c9b990218.png">
+<meta property="og:updated_time" content="2019-06-08T11:44:04.127Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="redux源码解析">
 <meta name="twitter:image" content="https://unsplash.it/1380/810?random">
@@ -108,7 +119,7 @@
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     duoshuo: {
       userId: '0',
-      author: 'Penulis'
+      author: 'Author'
     },
     algolia: {
       applicationID: '',
@@ -188,7 +199,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Beranda
+            主页
           </a>
         </li>
       
@@ -198,7 +209,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
-            Tags
+            标签
           </a>
         </li>
       
@@ -208,7 +219,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Arsip
+            时间轴
           </a>
         </li>
       
@@ -272,7 +283,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Diposting di</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-06-09T10:00:00+08:00">
                 2019-06-09
@@ -314,21 +325,43 @@
       
         <p><img src="https://unsplash.it/1380/810?random" alt="image"></p>
 <a id="more"></a>
+<p><img src="https://i.loli.net/2019/06/08/5cfb6f6a3f32b47492.png" alt="image"></p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><h2 id="combineReducers"><a href="#combineReducers" class="headerlink" title="combineReducers"></a>combineReducers</h2><p><strong>combineReducers</strong>是redux中内置的工具函数，目的是将多个reducer函数合并为一个最终的reducer函数。这个最终的reducer函数可以用于<strong>createStore</strong>中作为参数。</p>
 <p>下面两种写法是完全等价的。</p>
 <p><img src="https://i.loli.net/2019/06/08/5cfb0080471db13628.png" alt="image"></p>
 <p>抛开容错处理以及边缘条件的判断，combineReducers的实现非常的简单。在<strong>A</strong>处首先对reducers对象进行遍历，排除value值的类型不是function的value。</p>
 <p>在<strong>B</strong>处，我们会遍历经过前一步过滤的reducers对象，依次的执行reducers对象中每一个reducer函数, 将返回的结果存储在新的对象nextState中，最后返回新的对象。</p>
 <p><img src="https://i.loli.net/2019/06/08/5cfb00eb91f6e57062.png" alt="image"></p>
-<h2 id="createStore"><a href="#createStore" class="headerlink" title="createStore"></a>createStore</h2><p><strong>createStore</strong>, 会创建一个Store, 存放应用中全部的state, 形成state树。另外Store会提供额外的四个方法。getState 获取Store存储的state树；dispatch分发action更改Store中的state；subscribe注册监听器会在dispatch时触发；replaceReducer替换用来计算state的reducer。</p>
-<p><strong>createStore</strong>, 接受3个参数：</p>
+<h2 id="createStore"><a href="#createStore" class="headerlink" title="createStore"></a>createStore</h2><p><strong>createStore</strong>, 会创建一个Store, 存放应用中全部的state, 形成state树。</p>
+<p>另外Store会提供额外的四个方法。getState 获取Store存储的state树；dispatch分发action更改Store中的state；subscribe注册监听器会在dispatch时触发；replaceReducer替换用来计算state的reducer。</p>
+<p><strong>createStore</strong>, 接收3个参数：</p>
 <ul>
 <li>reducer，负责处理action，返回新的state树。</li>
-<li>preloadedState，初始的state。如果是通过<strong>combineReducers</strong>创建reducer，初始的state的keys必须与reducers对象保持一致。</li>
-<li>enhancer，</li>
+<li>preloadedState，初始的state。如果是通过<strong>combineReducers</strong>创建reducer，初始的preloadedState的keys必须与reducers对象保持一致。</li>
+<li>enhancer，store增强器，enhancer是一个高阶函数，返回值是一个经过包装的强化的store。而redux的<strong>applyMiddleware</strong>本身就是一个enhancer。</li>
 </ul>
-<p><img src="https://i.loli.net/2019/06/08/5cfb0e828648f17622.png" alt="image"></p>
-
+<p><img src="https://i.loli.net/2019/06/08/5cfb6d78c375983956.png" alt="image"></p>
+<h3 id="dispatch"><a href="#dispatch" class="headerlink" title="dispatch"></a>dispatch</h3><p>dispatch将会用来分发action, 更新currentState对象。在更新完成后，同时会更新currentListeners，并依次执行监听者列表。</p>
+<p><img src="https://i.loli.net/2019/06/08/5cfb6a617e54f53791.png" alt="image"></p>
+<h3 id="getState"><a href="#getState" class="headerlink" title="getState"></a>getState</h3><p><img src="https://i.loli.net/2019/06/08/5cfb6b0696a5f23779.png" alt="image"></p>
+<h3 id="replaceReducer"><a href="#replaceReducer" class="headerlink" title="replaceReducer"></a>replaceReducer</h3><p>使用新的reducer替换现有的reducer，同时执行<strong>dispatch({ type: ActionTypes.REPLACE })</strong>(ActionTypes.REPLACE是随机的字符串)。初始化state。</p>
+<p><img src="https://i.loli.net/2019/06/08/5cfb6c07f302563743.png" alt="image"></p>
+<h3 id="subscribe"><a href="#subscribe" class="headerlink" title="subscribe"></a>subscribe</h3><p>subscribe会为dispatch注册监听器，监听器存储在<strong>nextListeners</strong>数组中，subscribe返回的函数则会注销监听器。</p>
+<p><img src="https://i.loli.net/2019/06/08/5cfb6259d622f38313.png" alt="image"></p>
+<h2 id="compose"><a href="#compose" class="headerlink" title="compose"></a>compose</h2><p><strong>compose并不是redux中的概念</strong>，而是函数式编程中概念。类似的方法在ramda等工具库均有实现。</p>
+<p>从右往左执行函数组合（右侧函数的输出作为左侧函数的输入）。最右侧函数可以是多参函数，其余函数必须是单参函数。类似a(b(c(arg)))。</p>
+<p><img src="https://i.loli.net/2019/06/08/5cfb73357710295054.png" alt="image"></p>
+<h2 id="middleware"><a href="#middleware" class="headerlink" title="middleware"></a>middleware</h2><p>redux的中间件的模型类似与koa。在next前面以及next，由外向里依次执行。当最里层的next执行完成后，next后面的代码，会由内向外依次执行。非常类似koa的洋葱中间件模型。</p>
+<p><img src="https://i.loli.net/2019/06/08/5cfb83ae9a55e63185.png" alt="image"></p>
+<p>以下是一个简单的redux中间件的示例。</p>
+<p><img src="https://i.loli.net/2019/06/08/5cfb7a691498816399.png" alt="image"></p>
+<p>下面是redux文档中, 为介绍中间件的原理而给出的applyMiddleware的<strong>单纯的实现</strong>。</p>
+<p><img src="https://i.loli.net/2019/06/08/5cfb91d46c1da85699.png" alt="image"></p>
+<p>中间件会对dispatch进行一层包装，并且总是会返回包装后的dispath。下一个中间件，会基于上一个中间件返回的dispatch再次进行处理。</p>
+<h3 id="applyMiddleware"><a href="#applyMiddleware" class="headerlink" title="applyMiddleware"></a>applyMiddleware</h3><p>在前面我们说过applyMiddleware是redux内置的enhancer。我们先来回顾一下enhancer的使用方法。</p>
+<p><img src="https://i.loli.net/2019/06/08/5cfb945f7279035597.png" alt="image"></p>
+<p><img src="https://i.loli.net/2019/06/08/5cfb9e901c9b990218.png" alt="image"></p>
+<h2 id="bindActionCreators"><a href="#bindActionCreators" class="headerlink" title="bindActionCreators"></a>bindActionCreators</h2>
       
     </div>
     
@@ -420,10 +453,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Daftar Isi
+            Table of Contents
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Ikhtisar
+            Overview
           </li>
         </ul>
       
@@ -448,7 +481,7 @@
                 <a href="/archives/">
               
                   <span class="site-state-item-count">66</span>
-                  <span class="site-state-item-name">posting</span>
+                  <span class="site-state-item-name">篇博文</span>
                 </a>
               </div>
             
@@ -509,7 +542,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#combineReducers"><span class="nav-number">2.</span> <span class="nav-text">combineReducers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#createStore"><span class="nav-number">3.</span> <span class="nav-text">createStore</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#combineReducers"><span class="nav-number">2.</span> <span class="nav-text">combineReducers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#createStore"><span class="nav-number">3.</span> <span class="nav-text">createStore</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#dispatch"><span class="nav-number">3.1.</span> <span class="nav-text">dispatch</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#getState"><span class="nav-number">3.2.</span> <span class="nav-text">getState</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#replaceReducer"><span class="nav-number">3.3.</span> <span class="nav-text">replaceReducer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#subscribe"><span class="nav-number">3.4.</span> <span class="nav-text">subscribe</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#compose"><span class="nav-number">4.</span> <span class="nav-text">compose</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#middleware"><span class="nav-number">5.</span> <span class="nav-text">middleware</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#applyMiddleware"><span class="nav-number">5.1.</span> <span class="nav-text">applyMiddleware</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bindActionCreators"><span class="nav-number">6.</span> <span class="nav-text">bindActionCreators</span></a></li></ol></div>
             
 
           </div>
@@ -547,7 +580,7 @@
 
 
 
-  <div class="theme-info">Tema &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
 
 
 
