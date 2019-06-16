@@ -85,7 +85,13 @@
 <meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2019/07/30/JavaScript高级程序设计阅读摘要/index.html">
 <meta property="og:site_name" content="新世紀エヴァンゲリオン">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://unsplash.it/1221/710?random">
+<meta property="og:image" content="https://unsplash.it/1241/710?random">
+<meta property="og:image" content="https://i.loli.net/2019/06/16/5d05eb63855c996915.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/16/5d05fcf9edbb568323.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/16/5d05fe3ea606670342.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/16/5d0605047a70377208.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/16/5d060bbb2fc8d93189.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/16/5d060d54027a234908.png">
 <meta property="og:image" content="https://i.loli.net/2019/06/15/5d049cedeb0d726617.png">
 <meta property="og:image" content="https://i.loli.net/2019/06/15/5d04a2ab6b86f71087.png">
 <meta property="og:image" content="https://i.loli.net/2019/06/15/5d04cab1279d419373.png">
@@ -93,10 +99,12 @@
 <meta property="og:image" content="https://i.loli.net/2019/06/15/5d04f059c013b71457.png">
 <meta property="og:image" content="https://i.loli.net/2019/06/15/5d04fe4b7b6d914886.png">
 <meta property="og:image" content="https://s2.ax1x.com/2019/06/15/VoTCHx.png">
-<meta property="og:updated_time" content="2019-06-15T15:42:45.927Z">
+<meta property="og:image" content="https://i.loli.net/2019/06/16/5d05a5998cc2929703.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/06/16/VTr76S.png">
+<meta property="og:updated_time" content="2019-06-16T09:39:10.261Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript高级程序设计(第3版)阅读摘要">
-<meta name="twitter:image" content="https://unsplash.it/1221/710?random">
+<meta name="twitter:image" content="https://unsplash.it/1241/710?random">
 
 
 
@@ -192,7 +200,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            主页
+            Home
           </a>
         </li>
       
@@ -202,7 +210,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
-            标签
+            Tags
           </a>
         </li>
       
@@ -212,7 +220,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            时间轴
+            Archives
           </a>
         </li>
       
@@ -316,9 +324,147 @@
       
 
       
-        <p><img src="https://unsplash.it/1221/710?random" alt="image"></p>
+        <p><img src="https://unsplash.it/1241/710?random" alt="image"></p>
 <a id="more"></a>
-<h2 id="第五章-引用类型"><a href="#第五章-引用类型" class="headerlink" title="第五章 引用类型"></a>第五章 引用类型</h2><h2 id="第八章-BOM"><a href="#第八章-BOM" class="headerlink" title="第八章 BOM"></a>第八章 BOM</h2><h3 id="windows对象"><a href="#windows对象" class="headerlink" title="windows对象"></a>windows对象</h3><h3 id="全局作用域"><a href="#全局作用域" class="headerlink" title="全局作用域"></a>全局作用域</h3><p>全局变量和windows对象上的属性有何区别？</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文正如标题所见，是一篇读书笔记。记录下我所认为在书中比较重要的知识点，并用我的浅薄的知识做了一些补充。</p>
+<h2 id="第五章-引用类型"><a href="#第五章-引用类型" class="headerlink" title="第五章 引用类型"></a>第五章 引用类型</h2><h3 id="Object类型"><a href="#Object类型" class="headerlink" title="Object类型"></a>Object类型</h3><p><strong>在使用字面量方式，定义对象的时候，不会调用Object的构造函数</strong></p>
+<h3 id="Array类型"><a href="#Array类型" class="headerlink" title="Array类型"></a>Array类型</h3><p><strong>与对象一样，在使用数组字面量表示法时，也不会调用 Array 构造函数</strong></p>
+<table>
+<thead>
+<tr>
+<th>常用的方法</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>push</td>
+<td>向数组末尾添加任意数量项，返回数组长度</td>
+</tr>
+<tr>
+<td>pop</td>
+<td>移除数组的最后一项，返回被移除</td>
+</tr>
+<tr>
+<td>shift</td>
+<td>移除数组的第一项，返回被移除项</td>
+</tr>
+<tr>
+<td>unshift</td>
+<td>向数组前端添加任意数量项，返回数组长度</td>
+</tr>
+<tr>
+<td>reverse</td>
+<td>反转数组，返回排序后的数组</td>
+</tr>
+<tr>
+<td>sort</td>
+<td>数组排序，返回排序后的数组</td>
+</tr>
+<tr>
+<td>concat</td>
+<td>连接多个数组，或者将内容添加到数组的末尾，返回链接后的新数组</td>
+</tr>
+<tr>
+<td>slice</td>
+<td>根据开始位置和结束位置截取新的数组，返回截取的新数组</td>
+</tr>
+<tr>
+<td>splice</td>
+<td>splice(0, 2)删除从位置0开始的2项。splice(2, 0, 1)在位置2插入1; 返回被删除元素组成的数组。</td>
+</tr>
+<tr>
+<td>indexOf</td>
+<td>查找数组，如果没有找到返回-1，比较过程中会使用“===”操作符</td>
+</tr>
+<tr>
+<td>every</td>
+<td>传入的函数必须对每一项都返回true，这个方法才返回true</td>
+</tr>
+<tr>
+<td>some</td>
+<td>只要传入的函数对数组中的某一项返回true，就会返回true</td>
+</tr>
+<tr>
+<td>filter</td>
+<td>过滤数组，返回新的数组</td>
+</tr>
+<tr>
+<td>map</td>
+<td>处理原始数组，返回新的数组</td>
+</tr>
+<tr>
+<td>forEach</td>
+<td>forEach没有返回值</td>
+</tr>
+<tr>
+<td>reduce</td>
+<td>接收一个函数作为参数，函数接收4个参数，前一个值、当前值、项的索引和数组对象。这个函数返回的任何值都会作为第一个参数自动传给下一项。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="检测数组"><a href="#检测数组" class="headerlink" title="检测数组"></a>检测数组</h4><p><img src="https://i.loli.net/2019/06/16/5d05eb63855c996915.png" alt="image"></p>
+<h3 id="Fucntion类型"><a href="#Fucntion类型" class="headerlink" title="Fucntion类型"></a>Fucntion类型</h3><p><img src="https://i.loli.net/2019/06/16/5d05fcf9edbb568323.png" alt="image"></p>
+<h4 id="函数声明和函数表达式"><a href="#函数声明和函数表达式" class="headerlink" title="函数声明和函数表达式"></a>函数声明和函数表达式</h4><p>解析器会率先读取函数声明，并使其在执行任何代码之前可用(可以访问); 至于函数表达式，则必须等到解析器执行到它所在的代码行，才会真正被解释执行。</p>
+<p><img src="https://i.loli.net/2019/06/16/5d05fe3ea606670342.png" alt="image"></p>
+<h4 id="函数内部属性"><a href="#函数内部属性" class="headerlink" title="函数内部属性"></a>函数内部属性</h4><table>
+<thead>
+<tr>
+<th>内部属性</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>arguments</td>
+<td>函数参数的集合</td>
+</tr>
+<tr>
+<td>arguments.callee</td>
+<td>指向了拥有arguments对象的函数</td>
+</tr>
+<tr>
+<td>arguments.caller</td>
+<td>始终为undefind, 主要为了区分函数的caller属性</td>
+</tr>
+<tr>
+<td>caller</td>
+<td>调用当前函数的函数的引用，如果是在全局作用域中调用当前函数，它的值为null</td>
+</tr>
+</tbody>
+</table>
+<p><img src="https://i.loli.net/2019/06/16/5d0605047a70377208.png" alt="image"></p>
+<table>
+<thead>
+<tr>
+<th>常见的属性</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>length</td>
+<td>函数的参数的个数</td>
+</tr>
+<tr>
+<td>call()</td>
+<td>在特定作用域调用函数，第一个参数同apply类似，而call必须将参数全部列出来</td>
+</tr>
+<tr>
+<td>apply()</td>
+<td>在特定作用域调用函数，接收2个参数，第一个是函数新的作用域。第二个是参数数组，可以是数组或者arguments类数组</td>
+</tr>
+<tr>
+<td>bind()</td>
+<td>指定特定作用域，返回原函数的拷贝</td>
+</tr>
+</tbody>
+</table>
+<p><img src="https://i.loli.net/2019/06/16/5d060bbb2fc8d93189.png" alt="image"></p>
+<p>bind的es6实现</p>
+<p><img src="https://i.loli.net/2019/06/16/5d060d54027a234908.png" alt="image"></p>
+<h3 id="基础包装类型-Number类型"><a href="#基础包装类型-Number类型" class="headerlink" title="基础包装类型 Number类型"></a>基础包装类型 Number类型</h3><h3 id="基础包装类型-String类型"><a href="#基础包装类型-String类型" class="headerlink" title="基础包装类型 String类型"></a>基础包装类型 String类型</h3><h3 id="单体内置对象"><a href="#单体内置对象" class="headerlink" title="单体内置对象"></a>单体内置对象</h3><p></p>
+<h2 id="第六章-面向对象"><a href="#第六章-面向对象" class="headerlink" title="第六章 面向对象"></a>第六章 面向对象</h2><h2 id="第八章-BOM"><a href="#第八章-BOM" class="headerlink" title="第八章 BOM"></a>第八章 BOM</h2><h3 id="windows对象"><a href="#windows对象" class="headerlink" title="windows对象"></a>windows对象</h3><h3 id="全局作用域"><a href="#全局作用域" class="headerlink" title="全局作用域"></a>全局作用域</h3><p>全局变量和windows对象上的属性有何区别？</p>
 <p><strong>1. 全局变量无法通过delete操作符删除，而windows属性可以</strong><br><strong>2. 使用未声明的变量会抛出错误，而使用未定义的windows属性则不会</strong></p>
 <h3 id="窗口位置"><a href="#窗口位置" class="headerlink" title="窗口位置"></a>窗口位置</h3><p>使用<strong>window.screenLeft, window.screenTop</strong>获取浏览器窗口，距离左上角的位置。</p>
 <p><img src="https://i.loli.net/2019/06/15/5d049cedeb0d726617.png" alt="image"></p>
@@ -483,11 +629,11 @@
 </tr>
 <tr>
 <td>nodeName</td>
-<td>元素的标签名</td>
+<td>不同类型的节点，有所不同</td>
 </tr>
 <tr>
 <td>nodeValue</td>
-<td></td>
+<td>不同类型的节点，有所不同</td>
 </tr>
 <tr>
 <td>childNodes</td>
@@ -527,7 +673,7 @@
 <table>
 <thead>
 <tr>
-<th>操作节点的方法</th>
+<th>常见的方法</th>
 <th>解释</th>
 </tr>
 </thead>
@@ -554,11 +700,11 @@
 </tr>
 </tbody>
 </table>
-<h3 id="Document类型"><a href="#Document类型" class="headerlink" title="Document类型"></a>Document类型</h3><p>document是HTMLDocument（继承Document类型）的实例。</p>
+<h3 id="Document类型"><a href="#Document类型" class="headerlink" title="Document类型"></a>Document类型</h3><p>document是HTMLDocument（继承Document类型）的实例。nodeType类型为9。</p>
 <table>
 <thead>
 <tr>
-<th>常见的节点属性</th>
+<th>常见的属性和方法</th>
 <th>解释</th>
 </tr>
 </thead>
@@ -591,11 +737,66 @@
 <td>images</td>
 <td>页面中所有img元素</td>
 </tr>
+<tr>
+<td>createElement</td>
+<td>创建元素节点</td>
+</tr>
+<tr>
+<td>createTextNode</td>
+<td>创建文本节点</td>
+</tr>
 </tbody>
 </table>
-<p>HTMLCollection对象同NodeList类似，也是一个类数组。</p>
+<p>类似getElementsByTagName的方法会返回一组节点的引用，会返回HTMLCollection对象。HTMLCollection对象同NodeList类似，也是一个类数组。</p>
 <p><img src="https://s2.ax1x.com/2019/06/15/VoTCHx.png" alt="image"></p>
-<h3 id="Element类型"><a href="#Element类型" class="headerlink" title="Element类型"></a>Element类型</h3><h2 id="第十三章-事件"><a href="#第十三章-事件" class="headerlink" title="第十三章 事件"></a>第十三章 事件</h2>
+<h3 id="Element类型"><a href="#Element类型" class="headerlink" title="Element类型"></a>Element类型</h3><ul>
+<li>nodeType等于1</li>
+<li>nodeValue始终为null</li>
+<li>nodeName，tagName为标签名</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>常用的属性和方法</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>getAttribute(key)</td>
+<td>获取特性。而style和事件使用getAttribute将会获得字符串。直接访问属性，会获得对象和函数。自定义特性，需要添加<strong>data-</strong>前缀。</td>
+</tr>
+<tr>
+<td>setAttribute(key, value)</td>
+<td>设置特性，可以是元素的特性，也可以是自定义特性。</td>
+</tr>
+<tr>
+<td>removeAttribute(key)</td>
+<td>删除特性</td>
+</tr>
+<tr>
+<td>attributes</td>
+<td>返回一个<strong>NamedNodeMap</strong>, 包含了节点的所有特性，是一个类数组。nodeName是<strong>NamedNodeMap</strong>节点中的key，nodeValue是<strong>NamedNodeMap</strong>节点中的value。</td>
+</tr>
+</tbody>
+</table>
+<p>下面是一个，使用attributes属性，遍历元素特性的例子。</p>
+<p><img src="https://i.loli.net/2019/06/16/5d05a5998cc2929703.png" alt="image"></p>
+<h3 id="Text类型"><a href="#Text类型" class="headerlink" title="Text类型"></a>Text类型</h3><ul>
+<li>nodeType等于3</li>
+<li>nodeName等于”#text”</li>
+<li>nodeValue等于文本内容</li>
+<li>没有子节点</li>
+<li>可以使用在父节点上调用normalize()可以合并多个文本节点</li>
+</ul>
+<h3 id="Comment类型（注释类型）"><a href="#Comment类型（注释类型）" class="headerlink" title="Comment类型（注释类型）"></a>Comment类型（注释类型）</h3><ul>
+<li>nodeType等于8</li>
+<li>nodeName等于”#comment”</li>
+<li>nodeValue等于注释内容</li>
+</ul>
+<h3 id="关于NodeList"><a href="#关于NodeList" class="headerlink" title="关于NodeList"></a>关于NodeList</h3><p>关于NodeList以及NamedNodeMap, HTMLCollection.这三个集合都是动态的。每当文档产生变化，它们都会更新。应当减少对NodeList的使用，每一次引用NodeList，都会运行一次基于文档的查询。</p>
+<p><img src="https://s2.ax1x.com/2019/06/16/VTr76S.png" alt="image"></p>
+<h2 id="第十三章-事件"><a href="#第十三章-事件" class="headerlink" title="第十三章 事件"></a>第十三章 事件</h2>
       
     </div>
     
@@ -719,7 +920,7 @@
                 <a href="/archives/">
               
                   <span class="site-state-item-count">69</span>
-                  <span class="site-state-item-name">篇博文</span>
+                  <span class="site-state-item-name">posts</span>
                 </a>
               </div>
             
@@ -780,7 +981,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第五章-引用类型"><span class="nav-number">1.</span> <span class="nav-text">第五章 引用类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第八章-BOM"><span class="nav-number">2.</span> <span class="nav-text">第八章 BOM</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#windows对象"><span class="nav-number">2.1.</span> <span class="nav-text">windows对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#全局作用域"><span class="nav-number">2.2.</span> <span class="nav-text">全局作用域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#窗口位置"><span class="nav-number">2.3.</span> <span class="nav-text">窗口位置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#浏览器视口大小"><span class="nav-number">2.4.</span> <span class="nav-text">浏览器视口大小</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#setTimeout和setInterval"><span class="nav-number">2.5.</span> <span class="nav-text">setTimeout和setInterval</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#location对象"><span class="nav-number">2.6.</span> <span class="nav-text">location对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#navigator对象"><span class="nav-number">2.7.</span> <span class="nav-text">navigator对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#history对象"><span class="nav-number">2.8.</span> <span class="nav-text">history对象</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第十章-DOM"><span class="nav-number">3.</span> <span class="nav-text">第十章 DOM</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Node类型"><span class="nav-number">3.1.</span> <span class="nav-text">Node类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Document类型"><span class="nav-number">3.2.</span> <span class="nav-text">Document类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Element类型"><span class="nav-number">3.3.</span> <span class="nav-text">Element类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第十三章-事件"><span class="nav-number">4.</span> <span class="nav-text">第十三章 事件</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第五章-引用类型"><span class="nav-number">2.</span> <span class="nav-text">第五章 引用类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Object类型"><span class="nav-number">2.1.</span> <span class="nav-text">Object类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Array类型"><span class="nav-number">2.2.</span> <span class="nav-text">Array类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#检测数组"><span class="nav-number">2.2.1.</span> <span class="nav-text">检测数组</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Fucntion类型"><span class="nav-number">2.3.</span> <span class="nav-text">Fucntion类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#函数声明和函数表达式"><span class="nav-number">2.3.1.</span> <span class="nav-text">函数声明和函数表达式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#函数内部属性"><span class="nav-number">2.3.2.</span> <span class="nav-text">函数内部属性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基础包装类型-Number类型"><span class="nav-number">2.4.</span> <span class="nav-text">基础包装类型 Number类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基础包装类型-String类型"><span class="nav-number">2.5.</span> <span class="nav-text">基础包装类型 String类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单体内置对象"><span class="nav-number">2.6.</span> <span class="nav-text">单体内置对象</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第六章-面向对象"><span class="nav-number">3.</span> <span class="nav-text">第六章 面向对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第八章-BOM"><span class="nav-number">4.</span> <span class="nav-text">第八章 BOM</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#windows对象"><span class="nav-number">4.1.</span> <span class="nav-text">windows对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#全局作用域"><span class="nav-number">4.2.</span> <span class="nav-text">全局作用域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#窗口位置"><span class="nav-number">4.3.</span> <span class="nav-text">窗口位置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#浏览器视口大小"><span class="nav-number">4.4.</span> <span class="nav-text">浏览器视口大小</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#setTimeout和setInterval"><span class="nav-number">4.5.</span> <span class="nav-text">setTimeout和setInterval</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#location对象"><span class="nav-number">4.6.</span> <span class="nav-text">location对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#navigator对象"><span class="nav-number">4.7.</span> <span class="nav-text">navigator对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#history对象"><span class="nav-number">4.8.</span> <span class="nav-text">history对象</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第十章-DOM"><span class="nav-number">5.</span> <span class="nav-text">第十章 DOM</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Node类型"><span class="nav-number">5.1.</span> <span class="nav-text">Node类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Document类型"><span class="nav-number">5.2.</span> <span class="nav-text">Document类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Element类型"><span class="nav-number">5.3.</span> <span class="nav-text">Element类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Text类型"><span class="nav-number">5.4.</span> <span class="nav-text">Text类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Comment类型（注释类型）"><span class="nav-number">5.5.</span> <span class="nav-text">Comment类型（注释类型）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于NodeList"><span class="nav-number">5.6.</span> <span class="nav-text">关于NodeList</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第十三章-事件"><span class="nav-number">6.</span> <span class="nav-text">第十三章 事件</span></a></li></ol></div>
             
 
           </div>
