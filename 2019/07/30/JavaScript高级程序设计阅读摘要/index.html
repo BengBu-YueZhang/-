@@ -92,6 +92,8 @@
 <meta property="og:image" content="https://i.loli.net/2019/06/16/5d0605047a70377208.png">
 <meta property="og:image" content="https://i.loli.net/2019/06/16/5d060bbb2fc8d93189.png">
 <meta property="og:image" content="https://i.loli.net/2019/06/16/5d060d54027a234908.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/17/5d07b704dcc0b70341.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/18/5d07bb1aae26058730.png">
 <meta property="og:image" content="https://i.loli.net/2019/06/15/5d049cedeb0d726617.png">
 <meta property="og:image" content="https://i.loli.net/2019/06/15/5d04a2ab6b86f71087.png">
 <meta property="og:image" content="https://i.loli.net/2019/06/15/5d04cab1279d419373.png">
@@ -101,7 +103,7 @@
 <meta property="og:image" content="https://s2.ax1x.com/2019/06/15/VoTCHx.png">
 <meta property="og:image" content="https://i.loli.net/2019/06/16/5d05a5998cc2929703.png">
 <meta property="og:image" content="https://s2.ax1x.com/2019/06/16/VTr76S.png">
-<meta property="og:updated_time" content="2019-06-16T09:39:10.261Z">
+<meta property="og:updated_time" content="2019-06-17T16:53:04.111Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript高级程序设计(第3版)阅读摘要">
 <meta name="twitter:image" content="https://unsplash.it/1241/710?random">
@@ -463,7 +465,89 @@
 <p><img src="https://i.loli.net/2019/06/16/5d060bbb2fc8d93189.png" alt="image"></p>
 <p>bind的es6实现</p>
 <p><img src="https://i.loli.net/2019/06/16/5d060d54027a234908.png" alt="image"></p>
-<h3 id="基础包装类型-Number类型"><a href="#基础包装类型-Number类型" class="headerlink" title="基础包装类型 Number类型"></a>基础包装类型 Number类型</h3><h3 id="基础包装类型-String类型"><a href="#基础包装类型-String类型" class="headerlink" title="基础包装类型 String类型"></a>基础包装类型 String类型</h3><h3 id="单体内置对象"><a href="#单体内置对象" class="headerlink" title="单体内置对象"></a>单体内置对象</h3><p></p>
+<h3 id="基础包装类型"><a href="#基础包装类型" class="headerlink" title="基础包装类型"></a>基础包装类型</h3><p>基础类型比如字符串，布尔值，数字本身是没有方法的，但是却能调用对应的方法，这是为什么呢？这是因为javascript后台会自动帮我创建基础包装类型。</p>
+<p>基础包装类型和引用类型最大的区别是，<strong>变量的生命周期</strong>。基础包装类型用完即销毁，所以我们无法为基础包装类型添加属性。</p>
+<p><img src="https://i.loli.net/2019/06/17/5d07b704dcc0b70341.png" alt="image"></p>
+<h4 id="基础包装类型-Boolean类型"><a href="#基础包装类型-Boolean类型" class="headerlink" title="基础包装类型 Boolean类型"></a>基础包装类型 Boolean类型</h4><p>一般不建议使用Boolean对象, 基础类型Boolean和Boolean对象差异很大。</p>
+<p><img src="https://i.loli.net/2019/06/18/5d07bb1aae26058730.png" alt="image"></p>
+<h4 id="基础包装类型-Number类型"><a href="#基础包装类型-Number类型" class="headerlink" title="基础包装类型 Number类型"></a>基础包装类型 Number类型</h4><p>同样不建议直接使用Number对象，原因同Boolean类型一样</p>
+<table>
+<thead>
+<tr>
+<th>常用的方法</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>toFixed</td>
+<td>返回指定小数位的字符串</td>
+</tr>
+<tr>
+<td>toExponential</td>
+<td>返回科学计数法的字符串</td>
+</tr>
+</tbody>
+</table>
+<h4 id="基础包装类型-String类型"><a href="#基础包装类型-String类型" class="headerlink" title="基础包装类型 String类型"></a>基础包装类型 String类型</h4><table>
+<thead>
+<tr>
+<th>常用的方法</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>charAt</td>
+<td>返回指定位置的字符编码</td>
+</tr>
+<tr>
+<td>charCodeAt</td>
+<td>返回指定位置的字符串</td>
+</tr>
+<tr>
+<td>concat</td>
+<td>链接字符串</td>
+</tr>
+<tr>
+<td>slice</td>
+<td>截取字符串，第一个参数代表开始的位置索引，第二参数代表结束的位置索引</td>
+</tr>
+<tr>
+<td>substring</td>
+<td>截取字符串，第一个参数代表开始的位置索引，第二参数代表结束的位置索引</td>
+</tr>
+<tr>
+<td>substr</td>
+<td>截取字符串，第一个参数代表开始的位置索引，第二参数代表截取的长度</td>
+</tr>
+<tr>
+<td>indexOf</td>
+<td>从头开始查询字符串</td>
+</tr>
+<tr>
+<td>lastIndexOf</td>
+<td>从末尾开始查询字符串</td>
+</tr>
+<tr>
+<td>trim</td>
+<td>截取删除首位的空格</td>
+</tr>
+<tr>
+<td>toLowerCase</td>
+<td>小写</td>
+</tr>
+<tr>
+<td>toUpperCase</td>
+<td>大写</td>
+</tr>
+<tr>
+<td>static fromCharCode</td>
+<td>返回编码的字符串</td>
+</tr>
+</tbody>
+</table>
+<h3 id="单体内置对象"><a href="#单体内置对象" class="headerlink" title="单体内置对象"></a>单体内置对象</h3><h4 id="Global"><a href="#Global" class="headerlink" title="Global"></a>Global</h4><h4 id="Math"><a href="#Math" class="headerlink" title="Math"></a>Math</h4><p></p>
 <h2 id="第六章-面向对象"><a href="#第六章-面向对象" class="headerlink" title="第六章 面向对象"></a>第六章 面向对象</h2><h2 id="第八章-BOM"><a href="#第八章-BOM" class="headerlink" title="第八章 BOM"></a>第八章 BOM</h2><h3 id="windows对象"><a href="#windows对象" class="headerlink" title="windows对象"></a>windows对象</h3><h3 id="全局作用域"><a href="#全局作用域" class="headerlink" title="全局作用域"></a>全局作用域</h3><p>全局变量和windows对象上的属性有何区别？</p>
 <p><strong>1. 全局变量无法通过delete操作符删除，而windows属性可以</strong><br><strong>2. 使用未声明的变量会抛出错误，而使用未定义的windows属性则不会</strong></p>
 <h3 id="窗口位置"><a href="#窗口位置" class="headerlink" title="窗口位置"></a>窗口位置</h3><p>使用<strong>window.screenLeft, window.screenTop</strong>获取浏览器窗口，距离左上角的位置。</p>
@@ -981,7 +1065,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第五章-引用类型"><span class="nav-number">2.</span> <span class="nav-text">第五章 引用类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Object类型"><span class="nav-number">2.1.</span> <span class="nav-text">Object类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Array类型"><span class="nav-number">2.2.</span> <span class="nav-text">Array类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#检测数组"><span class="nav-number">2.2.1.</span> <span class="nav-text">检测数组</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Fucntion类型"><span class="nav-number">2.3.</span> <span class="nav-text">Fucntion类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#函数声明和函数表达式"><span class="nav-number">2.3.1.</span> <span class="nav-text">函数声明和函数表达式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#函数内部属性"><span class="nav-number">2.3.2.</span> <span class="nav-text">函数内部属性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基础包装类型-Number类型"><span class="nav-number">2.4.</span> <span class="nav-text">基础包装类型 Number类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基础包装类型-String类型"><span class="nav-number">2.5.</span> <span class="nav-text">基础包装类型 String类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单体内置对象"><span class="nav-number">2.6.</span> <span class="nav-text">单体内置对象</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第六章-面向对象"><span class="nav-number">3.</span> <span class="nav-text">第六章 面向对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第八章-BOM"><span class="nav-number">4.</span> <span class="nav-text">第八章 BOM</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#windows对象"><span class="nav-number">4.1.</span> <span class="nav-text">windows对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#全局作用域"><span class="nav-number">4.2.</span> <span class="nav-text">全局作用域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#窗口位置"><span class="nav-number">4.3.</span> <span class="nav-text">窗口位置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#浏览器视口大小"><span class="nav-number">4.4.</span> <span class="nav-text">浏览器视口大小</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#setTimeout和setInterval"><span class="nav-number">4.5.</span> <span class="nav-text">setTimeout和setInterval</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#location对象"><span class="nav-number">4.6.</span> <span class="nav-text">location对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#navigator对象"><span class="nav-number">4.7.</span> <span class="nav-text">navigator对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#history对象"><span class="nav-number">4.8.</span> <span class="nav-text">history对象</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第十章-DOM"><span class="nav-number">5.</span> <span class="nav-text">第十章 DOM</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Node类型"><span class="nav-number">5.1.</span> <span class="nav-text">Node类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Document类型"><span class="nav-number">5.2.</span> <span class="nav-text">Document类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Element类型"><span class="nav-number">5.3.</span> <span class="nav-text">Element类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Text类型"><span class="nav-number">5.4.</span> <span class="nav-text">Text类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Comment类型（注释类型）"><span class="nav-number">5.5.</span> <span class="nav-text">Comment类型（注释类型）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于NodeList"><span class="nav-number">5.6.</span> <span class="nav-text">关于NodeList</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第十三章-事件"><span class="nav-number">6.</span> <span class="nav-text">第十三章 事件</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第五章-引用类型"><span class="nav-number">2.</span> <span class="nav-text">第五章 引用类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Object类型"><span class="nav-number">2.1.</span> <span class="nav-text">Object类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Array类型"><span class="nav-number">2.2.</span> <span class="nav-text">Array类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#检测数组"><span class="nav-number">2.2.1.</span> <span class="nav-text">检测数组</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Fucntion类型"><span class="nav-number">2.3.</span> <span class="nav-text">Fucntion类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#函数声明和函数表达式"><span class="nav-number">2.3.1.</span> <span class="nav-text">函数声明和函数表达式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#函数内部属性"><span class="nav-number">2.3.2.</span> <span class="nav-text">函数内部属性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基础包装类型"><span class="nav-number">2.4.</span> <span class="nav-text">基础包装类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#基础包装类型-Boolean类型"><span class="nav-number">2.4.1.</span> <span class="nav-text">基础包装类型 Boolean类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基础包装类型-Number类型"><span class="nav-number">2.4.2.</span> <span class="nav-text">基础包装类型 Number类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基础包装类型-String类型"><span class="nav-number">2.4.3.</span> <span class="nav-text">基础包装类型 String类型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单体内置对象"><span class="nav-number">2.5.</span> <span class="nav-text">单体内置对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Global"><span class="nav-number">2.5.1.</span> <span class="nav-text">Global</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Math"><span class="nav-number">2.5.2.</span> <span class="nav-text">Math</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第六章-面向对象"><span class="nav-number">3.</span> <span class="nav-text">第六章 面向对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第八章-BOM"><span class="nav-number">4.</span> <span class="nav-text">第八章 BOM</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#windows对象"><span class="nav-number">4.1.</span> <span class="nav-text">windows对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#全局作用域"><span class="nav-number">4.2.</span> <span class="nav-text">全局作用域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#窗口位置"><span class="nav-number">4.3.</span> <span class="nav-text">窗口位置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#浏览器视口大小"><span class="nav-number">4.4.</span> <span class="nav-text">浏览器视口大小</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#setTimeout和setInterval"><span class="nav-number">4.5.</span> <span class="nav-text">setTimeout和setInterval</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#location对象"><span class="nav-number">4.6.</span> <span class="nav-text">location对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#navigator对象"><span class="nav-number">4.7.</span> <span class="nav-text">navigator对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#history对象"><span class="nav-number">4.8.</span> <span class="nav-text">history对象</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第十章-DOM"><span class="nav-number">5.</span> <span class="nav-text">第十章 DOM</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Node类型"><span class="nav-number">5.1.</span> <span class="nav-text">Node类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Document类型"><span class="nav-number">5.2.</span> <span class="nav-text">Document类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Element类型"><span class="nav-number">5.3.</span> <span class="nav-text">Element类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Text类型"><span class="nav-number">5.4.</span> <span class="nav-text">Text类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Comment类型（注释类型）"><span class="nav-number">5.5.</span> <span class="nav-text">Comment类型（注释类型）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于NodeList"><span class="nav-number">5.6.</span> <span class="nav-text">关于NodeList</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第十三章-事件"><span class="nav-number">6.</span> <span class="nav-text">第十三章 事件</span></a></li></ol></div>
             
 
           </div>
