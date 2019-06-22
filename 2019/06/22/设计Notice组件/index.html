@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Vue," />
+
+
+
+
+
+
+
+
+
+
+<meta name="keywords" content="Vue">
+<meta property="og:type" content="article">
+<meta property="og:title" content="「组件」设计一款Notice组件">
+<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2019/06/22/设计Notice组件/index.html">
+<meta property="og:site_name" content="新世紀エヴァンゲリオン">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://unsplash.it/1391/803?random">
+<meta property="og:image" content="https://i.loli.net/2019/06/22/5d0e3bf2923fd78181.gif">
+<meta property="og:image" content="https://i.loli.net/2019/06/22/5d0e22d90e8da17996.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/22/5d0e25773391a17859.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/22/5d0e2b4873c8e80561.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/22/5d0e2d025edb284776.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/22/5d0e35100585194166.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/22/5d0e35a19947a87922.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/22/5d0e38898d20870594.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/22/5d0e3a17327c479146.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/22/5d0e3ccc23ae836146.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/22/5d0e3e486fb0b24916.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/22/5d0e3d76d9e0a96180.png">
+<meta property="og:updated_time" content="2019-06-22T14:46:21.113Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="「组件」设计一款Notice组件">
+<meta name="twitter:image" content="https://unsplash.it/1391/803?random">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/2019/06/22/设计Notice组件/"/>
+
+
+
+
+
+  <title>「组件」设计一款Notice组件 | 新世紀エヴァンゲリオン</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">新世紀エヴァンゲリオン</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">前端小学生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            主页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            时间轴
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://bengbu-yuezhang.github.io/yue.github.io/2019/06/22/设计Notice组件/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张越">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新世紀エヴァンゲリオン">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">「组件」设计一款Notice组件</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发布于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-06-22T22:00:00+08:00">
+                2019-06-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://unsplash.it/1391/803?random" alt="image"></p>
+<a id="more"></a>
+<p><img src="https://i.loli.net/2019/06/22/5d0e3bf2923fd78181.gif" alt="image"></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近在使用Vue+TypeScript鼓捣自己的组件库，期间参考不少（抄😂）<strong>element</strong>，<strong>iview</strong>的源码。发现了一些常用的功能的背后，往往是复杂的实现。于是准备写一系列文章，介绍这些组件背后的原理。今天是第一篇，手把手带你实现Notice组件。</p>
+<h2 id="API设计"><a href="#API设计" class="headerlink" title="API设计"></a>API设计</h2><p>通常我们在使用iview或者element的Notice组件的时候，都是通过调用挂载到Vue原型链上的方法的形式。如下图所示。</p>
+<p><img src="https://i.loli.net/2019/06/22/5d0e22d90e8da17996.png" alt="image"></p>
+<p>我们的组件的调用方式，也参考类似的设计, 不同的是我们新添加了一个API<strong>setLen</strong>。代码如下</p>
+<blockquote>
+<p>这是因为楼主曾经接过一个需求，在做公司一款toC的时候，产品不希望屏幕上出现太多的通知框，而是希望一次最多只出现3个。所有楼主在设计组件的时候，将这个定制化的需求也添加了上去。</p>
+</blockquote>
+<p><img src="https://i.loli.net/2019/06/22/5d0e25773391a17859.png" alt="image"></p>
+<p>因为我们需要实现，屏幕上只显示指定数量的Notice通知框，所以我们使用两个数组，保存Notice的实例。queue队列用来存储全部的Notice实例，showQueue用来屏幕上显示的Notice实例。</p>
+<p>$Notice，方法用来想queue添加了一个Notice的实例; processQueue方法则用来处理queue队列; remove方法删除特定的Notice; clear方法则用来清除全部的Notice。setLen用来设定同屏显示Notice的数量。len属性则是同屏的最大数量。</p>
+<h2 id="模版设计"><a href="#模版设计" class="headerlink" title="模版设计"></a>模版设计</h2><p>模版设计没啥好说的，常规布局。其中Icon组件，是我之前写的图标组件。showClose，控制是否显示Icon图标。visible控制Notice的显隐。</p>
+<p><img src="https://i.loli.net/2019/06/22/5d0e2b4873c8e80561.png" alt="image"></p>
+<h2 id="方法设计"><a href="#方法设计" class="headerlink" title="方法设计"></a>方法设计</h2><h3 id="Notice"><a href="#Notice" class="headerlink" title="$Notice"></a>$Notice</h3><p><img src="https://i.loli.net/2019/06/22/5d0e2d025edb284776.png" alt="image"></p>
+<p>使用<strong>Vue.extend</strong>方法构建NoticeConstructor，NoticeConstructor是Vue的子类。NoticeConstructor的实例，可以使用$mount方法生成DOM，然后手动或者指定$mount的参数，将DOM渲染到页面之中。</p>
+<p>在$Notice方法的内部，使用uuid, 生成一个唯一id，这个唯一的标记，将会帮助我们查找队列中指定的notice对象。紧接着我们会对onClose方法进行一层包装。<strong>onClose将会在每次关闭notice的时候调用，onClose在内部调用$Notice.remove方法，$Notice.remove方法会将指定的id所对应的notice对象移除出队列</strong>。</p>
+<p>接着我们将创建notice的实例，并将其push到queue队列中，接着调用$Notice.processQueue方法处理queue队列。</p>
+<blockquote>
+<p>关于uuid这个方法，uuid这个方法生成的并不是真的唯一id，而是一个重复概率很低的id。重复概率大概是1ms内，1亿多分之1吧。这个是我在stackoverflow上找的方法，代码如下。</p>
+</blockquote>
+<p><img src="https://i.loli.net/2019/06/22/5d0e35100585194166.png" alt="image"></p>
+<h3 id="Notice-processQueue"><a href="#Notice-processQueue" class="headerlink" title="$Notice.processQueue"></a>$Notice.processQueue</h3><p><img src="https://i.loli.net/2019/06/22/5d0e35a19947a87922.png" alt="image"></p>
+<p>在processQueue方法中，我们首先判断showQueue队列是不是<strong>满</strong>的。如果不是，我们将会从queue队列的头部截取一个notice对象。使用$mount方法，生成DOM并append到body中。</p>
+<p>因为notice在页面上的样式，是自上而下的，所以我们将会计算notice的相对顶部的偏移量，每一个notice对象的自身高度和15px的间距。</p>
+<p>同时，我们会将notice的visible属性设置为true，这会触发我们的transition动画，并将这个notice对象push到showQueue队列中。</p>
+<h3 id="生命周期-mounted"><a href="#生命周期-mounted" class="headerlink" title="生命周期 mounted"></a>生命周期 mounted</h3><p><img src="https://i.loli.net/2019/06/22/5d0e38898d20870594.png" alt="image"></p>
+<p>接着我们将目光转移到Notice组件内部，我们将notice，append到DOM中后。我们会在mounted函数中起一个定时器，定时器将会等待指定的duration毫秒，duration是我们指定notice存在的时间，如果duration为0，notice将会永远存在。</p>
+<p>duration毫秒之后，将会执行notice组件内部的close方法。</p>
+<h3 id="close"><a href="#close" class="headerlink" title="close"></a>close</h3><p><img src="https://i.loli.net/2019/06/22/5d0e3a17327c479146.png" alt="image"></p>
+<p>在close方法中，我们会为当前组件添加<strong>transitionend</strong>，事件。这个事件将会在css动画（<strong>离场动画</strong>）结束后触发。我们将visible设置为false这会触发，组件的离场动画。接着我们调用onClose方法，这会处理我们的队列。</p>
+<h3 id="Notice-remove"><a href="#Notice-remove" class="headerlink" title="$Notice.remove"></a>$Notice.remove</h3><p>之前我们对onClose进行了一层包装，调用onClose方法，会调用我们的$Notice.remove方法。</p>
+<p><img src="https://i.loli.net/2019/06/22/5d0e3ccc23ae836146.png" alt="image"></p>
+<p>在$Notice.remove方法中，我们将会通过id找到需要移除的notice对象，将其移除出showQueue队列，接着循环剩下的showQueue队列，将它们style.top向上移动。最后我们继续调用$Notice.processQueue方法，从queue队列中，拉取新的notice对象，push到showQueue队列中。</p>
+<h3 id="destroy"><a href="#destroy" class="headerlink" title="destroy"></a>destroy</h3><p>当离场动画执行完毕后，transitionend回调会调用destroy方法。</p>
+<p><img src="https://i.loli.net/2019/06/22/5d0e3e486fb0b24916.png" alt="image"></p>
+<p>destroy将会主动卸载我们的组件，并从DOM中移除我们的元素。notice对象的生命周期至此结束。</p>
+<h3 id="Notice-clear-amp-Notice-setLen"><a href="#Notice-clear-amp-Notice-setLen" class="headerlink" title="$Notice.clear &amp; $Notice.setLen"></a>$Notice.clear &amp; $Notice.setLen</h3><p>clear和setLen相对而言比较简单，这里就不再赘述了。</p>
+<p><img src="https://i.loli.net/2019/06/22/5d0e3d76d9e0a96180.png" alt="image"></p>
+<h2 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h2><ol>
+<li>「组件」设计一款Input组件</li>
+<li>「组件」设计一款Grid组件</li>
+<li>「组件」设计一款Button组件</li>
+<li>「组件」设计一款Collapse组件</li>
+<li>「组件」设计一款Icon组件</li>
+<li>「组件」设计一款Select组件</li>
+<li>「组件」设计一款Autocomplete组件<br>…..</li>
+</ol>
+<p>本系列的文章，尽量做到短小精悍。Select，Table，DatePicker组件将会难点。</p>
+<p>明天可能会更新一篇React Hook的学习文章。因为报名了周末晚上的公开课介绍Hook的原理。下周想重新阅读下preact的源码，学习学习preact中hook的实现原理。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://github.com/iview/iview" target="_blank" rel="noopener">iview源码</a></li>
+<li><a href="https://github.com/ElemeFE/element" target="_blank" rel="noopener">element源码</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Vue/" rel="tag"># Vue</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/20/搭建自己的SSR/" rel="next" title="从0到1搭建VueSSR">
+                <i class="fa fa-chevron-left"></i> 从0到1搭建VueSSR
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/06/30/再学TS/" rel="prev" title="TypeScript学习笔记">
+                TypeScript学习笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            作者概述
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="张越" />
+            
+              <p class="site-author-name" itemprop="name">张越</p>
+              <p class="site-description motion-element" itemprop="description">所谓成长，就是经过不断的聚散离合，找到不太会伤害到彼此的距离</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">70</span>
+                  <span class="site-state-item-name">篇文章</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">Tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/BengBu-YueZhang" target="_blank" title="我的GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/5460100952/profile?topnav=1&wvr=6" target="_blank" title="我的微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的微博</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#API设计"><span class="nav-number">2.</span> <span class="nav-text">API设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模版设计"><span class="nav-number">3.</span> <span class="nav-text">模版设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法设计"><span class="nav-number">4.</span> <span class="nav-text">方法设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Notice"><span class="nav-number">4.1.</span> <span class="nav-text">$Notice</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Notice-processQueue"><span class="nav-number">4.2.</span> <span class="nav-text">$Notice.processQueue</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生命周期-mounted"><span class="nav-number">4.3.</span> <span class="nav-text">生命周期 mounted</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#close"><span class="nav-number">4.4.</span> <span class="nav-text">close</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Notice-remove"><span class="nav-number">4.5.</span> <span class="nav-text">$Notice.remove</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#destroy"><span class="nav-number">4.6.</span> <span class="nav-text">destroy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Notice-clear-amp-Notice-setLen"><span class="nav-number">4.7.</span> <span class="nav-text">$Notice.clear &amp; $Notice.setLen</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后续"><span class="nav-number">5.</span> <span class="nav-text">后续</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张越</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
