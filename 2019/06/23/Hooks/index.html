@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="React," />
+
+
+
+
+
+
+
+
+
+
+<meta name="keywords" content="React">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hooks（草稿）">
+<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2019/06/23/Hooks/index.html">
+<meta property="og:site_name" content="新世紀エヴァンゲリオン">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://unsplash.it/1680/901?random">
+<meta property="og:updated_time" content="2019-06-23T15:43:58.970Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hooks（草稿）">
+<meta name="twitter:image" content="https://unsplash.it/1680/901?random">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/2019/06/23/Hooks/"/>
+
+
+
+
+
+  <title>Hooks（草稿） | 新世紀エヴァンゲリオン</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">新世紀エヴァンゲリオン</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">前端小学生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://bengbu-yuezhang.github.io/yue.github.io/2019/06/23/Hooks/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张越">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新世紀エヴァンゲリオン">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Hooks（草稿）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-06-23T16:36:58+08:00">
+                2019-06-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://unsplash.it/1680/901?random" alt="image"></p>
+<a id="more"></a>
+<h2 id="什么是Hooks？"><a href="#什么是Hooks？" class="headerlink" title="什么是Hooks？"></a>什么是Hooks？</h2><p>Hooks是一种特殊的函数，可以让我们在函数式组件中，使用React的特性。</p>
+<p>在Hooks出现之前，我们更喜欢将函数式组件称为无状态组件，出现Hooks后函数式组件，也拥有了state的能力。</p>
+<h2 id="StateHook"><a href="#StateHook" class="headerlink" title="StateHook"></a>StateHook</h2><p>函数组件中无法使用this，以及this.state。使用useState, 定义了state变量，state变量功能和this.state中的状态功能相同。</p>
+<p>useState的参数，就是state变量的初始值。useState的参数可以是数字，字符串，如果你愿意也可使用对象进行初始化。但是记住<strong>不像class组件中的this.setState和合并this.state。更新state变量是替换state</strong></p>
+<p>如果还需要声明其他变量，只需要再次调用useState即可。</p>
+<p>useState还会返回用来更新变量的方法以及state变量。</p>
+<p>在函数组件中，我们直接使用变量名，即可以直接使用变量。调用useState返回的更新state变量的方法，即可以更新state。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> React, &#123; useState &#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> logo <span class="keyword">from</span> <span class="string">'./logo.svg'</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">'./App.css'</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> [info, setInfo] = useState(&#123;</span><br><span class="line">    count: <span class="number">0</span></span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div className=<span class="string">"App"</span>&gt;</span><br><span class="line">      &lt;header className=<span class="string">"App-header"</span>&gt;</span><br><span class="line">        &lt;img src=&#123;logo&#125; className=<span class="string">"App-logo"</span> alt=<span class="string">"logo"</span> /&gt;</span><br><span class="line">        &lt;button onClick=&#123;() =&gt; &#123;</span><br><span class="line">          setInfo(&#123;</span><br><span class="line">            count: info.count + <span class="number">1</span></span><br><span class="line">          &#125;)</span><br><span class="line">        &#125;&#125;&gt;+&lt;/button&gt;</span><br><span class="line">        &lt;span&gt;&#123; info.count &#125;&lt;<span class="regexp">/span&gt;</span></span><br><span class="line"><span class="regexp">      &lt;/</span>header&gt;</span><br><span class="line">    &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">  );</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">export default App;</span></span><br></pre></td></tr></table></figure>
+<h2 id="EffectHook"><a href="#EffectHook" class="headerlink" title="EffectHook"></a>EffectHook</h2><p>EffectHook可以在组件中，执行副作用操作。EffectHook作用是替代componentDidMount，componentDidUpdate 和 componentWillUnmount三个生命周期。</p>
+<p>什么是副作用，数据请求，设置订阅，修改dom都属于副作用。副作用也分为两种，需要清除的，和无需清除。事件监听就是需要清除的，数据请求是不需要清除的。</p>
+<p>useEffect是在渲染后执行的操作，无论是（加载时的渲染（初次渲染），还是更新时的渲染）（当然我们也可以控制他）。react每次运行的时候effect的时候，Dom都已经更新完毕了。</p>
+<p>在对dom的事件进行监听时，在class的组件中，需要在componentDidMount生命周期中订阅，并且在componentWillUnmount生命周期中卸载订阅。</p>
+<p>使用effect，可以将监听和卸载放在同一个地方。</p>
+<p>effect可以返回一个函数，这是effect的清除机制。我们可以将卸载监听的逻辑写到effect返回的清除函数中。</p>
+<p>React何时执行清除，在每次执行（渲染）effect时，都会执行清除函数。</p>
+<h3 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h3><h4 id="为什么需要EffectHook？"><a href="#为什么需要EffectHook？" class="headerlink" title="为什么需要EffectHook？"></a>为什么需要EffectHook？</h4><ol>
+<li>我们会在生命周期的函数中，添加大量不相关的逻辑。同时又会把相关联的逻辑进行分割。我们可以将不同的副作用，写到不同effecthook中。 </li>
+</ol>
+<h4 id="为什么每次更新的时候，都需要执行effect"><a href="#为什么每次更新的时候，都需要执行effect" class="headerlink" title="为什么每次更新的时候，都需要执行effect"></a>为什么每次更新的时候，都需要执行effect</h4><p>我们可能遇到这种情况，当我们需要根据props的变化，更新组件的state时，我们需要添加componentDidUpdate的生命周期函数。而effect则不需要，当useEffect依赖props时，每次都会自动执行。并执行清除。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// effect的执行逻辑如下</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Mount with &#123; friend: &#123; id: 100 &#125; &#125; props</span></span><br><span class="line">ChatAPI.subscribeToFriendStatus(<span class="number">100</span>, handleStatusChange);     <span class="comment">// 运行第一个 effect</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Update with &#123; friend: &#123; id: 200 &#125; &#125; props</span></span><br><span class="line">ChatAPI.unsubscribeFromFriendStatus(<span class="number">100</span>, handleStatusChange); <span class="comment">// 清除上一个 effect</span></span><br><span class="line">ChatAPI.subscribeToFriendStatus(<span class="number">200</span>, handleStatusChange);     <span class="comment">// 运行下一个 effect</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Update with &#123; friend: &#123; id: 300 &#125; &#125; props</span></span><br><span class="line">ChatAPI.unsubscribeFromFriendStatus(<span class="number">200</span>, handleStatusChange); <span class="comment">// 清除上一个 effect</span></span><br><span class="line">ChatAPI.subscribeToFriendStatus(<span class="number">300</span>, handleStatusChange);     <span class="comment">// 运行下一个 effect</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Unmount</span></span><br><span class="line">ChatAPI.unsubscribeFromFriendStatus(<span class="number">300</span>, handleStatusChange); <span class="comment">// 清除最后一个 effect</span></span><br></pre></td></tr></table></figure>
+<h3 id="effect的性能优化"><a href="#effect的性能优化" class="headerlink" title="effect的性能优化"></a>effect的性能优化</h3><p>有的时候，我们可能并不需要执行effect函数，以及清除函数。我们可以为effect指定第二个参数，第二个参数可以是state变量也可以是props。只有前一次渲染，和后一次渲染不同的时候，才会执行effect。</p>
+<p>会将第二个参数和之前的进行比较 prev === next 如果是true不执行，如果是false则执行。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 只有当info.count才会执行effect，并执行清除函数</span></span><br><span class="line"><span class="comment">// 类似componentWDidUpdate</span></span><br><span class="line">useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">1</span>)</span><br><span class="line">    <span class="built_in">document</span>.body.addEventListener(<span class="string">'click'</span>, () =&gt; &#123;</span><br><span class="line">      <span class="comment">// console.log('click')</span></span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">'清除'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, [info.count])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 只会在渲染时执行，卸载时执行清除函数</span></span><br><span class="line"><span class="comment">// 类似componentDidMount监听，componentWillUnmount卸载</span></span><br><span class="line">useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">1</span>)</span><br><span class="line">    <span class="built_in">document</span>.body.addEventListener(<span class="string">'click'</span>, () =&gt; &#123;</span><br><span class="line">      <span class="comment">// console.log('click')</span></span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">'清除'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, <span class="literal">true</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 只会在渲染时执行，类似componentDidMount</span></span><br><span class="line"> useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">1</span>)</span><br><span class="line">    <span class="built_in">document</span>.body.addEventListener(<span class="string">'click'</span>, () =&gt; &#123;</span><br><span class="line">      <span class="comment">// console.log('click')</span></span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;, <span class="literal">true</span>)</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 类似componentWillUnmount卸载</span></span><br><span class="line">  useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">'清除'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, <span class="literal">true</span>)</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 也可以使用数组，如果数组中所有元素都相等，会跳过更新</span></span><br><span class="line">  <span class="comment">// 只要有一个不相等，会执行更新</span></span><br><span class="line">  useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">1</span>)</span><br><span class="line">  &#125;, [info.count])</span><br></pre></td></tr></table></figure>
+<p>传入一个空数组，效果和传入true类似。</p>
+<h2 id="Hooks规则"><a href="#Hooks规则" class="headerlink" title="Hooks规则"></a>Hooks规则</h2><ol>
+<li>只在函数组件的最顶层使用hooks.不要在循环，条件或嵌套函数中调用 Hook</li>
+<li>只在 React 函数中调用 Hook, 也可以自定义hook调用其他的hook</li>
+</ol>
+<h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h3><p>在更新的时候，函数会重新执行。</p>
+<p>react 会在重复渲染时记住它当前的值，并且提供最新的值给我们的函数。</p>
+<p>react是如何知道之前的state，是怎么对应那个useState的。靠的是执行的顺序。所以不能添加循环和判断语句。，</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// ------------</span></span><br><span class="line"><span class="comment">// 首次渲染</span></span><br><span class="line"><span class="comment">// ------------</span></span><br><span class="line">useState(<span class="string">'Mary'</span>)           <span class="comment">// 1. 使用 'Mary' 初始化变量名为 name 的 state</span></span><br><span class="line">useEffect(persistForm)     <span class="comment">// 2. 添加 effect 以保存 form 操作</span></span><br><span class="line">useState(<span class="string">'Poppins'</span>)        <span class="comment">// 3. 使用 'Poppins' 初始化变量名为 surname 的 state</span></span><br><span class="line">useEffect(updateTitle)     <span class="comment">// 4. 添加 effect 以更新标题</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// -------------</span></span><br><span class="line"><span class="comment">// 二次渲染</span></span><br><span class="line"><span class="comment">// -------------</span></span><br><span class="line">useState(<span class="string">'Mary'</span>)           <span class="comment">// 1. 读取变量名为 name 的 state（参数被忽略）</span></span><br><span class="line">useEffect(persistForm)     <span class="comment">// 2. 替换保存 form 的 effect</span></span><br><span class="line">useState(<span class="string">'Poppins'</span>)        <span class="comment">// 3. 读取变量名为 surname 的 state（参数被忽略）</span></span><br><span class="line">useEffect(updateTitle)     <span class="comment">// 4. 替换更新标题的 effect</span></span><br></pre></td></tr></table></figure>
+<h3 id="自定义hook"><a href="#自定义hook" class="headerlink" title="自定义hook"></a>自定义hook</h3><p>自定义hook可以复用组件的逻辑</p>
+<p>自定义hook是一个函数，use开头作为函数名，在自定义hook中可以调用其他hook.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 例子</span></span><br><span class="line"><span class="keyword">import</span> React, &#123; useState, useEffect &#125; <span class="keyword">from</span> <span class="string">'react'</span>;</span><br><span class="line"><span class="keyword">import</span> logo <span class="keyword">from</span> <span class="string">'./logo.svg'</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">'./App.css'</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getData</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> list = []</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">        list.push(<span class="built_in">parseInt</span>(<span class="built_in">Math</span>.random() * <span class="number">10</span>, <span class="number">10</span>))</span><br><span class="line">      &#125;</span><br><span class="line">      resolve(list)</span><br><span class="line">    &#125;, <span class="number">3000</span>)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">usePagination</span>(<span class="params">page</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [list, setList] = useState([])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'useEffect'</span>)</span><br><span class="line">    getData(page).then(<span class="function"><span class="params">list</span> =&gt;</span> &#123;</span><br><span class="line">      setList(list)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;, [page])</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> list</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> [page, setPage] = useState(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> list = usePagination(page)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div className=<span class="string">"App"</span>&gt;</span><br><span class="line">      &lt;header className=<span class="string">"App-header"</span>&gt;</span><br><span class="line">        &lt;img src=&#123;logo&#125; className=<span class="string">"App-logo"</span> alt=<span class="string">"logo"</span> /&gt;</span><br><span class="line">      &lt;<span class="regexp">/header&gt;</span></span><br><span class="line"><span class="regexp">      &#123;</span></span><br><span class="line"><span class="regexp">        list &amp;&amp; list.map((item, i) =&gt; &#123;</span></span><br><span class="line"><span class="regexp">          return (</span></span><br><span class="line"><span class="regexp">            &lt;div key=&#123;i&#125;&gt;&#123; item &#125;&lt;/</span>div&gt;</span><br><span class="line">          )</span><br><span class="line">        &#125;)</span><br><span class="line">      &#125;</span><br><span class="line">      &lt;button onClick=&#123;() =&gt; setPage(<span class="built_in">Math</span>.random())&#125;&gt;test&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>div&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> App;</span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://juejin.im/post/5be3ea136fb9a049f9121014" target="_blank" rel="noopener">30分钟精通React Hooks</a></li>
+<li><a href="https://www.reactjscn.com/docs/hooks-intro.html" target="_blank" rel="noopener">HOOKS(提案)</a></li>
+<li><a href="https://medium.com/@dan_abramov/making-sense-of-react-hooks-fdbde8803889" target="_blank" rel="noopener">Making Sense of React Hooks</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/React/" rel="tag"># React</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/23/设计Grid组件/" rel="next" title="「组件」设计一款Grid组件">
+                <i class="fa fa-chevron-left"></i> 「组件」设计一款Grid组件
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/06/24/ReactHooks学习笔记/" rel="prev" title="「学习笔记」ReactHook">
+                「学习笔记」ReactHook <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="张越" />
+            
+              <p class="site-author-name" itemprop="name">张越</p>
+              <p class="site-description motion-element" itemprop="description">所谓成长，就是经过不断的聚散离合，找到不太会伤害到彼此的距离</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">79</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/BengBu-YueZhang" target="_blank" title="我的GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/5460100952/profile?topnav=1&wvr=6" target="_blank" title="我的微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的微博</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是Hooks？"><span class="nav-number">1.</span> <span class="nav-text">什么是Hooks？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#StateHook"><span class="nav-number">2.</span> <span class="nav-text">StateHook</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EffectHook"><span class="nav-number">3.</span> <span class="nav-text">EffectHook</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Tips"><span class="nav-number">3.1.</span> <span class="nav-text">Tips</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#为什么需要EffectHook？"><span class="nav-number">3.1.1.</span> <span class="nav-text">为什么需要EffectHook？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#为什么每次更新的时候，都需要执行effect"><span class="nav-number">3.1.2.</span> <span class="nav-text">为什么每次更新的时候，都需要执行effect</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#effect的性能优化"><span class="nav-number">3.2.</span> <span class="nav-text">effect的性能优化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hooks规则"><span class="nav-number">4.</span> <span class="nav-text">Hooks规则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#说明"><span class="nav-number">4.1.</span> <span class="nav-text">说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义hook"><span class="nav-number">4.2.</span> <span class="nav-text">自定义hook</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张越</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
