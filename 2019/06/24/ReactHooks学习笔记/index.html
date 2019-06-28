@@ -81,14 +81,26 @@
 
 <meta name="keywords" content="React">
 <meta property="og:type" content="article">
-<meta property="og:title" content="「学习笔记」ReactHook">
+<meta property="og:title" content="「学习笔记」React Hooks">
 <meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2019/06/24/ReactHooks学习笔记/index.html">
 <meta property="og:site_name" content="新世紀エヴァンゲリオン">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://unsplash.it/1680/900?random">
-<meta property="og:updated_time" content="2019-06-25T03:46:44.860Z">
+<meta property="og:image" content="https://i.loli.net/2019/06/26/5d12dd437e80a29188.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/26/5d12e8a9a9e3658891.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/26/5d12ea13cc47166422.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/26/5d12eafc97ddc60434.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/26/5d130e904834d37922.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/26/5d130f5fea95499056.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/26/5d1313664856345987.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/26/5d131692b920323868.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/26/5d1321808966137696.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/26/5d132b923334242174.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/26/5d12da54c5bc552900.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/26/5d12dc75cc9cc61978.png">
+<meta property="og:updated_time" content="2019-06-26T08:36:10.485Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="「学习笔记」ReactHook">
+<meta name="twitter:title" content="「学习笔记」React Hooks">
 <meta name="twitter:image" content="https://unsplash.it/1680/900?random">
 
 
@@ -125,7 +137,7 @@
 
 
 
-  <title>「学习笔记」ReactHook | 新世紀エヴァンゲリオン</title>
+  <title>「学习笔记」React Hooks | 新世紀エヴァンゲリオン</title>
   
 
 
@@ -185,7 +197,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Home
+            主页
           </a>
         </li>
       
@@ -195,7 +207,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
-            Tags
+            标签
           </a>
         </li>
       
@@ -205,7 +217,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archives
+            时间轴
           </a>
         </li>
       
@@ -259,7 +271,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">「学习笔记」ReactHook</h1>
+          <h1 class="post-title" itemprop="name headline">「学习笔记」React Hooks</h1>
         
 
         <div class="post-meta">
@@ -311,10 +323,52 @@
       
         <p><img src="https://unsplash.it/1680/900?random" alt="image"></p>
 <a id="more"></a>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><h2 id="什么是Hook-为什么需要Hook"><a href="#什么是Hook-为什么需要Hook" class="headerlink" title="什么是Hook?为什么需要Hook?"></a>什么是Hook?为什么需要Hook?</h2><h2 id="useState"><a href="#useState" class="headerlink" title="useState"></a>useState</h2><h3 id="函数式更新"><a href="#函数式更新" class="headerlink" title="函数式更新"></a>函数式更新</h3><p>如果新的state需要之前的state计算得到。可以向useState返回的更新函数中，传递一个函数。函数的参数是前一个state。</p>
-<h3 id="惰性的初始值"><a href="#惰性的初始值" class="headerlink" title="惰性的初始值"></a>惰性的初始值</h3><p>useState的初始值是惰性的，只会在初次渲染组件的时候起作用。useState的初始值也可以是一个函数，函数的返回值将是useState的初始值。</p>
-<h3 id="跳过state更新"><a href="#跳过state更新" class="headerlink" title="跳过state更新"></a>跳过state更新</h3><p>🤔️🤔️调用state的更新函数，传入和当前一样的state时。React会跳过子组件的渲染，以及effect的执行？</p>
-<h2 id="Effect-Hook"><a href="#Effect-Hook" class="headerlink" title="Effect Hook"></a>Effect Hook</h2><h2 id="Hook规则"><a href="#Hook规则" class="headerlink" title="Hook规则"></a>Hook规则</h2><h2 id="自定义Hook"><a href="#自定义Hook" class="headerlink" title="自定义Hook"></a>自定义Hook</h2><ol>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文是本人在学习ReactHooks记录的学习笔记，内容不仅限于文档中的内容，涉及了preact Hooks源码相关。如果有错误，还请及时指正。</p>
+<p><a href="https://github.com/preactjs/preact" target="_blank" rel="noopener">关于preact，Fast 3kB React alternative with the same modern API. Components &amp; Virtual DOM</a></p>
+<h2 id="什么是Hook-为什么需要Hook"><a href="#什么是Hook-为什么需要Hook" class="headerlink" title="什么是Hook?为什么需要Hook?"></a>什么是Hook?为什么需要Hook?</h2><p><a href="https://medium.com/@dan_abramov/making-sense-of-react-hooks-fdbde8803889" target="_blank" rel="noopener">推荐看一下Dan Abramov的博客</a></p>
+<p><img src="https://i.loli.net/2019/06/26/5d12dd437e80a29188.png" alt="image"></p>
+<ol>
+<li>逻辑复用，如果使用高阶组件等特性，较为复杂。</li>
+<li>传统的函数组件无法存储state状态。</li>
+<li>Hooks允许在函数组件中，调用React的功能。</li>
+<li>使用自定义Hook可以简化逻辑复用。</li>
+<li>Hooks是React的未来</li>
+<li>Hooks不是什么魔法。Hooks的设计也与React无关。（<strong>本文将在最后介绍Hooks的源码</strong>）</li>
+</ol>
+<h2 id="useState"><a href="#useState" class="headerlink" title="useState"></a>useState</h2><p>useState可以在函数组件中，添加state Hook。</p>
+<p>调用useState会返回一个state变量，以及更新state变量的方法。useState的参数是state变量的初始值，<strong>初始值仅在初次渲染时有效</strong>。</p>
+<p><strong>更新state变量的方法，并不会像this.setState一样，合并state。而是替换state变量。</strong></p>
+<p>下面是一个简单的例子, 会在页面上渲染count的值，点击setCount的按钮会更新count的值。</p>
+<p><img src="https://i.loli.net/2019/06/26/5d12e8a9a9e3658891.png" alt="image"></p>
+<h3 id="函数式更新"><a href="#函数式更新" class="headerlink" title="函数式更新"></a>函数式更新</h3><p>如果新的state需要之前的state计算得到。可以向useState返回的更新函数中，传递一个函数。函数的参数是前一个state。</p>
+<p><img src="https://i.loli.net/2019/06/26/5d12ea13cc47166422.png" alt="image"></p>
+<h3 id="惰性的初始值"><a href="#惰性的初始值" class="headerlink" title="惰性的初始值"></a>惰性的初始值</h3><p>useState的初始值是惰性的，只会在初次渲染组件的时候起作用。如果state的初始值需用通过复杂计算得到，useState的初始值也可以是一个函数，函数的返回值将是useState的初始值。</p>
+<p><img src="https://i.loli.net/2019/06/26/5d12eafc97ddc60434.png" alt="image"></p>
+<h3 id="跳过state更新"><a href="#跳过state更新" class="headerlink" title="跳过state更新"></a>跳过state更新</h3><p>调用state的更新函数，传入和当前一样的state时。React会跳过子组件的渲染，以及effect的执行。</p>
+<p><img src="https://i.loli.net/2019/06/26/5d130e904834d37922.png" alt="image"></p>
+<h3 id="小节"><a href="#小节" class="headerlink" title="小节"></a>小节</h3><ol>
+<li>useState的更新是替换，而不是合并。</li>
+<li>useState可以接收函数参数，并将函数的返回值作为初始值</li>
+<li>useState的更新函数可以接收函数作为参数，函数的参数是前一状态的state值。</li>
+<li>使用当前的值，对state进行更新不会触发渲染。</li>
+<li>可以使用多个useState，声明多个state变量。</li>
+</ol>
+<h2 id="useEffect"><a href="#useEffect" class="headerlink" title="useEffect"></a>useEffect</h2><p>除了官方文档外，推荐阅读一下<a href="https://overreacted.io/pt-br/a-complete-guide-to-useeffect/" target="_blank" rel="noopener">Um guia completo para useEffect</a></p>
+<p><img src="https://i.loli.net/2019/06/26/5d130f5fea95499056.png" alt="image"></p>
+<p>useEffect可以让我们在函数组件中执行副作用操作。事件绑定，数据请求，动态修改DOM。</p>
+<p>useEffect将会在<strong>每一次React渲染之后执行</strong>。无论是初次挂载时，还是更新。（当然这种行为我们可以控制）</p>
+<p><img src="https://i.loli.net/2019/06/26/5d1313664856345987.png" alt="image"></p>
+<h3 id="需要清除的effect"><a href="#需要清除的effect" class="headerlink" title="需要清除的effect"></a>需要清除的effect</h3><p>在传统的class组件中，通常在componentDidMount中添加对事件的监听。在componentWillUnmount中会清除对事件的监听。<br>我们需要在不同的生命周期函数中，拆分我们的逻辑。</p>
+<p>而effect可以返回一个函数，当react进行清除时, 会执行这个返回的函数。每当执行本次的effect时，都会对上一个effect进行清除。组件卸载时也会执行进行清除。</p>
+<p>也就是说，下面的代码中。每一次更新，都会对上一次的effect进行卸载，并执行本次的effect。</p>
+<p><img src="https://i.loli.net/2019/06/26/5d131692b920323868.png" alt="image"></p>
+<h3 id="effect性能优化"><a href="#effect性能优化" class="headerlink" title="effect性能优化"></a>effect性能优化</h3><p>每次执行effect，清除上一次effect可能会造成不必要的性能浪费。我们可以通过effect的第二个参数，控制effect的执行。<br>第二个参数是useEffect的依赖，只有当依赖发生变化时，useEffect才会更新。</p>
+<p><img src="https://i.loli.net/2019/06/26/5d1321808966137696.png" alt="image"></p>
+<p><img src="https://i.loli.net/2019/06/26/5d132b923334242174.png" alt="image"></p>
+<h3 id="小节-1"><a href="#小节-1" class="headerlink" title="小节"></a>小节</h3><ol>
+<li>可以使用多个useEffect分离逻辑。在class组件中，我们通常会在componentDidMount中，混杂添加事件绑定，请求数据等多种无关的逻辑。</li>
+</ol>
+<h2 id="Hook规则"><a href="#Hook规则" class="headerlink" title="Hook规则"></a>Hook规则</h2><h2 id="自定义Hook"><a href="#自定义Hook" class="headerlink" title="自定义Hook"></a>自定义Hook</h2><ol>
 <li>自定义Hook必须以use开头</li>
 <li>自定义Hook只是逻辑复用，其中的state是不会共享的。</li>
 </ol>
@@ -322,7 +376,14 @@
 <h3 id="useReducer"><a href="#useReducer" class="headerlink" title="useReducer"></a>useReducer</h3><p>useReducer接收三个参数，reducer函数，initialArg初始值，init惰性初始值函数。reducer函数和Redux的reducer类似，接收state，以及action。返回更新后的state。如果传入三个参数，init(initialArg)将作为初始值。</p>
 <p>useReducer在复杂场景下比useState更适用。</p>
 <h4 id="跳过dispatch"><a href="#跳过dispatch" class="headerlink" title="跳过dispatch"></a>跳过dispatch</h4><p>🤔️🤔️如果ReducerHook的返回值与当前state相同，React将跳过子组件的渲染及effect的执行。</p>
-<h3 id="useCallback"><a href="#useCallback" class="headerlink" title="useCallback"></a>useCallback</h3><h3 id="useMemo"><a href="#useMemo" class="headerlink" title="useMemo"></a>useMemo</h3><h3 id="useRef"><a href="#useRef" class="headerlink" title="useRef"></a>useRef</h3><h3 id="useImperativeHandle"><a href="#useImperativeHandle" class="headerlink" title="useImperativeHandle"></a>useImperativeHandle</h3><h3 id="useLayoutEffect"><a href="#useLayoutEffect" class="headerlink" title="useLayoutEffect"></a>useLayoutEffect</h3><h3 id="useDebugValue"><a href="#useDebugValue" class="headerlink" title="useDebugValue"></a>useDebugValue</h3><h2 id="为什么Hook的调用顺序很重要？"><a href="#为什么Hook的调用顺序很重要？" class="headerlink" title="为什么Hook的调用顺序很重要？"></a>为什么Hook的调用顺序很重要？</h2><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<h3 id="useCallback"><a href="#useCallback" class="headerlink" title="useCallback"></a>useCallback</h3><p>useCallback接收回调函数和依赖数组作为参数。useCallback会返回<strong>memoized</strong>函数。当依赖项改变的时候，会返回的新的<strong>memoized</strong>函数。</p>
+<p><img src="https://i.loli.net/2019/06/26/5d12da54c5bc552900.png" alt="image"></p>
+<h3 id="useMemo"><a href="#useMemo" class="headerlink" title="useMemo"></a>useMemo</h3><p>useMemo和useCallback类似。useMemo会返回<strong>memoized</strong>值。当依赖项改变时，会重新计算<strong>memoized</strong>值。</p>
+<p><img src="https://i.loli.net/2019/06/26/5d12dc75cc9cc61978.png" alt="image"></p>
+<h3 id="useRef"><a href="#useRef" class="headerlink" title="useRef"></a>useRef</h3><h3 id="useImperativeHandle"><a href="#useImperativeHandle" class="headerlink" title="useImperativeHandle"></a>useImperativeHandle</h3><h3 id="useLayoutEffect"><a href="#useLayoutEffect" class="headerlink" title="useLayoutEffect"></a>useLayoutEffect</h3><h3 id="useDebugValue"><a href="#useDebugValue" class="headerlink" title="useDebugValue"></a>useDebugValue</h3><h2 id="为什么useState的参数只会在初始渲染时有效？"><a href="#为什么useState的参数只会在初始渲染时有效？" class="headerlink" title="为什么useState的参数只会在初始渲染时有效？"></a>为什么useState的参数只会在初始渲染时有效？</h2><h2 id="为什么Hook的调用顺序很重要？"><a href="#为什么Hook的调用顺序很重要？" class="headerlink" title="为什么Hook的调用顺序很重要？"></a>为什么Hook的调用顺序很重要？</h2><h2 id="useEffect的第二个参数是如何做到控制useEffect的执行？"><a href="#useEffect的第二个参数是如何做到控制useEffect的执行？" class="headerlink" title="useEffect的第二个参数是如何做到控制useEffect的执行？"></a>useEffect的第二个参数是如何做到控制useEffect的执行？</h2><h3 id="useEffect-fn-和componentDidMount的差异有什么差异？"><a href="#useEffect-fn-和componentDidMount的差异有什么差异？" class="headerlink" title="useEffect(fn, [])和componentDidMount的差异有什么差异？"></a>useEffect(fn, [])和componentDidMount的差异有什么差异？</h3><blockquote>
+<p>类似的问题，为什么有时候在effect里拿到的是旧的state或prop呢？</p>
+</blockquote>
+<h3 id="如何正确在useEffect中请求数据？"><a href="#如何正确在useEffect中请求数据？" class="headerlink" title="如何正确在useEffect中请求数据？"></a>如何正确在useEffect中请求数据？</h3><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
 <li><a href="https://juejin.im/post/5be3ea136fb9a049f9121014" target="_blank" rel="noopener">30分钟精通React Hooks</a></li>
 <li>🌟<a href="https://www.reactjscn.com/docs/hooks-intro.html" target="_blank" rel="noopener">HOOKS(提案)</a></li>
 <li>🌟<a href="https://medium.com/@dan_abramov/making-sense-of-react-hooks-fdbde8803889" target="_blank" rel="noopener">Making Sense of React Hooks</a></li>
@@ -330,7 +391,9 @@
 <li><a href="https://juejin.im/post/5cf475d66fb9a07ea944594e#heading-15" target="_blank" rel="noopener">深入浅出 React Hooks</a></li>
 <li>🌟<a href="https://overreacted.io/a-complete-guide-to-useeffect/" target="_blank" rel="noopener">A Complete Guide to useEffect</a></li>
 <li>🌟<a href="https://overreacted.io/making-setinterval-declarative-with-react-hooks/" target="_blank" rel="noopener">Making setInterval Declarative with React Hooks</a></li>
+<li><a href="https://medium.com/@drcmda/hooks-in-react-spring-a-tutorial-c6c436ad7ee4" target="_blank" rel="noopener">Hooks in react-spring, a tutorial</a></li>
 <li><a href="https://nikgrozev.com/2019/04/07/reacts-usecallback-and-usememo-hooks-by-example/" target="_blank" rel="noopener">React’s useCallback and useMemo Hooks By Example</a></li>
+<li><a href="">preact源码</a></li>
 </ul>
 <h2 id="Hook-TodoList"><a href="#Hook-TodoList" class="headerlink" title="Hook TodoList"></a>Hook TodoList</h2>
       
@@ -455,8 +518,8 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">79</span>
-                  <span class="site-state-item-name">posts</span>
+                  <span class="site-state-item-count">80</span>
+                  <span class="site-state-item-name">篇博文</span>
                 </a>
               </div>
             
@@ -517,7 +580,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是Hook-为什么需要Hook"><span class="nav-number">2.</span> <span class="nav-text">什么是Hook?为什么需要Hook?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#useState"><span class="nav-number">3.</span> <span class="nav-text">useState</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#函数式更新"><span class="nav-number">3.1.</span> <span class="nav-text">函数式更新</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#惰性的初始值"><span class="nav-number">3.2.</span> <span class="nav-text">惰性的初始值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#跳过state更新"><span class="nav-number">3.3.</span> <span class="nav-text">跳过state更新</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Effect-Hook"><span class="nav-number">4.</span> <span class="nav-text">Effect Hook</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hook规则"><span class="nav-number">5.</span> <span class="nav-text">Hook规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义Hook"><span class="nav-number">6.</span> <span class="nav-text">自定义Hook</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他API"><span class="nav-number">7.</span> <span class="nav-text">其他API</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#useContext"><span class="nav-number">7.1.</span> <span class="nav-text">useContext</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#useReducer"><span class="nav-number">7.2.</span> <span class="nav-text">useReducer</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#跳过dispatch"><span class="nav-number">7.2.1.</span> <span class="nav-text">跳过dispatch</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#useCallback"><span class="nav-number">7.3.</span> <span class="nav-text">useCallback</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#useMemo"><span class="nav-number">7.4.</span> <span class="nav-text">useMemo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#useRef"><span class="nav-number">7.5.</span> <span class="nav-text">useRef</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#useImperativeHandle"><span class="nav-number">7.6.</span> <span class="nav-text">useImperativeHandle</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#useLayoutEffect"><span class="nav-number">7.7.</span> <span class="nav-text">useLayoutEffect</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#useDebugValue"><span class="nav-number">7.8.</span> <span class="nav-text">useDebugValue</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么Hook的调用顺序很重要？"><span class="nav-number">8.</span> <span class="nav-text">为什么Hook的调用顺序很重要？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">9.</span> <span class="nav-text">参考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hook-TodoList"><span class="nav-number">10.</span> <span class="nav-text">Hook TodoList</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是Hook-为什么需要Hook"><span class="nav-number">2.</span> <span class="nav-text">什么是Hook?为什么需要Hook?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#useState"><span class="nav-number">3.</span> <span class="nav-text">useState</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#函数式更新"><span class="nav-number">3.1.</span> <span class="nav-text">函数式更新</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#惰性的初始值"><span class="nav-number">3.2.</span> <span class="nav-text">惰性的初始值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#跳过state更新"><span class="nav-number">3.3.</span> <span class="nav-text">跳过state更新</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小节"><span class="nav-number">3.4.</span> <span class="nav-text">小节</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#useEffect"><span class="nav-number">4.</span> <span class="nav-text">useEffect</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#需要清除的effect"><span class="nav-number">4.1.</span> <span class="nav-text">需要清除的effect</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#effect性能优化"><span class="nav-number">4.2.</span> <span class="nav-text">effect性能优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小节-1"><span class="nav-number">4.3.</span> <span class="nav-text">小节</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hook规则"><span class="nav-number">5.</span> <span class="nav-text">Hook规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义Hook"><span class="nav-number">6.</span> <span class="nav-text">自定义Hook</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他API"><span class="nav-number">7.</span> <span class="nav-text">其他API</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#useContext"><span class="nav-number">7.1.</span> <span class="nav-text">useContext</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#useReducer"><span class="nav-number">7.2.</span> <span class="nav-text">useReducer</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#跳过dispatch"><span class="nav-number">7.2.1.</span> <span class="nav-text">跳过dispatch</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#useCallback"><span class="nav-number">7.3.</span> <span class="nav-text">useCallback</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#useMemo"><span class="nav-number">7.4.</span> <span class="nav-text">useMemo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#useRef"><span class="nav-number">7.5.</span> <span class="nav-text">useRef</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#useImperativeHandle"><span class="nav-number">7.6.</span> <span class="nav-text">useImperativeHandle</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#useLayoutEffect"><span class="nav-number">7.7.</span> <span class="nav-text">useLayoutEffect</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#useDebugValue"><span class="nav-number">7.8.</span> <span class="nav-text">useDebugValue</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么useState的参数只会在初始渲染时有效？"><span class="nav-number">8.</span> <span class="nav-text">为什么useState的参数只会在初始渲染时有效？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么Hook的调用顺序很重要？"><span class="nav-number">9.</span> <span class="nav-text">为什么Hook的调用顺序很重要？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#useEffect的第二个参数是如何做到控制useEffect的执行？"><span class="nav-number">10.</span> <span class="nav-text">useEffect的第二个参数是如何做到控制useEffect的执行？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#useEffect-fn-和componentDidMount的差异有什么差异？"><span class="nav-number">10.1.</span> <span class="nav-text">useEffect(fn, [])和componentDidMount的差异有什么差异？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何正确在useEffect中请求数据？"><span class="nav-number">10.2.</span> <span class="nav-text">如何正确在useEffect中请求数据？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">11.</span> <span class="nav-text">参考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hook-TodoList"><span class="nav-number">12.</span> <span class="nav-text">Hook TodoList</span></a></li></ol></div>
             
 
           </div>
