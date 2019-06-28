@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Vue," />
+
+
+
+
+
+
+
+
+
+
+<meta name="keywords" content="Vue">
+<meta property="og:type" content="article">
+<meta property="og:title" content="「组件」设计一款Collapse组件">
+<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2019/06/28/设计Collapse组件/index.html">
+<meta property="og:site_name" content="新世紀エヴァンゲリオン">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://unsplash.it/1391/834?random">
+<meta property="og:image" content="https://i.loli.net/2019/06/28/5d15d90eccd7494135.gif">
+<meta property="og:image" content="https://i.loli.net/2019/06/28/5d15db5d7c0b755257.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/28/5d15dc4c303f562573.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/28/5d15dfe2811e812820.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/28/5d15e1c7540fc64226.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/28/5d15e43acb6a662291.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/28/5d15e5ad53b9f46048.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/28/5d15e8841260257356.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/28/5d15f4cda6dbe55930.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/28/5d15ed52da7b791902.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/28/5d15ef9bce25957071.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/28/5d15f124c771577480.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/28/5d15f16f2cd8b81033.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/28/5d15f5aa7a1bf29338.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/28/5d15f697cffee80170.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/28/5d15f66678af065836.png">
+<meta property="og:updated_time" content="2019-06-28T11:15:47.309Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="「组件」设计一款Collapse组件">
+<meta name="twitter:image" content="https://unsplash.it/1391/834?random">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/2019/06/28/设计Collapse组件/"/>
+
+
+
+
+
+  <title>「组件」设计一款Collapse组件 | 新世紀エヴァンゲリオン</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">新世紀エヴァンゲリオン</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">前端小学生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            主页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            时间轴
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://bengbu-yuezhang.github.io/yue.github.io/2019/06/28/设计Collapse组件/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张越">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新世紀エヴァンゲリオン">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">「组件」设计一款Collapse组件</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-06-28T19:20:00+08:00">
+                2019-06-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://unsplash.it/1391/834?random" alt="image"></p>
+<a id="more"></a>
+<p><img src="https://i.loli.net/2019/06/28/5d15d90eccd7494135.gif" alt="image"></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近在使用Vue+TypeScript鼓捣自己的组件库，期间参考不少（抄😂）<strong>element</strong>，<strong>iview</strong>的源码。发现了一些常用的功能的背后，往往是复杂的实现。于是准备写一系列文章，介绍这些组件背后的原理。今天是第三篇，手把手带你实现Collapse组件。</p>
+<h2 id="Collapse"><a href="#Collapse" class="headerlink" title="Collapse"></a>Collapse</h2><p><img src="https://i.loli.net/2019/06/28/5d15db5d7c0b755257.png" alt="image"></p>
+<p>参考iview和element的API设计。外层的Collapse组件，主要用于存放内层的CollapseItem组件，以及控制内层CollapseItem组件的显示状态。内层的CollapseItem组件，主要用来存放用户的自定义内容。</p>
+<h3 id="模版"><a href="#模版" class="headerlink" title="模版"></a>模版</h3><p><img src="https://i.loli.net/2019/06/28/5d15dc4c303f562573.png" alt="image"></p>
+<h3 id="Props"><a href="#Props" class="headerlink" title="Props"></a>Props</h3><p>Collapse主要接收2个参数。</p>
+<ul>
+<li><strong>value</strong>，可以是一个数组或者字符串。如果是数组，代表支持多个CollapseItem同时展开。如果是字符串则代表同一时刻只能有一个CollapseItem展开。</li>
+<li><strong>accordion</strong>，是否支持手风琴效果。</li>
+</ul>
+<p><img src="https://i.loli.net/2019/06/28/5d15dfe2811e812820.png" alt="image"></p>
+<h3 id="created"><a href="#created" class="headerlink" title="created"></a>created</h3><p>在created生命周期中，使用this.$on监听<strong>collapse-item-click</strong>事件，事件参数是CollapseItem的name值。<strong>由于我们使用的是slot插槽，我们没有办法直接在子组件中使用this.$emit向上传递事件。我们将在子组件中使用dispath, 向上广播事件。</strong></p>
+<p><img src="https://i.loli.net/2019/06/28/5d15e1c7540fc64226.png" alt="image"></p>
+<h3 id="Data"><a href="#Data" class="headerlink" title="Data"></a>Data</h3><ul>
+<li>currentValue，当前激活的CollapseItem的key的集合。</li>
+</ul>
+<p><img src="https://i.loli.net/2019/06/28/5d15e43acb6a662291.png" alt="image"></p>
+<h3 id="Wath"><a href="#Wath" class="headerlink" title="Wath"></a>Wath</h3><p>监听props的value属性，及时响应外部的更新，同时<strong>向下广播，通知子组件当前激活的key的修改</strong></p>
+<p><img src="https://i.loli.net/2019/06/28/5d15e5ad53b9f46048.png" alt="image"></p>
+<h3 id="Methods"><a href="#Methods" class="headerlink" title="Methods"></a>Methods</h3><p>Collapse组件主要有两个内置的方法。<strong>handleCollapseItemClick</strong>，处理CollapseItem的点击。</p>
+<p><strong>setCurrentValue</strong>，设置当前激活的CollapseItem的key的集合。根据是否开启手风琴效果，做不同的处理。同时向子组件广播，当前激活key集合的更改。子组件针对更改，做出显隐处理。</p>
+<p><img src="https://i.loli.net/2019/06/28/5d15e8841260257356.png" alt="image"></p>
+<h3 id="Provide"><a href="#Provide" class="headerlink" title="Provide"></a>Provide</h3><p>向子组件注入父组件的实例，方便子组件获取父组件的属性。</p>
+<p><img src="https://i.loli.net/2019/06/28/5d15f4cda6dbe55930.png" alt="image"></p>
+<h2 id="🌟this-dispatch-amp-this-broadcast"><a href="#🌟this-dispatch-amp-this-broadcast" class="headerlink" title="🌟this.dispatch &amp; this.broadcast"></a>🌟this.dispatch &amp; this.broadcast</h2><p>this.dispatch和this.broadcast原本是Vue1.0中弃用的方法，因为this.dispatch和this.broadcast滥用，会导致整个事件流难以理解。</p>
+<p>Vue文档中更推荐我们使用Vuex进行状态管理，但是我们写的是组件库，使用Vuex会形成额外的依赖。为了方便起见，我们将重写dispatch和broadcast方法。</p>
+<p><img src="https://i.loli.net/2019/06/28/5d15ed52da7b791902.png" alt="image"></p>
+<p>findChildsComponent方法使用$children属性。向下查找指定name的子组件。如果没有找到，使用递归的方法，查找子组件的子组件。</p>
+<blockquote>
+<p>vm.$children, 当前实例的直接子组件</p>
+</blockquote>
+<p>findParentComponent方法利用$parent属性，向上查找指定name的父组件。如果没有找到，使用递归的方法，查找父组件的父组件。</p>
+<blockquote>
+<p>vm.$parent, 父实例，如果当前实例有的话。</p>
+</blockquote>
+<p>dispatch，和broadcast方法在找到对应的组件后，会在调用组件实例的$emit方法，在组件实例上的$on会监听到$emit传播的事件。</p>
+<h2 id="CollapseItem"><a href="#CollapseItem" class="headerlink" title="CollapseItem"></a>CollapseItem</h2><h3 id="模版-1"><a href="#模版-1" class="headerlink" title="模版"></a>模版</h3><p>模版主要分为上下两部分，header部分和内容部分。点击header部分，会展开content部分。再次点击后，会收起content的部分。</p>
+<p><img src="https://i.loli.net/2019/06/28/5d15ef9bce25957071.png" alt="image"></p>
+<h3 id="Props-1"><a href="#Props-1" class="headerlink" title="Props"></a>Props</h3><p>CollapseItem接收两个属性</p>
+<ul>
+<li>title, CollapseItem的标题</li>
+<li>name, CollapseItem的唯一标识，当Collapse组件的currentValue属性，包含这个唯一标识时，CollapseItem会展开。</li>
+</ul>
+<p><img src="https://i.loli.net/2019/06/28/5d15f124c771577480.png" alt="image"></p>
+<h3 id="created-1"><a href="#created-1" class="headerlink" title="created"></a>created</h3><p>在created中监听<strong>collapse-active-update</strong>事件</p>
+<p><img src="https://i.loli.net/2019/06/28/5d15f16f2cd8b81033.png" alt="image"></p>
+<h3 id="Data-1"><a href="#Data-1" class="headerlink" title="Data"></a>Data</h3><ul>
+<li>isActive, 根据父组件的currentValue属性，判断当前CollapseItem是否需要展开。</li>
+</ul>
+<p><img src="https://i.loli.net/2019/06/28/5d15f5aa7a1bf29338.png" alt="image"></p>
+<h3 id="Inject"><a href="#Inject" class="headerlink" title="Inject"></a>Inject</h3><p>接收父组件的注入，collapse属性是父组件的实例。</p>
+<p><img src="https://i.loli.net/2019/06/28/5d15f697cffee80170.png" alt="image"></p>
+<h3 id="Methods-1"><a href="#Methods-1" class="headerlink" title="Methods"></a>Methods</h3><p>CollapseItem包含两个方法：</p>
+<ul>
+<li>handleCollapseItemClick，点击CollapseItem，向上广播’collapse-item-click’事件，参数是当前组件的name。</li>
+<li>handleCollapseActiveUpdate，父组件通知子组件当前激活collapseItem集合的更改，CollapseItem判断自身的key是否在激活的collapseItem集合中。做出显隐处理。</li>
+</ul>
+<p><img src="https://i.loli.net/2019/06/28/5d15f66678af065836.png" alt="image"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Vue/" rel="tag"># Vue</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/28/函数组件于class的区别/" rel="next" title="「React」函数组件于Class组件有何不同？">
+                <i class="fa fa-chevron-left"></i> 「React」函数组件于Class组件有何不同？
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/06/30/再学TS/" rel="prev" title="「学习笔记」TypeScript">
+                「学习笔记」TypeScript <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="张越" />
+            
+              <p class="site-author-name" itemprop="name">张越</p>
+              <p class="site-description motion-element" itemprop="description">所谓成长，就是经过不断的聚散离合，找到不太会伤害到彼此的距离</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">81</span>
+                  <span class="site-state-item-name">篇博文</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/BengBu-YueZhang" target="_blank" title="我的GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/5460100952/profile?topnav=1&wvr=6" target="_blank" title="我的微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的微博</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Collapse"><span class="nav-number">2.</span> <span class="nav-text">Collapse</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#模版"><span class="nav-number">2.1.</span> <span class="nav-text">模版</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Props"><span class="nav-number">2.2.</span> <span class="nav-text">Props</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#created"><span class="nav-number">2.3.</span> <span class="nav-text">created</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Data"><span class="nav-number">2.4.</span> <span class="nav-text">Data</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Wath"><span class="nav-number">2.5.</span> <span class="nav-text">Wath</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Methods"><span class="nav-number">2.6.</span> <span class="nav-text">Methods</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Provide"><span class="nav-number">2.7.</span> <span class="nav-text">Provide</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#🌟this-dispatch-amp-this-broadcast"><span class="nav-number">3.</span> <span class="nav-text">🌟this.dispatch &amp; this.broadcast</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CollapseItem"><span class="nav-number">4.</span> <span class="nav-text">CollapseItem</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#模版-1"><span class="nav-number">4.1.</span> <span class="nav-text">模版</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Props-1"><span class="nav-number">4.2.</span> <span class="nav-text">Props</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#created-1"><span class="nav-number">4.3.</span> <span class="nav-text">created</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Data-1"><span class="nav-number">4.4.</span> <span class="nav-text">Data</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Inject"><span class="nav-number">4.5.</span> <span class="nav-text">Inject</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Methods-1"><span class="nav-number">4.6.</span> <span class="nav-text">Methods</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张越</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
