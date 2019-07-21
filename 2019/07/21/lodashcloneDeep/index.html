@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="javascript," />
+
+
+
+
+
+
+
+
+
+
+<meta name="keywords" content="javascript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript中的深拷贝">
+<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2019/07/21/lodashcloneDeep/index.html">
+<meta property="og:site_name" content="新世紀エヴァンゲリオン">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://unsplash.it/1469/562?random">
+<meta property="og:image" content="https://s2.ax1x.com/2019/07/21/e9oJIg.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/07/21/e9oqWd.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/21/5d346618ea90165148.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/21/5d3466c92b19540315.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/21/5d347a9b3715234682.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/21/5d3479087ee6775078.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/21/5d3478e4d83a832817.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/21/5d346ec40b03e60505.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/21/5d347be48be4b30412.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/21/5d347ac0386f016083.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/21/5d347af9e5b3061515.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/21/5d347b8c13ef830766.png">
+<meta property="og:updated_time" content="2019-07-21T14:53:49.627Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript中的深拷贝">
+<meta name="twitter:image" content="https://unsplash.it/1469/562?random">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/2019/07/21/lodashcloneDeep/"/>
+
+
+
+
+
+  <title>JavaScript中的深拷贝 | 新世紀エヴァンゲリオン</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">新世紀エヴァンゲリオン</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">前端小学生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            主页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            时间轴
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://bengbu-yuezhang.github.io/yue.github.io/2019/07/21/lodashcloneDeep/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张越">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新世紀エヴァンゲリオン">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">JavaScript中的深拷贝</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-21T20:00:00+08:00">
+                2019-07-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://unsplash.it/1469/562?random" alt="image"></p>
+<a id="more"></a>
+<h2 id="什么是深拷贝？"><a href="#什么是深拷贝？" class="headerlink" title="什么是深拷贝？"></a>什么是深拷贝？</h2><p>JavaScript中存在三种可执行代码，global，function，eval。可执行代码的执行依赖于执行上下文。我们可以抽象的将执行上下文理解为一个对象。这个对象上会包含一些属性，如variable object（变量对象），this value（this指针），scope chain（作用域链）。</p>
+<p>JavaScript中的基础数据类型都是存储在变量对象中。JavaScript中共有5种基础数据类型，<strong>Undefined、Null、Boolean、Number、String</strong>。我们可以直接操作存储在变量对象中的，基础数据类型。</p>
+<p>JavaScript中的引用数据类型的值，是保存在堆内存中的。我们不能直接操作堆内存空间。我们通过操作variable object中的数据的引用，访问修改对象。这里的应用是堆内存空间中的地址。</p>
+<p><img src="https://s2.ax1x.com/2019/07/21/e9oJIg.png" alt="image"></p>
+<p>当我们使用 <strong>var a = b</strong>赋值的时候，如果b是引用类型，我们赋于a的只是内存空间的地址。</p>
+<p><img src="https://s2.ax1x.com/2019/07/21/e9oqWd.png" alt="image"></p>
+<p>这就是产生了一个问题，我们该如何复制引用类型的对象。</p>
+<h2 id="常见的深拷贝的方式"><a href="#常见的深拷贝的方式" class="headerlink" title="常见的深拷贝的方式"></a>常见的深拷贝的方式</h2><h3 id="JSON-stringify-和-JSON-parse"><a href="#JSON-stringify-和-JSON-parse" class="headerlink" title="JSON.stringify 和 JSON.parse"></a>JSON.stringify 和 JSON.parse</h3><p>最简单的方式将对象使用JSON.stringify将对象序列化为JSON格式的字符串，然后使用JSON.parse将JSON字符串反序列化为对象。</p>
+<p><img src="https://i.loli.net/2019/07/21/5d346618ea90165148.png" alt="image"></p>
+<h3 id="for-in-配合-递归"><a href="#for-in-配合-递归" class="headerlink" title="for in 配合 递归"></a>for in 配合 递归</h3><p>另外一种方式是使用for in循环，配合递归</p>
+<p><img src="https://i.loli.net/2019/07/21/5d3466c92b19540315.png" alt="image"></p>
+<h2 id="深拷贝中遇到的问题"><a href="#深拷贝中遇到的问题" class="headerlink" title="深拷贝中遇到的问题"></a>深拷贝中遇到的问题</h2><p>到这里，问题解决了吗？并没有，上面方式有以下的问题</p>
+<ol>
+<li>JSON以及for…in无法对Date，正则，Set，Map等数据结构做出正确的处理</li>
+<li>没有对Symbol的属性做出正确的处理。</li>
+<li>for…in没有对对象中可能存在的循环引用做出正确的处理。</li>
+</ol>
+<h2 id="如何解决这些问题？"><a href="#如何解决这些问题？" class="headerlink" title="如何解决这些问题？"></a>如何解决这些问题？</h2><p>对于上面问题的解决, 我参考了lodash的源码，以及ramda的源码。lodash的源码中涉及到非常多的边界条件的处理，可读性相对差一些。我在此基础上做出了一定的简化，具体代码在文末。</p>
+<h3 id="Date的的处理"><a href="#Date的的处理" class="headerlink" title="Date的的处理"></a>Date的的处理</h3><p>当我们检测到value的为[object Date]类型的时候，我们通过Date实例的constructor属性，获取实例的构造函数。Date的构造函数可以接收一个Date的实例作为参数。从而创建一个新的Date实例。</p>
+<p><img src="https://i.loli.net/2019/07/21/5d347a9b3715234682.png" alt="image"></p>
+<h3 id="Map，Set的处理"><a href="#Map，Set的处理" class="headerlink" title="Map，Set的处理"></a>Map，Set的处理</h3><p>和Date对象同理，使用Map或者Set实例的constructor属性，创建新的实例后，通过forEach对Map和Set进行遍历，重新设置Map以及Set的内容。</p>
+<p><img src="https://i.loli.net/2019/07/21/5d3479087ee6775078.png" alt="image"></p>
+<p><img src="https://i.loli.net/2019/07/21/5d3478e4d83a832817.png" alt="image"></p>
+<h3 id="正则的处理"><a href="#正则的处理" class="headerlink" title="正则的处理"></a>正则的处理</h3><ul>
+<li>source，正则对象的源模式文本</li>
+<li>global, global属性表明正则表达式是否使用了”g”标志</li>
+<li>ignoreCase, ignoreCase属性表明正则表达式是否使用了”i”标志</li>
+<li>multiline, multiline属性表明正则表达式是否使用了”m”标志</li>
+<li>sticky, sticky属性表明正则表达式是否使用了”y”标志</li>
+<li>unicode, unicode属性表明正则表达式带有”u”标</li>
+</ul>
+<p><img src="https://i.loli.net/2019/07/21/5d346ec40b03e60505.png" alt="image"></p>
+<h3 id="循环引用的处理"><a href="#循环引用的处理" class="headerlink" title="循环引用的处理"></a>循环引用的处理</h3><p>当出现循环引用的时候，如果不进行判断，使用递归。会爆栈</p>
+<p><img src="https://i.loli.net/2019/07/21/5d347be48be4b30412.png" alt="image"></p>
+<p>WeakMap支持使用引用类型作为key，我们可以利用这个特性，将对象的每一个引用类型的属性作为key，存储在WeakMap中。当同样的key再次出现时，可以证明发生了循环引用。直接返回结果。</p>
+<p><img src="https://i.loli.net/2019/07/21/5d347ac0386f016083.png" alt="image"></p>
+<p><img src="https://i.loli.net/2019/07/21/5d347af9e5b3061515.png" alt="image"></p>
+<h3 id="Symbol属性的处理"><a href="#Symbol属性的处理" class="headerlink" title="Symbol属性的处理"></a>Symbol属性的处理</h3><p>Symbols类型的属性无法使用Object.keys获取，可以通过Object.getOwnPropertySymbols方法获取对象上的Symbol类型的属性。</p>
+<p><img src="https://i.loli.net/2019/07/21/5d347b8c13ef830766.png" alt="image"></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://github.com/lodash/lodash" target="_blank" rel="noopener">lodash源码</a></li>
+<li><a href="https://github.com/ramda/ramda" target="_blank" rel="noopener">ramda源码</a></li>
+<li><a href="https://www.jianshu.com/p/996671d4dcc4" target="_blank" rel="noopener">前端基础进阶（一）：内存空间详细图解</a></li>
+</ul>
+<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 使用WeakMap判断是否形成了环，避免爆栈</span></span><br><span class="line"><span class="keyword">const</span> hash = <span class="keyword">new</span> <span class="built_in">WeakMap</span>()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">hasHash</span> (<span class="params">value</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> hash.has(value)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setHash</span> (<span class="params">value, result</span>) </span>&#123;</span><br><span class="line">  hash.set(value, result)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getHash</span> (<span class="params">value</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> hash.get(value)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getSymbols</span> (<span class="params">value</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> symKeys = []</span><br><span class="line">  <span class="keyword">const</span> propertyIsEnumerable = <span class="built_in">Object</span>.prototype.propertyIsEnumerable</span><br><span class="line">  <span class="keyword">const</span> nativeGetSymbols = <span class="built_in">Object</span>.getOwnPropertySymbols</span><br><span class="line">  symKeys = nativeGetSymbols(value)</span><br><span class="line">  <span class="comment">// 判断是否是可枚举的属性</span></span><br><span class="line">  symKeys = symKeys.filter(<span class="function"><span class="params">symkey</span> =&gt;</span> propertyIsEnumerable.call(value, symkey))</span><br><span class="line">  <span class="keyword">return</span> symKeys</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getAllKeys</span> (<span class="params">value</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> keys = <span class="built_in">Object</span>.keys(value)</span><br><span class="line">  keys = [...keys, ...getSymbols(value)]</span><br><span class="line">  <span class="keyword">return</span> keys</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> types = &#123;</span><br><span class="line">  <span class="string">'[object Array]'</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="string">'[object Boolean]'</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="string">'[object Date]'</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="string">'[object Map]'</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="string">'[object Set]'</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="string">'[object Number]'</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="string">'[object Object]'</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="string">'[object RegExp]'</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="string">'[object Symbol]'</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="string">'[object String]'</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="string">'[object ArrayBuffer]'</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="string">'[object Function]'</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="string">'[object WeakMap]'</span>: <span class="literal">false</span>,</span><br><span class="line">  <span class="string">'[object Error]'</span>: <span class="literal">false</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isObject</span> (<span class="params">value</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> type = <span class="keyword">typeof</span> value;</span><br><span class="line">  <span class="keyword">return</span> value != <span class="literal">null</span> &amp;&amp; (type === <span class="string">'object'</span> || type === <span class="string">'function'</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getType</span> (<span class="params">value</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">Object</span>.prototype.toString.call(value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">initCloneArray</span> (<span class="params">value</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; length &#125; = value</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> value.constructor(length)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">initCloneArrayBuffer</span> (<span class="params">value</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> result = <span class="keyword">new</span> value.constructor(value.byteLength)</span><br><span class="line">  <span class="keyword">new</span> <span class="built_in">Uint8Array</span>(result).set(<span class="keyword">new</span> <span class="built_in">Uint8Array</span>(value))</span><br><span class="line">  <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">initCloneObject</span> (<span class="params">value</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">Object</span>.create(<span class="built_in">Object</span>.getPrototypeOf(value))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">initCloneRegExp</span> (<span class="params">value</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">RegExp</span>(value.source,</span><br><span class="line">    (value.global     ? <span class="string">'g'</span> : <span class="string">''</span>) +</span><br><span class="line">    (value.ignoreCase ? <span class="string">'i'</span> : <span class="string">''</span>) +</span><br><span class="line">    (value.multiline  ? <span class="string">'m'</span> : <span class="string">''</span>) +</span><br><span class="line">    (value.sticky     ? <span class="string">'y'</span> : <span class="string">''</span>) +</span><br><span class="line">    (value.unicode    ? <span class="string">'u'</span> : <span class="string">''</span>)</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">initCloneFunction</span> (<span class="params">value</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">...args</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> value.apply(<span class="literal">null</span>, ...args)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">initClone</span> (<span class="params">value, type</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> Ctor = value.constructor</span><br><span class="line">  <span class="keyword">switch</span> (type) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'[object ArrayBuffer]'</span>:</span><br><span class="line">      <span class="keyword">return</span> initCloneArrayBuffer(value)</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'[object Date]'</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'[object Map]'</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'[object Set]'</span>:</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">new</span> Ctor(value)</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'[object RegExp]'</span>:</span><br><span class="line">      <span class="keyword">return</span> initCloneRegExp(value)</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'[object Array]'</span>:</span><br><span class="line">      <span class="keyword">return</span> initCloneArray(value)</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'[object Object]'</span>:</span><br><span class="line">      <span class="keyword">return</span> initCloneObject(value)</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'[object Function]'</span>:</span><br><span class="line">      <span class="keyword">return</span> initCloneFunction(value)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">deepClone</span> (<span class="params">value</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> result;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> type = getType(value)</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 如果不是引用类型直接返回</span></span><br><span class="line">  <span class="keyword">if</span> (!isObject(value)) &#123;</span><br><span class="line">    <span class="keyword">return</span> value</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 如果是weakMap，Error类型直接返回</span></span><br><span class="line">  <span class="keyword">if</span> (!types[type]) &#123;</span><br><span class="line">    <span class="keyword">return</span> value</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> isArr = <span class="built_in">Array</span>.isArray(value)</span><br><span class="line"></span><br><span class="line">  result = initClone(value, type)</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 判断是否产生了循环引用, 避免爆栈</span></span><br><span class="line">  <span class="keyword">if</span> (hasHash(value)) &#123;</span><br><span class="line">    <span class="comment">// 如果存在直接返回</span></span><br><span class="line">    <span class="keyword">return</span> getHash(value)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 在weakMap添加标记</span></span><br><span class="line">  setHash(value, result)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (type === <span class="string">'[object Map]'</span>) &#123;</span><br><span class="line">    value.forEach(<span class="function">(<span class="params">val, key</span>) =&gt;</span> &#123;</span><br><span class="line">      result.set(key, deepClone(val))</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (type === <span class="string">'[object Set]'</span>) &#123;</span><br><span class="line">    value.forEach(<span class="function">(<span class="params">val, key</span>) =&gt;</span> &#123;</span><br><span class="line">      result.add(deepClone(val))</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> props = getAllKeys(value)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; props.length; i++) &#123;</span><br><span class="line">    <span class="keyword">const</span> key = props[i]</span><br><span class="line">    <span class="keyword">const</span> val = value[key]</span><br><span class="line">    result[key] = deepClone(val)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/javascript/" rel="tag"># javascript</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/19/每日前端/" rel="next" title="每日前端（一）">
+                <i class="fa fa-chevron-left"></i> 每日前端（一）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/21/每日前端2/" rel="prev" title="每日前端（二）">
+                每日前端（二） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="张越" />
+            
+              <p class="site-author-name" itemprop="name">张越</p>
+              <p class="site-description motion-element" itemprop="description">所谓成长，就是经过不断的聚散离合，找到不太会伤害到彼此的距离</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">83</span>
+                  <span class="site-state-item-name">篇博文</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/BengBu-YueZhang" target="_blank" title="我的GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/5460100952/profile?topnav=1&wvr=6" target="_blank" title="我的微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的微博</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是深拷贝？"><span class="nav-number">1.</span> <span class="nav-text">什么是深拷贝？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常见的深拷贝的方式"><span class="nav-number">2.</span> <span class="nav-text">常见的深拷贝的方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#JSON-stringify-和-JSON-parse"><span class="nav-number">2.1.</span> <span class="nav-text">JSON.stringify 和 JSON.parse</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#for-in-配合-递归"><span class="nav-number">2.2.</span> <span class="nav-text">for in 配合 递归</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#深拷贝中遇到的问题"><span class="nav-number">3.</span> <span class="nav-text">深拷贝中遇到的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何解决这些问题？"><span class="nav-number">4.</span> <span class="nav-text">如何解决这些问题？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Date的的处理"><span class="nav-number">4.1.</span> <span class="nav-text">Date的的处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Map，Set的处理"><span class="nav-number">4.2.</span> <span class="nav-text">Map，Set的处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#正则的处理"><span class="nav-number">4.3.</span> <span class="nav-text">正则的处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#循环引用的处理"><span class="nav-number">4.4.</span> <span class="nav-text">循环引用的处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Symbol属性的处理"><span class="nav-number">4.5.</span> <span class="nav-text">Symbol属性的处理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#源码"><span class="nav-number">6.</span> <span class="nav-text">源码</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张越</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
