@@ -81,7 +81,7 @@
 
 <meta name="keywords" content="基础">
 <meta property="og:type" content="article">
-<meta property="og:title" content="每日前端">
+<meta property="og:title" content="每日前端（2019年7月）">
 <meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2019/07/28/天天前端/index.html">
 <meta property="og:site_name" content="新世紀エヴァンゲリオン">
 <meta property="og:locale" content="zh-CN">
@@ -114,9 +114,17 @@
 <meta property="og:image" content="https://i.loli.net/2019/07/28/5d3d52aca1ceb10657.png">
 <meta property="og:image" content="https://i.loli.net/2019/07/28/5d3d5de3ea86f14898.png">
 <meta property="og:image" content="https://i.loli.net/2019/07/28/5d3d61f12687d17829.png">
-<meta property="og:updated_time" content="2019-07-28T09:05:51.127Z">
+<meta property="og:image" content="https://i.loli.net/2019/07/28/5d3d8613ced5e10719.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/28/5d3d8f70a39f830332.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/28/5d3d8d0872be553270.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/28/5d3d993add7da71420.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/28/5d3d997c2408911514.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/28/5d3d9aa02bd8593736.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/28/5d3d9afbe881191532.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/28/5d3d9d3de0a2810175.png">
+<meta property="og:updated_time" content="2019-07-28T13:04:36.083Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="每日前端">
+<meta name="twitter:title" content="每日前端（2019年7月）">
 <meta name="twitter:image" content="https://i.loli.net/2019/07/20/5d3309f34078563788.jpeg">
 
 
@@ -153,7 +161,7 @@
 
 
 
-  <title>每日前端 | 新世紀エヴァンゲリオン</title>
+  <title>每日前端（2019年7月） | 新世紀エヴァンゲリオン</title>
   
 
 
@@ -213,7 +221,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Home
+            主页
           </a>
         </li>
       
@@ -223,7 +231,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
-            Tags
+            标签
           </a>
         </li>
       
@@ -233,7 +241,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archives
+            时间轴
           </a>
         </li>
       
@@ -287,7 +295,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">每日前端</h1>
+          <h1 class="post-title" itemprop="name headline">每日前端（2019年7月）</h1>
         
 
         <div class="post-meta">
@@ -299,7 +307,7 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-28T12:30:00+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-28T20:30:00+08:00">
                 2019-07-28
               </time>
             
@@ -543,7 +551,37 @@
 </ul>
 </li>
 </ul>
-<h2 id="2019-7-28-变量对象"><a href="#2019-7-28-变量对象" class="headerlink" title="2019.7.28 变量对象"></a>2019.7.28 变量对象</h2><h2 id="2019-7-28「又双叒叕」React自学笔记"><a href="#2019-7-28「又双叒叕」React自学笔记" class="headerlink" title="2019.7.28「又双叒叕」React自学笔记"></a>2019.7.28「又双叒叕」React自学笔记</h2><h2 id="2019-7-28-Axios源码"><a href="#2019-7-28-Axios源码" class="headerlink" title="2019.7.28 Axios源码"></a>2019.7.28 Axios源码</h2>
+<h2 id="2019-7-28-变量对象（Variable-Object）"><a href="#2019-7-28-变量对象（Variable-Object）" class="headerlink" title="2019.7.28 变量对象（Variable Object）"></a>2019.7.28 变量对象（Variable Object）</h2><blockquote>
+<p>参考<a href="https://www.cnblogs.com/TomXu/archive/2012/01/16/2309728.html" target="_blank" rel="noopener">汤姆大叔的博客</a></p>
+</blockquote>
+<p>变量对象（VO）是执行上下文相关的属性，变量对象存储着执行上下文中的，变量，函数声明，函数的形参。</p>
+<p>只有在全局上下文中，可以直接访问全局上下文的VO。在其他上下文中不能直接访问VO对象，例如函数上下文中通过访问活动对象（AO）替代VO的功能。</p>
+<p><img src="https://i.loli.net/2019/07/28/5d3d8613ced5e10719.png" alt="image"></p>
+<h3 id="不同类型的上下文对象"><a href="#不同类型的上下文对象" class="headerlink" title="不同类型的上下文对象"></a>不同类型的上下文对象</h3><h4 id="全局上下文变量对象"><a href="#全局上下文变量对象" class="headerlink" title="全局上下文变量对象"></a>全局上下文变量对象</h4><p><strong>全局对象等于全局上下文的变量对象，VO(globalContext) === global;</strong></p>
+<p><img src="https://i.loli.net/2019/07/28/5d3d8f70a39f830332.png" alt="image"></p>
+<h4 id="函数上下文变量对象"><a href="#函数上下文变量对象" class="headerlink" title="函数上下文变量对象"></a>函数上下文变量对象</h4><p>在函数执行上下文中VO是不能直接访问的，通过AO替代VO的角色，<strong>VO(functionContext) === AO</strong>。AO是在进入函数上下文时刻被创建的，通过arguments属性初始化。arguments属性等于Arguments对象。</p>
+<p><img src="https://i.loli.net/2019/07/28/5d3d8d0872be553270.png" alt="image"></p>
+<p>Arguments对象是AO的一个属性。Arguments对象拥有以下属性</p>
+<ul>
+<li>callee，当前函数的引用</li>
+<li>length，真正传递的参数的长度</li>
+<li>properties-indexes（字符串类型的整数），Arguments[0]等于第一个参数。依次类推。</li>
+</ul>
+<h3 id="处理上下文的两个阶段"><a href="#处理上下文的两个阶段" class="headerlink" title="处理上下文的两个阶段"></a>处理上下文的两个阶段</h3><h4 id="进入执行上下文"><a href="#进入执行上下文" class="headerlink" title="进入执行上下文"></a>进入执行上下文</h4><p>在代码执行前，VO拥有以下属性（1，2，3同样是声明的顺序）：</p>
+<ol>
+<li>函数的所有形参，由名称和对应值组成，如果没有传递参数。则由名称和undefined组成。</li>
+<li>所有函数声明（不包含函数表达式）如果变量对象中已经存在同名的属性，则会完全替代这个属性。</li>
+<li>所有变量声明，由名称和对应值（undefined）组成。如果变量名称跟已经声明的形参或函数相同，则变量声明不会干扰已经存在的这类属性。</li>
+</ol>
+<p>举例说明：</p>
+<p><img src="https://i.loli.net/2019/07/28/5d3d993add7da71420.png" alt="image"></p>
+<h4 id="代码执行"><a href="#代码执行" class="headerlink" title="代码执行"></a>代码执行</h4><p>在代码执行阶段，上面的例子中，AO的<em>c</em>、<em>e</em>属性会被修改</p>
+<p><img src="https://i.loli.net/2019/07/28/5d3d997c2408911514.png" alt="image"></p>
+<p>举例说明：</p>
+<p><img src="https://i.loli.net/2019/07/28/5d3d9aa02bd8593736.png" alt="image"></p>
+<p><img src="https://i.loli.net/2019/07/28/5d3d9afbe881191532.png" alt="image"></p>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p><img src="https://i.loli.net/2019/07/28/5d3d9d3de0a2810175.png" alt="image"></p>
+<h2 id="2019-7-29「又双叒叕」React自学笔记"><a href="#2019-7-29「又双叒叕」React自学笔记" class="headerlink" title="2019.7.29「又双叒叕」React自学笔记"></a>2019.7.29「又双叒叕」React自学笔记</h2><h2 id="2019-7-29-Axios源码"><a href="#2019-7-29-Axios源码" class="headerlink" title="2019.7.29 Axios源码"></a>2019.7.29 Axios源码</h2>
       
     </div>
     
@@ -667,7 +705,7 @@
                 <a href="/archives/">
               
                   <span class="site-state-item-count">82</span>
-                  <span class="site-state-item-name">posts</span>
+                  <span class="site-state-item-name">篇博文</span>
                 </a>
               </div>
             
@@ -728,7 +766,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2019-7-17-原型-amp-原型链"><span class="nav-number">2.</span> <span class="nav-text">2019.7.17 原型 &amp; 原型链</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2019-7-17-词法作用域-静态作用域-和动态作用域"><span class="nav-number">3.</span> <span class="nav-text">2019.7.17 词法作用域(静态作用域)和动态作用域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2019-7-18-执行上下文栈"><span class="nav-number">4.</span> <span class="nav-text">2019.7.18 执行上下文栈</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是可执行代码（executable-code）？"><span class="nav-number">4.1.</span> <span class="nav-text">什么是可执行代码（executable code）？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是执行上下文（Execution-Context）？"><span class="nav-number">4.2.</span> <span class="nav-text">什么是执行上下文（Execution Context）？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#变量对象（variable-object）"><span class="nav-number">4.2.1.</span> <span class="nav-text">变量对象（variable object）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#活动对象（activation-object）"><span class="nav-number">4.2.1.1.</span> <span class="nav-text">活动对象（activation object）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#this指针"><span class="nav-number">4.2.2.</span> <span class="nav-text">this指针</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#作用域链"><span class="nav-number">4.2.3.</span> <span class="nav-text">作用域链</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是执行上下文栈（Execution-Context-Stack）？"><span class="nav-number">4.3.</span> <span class="nav-text">什么是执行上下文栈（Execution Context Stack）？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#全局代码执行上下文栈"><span class="nav-number">4.3.1.</span> <span class="nav-text">全局代码执行上下文栈</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#函数代码执行上下文栈"><span class="nav-number">4.3.2.</span> <span class="nav-text">函数代码执行上下文栈</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#eval代码执行上下文栈"><span class="nav-number">4.3.3.</span> <span class="nav-text">eval代码执行上下文栈</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#思考"><span class="nav-number">4.4.</span> <span class="nav-text">思考</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2019-7-20-Node多进程模型"><span class="nav-number">5.</span> <span class="nav-text">2019.7.20 Node多进程模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是进程？"><span class="nav-number">5.1.</span> <span class="nav-text">什么是进程？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是线程？"><span class="nav-number">5.2.</span> <span class="nav-text">什么是线程？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程和线程的关联？"><span class="nav-number">5.3.</span> <span class="nav-text">进程和线程的关联？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单线程（node）和多线程（java）是如何处理并发的？"><span class="nav-number">5.4.</span> <span class="nav-text">单线程（node）和多线程（java）是如何处理并发的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#node的”单线程”"><span class="nav-number">5.5.</span> <span class="nav-text">node的”单线程”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#node的子进程"><span class="nav-number">5.6.</span> <span class="nav-text">node的子进程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#子进程的好处"><span class="nav-number">5.6.1.</span> <span class="nav-text">子进程的好处</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#node子进程的例子"><span class="nav-number">5.6.2.</span> <span class="nav-text">node子进程的例子</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#node的主从模型"><span class="nav-number">5.7.</span> <span class="nav-text">node的主从模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PM2中的cluster"><span class="nav-number">5.8.</span> <span class="nav-text">PM2中的cluster</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#守护进程"><span class="nav-number">5.9.</span> <span class="nav-text">守护进程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2019-7-21-Lodash中的cloneDeep"><span class="nav-number">6.</span> <span class="nav-text">2019.7.21 Lodash中的cloneDeep</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2019-7-27-作用域链（Scope-Chain）"><span class="nav-number">7.</span> <span class="nav-text">2019.7.27 作用域链（Scope Chain）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#作用域的变化过程"><span class="nav-number">7.1.</span> <span class="nav-text">作用域的变化过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#函数创建阶段"><span class="nav-number">7.1.1.</span> <span class="nav-text">函数创建阶段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#函数激活阶段"><span class="nav-number">7.1.2.</span> <span class="nav-text">函数激活阶段</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包"><span class="nav-number">7.2.</span> <span class="nav-text">闭包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#作用域链查找"><span class="nav-number">7.3.</span> <span class="nav-text">作用域链查找</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#全局和eval的作用域链"><span class="nav-number">7.4.</span> <span class="nav-text">全局和eval的作用域链</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2019-7-28-this"><span class="nav-number">8.</span> <span class="nav-text">2019.7.28 this</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#全局代码中的this"><span class="nav-number">8.1.</span> <span class="nav-text">全局代码中的this</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数代码中的this"><span class="nav-number">8.2.</span> <span class="nav-text">函数代码中的this</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reference"><span class="nav-number">8.3.</span> <span class="nav-text">Reference</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何确定this的值？"><span class="nav-number">8.4.</span> <span class="nav-text">如何确定this的值？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是MemberExpression？"><span class="nav-number">8.4.1.</span> <span class="nav-text">什么是MemberExpression？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#举例分析"><span class="nav-number">8.4.2.</span> <span class="nav-text">举例分析</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2019-7-28-闭包（closure）"><span class="nav-number">9.</span> <span class="nav-text">2019.7.28 闭包（closure）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是自由变量？"><span class="nav-number">9.1.</span> <span class="nav-text">什么是自由变量？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是闭包？"><span class="nav-number">9.2.</span> <span class="nav-text">什么是闭包？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#所有对象都引用同一个-scope"><span class="nav-number">9.3.</span> <span class="nav-text">所有对象都引用同一个[[scope]]</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2019-7-28-变量对象"><span class="nav-number">10.</span> <span class="nav-text">2019.7.28 变量对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2019-7-28「又双叒叕」React自学笔记"><span class="nav-number">11.</span> <span class="nav-text">2019.7.28「又双叒叕」React自学笔记</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2019-7-28-Axios源码"><span class="nav-number">12.</span> <span class="nav-text">2019.7.28 Axios源码</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2019-7-17-原型-amp-原型链"><span class="nav-number">2.</span> <span class="nav-text">2019.7.17 原型 &amp; 原型链</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2019-7-17-词法作用域-静态作用域-和动态作用域"><span class="nav-number">3.</span> <span class="nav-text">2019.7.17 词法作用域(静态作用域)和动态作用域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2019-7-18-执行上下文栈"><span class="nav-number">4.</span> <span class="nav-text">2019.7.18 执行上下文栈</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是可执行代码（executable-code）？"><span class="nav-number">4.1.</span> <span class="nav-text">什么是可执行代码（executable code）？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是执行上下文（Execution-Context）？"><span class="nav-number">4.2.</span> <span class="nav-text">什么是执行上下文（Execution Context）？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#变量对象（variable-object）"><span class="nav-number">4.2.1.</span> <span class="nav-text">变量对象（variable object）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#活动对象（activation-object）"><span class="nav-number">4.2.1.1.</span> <span class="nav-text">活动对象（activation object）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#this指针"><span class="nav-number">4.2.2.</span> <span class="nav-text">this指针</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#作用域链"><span class="nav-number">4.2.3.</span> <span class="nav-text">作用域链</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是执行上下文栈（Execution-Context-Stack）？"><span class="nav-number">4.3.</span> <span class="nav-text">什么是执行上下文栈（Execution Context Stack）？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#全局代码执行上下文栈"><span class="nav-number">4.3.1.</span> <span class="nav-text">全局代码执行上下文栈</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#函数代码执行上下文栈"><span class="nav-number">4.3.2.</span> <span class="nav-text">函数代码执行上下文栈</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#eval代码执行上下文栈"><span class="nav-number">4.3.3.</span> <span class="nav-text">eval代码执行上下文栈</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#思考"><span class="nav-number">4.4.</span> <span class="nav-text">思考</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2019-7-20-Node多进程模型"><span class="nav-number">5.</span> <span class="nav-text">2019.7.20 Node多进程模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是进程？"><span class="nav-number">5.1.</span> <span class="nav-text">什么是进程？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是线程？"><span class="nav-number">5.2.</span> <span class="nav-text">什么是线程？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程和线程的关联？"><span class="nav-number">5.3.</span> <span class="nav-text">进程和线程的关联？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单线程（node）和多线程（java）是如何处理并发的？"><span class="nav-number">5.4.</span> <span class="nav-text">单线程（node）和多线程（java）是如何处理并发的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#node的”单线程”"><span class="nav-number">5.5.</span> <span class="nav-text">node的”单线程”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#node的子进程"><span class="nav-number">5.6.</span> <span class="nav-text">node的子进程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#子进程的好处"><span class="nav-number">5.6.1.</span> <span class="nav-text">子进程的好处</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#node子进程的例子"><span class="nav-number">5.6.2.</span> <span class="nav-text">node子进程的例子</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#node的主从模型"><span class="nav-number">5.7.</span> <span class="nav-text">node的主从模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PM2中的cluster"><span class="nav-number">5.8.</span> <span class="nav-text">PM2中的cluster</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#守护进程"><span class="nav-number">5.9.</span> <span class="nav-text">守护进程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2019-7-21-Lodash中的cloneDeep"><span class="nav-number">6.</span> <span class="nav-text">2019.7.21 Lodash中的cloneDeep</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2019-7-27-作用域链（Scope-Chain）"><span class="nav-number">7.</span> <span class="nav-text">2019.7.27 作用域链（Scope Chain）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#作用域的变化过程"><span class="nav-number">7.1.</span> <span class="nav-text">作用域的变化过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#函数创建阶段"><span class="nav-number">7.1.1.</span> <span class="nav-text">函数创建阶段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#函数激活阶段"><span class="nav-number">7.1.2.</span> <span class="nav-text">函数激活阶段</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包"><span class="nav-number">7.2.</span> <span class="nav-text">闭包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#作用域链查找"><span class="nav-number">7.3.</span> <span class="nav-text">作用域链查找</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#全局和eval的作用域链"><span class="nav-number">7.4.</span> <span class="nav-text">全局和eval的作用域链</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2019-7-28-this"><span class="nav-number">8.</span> <span class="nav-text">2019.7.28 this</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#全局代码中的this"><span class="nav-number">8.1.</span> <span class="nav-text">全局代码中的this</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数代码中的this"><span class="nav-number">8.2.</span> <span class="nav-text">函数代码中的this</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reference"><span class="nav-number">8.3.</span> <span class="nav-text">Reference</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何确定this的值？"><span class="nav-number">8.4.</span> <span class="nav-text">如何确定this的值？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是MemberExpression？"><span class="nav-number">8.4.1.</span> <span class="nav-text">什么是MemberExpression？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#举例分析"><span class="nav-number">8.4.2.</span> <span class="nav-text">举例分析</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2019-7-28-闭包（closure）"><span class="nav-number">9.</span> <span class="nav-text">2019.7.28 闭包（closure）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是自由变量？"><span class="nav-number">9.1.</span> <span class="nav-text">什么是自由变量？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是闭包？"><span class="nav-number">9.2.</span> <span class="nav-text">什么是闭包？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#所有对象都引用同一个-scope"><span class="nav-number">9.3.</span> <span class="nav-text">所有对象都引用同一个[[scope]]</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2019-7-28-变量对象（Variable-Object）"><span class="nav-number">10.</span> <span class="nav-text">2019.7.28 变量对象（Variable Object）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#不同类型的上下文对象"><span class="nav-number">10.1.</span> <span class="nav-text">不同类型的上下文对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#全局上下文变量对象"><span class="nav-number">10.1.1.</span> <span class="nav-text">全局上下文变量对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#函数上下文变量对象"><span class="nav-number">10.1.2.</span> <span class="nav-text">函数上下文变量对象</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#处理上下文的两个阶段"><span class="nav-number">10.2.</span> <span class="nav-text">处理上下文的两个阶段</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#进入执行上下文"><span class="nav-number">10.2.1.</span> <span class="nav-text">进入执行上下文</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码执行"><span class="nav-number">10.2.2.</span> <span class="nav-text">代码执行</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他"><span class="nav-number">10.3.</span> <span class="nav-text">其他</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2019-7-29「又双叒叕」React自学笔记"><span class="nav-number">11.</span> <span class="nav-text">2019.7.29「又双叒叕」React自学笔记</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2019-7-29-Axios源码"><span class="nav-number">12.</span> <span class="nav-text">2019.7.29 Axios源码</span></a></li></ol></div>
             
 
           </div>
