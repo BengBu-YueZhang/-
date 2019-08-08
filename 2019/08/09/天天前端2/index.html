@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="React," />
+  <meta name="keywords" content="基础," />
 
 
 
@@ -79,23 +79,17 @@
 
 
 
-<meta name="keywords" content="React">
+<meta name="keywords" content="基础">
 <meta property="og:type" content="article">
-<meta property="og:title" content="「React」函数组件于Class组件有何不同？">
-<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2019/06/28/函数组件于class的区别/index.html">
+<meta property="og:title" content="每日前端（2019年8月）">
+<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2019/08/09/天天前端2/index.html">
 <meta property="og:site_name" content="新世紀エヴァンゲリオン">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://unsplash.it/1382/803?random">
-<meta property="og:image" content="https://i.loli.net/2019/06/28/5d156afe7180f10723.png">
-<meta property="og:image" content="https://i.loli.net/2019/06/28/5d156c1b0642941960.png">
-<meta property="og:image" content="https://i.loli.net/2019/06/28/5d15703f5d47f77887.png">
-<meta property="og:image" content="https://i.loli.net/2019/06/28/5d1576ec3fa7016579.png">
-<meta property="og:image" content="https://i.loli.net/2019/06/28/5d1579806b3f126701.png">
-<meta property="og:image" content="https://i.loli.net/2019/06/28/5d157ffc30cf177785.png">
-<meta property="og:updated_time" content="2019-06-28T02:49:12.886Z">
+<meta property="og:image" content="https://i.loli.net/2019/07/20/5d3309f34078563788.jpeg">
+<meta property="og:updated_time" content="2019-08-08T15:06:44.707Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="「React」函数组件于Class组件有何不同？">
-<meta name="twitter:image" content="https://unsplash.it/1382/803?random">
+<meta name="twitter:title" content="每日前端（2019年8月）">
+<meta name="twitter:image" content="https://i.loli.net/2019/07/20/5d3309f34078563788.jpeg">
 
 
 
@@ -125,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/2019/06/28/函数组件于class的区别/"/>
+  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/2019/08/09/天天前端2/"/>
 
 
 
 
 
-  <title>「React」函数组件于Class组件有何不同？ | 新世紀エヴァンゲリオン</title>
+  <title>每日前端（2019年8月） | 新世紀エヴァンゲリオン</title>
   
 
 
@@ -248,7 +242,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://bengbu-yuezhang.github.io/yue.github.io/2019/06/28/函数组件于class的区别/">
+    <link itemprop="mainEntityOfPage" href="https://bengbu-yuezhang.github.io/yue.github.io/2019/08/09/天天前端2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="张越">
@@ -265,7 +259,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">「React」函数组件于Class组件有何不同？</h1>
+          <h1 class="post-title" itemprop="name headline">每日前端（2019年8月）</h1>
         
 
         <div class="post-meta">
@@ -277,8 +271,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-06-28T11:30:00+08:00">
-                2019-06-28
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-08-09T23:04:35+08:00">
+                2019-08-09
               </time>
             
 
@@ -315,30 +309,13 @@
       
 
       
-        <p><img src="https://unsplash.it/1382/803?random" alt="image"></p>
+        <p><img src="https://i.loli.net/2019/07/20/5d3309f34078563788.jpeg" alt="image"></p>
 <a id="more"></a>
-<h2 id="📖前言"><a href="#📖前言" class="headerlink" title="📖前言"></a>📖前言</h2><p>本文引申与Dan Abramov的博文, <a href="https://overreacted.io/how-are-function-components-different-from-classes/" target="_blank" rel="noopener">How Are Function Components Different from Classes?</a>, 感兴趣的同学可以直接看原文。<br>本文在Dan的文章的基础，做了一些自己的思考。</p>
-<p><img src="https://i.loli.net/2019/06/28/5d156afe7180f10723.png" alt="image"></p>
-<h2 id="🤔两个组件有何不同"><a href="#🤔两个组件有何不同" class="headerlink" title="🤔两个组件有何不同"></a>🤔两个组件有何不同</h2><p><img src="https://i.loli.net/2019/06/28/5d156c1b0642941960.png" alt="image"></p>
-<p>当点击button，延迟3s后，两个组件都会在控制台打印props.user属性。咋一看没啥区别，但是如果在延迟的3s的之间，我们修改了props.user属性。class组件会打印最新的值，而function组件打印的还是<strong>旧</strong>值。</p>
-<p>Dan给出了一个在线的<a href="https://codesandbox.io/s/pjqnl16lm7" target="_blank" rel="noopener">Demo</a></p>
-<p><strong>这是因为，在React中props是不可变的。但是this不是，this是一直是可变。</strong></p>
-<h2 id="💡如何在class组件中，打印出旧值？"><a href="#💡如何在class组件中，打印出旧值？" class="headerlink" title="💡如何在class组件中，打印出旧值？"></a>💡如何在class组件中，打印出旧值？</h2><p>我们可以组件render时，利用javascript的闭包特性，捕获props。我们知道，在javascript中函数执行完成后，函数内部创建的变量，会被javascript的垃圾回收机制所回收。</p>
-<p>但是如果在回调函数中，我们依赖了这个变量，这个变量就不会被回收。我们在render函数执行的时候，创建了props常量。并在定时器的callback中引用了它。它在定时器的callback执行完成前，会一直存在在内存中。所以我们在执行callback时，打印的依然是<strong>旧</strong>的值。</p>
-<p><img src="https://i.loli.net/2019/06/28/5d15703f5d47f77887.png" alt="image"></p>
-<h2 id="⚛️从源码的角度进行分析"><a href="#⚛️从源码的角度进行分析" class="headerlink" title="⚛️从源码的角度进行分析"></a>⚛️从源码的角度进行分析</h2><p>限于本人能力有限，react的源码对于我来说实战有些困难😂。我们将从preact源码，一窥究竟。</p>
-<p><img src="https://i.loli.net/2019/06/28/5d1576ec3fa7016579.png" alt="image"></p>
-<p>在preact中，会将组件实例的props属性作为参数，传入组件的render函数中。</p>
-<p>当实例的props属性发生修改时，class组件直接使用this（组件的实例），所以可以直接获取组件<strong>最新</strong>的props。而在函数组件中，之前的props参数，已经因为javascript闭包的特性，保存在内存之中，无法从外部进行修改。所以在定时器执行callback时，打印的还是旧值。</p>
-<p>如果你在理解上还有些困难，可以尝试理解，以下简化的代码。说明了，为什么函数组件会打印<strong>旧</strong>值。</p>
-<p><img src="https://i.loli.net/2019/06/28/5d1579806b3f126701.png" alt="image"></p>
-<h2 id="⚓️如何在funtion组件中，打印出新值？"><a href="#⚓️如何在funtion组件中，打印出新值？" class="headerlink" title="⚓️如何在funtion组件中，打印出新值？"></a>⚓️如何在funtion组件中，打印出新值？</h2><p>我们可以尝试利用<strong>useRef</strong>。当然这种使用<strong>useRef</strong>的方式，不是普遍的</p>
-<p><img src="https://i.loli.net/2019/06/28/5d157ffc30cf177785.png" alt="image"></p>
-<h2 id="✍️参考"><a href="#✍️参考" class="headerlink" title="✍️参考"></a>✍️参考</h2><ul>
-<li><a href="https://overreacted.io/how-are-function-components-different-from-classes/" target="_blank" rel="noopener">How Are Function Components Different from Classes?</a></li>
-<li><a href="https://preactjs.com/" target="_blank" rel="noopener">preact</a></li>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>📝 记录每天所学</p>
+<ul>
+<li style="list-style: none"><input type="checkbox" checked> 2019.8.8</li>
 </ul>
-
+<h2 id="2019-8-8-Axio源码"><a href="#2019-8-8-Axio源码" class="headerlink" title="2019.8.8 Axio源码"></a>2019.8.8 Axio源码</h2>
       
     </div>
     
@@ -355,7 +332,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/React/" rel="tag"># React</a>
+            <a href="/tags/基础/" rel="tag"># 基础</a>
           
         </div>
       
@@ -368,8 +345,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/06/23/设计Grid组件/" rel="next" title="「组件」设计一款Grid组件">
-                <i class="fa fa-chevron-left"></i> 「组件」设计一款Grid组件
+              <a href="/2019/08/08/Axios源码解析/" rel="next" title="逐行解析Axios源码">
+                <i class="fa fa-chevron-left"></i> 逐行解析Axios源码
               </a>
             
           </div>
@@ -378,8 +355,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/06/28/设计Collapse组件/" rel="prev" title="「组件」设计一款Collapse组件">
-                「组件」设计一款Collapse组件 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/08/16/搭建自己的SSR/" rel="prev" title="从0到1搭建VueSSR">
+                从0到1搭建VueSSR <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -523,7 +500,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#📖前言"><span class="nav-number">1.</span> <span class="nav-text">📖前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#🤔两个组件有何不同"><span class="nav-number">2.</span> <span class="nav-text">🤔两个组件有何不同</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#💡如何在class组件中，打印出旧值？"><span class="nav-number">3.</span> <span class="nav-text">💡如何在class组件中，打印出旧值？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#⚛️从源码的角度进行分析"><span class="nav-number">4.</span> <span class="nav-text">⚛️从源码的角度进行分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#⚓️如何在funtion组件中，打印出新值？"><span class="nav-number">5.</span> <span class="nav-text">⚓️如何在funtion组件中，打印出新值？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#✍️参考"><span class="nav-number">6.</span> <span class="nav-text">✍️参考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2019-8-8-Axio源码"><span class="nav-number">2.</span> <span class="nav-text">2019.8.8 Axio源码</span></a></li></ol></div>
             
 
           </div>
