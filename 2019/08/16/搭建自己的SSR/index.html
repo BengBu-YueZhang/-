@@ -81,14 +81,15 @@
 
 <meta name="keywords" content="vue">
 <meta property="og:type" content="article">
-<meta property="og:title" content="从0到1搭建VueSSR">
+<meta property="og:title" content="从0到1，搭建VueSSR(learning)">
 <meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2019/08/16/搭建自己的SSR/index.html">
 <meta property="og:site_name" content="新世紀エヴァンゲリオン">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://unsplash.it/1380/780?random">
-<meta property="og:updated_time" content="2019-07-09T14:55:50.810Z">
+<meta property="og:image" content="https://i.loli.net/2019/08/11/Fy3G4MdVtAuXSlr.png">
+<meta property="og:updated_time" content="2019-08-11T15:23:58.269Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="从0到1搭建VueSSR">
+<meta name="twitter:title" content="从0到1，搭建VueSSR(learning)">
 <meta name="twitter:image" content="https://unsplash.it/1380/780?random">
 
 
@@ -105,7 +106,7 @@
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     duoshuo: {
       userId: '0',
-      author: 'Author'
+      author: 'Penulis'
     },
     algolia: {
       applicationID: '',
@@ -125,7 +126,7 @@
 
 
 
-  <title>从0到1搭建VueSSR | 新世紀エヴァンゲリオン</title>
+  <title>从0到1，搭建VueSSR(learning) | 新世紀エヴァンゲリオン</title>
   
 
 
@@ -185,7 +186,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            主页
+            Beranda
           </a>
         </li>
       
@@ -195,7 +196,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
-            标签
+            Tags
           </a>
         </li>
       
@@ -205,7 +206,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            时间轴
+            Arsip
           </a>
         </li>
       
@@ -259,7 +260,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">从0到1搭建VueSSR</h1>
+          <h1 class="post-title" itemprop="name headline">从0到1，搭建VueSSR(learning)</h1>
         
 
         <div class="post-meta">
@@ -269,9 +270,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Diposting di</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-08-16T20:00:00+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-08-16T22:00:00+08:00">
                 2019-08-16
               </time>
             
@@ -311,7 +312,32 @@
       
         <p><img src="https://unsplash.it/1380/780?random" alt="image"></p>
 <a id="more"></a>
-<p>占坑</p>
+<h2 id="HelloWorld"><a href="#HelloWorld" class="headerlink" title="HelloWorld"></a>HelloWorld</h2><blockquote>
+<p>使用express和vue构建一个最简单的ssr。</p>
+</blockquote>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- html转义插值 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>&#123;&#123; title &#125;&#125;<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- html不转义 --&gt;</span></span><br><span class="line">    &#123;&#123;&#123; context &#125;&#125;&#125;</span><br><span class="line">    <span class="comment">&lt;!-- html注入的地方 --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--vue-ssr-outlet--&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// index.js</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> Vue = <span class="built_in">require</span>(<span class="string">"vue"</span>);</span><br><span class="line"><span class="keyword">const</span> server = <span class="built_in">require</span>(<span class="string">"express"</span>)();</span><br><span class="line"><span class="comment">// 创建renderer</span></span><br><span class="line"><span class="keyword">const</span> renderer = <span class="built_in">require</span>(<span class="string">"vue-server-renderer"</span>).createRenderer(&#123;</span><br><span class="line">  <span class="comment">// 使用index.template.html作为基础模版</span></span><br><span class="line">  template: <span class="built_in">require</span>(<span class="string">"fs"</span>).readFileSync(<span class="string">"./index.template.html"</span>, <span class="string">"utf-8"</span>)</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 监听/*的访问(*通配路径)</span></span><br><span class="line">server.get(<span class="string">'*'</span>, (req, res) =&gt; &#123;</span><br><span class="line">  <span class="comment">// 创建vue实例</span></span><br><span class="line">  <span class="keyword">const</span> app = <span class="keyword">new</span> Vue(&#123;</span><br><span class="line">    data: &#123;</span><br><span class="line">      detail: <span class="string">'🇭🇰加油'</span></span><br><span class="line">    &#125;,</span><br><span class="line">    template: <span class="string">`&lt;div&gt;&#123;&#123; detail &#125;&#125;&lt;/div&gt;`</span></span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> context = &#123;</span><br><span class="line">    title: <span class="string">'一加仑的才华也抵不上一盎司的勇气'</span>,</span><br><span class="line">    context: <span class="string">'&lt;h1&gt;自由终将属于人民&lt;/h1&gt;'</span></span><br><span class="line">  &#125;;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 将vue实例渲染成html</span></span><br><span class="line">  renderer.renderToString(app, context).then(<span class="function"><span class="params">html</span> =&gt;</span> &#123;</span><br><span class="line">    res.writeHead(<span class="number">200</span>, &#123; <span class="string">"Content-Type"</span>: <span class="string">"text/html; charset=utf-8"</span> &#125;)</span><br><span class="line">    <span class="comment">// 返回html</span></span><br><span class="line">    res.end(html);</span><br><span class="line">  &#125;).catch(<span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">    res.status(<span class="number">500</span>).end(<span class="string">"Internal Server Error"</span>);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">server.listen(<span class="number">8181</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="👻编写通用的代码"><a href="#👻编写通用的代码" class="headerlink" title="👻编写通用的代码"></a>👻编写通用的代码</h2><ol>
+<li>渲染过程需要确定性。在服务器上开始渲染时，应用程序就已经完成了状态解析。</li>
+<li>beforeCreate, created会在ssr过程中被调用。beforeMount, mounted会在客户端执行。在ssr期间，不会调用销毁钩子的函数。</li>
+<li>限制访问特定平台的API，在ssr期间无法使用window，document这种浏览器可用的全局变量。</li>
+<li>自定义指令会涉及到DOM操作，可以使用操作vnode代替。</li>
+</ol>
+<h2 id="源码结构"><a href="#源码结构" class="headerlink" title="源码结构"></a>源码结构</h2><h3 id="避免单例"><a href="#避免单例" class="headerlink" title="避免单例"></a>避免单例</h3><blockquote>
+<p>我们需要为<strong>每一个请求中创建一个新的Vue根实例</strong>。如果在多次请求中，共用一个vue实例会造成状态污染。同理还适用与eventBus，store的实例。（避免不同的人，不同的电脑，共用一个实例的情况）</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> Vue = <span class="built_in">require</span>(<span class="string">'vue'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建Vue实例</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createApp</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> app = <span class="keyword">new</span> Vue()</span><br><span class="line">  <span class="keyword">return</span> app</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server.get(<span class="string">'*'</span>, (req, res) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> context = &#123; <span class="attr">url</span>: req.url &#125;</span><br><span class="line">  <span class="keyword">const</span> app = createApp(context)</span><br><span class="line">  renderer.renderToString(app, (err, html) =&gt; &#123;</span><br><span class="line">    res.end(html)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="👻项目构建"><a href="#👻项目构建" class="headerlink" title="👻项目构建"></a>👻项目构建</h3><p><img src="https://i.loli.net/2019/08/11/Fy3G4MdVtAuXSlr.png" alt="786a415a-5fee-11e6-9c11-45a2cfdf085c.png"></p>
+<p>通常我们使用webpack构建Vue项目，并且webpack的入口文件是单一的。但是在ssr中我们需要两个不同的入口文件entry-server(服务器入口)</p>
+<h3 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 📁 src</span><br><span class="line"># |——  📁 components</span><br><span class="line"># |——  |——  📃 Foo.vue</span><br><span class="line"># |——  |——  📃 Bar.vue</span><br><span class="line"># |——  📃 App.vue</span><br><span class="line"># |——  📃 app.js // vue实例，router实例，store实例的工厂函数</span><br><span class="line"># |——  📃 entry-client.js // 创建应用程序，挂载在dom中</span><br><span class="line"># |——  📃 entry-server.js // 创建返回应用程序，路由匹配，数据预取</span><br></pre></td></tr></table></figure>
+<h2 id="路由与代码分割"><a href="#路由与代码分割" class="headerlink" title="路由与代码分割"></a>路由与代码分割</h2><h3 id="👻路由"><a href="#👻路由" class="headerlink" title="👻路由"></a>👻路由</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// entry-server.js</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 返回路由实例，和应用实例</span></span><br><span class="line"><span class="keyword">import</span> &#123; createApp &#125; <span class="keyword">from</span> <span class="string">'./app'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> context =&gt; &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; app, router &#125; = createApp()</span><br><span class="line"></span><br><span class="line">    <span class="comment">// context.url通过express中req.url获取</span></span><br><span class="line">    router.push(context.url)</span><br><span class="line"></span><br><span class="line">    router.onReady(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="comment">// 获取匹配的组件</span></span><br><span class="line">      <span class="keyword">const</span> matchedComponents = router.getMatchedComponents()</span><br><span class="line">      <span class="keyword">if</span> (!matchedComponents.length) &#123;</span><br><span class="line">        <span class="keyword">return</span> reject(&#123; <span class="attr">code</span>: <span class="number">404</span> &#125;)</span><br><span class="line">      &#125;</span><br><span class="line">      resolve(app)</span><br><span class="line">    &#125;, reject)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="代码分割"><a href="#代码分割" class="headerlink" title="代码分割"></a>代码分割</h3><p>使用<code>import()</code>进行代码切割，在Vue2.5以上的版本中，<code>import()</code>可以用于任何组件上，不仅仅是路由组件中。</p>
+<h2 id="数据预取和状态"><a href="#数据预取和状态" class="headerlink" title="数据预取和状态"></a>数据预取和状态</h2><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://ssr.vuejs.org/zh/" target="_blank" rel="noopener">Vue.js 服务器端渲染指南</a><br><a href="https://github.com/nuxt/nuxt.js" target="_blank" rel="noopener">Nuxt.js源码</a></p>
+<h2 id="TODO-List"><a href="#TODO-List" class="headerlink" title="TODO List"></a>TODO List</h2><ul>
+<li style="list-style: none"><input type="checkbox" checked> VueSSR搭建</li>
+<li style="list-style: none"><input type="checkbox" checked> Nuxt的使用</li>
+<li style="list-style: none"><input type="checkbox"> Nuxt源码分析</li>
+</ul>
 
       
     </div>
@@ -342,7 +368,7 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/08/10/每日英语/" rel="next" title="每日英语">
+              <a href="/2019/08/13/每日英语/" rel="next" title="每日英语">
                 <i class="fa fa-chevron-left"></i> 每日英语
               </a>
             
@@ -352,8 +378,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/08/30/Dart从入门到实战/" rel="prev" title="Dart从入门到实战">
-                Dart从入门到实战 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/08/20/简单的vue/" rel="prev" title="Vue源码解析(一)">
+                Vue源码解析(一) <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -406,8 +432,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Daftar Isi
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Ikhtisar
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -427,7 +462,7 @@
                 <a href="/archives/">
               
                   <span class="site-state-item-count">82</span>
-                  <span class="site-state-item-name">篇博文</span>
+                  <span class="site-state-item-name">posting</span>
                 </a>
               </div>
             
@@ -479,6 +514,22 @@
       </section>
 
       
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#HelloWorld"><span class="nav-number">1.</span> <span class="nav-text">HelloWorld</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#👻编写通用的代码"><span class="nav-number">2.</span> <span class="nav-text">👻编写通用的代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#源码结构"><span class="nav-number">3.</span> <span class="nav-text">源码结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#避免单例"><span class="nav-number">3.1.</span> <span class="nav-text">避免单例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#👻项目构建"><span class="nav-number">3.2.</span> <span class="nav-text">👻项目构建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#目录结构"><span class="nav-number">3.3.</span> <span class="nav-text">目录结构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#路由与代码分割"><span class="nav-number">4.</span> <span class="nav-text">路由与代码分割</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#👻路由"><span class="nav-number">4.1.</span> <span class="nav-text">👻路由</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码分割"><span class="nav-number">4.2.</span> <span class="nav-text">代码分割</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据预取和状态"><span class="nav-number">5.</span> <span class="nav-text">数据预取和状态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TODO-List"><span class="nav-number">7.</span> <span class="nav-text">TODO List</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
 
       
 
@@ -510,7 +561,7 @@
 
 
 
-  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+  <div class="theme-info">Tema &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
 
 
 
