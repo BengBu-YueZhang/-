@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="新世紀エヴァンゲリオン">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://unsplash.it/1332/736?random">
-<meta property="og:updated_time" content="2019-08-21T14:55:09.889Z">
+<meta property="og:updated_time" content="2019-08-22T14:53:44.331Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="位运算">
 <meta name="twitter:image" content="https://unsplash.it/1332/736?random">
@@ -269,7 +269,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">发布于</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-08-21T22:53:35+08:00">
                 2019-08-21
@@ -311,6 +311,134 @@
       
         <p><img src="https://unsplash.it/1332/736?random" alt="image"></p>
 <a id="more"></a>
+<h2 id="按位操作符"><a href="#按位操作符" class="headerlink" title="按位操作符"></a>按位操作符</h2><p>JavaScript中使用IEEE-754 64位存储。位操作符不能直接操作64位的值，而是将它转换为二进制补码形式的32位的整数，最后再将结果转为64位。32位中31位表示整数的值，第32位为符号位（0为正数，1为负数）。每一位由二进制数存储，31位中的每一位的索引表示2的次幂乘与每一位的0或者1。没有使用到的位将使用0填充。</p>
+<p>举一个例子🌰。31的32位二进制数表示为0000 0000 0000 0000 0000 0000 0001 1111。第32位0表示符号位，11111为有效位。</p>
+<table>
+<thead>
+<tr>
+<th>1</th>
+<th>1</th>
+<th>1</th>
+<th>1</th>
+<th>1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2^4 * 1</td>
+<td>2^3 * 1</td>
+<td>2^2 * 1</td>
+<td>2^1 * 1</td>
+<td>2^0 * 1</td>
+</tr>
+<tr>
+<td>16</td>
+<td>8</td>
+<td>4</td>
+<td>2</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<h3 id="负数"><a href="#负数" class="headerlink" title="负数"></a>负数</h3><p>负数使用二进制存储，但是使用<strong>二进制补码</strong>表示</p>
+<p>如何求一个数的二进制补码？</p>
+<ul>
+<li><ol>
+<li>求出该数绝对值的二进制码</li>
+</ol>
+</li>
+<li><ol>
+<li>将获得的二进制码取反（1变成0，0变成1）</li>
+</ol>
+</li>
+<li><ol>
+<li>二进制码加1</li>
+</ol>
+</li>
+</ul>
+<p>举一个例子🌰。如何求出<code>-31</code>的二进制补码。-31的二进制补码的结果为1111 1111 1111 1111 1111 1111 1110 0001。</p>
+<ul>
+<li>-31的绝对值为31，求出31的二进制的码</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0001</span> <span class="number">1111</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>将31的二进制码的0和1颠倒</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1111</span> <span class="number">1111</span> <span class="number">1111</span> <span class="number">1111</span> <span class="number">1111</span> <span class="number">1111</span> <span class="number">1110</span> <span class="number">0000</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>将二进制码加1</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1111</span> <span class="number">1111</span> <span class="number">1111</span> <span class="number">1111</span> <span class="number">1111</span> <span class="number">1111</span> <span class="number">1110</span> <span class="number">0000</span></span><br><span class="line">                                     +<span class="number">1</span></span><br><span class="line">---------------------------------------</span><br><span class="line"><span class="number">1111</span> <span class="number">1111</span> <span class="number">1111</span> <span class="number">1111</span> <span class="number">1111</span> <span class="number">1111</span> <span class="number">1110</span> <span class="number">0001</span></span><br></pre></td></tr></table></figure>
+<h3 id="无符号数"><a href="#无符号数" class="headerlink" title="无符号数"></a>无符号数</h3><p>ECMAScript所有整数都是有符号位的。在无符号数中，第32位不表示符号，因为无符号数只能是正数，32位无符号数可以表示更大的数。 </p>
+<h2 id="特殊值的处理"><a href="#特殊值的处理" class="headerlink" title="特殊值的处理"></a>特殊值的处理</h2><p>在NaN和Infinity在位运算符中会被当作0处理。非数值类型会先使用<code>Number()</code>处理，然后再应用位操作符。</p>
+<h2 id="按位非-NOT"><a href="#按位非-NOT" class="headerlink" title="按位非(NOT)"></a>按位非(NOT)</h2><blockquote>
+<p>按位非<code>~</code>会将数值的32位二进制的每一位取反(0变为1，1变为0)。按位非的操作符的本质<strong>取操作数的负值，然后减一</strong>。</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// -24</span></span><br><span class="line">~<span class="number">23</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// -101</span></span><br><span class="line">~<span class="number">100</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 9</span></span><br><span class="line">～<span class="number">-10</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 100</span></span><br><span class="line">～<span class="number">-101</span></span><br></pre></td></tr></table></figure>
+<p>举一个例子🌰。10进行按位非之后的结果，等于-11</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">1010</span></span><br><span class="line"><span class="comment">// ~ NOT</span></span><br><span class="line"><span class="number">1111</span> <span class="number">1111</span> <span class="number">1111</span> <span class="number">1111</span> <span class="number">1111</span> <span class="number">1111</span> <span class="number">1111</span> <span class="number">0101</span></span><br></pre></td></tr></table></figure>
+<h2 id="按位与-AND"><a href="#按位与-AND" class="headerlink" title="按位与(AND)"></a>按位与(AND)</h2><blockquote>
+<p>按位与&amp;, 本质上将两个操作数的32位二进制数的每一位对齐。然后按如下的规则取值，1 &amp; 1 等于 1； 1 &amp; 0 等于 0；0 &amp; 1 等于0；0 &amp; 0等于0。</p>
+</blockquote>
+<p>举一个例子🌰。10和5之间进行按位与操作的结果，等于0</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">1010</span></span><br><span class="line"><span class="comment">// &amp; AND</span></span><br><span class="line"><span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0101</span></span><br><span class="line"><span class="comment">// 等于</span></span><br><span class="line"><span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span></span><br></pre></td></tr></table></figure>
+<h2 id="按位或-OR"><a href="#按位或-OR" class="headerlink" title="按位或(OR)"></a>按位或(OR)</h2><blockquote>
+<p>按位与|, 本质上将两个操作数的32位二进制数的每一位对齐。然后按如下的规则取值，1 | 1 等于 1； 1 | 0 等于 1；0 | 1 等于1；0 | 0等于0。</p>
+</blockquote>
+<p>举一个例子🌰。10和5之间进行按位或操作的结果，等于15</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">1010</span></span><br><span class="line"><span class="comment">// &amp; OR</span></span><br><span class="line"><span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0101</span></span><br><span class="line"><span class="comment">// 等于</span></span><br><span class="line"><span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">1111</span></span><br></pre></td></tr></table></figure>
+<h2 id="按位异或-XOR"><a href="#按位异或-XOR" class="headerlink" title="按位异或(XOR)"></a>按位异或(XOR)</h2><blockquote>
+<p>按位异或^, 本质上将两个操作数的32位二进制数的每一位对齐。然后按如下的规则取值，1 ^ 1 等于 0； 1 ^ 0 等于 1；0 ^ 1 等于1；0 ^ 0等于0。</p>
+</blockquote>
+<p>举一个例子🌰。10和5之间进行按位异或操作的结果15。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">1010</span></span><br><span class="line"><span class="comment">// ^ XOR</span></span><br><span class="line"><span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0101</span></span><br><span class="line"><span class="comment">// 等于</span></span><br><span class="line"><span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">1111</span></span><br></pre></td></tr></table></figure>
+<h2 id="左移"><a href="#左移" class="headerlink" title="左移"></a>左移</h2><blockquote>
+<p>左移(&lt;&lt;)将32位二进制向左移动指定的位数，空缺的位将会使用0填充。<strong>左移不会影响符号位</strong></p>
+</blockquote>
+<p>举一个例子🌰。将5左移2位，等于20</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="number">0</span>|<span class="number">000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0101</span></span><br><span class="line"><span class="comment">// &lt;&lt;2</span></span><br><span class="line"><span class="number">0</span>|<span class="number">000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0001</span> <span class="number">0100</span></span><br><span class="line"><span class="comment">// 等于</span></span><br><span class="line">(<span class="number">2</span>^<span class="number">0</span> * <span class="number">0</span>) + (<span class="number">2</span>^<span class="number">1</span> * <span class="number">0</span>) + (<span class="number">2</span>^<span class="number">2</span> * <span class="number">1</span>) + (<span class="number">2</span>^<span class="number">3</span> * <span class="number">0</span>) + (<span class="number">2</span>^<span class="number">4</span> * <span class="number">1</span>) = <span class="number">0</span> + <span class="number">0</span> + <span class="number">4</span> + <span class="number">0</span> + <span class="number">16</span> = <span class="number">20</span></span><br></pre></td></tr></table></figure>
+<h2 id="有符号位右移"><a href="#有符号位右移" class="headerlink" title="有符号位右移"></a>有符号位右移</h2><blockquote>
+<p>右移(&gt;&gt;)将32位二进制向右移动指定的位数，<strong>但是保留符号位</strong>，右移空缺的符号位使用0填充</p>
+</blockquote>
+<p>举一个例子🌰。将31有符号右移3位，等于3。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0</span>|<span class="number">000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0001</span> <span class="number">1111</span></span><br><span class="line"><span class="comment">// &gt;&gt;3</span></span><br><span class="line"><span class="number">0</span>|<span class="number">000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0011</span></span><br><span class="line"><span class="comment">// 等于</span></span><br><span class="line">(<span class="number">2</span>^<span class="number">0</span> * <span class="number">1</span>) + (<span class="number">2</span>^<span class="number">1</span> * <span class="number">1</span>) = <span class="number">1</span> + <span class="number">2</span> = <span class="number">3</span></span><br></pre></td></tr></table></figure>
+<h2 id="无符号位右移"><a href="#无符号位右移" class="headerlink" title="无符号位右移"></a>无符号位右移</h2><blockquote>
+<p>无符号位右移，会将所有32位数都向右移动。对于正数来说右移和无符号位右移的结果是一致的。</p>
+</blockquote>
+<p>举一个例子🌰。将-31无符号右移28位。   </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="number">1111</span> <span class="number">1111</span> <span class="number">1111</span> <span class="number">1111</span> <span class="number">1111</span> <span class="number">1111</span> <span class="number">1110</span> <span class="number">0001</span></span><br><span class="line"><span class="comment">// &gt;&gt;&gt; 28</span></span><br><span class="line"><span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">0000</span> <span class="number">1111</span></span><br><span class="line"><span class="comment">// 等于</span></span><br><span class="line">(<span class="number">2</span>^<span class="number">0</span> * <span class="number">1</span>) + (<span class="number">2</span>^<span class="number">1</span> * <span class="number">1</span>) + (<span class="number">2</span>^<span class="number">2</span> * <span class="number">1</span>) + (<span class="number">2</span>^<span class="number">3</span> * <span class="number">1</span>) = <span class="number">1</span> + <span class="number">2</span> + <span class="number">4</span> + <span class="number">8</span> = <span class="number">15</span></span><br></pre></td></tr></table></figure>
+<h2 id="位操作符的奇妙用法"><a href="#位操作符的奇妙用法" class="headerlink" title="位操作符的奇妙用法"></a>位操作符的奇妙用法</h2><h3 id="向下取整"><a href="#向下取整" class="headerlink" title="~~ 向下取整"></a>~~ 向下取整</h3><blockquote>
+<p>按位非~。将操作数取负值，并减1。对于浮点数，会直接舍弃小数的部分。比如<code>~11.1 === -12</code>。然后将结果，再次执行按位非操作，就会得到了去除小数位的原数字，<code>~-12 === 11</code>。因此我们可以使用~~代替Math.floor。</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 12</span></span><br><span class="line">~~<span class="number">12.5</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 6</span></span><br><span class="line">~~<span class="number">6.1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 8</span></span><br><span class="line">~~<span class="number">-8.1</span></span><br></pre></td></tr></table></figure>
+<h4 id="Math-floor和-性能对比"><a href="#Math-floor和-性能对比" class="headerlink" title="Math.floor和~~性能对比"></a>Math.floor和~~性能对比</h4><p>我分别使用<del>和Math.floor，对包含了10000000个浮点数的数组，进行向下取整。</del>耗时386毫秒，Math.floor耗时411毫秒.</p>
+<h3 id="不使用额外的空间交换两个变量的值"><a href="#不使用额外的空间交换两个变量的值" class="headerlink" title="^ 不使用额外的空间交换两个变量的值"></a>^ 不使用额外的空间交换两个变量的值</h3><p>在了解这个技巧之前需要先了解两个准则：</p>
+<ol>
+<li><strong>两个相同的数进行按位异或等于0</strong></li>
+<li><strong>任意一个数与0进行按位异或等于自身</strong></li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 0</span></span><br><span class="line"><span class="number">100</span> ^ <span class="number">100</span></span><br><span class="line"><span class="comment">// 0</span></span><br><span class="line"><span class="number">-99</span> ^ <span class="number">-99</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 100</span></span><br><span class="line"><span class="number">100</span> ^ <span class="number">0</span></span><br><span class="line"><span class="comment">// -2</span></span><br><span class="line"><span class="number">0</span> ^ <span class="number">-2</span></span><br></pre></td></tr></table></figure>
+<p>在代码中交换两个变量的值，通常是通过第三个变量，或者使用ES6中的解构赋值</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用第三个变量</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="number">1</span></span><br><span class="line"><span class="keyword">var</span> b = <span class="number">2</span></span><br><span class="line"><span class="keyword">var</span> c = a</span><br><span class="line">a = b</span><br><span class="line">b = c</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用解构赋值</span></span><br><span class="line"><span class="keyword">var</span> x = <span class="number">1</span></span><br><span class="line"><span class="keyword">var</span> y = <span class="number">2</span></span><br><span class="line">[x, y] = [y, x]</span><br></pre></td></tr></table></figure>
+<p>使用异或按位运算符</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = <span class="number">2</span></span><br><span class="line"><span class="keyword">let</span> b = <span class="number">3</span></span><br><span class="line"></span><br><span class="line">a = a ^ b</span><br><span class="line"><span class="comment">// b = a ^ b ^ b =&gt; a ^ (b ^ b) =&gt; a ^ 0 = a</span></span><br><span class="line">b = a ^ b</span><br><span class="line"><span class="comment">// a = a ^ b ^ a ^ b ^ b =&gt; (a ^ a) ^ (b ^ b) ^ b =&gt; 0 ^ 0 ^ b =&gt; 0 ^ b = b</span></span><br><span class="line">a = a ^ b</span><br></pre></td></tr></table></figure>
+<h3 id="amp-关闭高位"><a href="#amp-关闭高位" class="headerlink" title="&amp; 关闭高位"></a>&amp; 关闭高位</h3><p>使用按位与&amp;, 可以关闭二进制数中的某些位，这基于这样一个事实：</p>
+<ol>
+<li>1 &amp; 0 === 0</li>
+<li>1 &amp; 1 === 1</li>
+</ol>
+<p>比如我们有一个8位的二进制数，我们需要关闭后4位(设置为0)，我们首先创建一个8位的位掩码，位掩码的后四位设置为0，前四位设置为1。接下来使用位掩码与操作数进行按位与操作</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> mask = <span class="number">0b00001111</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 结果00001010</span></span><br><span class="line">mask &amp; <span class="number">0b10101010</span></span><br></pre></td></tr></table></figure>
+<h3 id="奇数或偶数"><a href="#奇数或偶数" class="headerlink" title="奇数或偶数"></a>奇数或偶数</h3><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators" target="_blank" rel="noopener">按位操作符</a></li>
+<li><a href="https://blog.logrocket.com/interesting-use-cases-for-javascript-bitwise-operators/" target="_blank" rel="noopener">Interesting use cases for JavaScript bitwise operators</a></li>
+<li><a href="https://juejin.im/post/5a9ebc376fb9a028c6753d0e" target="_blank" rel="noopener">巧用JS位运算</a></li>
+<li><a href="http://www.ituring.com.cn/book/946" target="_blank" rel="noopener">JavaScript高级程序设计</a></li>
+</ul>
+<h2 id="利用位操作符，解答leetcode"><a href="#利用位操作符，解答leetcode" class="headerlink" title="利用位操作符，解答leetcode"></a>利用位操作符，解答leetcode</h2><ul>
+<li><a href="">「leetcode」29.两数相除</a></li>
+<li><a href="https://juejin.im/post/5d5e7fcae51d4561ad6548c6" target="_blank" rel="noopener">「leetcode」136.只出现一次的数字</a></li>
+</ul>
 
       
     </div>
@@ -405,8 +533,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            作者概述
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -425,8 +562,8 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">85</span>
-                  <span class="site-state-item-name">篇博文</span>
+                  <span class="site-state-item-count">86</span>
+                  <span class="site-state-item-name">篇文章</span>
                 </a>
               </div>
             
@@ -439,7 +576,7 @@
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
                   <span class="site-state-item-count">36</span>
-                  <span class="site-state-item-name">tags</span>
+                  <span class="site-state-item-name">Tags</span>
                 </a>
               </div>
             
@@ -478,6 +615,22 @@
       </section>
 
       
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#按位操作符"><span class="nav-number">1.</span> <span class="nav-text">按位操作符</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#负数"><span class="nav-number">1.1.</span> <span class="nav-text">负数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#无符号数"><span class="nav-number">1.2.</span> <span class="nav-text">无符号数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特殊值的处理"><span class="nav-number">2.</span> <span class="nav-text">特殊值的处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#按位非-NOT"><span class="nav-number">3.</span> <span class="nav-text">按位非(NOT)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#按位与-AND"><span class="nav-number">4.</span> <span class="nav-text">按位与(AND)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#按位或-OR"><span class="nav-number">5.</span> <span class="nav-text">按位或(OR)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#按位异或-XOR"><span class="nav-number">6.</span> <span class="nav-text">按位异或(XOR)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#左移"><span class="nav-number">7.</span> <span class="nav-text">左移</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#有符号位右移"><span class="nav-number">8.</span> <span class="nav-text">有符号位右移</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#无符号位右移"><span class="nav-number">9.</span> <span class="nav-text">无符号位右移</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#位操作符的奇妙用法"><span class="nav-number">10.</span> <span class="nav-text">位操作符的奇妙用法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#向下取整"><span class="nav-number">10.1.</span> <span class="nav-text">~~ 向下取整</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Math-floor和-性能对比"><span class="nav-number">10.1.1.</span> <span class="nav-text">Math.floor和~~性能对比</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#不使用额外的空间交换两个变量的值"><span class="nav-number">10.2.</span> <span class="nav-text">^ 不使用额外的空间交换两个变量的值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#amp-关闭高位"><span class="nav-number">10.3.</span> <span class="nav-text">&amp; 关闭高位</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#奇数或偶数"><span class="nav-number">10.4.</span> <span class="nav-text">奇数或偶数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">11.</span> <span class="nav-text">参考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#利用位操作符，解答leetcode"><span class="nav-number">12.</span> <span class="nav-text">利用位操作符，解答leetcode</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
 
       
 
@@ -501,7 +654,7 @@
 </div>
 
 
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 
 
