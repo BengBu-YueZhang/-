@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content=",," />
+
+
+
+
+
+
+
+
+
+
+<meta name="keywords" content="基础">
+<meta property="og:type" content="website">
+<meta property="og:title" content="每日前端（2019年7月）">
+<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/next/天天前端.html">
+<meta property="og:site_name" content="新世紀エヴァンゲリオン">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://i.loli.net/2019/07/20/5d3309f34078563788.jpeg">
+<meta property="og:image" content="https://i.loli.net/2019/07/17/5d2f062c3f54423151.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/17/5d2f3bbee9fc613251.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/17/5d2f3e6b3f25b60407.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/18/5d3020cbedfa045904.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/18/5d302cf72a84b16749.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/18/5d302f5e252b218479.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/18/5d3032c68b10028765.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/18/5d3034042e7eb25980.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/18/5d3036b038e6887744.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/18/5d3027a32401a19689.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/18/5d302984b0e9519659.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/21/5d33eb72676dd50209.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/21/5d33ec8f1d81240143.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/21/5d3400d4dafc642658.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/21/5d33ff85ec56248587.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/21/5d340f75233e069695.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/27/5d3bf6eac177278359.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/27/5d3bfa23e0b7184753.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/27/5d3c01640b62571091.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/27/5d3c1953d092074232.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/27/5d3c1953d092074232.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/28/5d3d10c38e03182078.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/28/5d3d14a91be8c46018.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/28/5d3d1baea37db74483.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/28/5d3d20368af4149510.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/28/5d3d52aca1ceb10657.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/28/5d3d5de3ea86f14898.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/28/5d3d61f12687d17829.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/28/5d3d8613ced5e10719.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/28/5d3d8f70a39f830332.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/28/5d3d8d0872be553270.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/28/5d3d993add7da71420.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/28/5d3d997c2408911514.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/28/5d3d9aa02bd8593736.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/28/5d3d9afbe881191532.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/28/5d3d9d3de0a2810175.png">
+<meta property="og:updated_time" content="2019-08-08T15:13:30.451Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="每日前端（2019年7月）">
+<meta name="twitter:image" content="https://i.loli.net/2019/07/20/5d3309f34078563788.jpeg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/next/天天前端.html"/>
+
+
+
+
+
+  <title>每日前端（2019年7月） | 新世紀エヴァンゲリオン</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">新世紀エヴァンゲリオン</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">前端小学生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+    
+    
+    <div class="post-block page">
+      <header class="post-header">
+
+	<h1 class="post-title" itemprop="name headline">每日前端（2019年7月）</h1>
+
+
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+        
+        
+          <p><img src="https://i.loli.net/2019/07/20/5d3309f34078563788.jpeg" alt="image"></p>
+<a id="more"></a>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>📝 记录每天所学</p>
+<ul>
+<li style="list-style: none"><input type="checkbox" checked> 2019.7.17</li>
+<li style="list-style: none"><input type="checkbox" checked> 2019.7.18</li>
+<li style="list-style: none"><input type="checkbox" checked> 2019.7.20</li>
+<li style="list-style: none"><input type="checkbox" checked> 2019.7.21</li>
+<li style="list-style: none"><input type="checkbox" checked> 2019.7.27</li>
+<li style="list-style: none"><input type="checkbox" checked> 2019.7.28</li>
+</ul>
+<h2 id="2019-7-17-原型-amp-原型链"><a href="#2019-7-17-原型-amp-原型链" class="headerlink" title="2019.7.17 原型 &amp; 原型链"></a>2019.7.17 原型 &amp; 原型链</h2><blockquote>
+<p>参考<a href="https://github.com/mqyqingfeng/Blog/issues/2" target="_blank" rel="noopener">冴羽的博客</a></p>
+</blockquote>
+<p><img src="https://i.loli.net/2019/07/17/5d2f062c3f54423151.png" alt="image"></p>
+<h2 id="2019-7-17-词法作用域-静态作用域-和动态作用域"><a href="#2019-7-17-词法作用域-静态作用域-和动态作用域" class="headerlink" title="2019.7.17 词法作用域(静态作用域)和动态作用域"></a>2019.7.17 词法作用域(静态作用域)和动态作用域</h2><blockquote>
+<p>参考<a href="https://github.com/mqyqingfeng/Blog/issues/3" target="_blank" rel="noopener">冴羽的博客</a></p>
+</blockquote>
+<ul>
+<li>词法作用域，函数作用域在函数定义时就确定了。</li>
+<li>动态作用域，函数作用域在调用时才确定了。</li>
+</ul>
+<p><img src="https://i.loli.net/2019/07/17/5d2f3bbee9fc613251.png" alt="image"></p>
+<p>JavaScript 采用词法作用域，所以foo会打印<strong>1</strong>。因为作用域在函数定义时就已经确定；如果JavaScript是动态作用域，那么foo会打印<strong>2</strong>，因为value=2是作用域链中最近的。</p>
+<p><img src="https://i.loli.net/2019/07/17/5d2f3e6b3f25b60407.png" alt="image"></p>
+<p>在这两个例子中，都会打印<strong>local scope</strong>。因为在 JavaScript 中函数的作用域，位于函数创建的位置。</p>
+<hr>
+<h2 id="2019-7-18-执行上下文栈"><a href="#2019-7-18-执行上下文栈" class="headerlink" title="2019.7.18 执行上下文栈"></a>2019.7.18 执行上下文栈</h2><blockquote>
+<p>参考<a href="https://github.com/mqyqingfeng/Blog/issues/4" target="_blank" rel="noopener">冴羽的博客</a>; <a href="https://www.cnblogs.com/TomXu/archive/2012/01/13/2308101.html" target="_blank" rel="noopener">汤姆大叔的博客</a></p>
+</blockquote>
+<h3 id="什么是可执行代码（executable-code）？"><a href="#什么是可执行代码（executable-code）？" class="headerlink" title="什么是可执行代码（executable code）？"></a>什么是可执行代码（executable code）？</h3><p>ECMAScript中有三种可执行代码(global, function, eval)；可执行代码的执行依赖执行上下文；活跃的执行上下文在逻辑上会形成一个堆栈（执行上下文堆栈），<strong>执行上下文堆栈的底部永远是全局上下文。执行上下文堆栈的顶部永远是当前活跃的上下文。</strong></p>
+<p><img src="https://i.loli.net/2019/07/18/5d3020cbedfa045904.png" alt="image"></p>
+<h3 id="什么是执行上下文（Execution-Context）？"><a href="#什么是执行上下文（Execution-Context）？" class="headerlink" title="什么是执行上下文（Execution Context）？"></a>什么是执行上下文（Execution Context）？</h3><p>执行上下文可以抽象理解为一个对象。上下文有一系列属性(状态)。</p>
+<ol>
+<li>variable object，变量对象</li>
+<li>this value，this指针</li>
+<li>scope chain，作用域链</li>
+</ol>
+<h4 id="变量对象（variable-object）"><a href="#变量对象（variable-object）" class="headerlink" title="变量对象（variable object）"></a>变量对象（variable object）</h4><blockquote>
+<p>定义，变量对象(variable object) 是与执行上下文相关的 数据作用域(scope of data) 。它是与上下文关联的特殊对象，用于存储被定义在上下文中的 变量(variables) 和 函数声明(function declarations) (不包含函数表达式)。</p>
+</blockquote>
+<p>在不同的上下文中，变量对象表示不同的object。<strong>但是在全局上下文中，变量对象也是全局对象自身。所以全局上下文中的变量也是全局对象的属性</strong>。</p>
+<p><img src="https://i.loli.net/2019/07/18/5d302cf72a84b16749.png" alt="image"></p>
+<p>上面代码中全局上下文中的变量对象（VO variable object）</p>
+<table>
+<thead>
+<tr>
+<th>VO key</th>
+<th>VO value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>foo</td>
+<td>10</td>
+</tr>
+<tr>
+<td>bar</td>
+<td>function</td>
+</tr>
+</tbody>
+</table>
+<h5 id="活动对象（activation-object）"><a href="#活动对象（activation-object）" class="headerlink" title="活动对象（activation object）"></a>活动对象（activation object）</h5><blockquote>
+<p>定义，在一个函数的上下文中，变量对象表示为活动对象（AO）。包含了参数，以及arguments，活动对象在函数上下文中作为变量对象。</p>
+</blockquote>
+<p><img src="https://i.loli.net/2019/07/18/5d302f5e252b218479.png" alt="image"></p>
+<p>上面代码中函数上下文中的活动对象（AO）</p>
+<table>
+<thead>
+<tr>
+<th>AO key</th>
+<th>AO value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>x</td>
+<td>10</td>
+</tr>
+<tr>
+<td>y</td>
+<td>20</td>
+</tr>
+<tr>
+<td>z</td>
+<td>30</td>
+</tr>
+<tr>
+<td>arguments</td>
+<td>object</td>
+</tr>
+<tr>
+<td>bar</td>
+<td>function</td>
+</tr>
+</tbody>
+</table>
+<h4 id="this指针"><a href="#this指针" class="headerlink" title="this指针"></a>this指针</h4><p>📝参考2019.7.27 this</p>
+<h4 id="作用域链"><a href="#作用域链" class="headerlink" title="作用域链"></a>作用域链</h4><p>📝参考2019.7.27 作用域链</p>
+<h3 id="什么是执行上下文栈（Execution-Context-Stack）？"><a href="#什么是执行上下文栈（Execution-Context-Stack）？" class="headerlink" title="什么是执行上下文栈（Execution Context Stack）？"></a>什么是执行上下文栈（Execution Context Stack）？</h3><p>一个执行上下文可以激活另一个上下文。例如：函数A内部调用了函数B，函数A的上下文激活了函数B的上下文。函数B也可以激活函数C的上下文。类似数据结构中的<strong>栈</strong>。激活其他上下文的上下文称为<strong>调用者（caller）</strong>，被激活的上下文被称为<strong>被调用者（callee）</strong>。callee同时也能是caller。当caller激活callee时，caller会暂停执行，控制权将会交给callee。当callee执行完成后，caller会再次执行。</p>
+<h4 id="全局代码执行上下文栈"><a href="#全局代码执行上下文栈" class="headerlink" title="全局代码执行上下文栈"></a>全局代码执行上下文栈</h4><p>当程序启动，全局上下文就会推入执行执行上下文堆栈。</p>
+<p><img src="https://i.loli.net/2019/07/18/5d3032c68b10028765.png" alt="image"></p>
+<h4 id="函数代码执行上下文栈"><a href="#函数代码执行上下文栈" class="headerlink" title="函数代码执行上下文栈"></a>函数代码执行上下文栈</h4><p><img src="https://i.loli.net/2019/07/18/5d3034042e7eb25980.png" alt="image"></p>
+<h4 id="eval代码执行上下文栈"><a href="#eval代码执行上下文栈" class="headerlink" title="eval代码执行上下文栈"></a>eval代码执行上下文栈</h4><p>eval会有一个额外的调用上下文(calling context)推入执行上下文堆栈中。eval产生的变量，会影响到调用上下文。</p>
+<p><img src="https://i.loli.net/2019/07/18/5d3036b038e6887744.png" alt="image"></p>
+<h3 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h3><p><img src="https://i.loli.net/2019/07/18/5d3027a32401a19689.png" alt="image"></p>
+<p>例子1与例子2执行结果是完全一致的。两者的区别在于执行上下文栈的变化不同。</p>
+<p><img src="https://i.loli.net/2019/07/18/5d302984b0e9519659.png" alt="image"></p>
+<hr>
+<h2 id="2019-7-20-Node多进程模型"><a href="#2019-7-20-Node多进程模型" class="headerlink" title="2019.7.20 Node多进程模型"></a>2019.7.20 Node多进程模型</h2><blockquote>
+<p>参考<a href="https://www.jianshu.com/p/4c8dc27f9590" target="_blank" rel="noopener">5分钟node多进程模型从入门到精通</a>, <a href="https://juejin.im/post/5a6e92815188257349792a65" target="_blank" rel="noopener">系列３｜走进Node.js之多进程模型</a>, <a href="https://itnext.io/multi-threading-and-multi-process-in-node-js-ffa5bb5cde98" target="_blank" rel="noopener">Multi threading and multiple process in Node.js</a></p>
+</blockquote>
+<h3 id="什么是进程？"><a href="#什么是进程？" class="headerlink" title="什么是进程？"></a>什么是进程？</h3><p>进程是系统进行资源分配和调度的基本单位。进程是线程的容器。进程拥有独立的内存空间，一个进程无法直接访问另一个进程。</p>
+<h3 id="什么是线程？"><a href="#什么是线程？" class="headerlink" title="什么是线程？"></a>什么是线程？</h3><p>线程是CPU调度和分配的基本单位，是比进程更小的单位。线程不具有独立的系统资源，可以与同属同一个进程的线程共享一部分资源。但是堆栈、局部变量等资源是独有的。同一个进程中可以有多个线程可以并发执行。 </p>
+<h3 id="进程和线程的关联？"><a href="#进程和线程的关联？" class="headerlink" title="进程和线程的关联？"></a>进程和线程的关联？</h3><p><strong>一个程序至少包含一个进程，一个进程中至少包含一个线程</strong>。</p>
+<h3 id="单线程（node）和多线程（java）是如何处理并发的？"><a href="#单线程（node）和多线程（java）是如何处理并发的？" class="headerlink" title="单线程（node）和多线程（java）是如何处理并发的？"></a>单线程（node）和多线程（java）是如何处理并发的？</h3><ul>
+<li>java使用多个线程同时处理多个请求，但是大部分时间cpu的占用率为0%，在等待数据库的返回</li>
+<li>node使用事件循环和异步io处理并发。但是如果存在cpu密集操作，会阻塞事件循环。</li>
+</ul>
+<h3 id="node的”单线程”"><a href="#node的”单线程”" class="headerlink" title="node的”单线程”"></a>node的”单线程”</h3><p>node的单线程指的是<strong>js执行是单线程</strong>。Node启动后会创建V8实例，而V8实例是多线程。</p>
+<h3 id="node的子进程"><a href="#node的子进程" class="headerlink" title="node的子进程"></a>node的子进程</h3><h4 id="子进程的好处"><a href="#子进程的好处" class="headerlink" title="子进程的好处"></a>子进程的好处</h4><ol>
+<li>将耗时的任务交给子进程处理，可以避免阻塞事件循环。</li>
+<li>可以在子进程中执行shell命令。</li>
+</ol>
+<h4 id="node子进程的例子"><a href="#node子进程的例子" class="headerlink" title="node子进程的例子"></a>node子进程的例子</h4><p><img src="https://i.loli.net/2019/07/21/5d33eb72676dd50209.png" alt="image"></p>
+<p><img src="https://i.loli.net/2019/07/21/5d33ec8f1d81240143.png" alt="image"></p>
+<h3 id="node的主从模型"><a href="#node的主从模型" class="headerlink" title="node的主从模型"></a>node的主从模型</h3><p><img src="https://i.loli.net/2019/07/21/5d3400d4dafc642658.png" alt="image"></p>
+<p>node可以通过cluster.fork开启多进程，多进程可以共享tcp链接，自带负载均衡。node中cluster的源码也是基于child_process.fork封装的。</p>
+<p><img src="https://i.loli.net/2019/07/21/5d33ff85ec56248587.png" alt="image"></p>
+<h3 id="PM2中的cluster"><a href="#PM2中的cluster" class="headerlink" title="PM2中的cluster"></a>PM2中的cluster</h3><p>pm2中可以使用<strong>-i</strong>选项开启集群模式，无需代码的修改。</p>
+<p><strong>pm2 start app.js -i max</strong>，max会检测可用cpu的最大数量，开启尽可能多的进程。更多内容请参考<a href="http://pm2.keymetrics.io/docs/usage/cluster-mode/" target="_blank" rel="noopener">pm2的文档</a></p>
+<h3 id="守护进程"><a href="#守护进程" class="headerlink" title="守护进程"></a>守护进程</h3><p>守护进程指的是不受终端影响的进程，即后台运行模式。下面是一个开启守护进程的例子。</p>
+<p><img src="https://i.loli.net/2019/07/21/5d340f75233e069695.png" alt="image"></p>
+<h2 id="2019-7-21-Lodash中的cloneDeep"><a href="#2019-7-21-Lodash中的cloneDeep" class="headerlink" title="2019.7.21 Lodash中的cloneDeep"></a>2019.7.21 Lodash中的cloneDeep</h2><p><a href="https://juejin.im/post/5d3468116fb9a07eb051fdfc" target="_blank" rel="noopener">JavaScript 中的深拷贝</a></p>
+<h2 id="2019-7-27-作用域链（Scope-Chain）"><a href="#2019-7-27-作用域链（Scope-Chain）" class="headerlink" title="2019.7.27 作用域链（Scope Chain）"></a>2019.7.27 作用域链（Scope Chain）</h2><blockquote>
+<p>参考<a href="https://www.cnblogs.com/TomXu/archive/2012/01/18/2312463.html" target="_blank" rel="noopener">汤姆大叔的博客</a></p>
+</blockquote>
+<p>作用域链是执行上下文中的另一个重要属性，作用域链是执行上下文所有变量对象（variable object）的列表。</p>
+<p><img src="https://i.loli.net/2019/07/27/5d3bf6eac177278359.png" alt="image"></p>
+<p>上面的代码中，包含3个执行上下文（全局上下文，foo函数的上下文，bar函数的上下文）。bar的执行上下文的作用域链中包含了3个变量对象（variable object）。bar活动对象，foo活动对象，全局变量对象。</p>
+<p>作用域链是在函数调用时创建的, 包含了函数的活动对象（AO），以及函数内部的[[scope]]属性。scope的定义：<strong>作用域链（scope）= AO + [[scope]]属性</strong>。</p>
+<p>函数可以访问，更高层次的执行上下的变量对象，这种机制正是通过[[scope]]属性实现的。<strong>[[scope]]属性是所有父变量对象的层级链。</strong></p>
+<p><img src="https://i.loli.net/2019/07/27/5d3bfa23e0b7184753.png" alt="image"></p>
+<h3 id="作用域的变化过程"><a href="#作用域的变化过程" class="headerlink" title="作用域的变化过程"></a>作用域的变化过程</h3><h4 id="函数创建阶段"><a href="#函数创建阶段" class="headerlink" title="函数创建阶段"></a>函数创建阶段</h4><p>JavaScript是词法作用域（静态作用域）的语言。[[scope]]属性在函数创建时就已经写入并存储在函数对象中。即使函数不会被调用，[[scope]]属性也会被创建。</p>
+<p><img src="https://i.loli.net/2019/07/27/5d3c01640b62571091.png" alt="image"></p>
+<h4 id="函数激活阶段"><a href="#函数激活阶段" class="headerlink" title="函数激活阶段"></a>函数激活阶段</h4><p>当函数被激活，创建执行上下文的AO属性后，上下文的作用域链等于：<strong>作用域链（scope）= AO + [[scope]]属性</strong>。活动对象（AO）是作用域数组的第一个对象。这个特性对于标识符解析很重要，因为变量名的查找中，是从最深的上下文（自下而上）查找的。局部的变量，相较于父作用域的变量，拥有较高的优先级。</p>
+<p>👇下面举例说明</p>
+<p><img src="https://i.loli.net/2019/07/27/5d3c1953d092074232.png" alt="image"></p>
+<h3 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h3><p>闭包于[[scope]]属性直接相关。[[scope]]属性中保存有父变量对象。更多请参考<strong>2019.7.27 闭包</strong></p>
+<h3 id="作用域链查找"><a href="#作用域链查找" class="headerlink" title="作用域链查找"></a>作用域链查找</h3><p>如果一个变量，在变量对象中没有被找到。首先会通过作用域链查找，然后是原型链查找。</p>
+<p><img src="https://i.loli.net/2019/07/27/5d3c1953d092074232.png" alt="image"></p>
+<h3 id="全局和eval的作用域链"><a href="#全局和eval的作用域链" class="headerlink" title="全局和eval的作用域链"></a>全局和eval的作用域链</h3><p>全局上下文的作用域链仅包含全局变量对象。eval代码，具有同样作用域链。</p>
+<h2 id="2019-7-28-this"><a href="#2019-7-28-this" class="headerlink" title="2019.7.28 this"></a>2019.7.28 this</h2><blockquote>
+<p>参考<a href="https://www.cnblogs.com/TomXu/archive/2012/01/17/2310479.html" target="_blank" rel="noopener">汤姆大叔的博客</a>, <a href="https://github.com/mqyqingfeng/Blog/issues/7" target="_blank" rel="noopener">冴羽的博客</a></p>
+</blockquote>
+<p>this是执行上下文中一个重要属性，<strong>this在进入上下文时确定，并且在上下文运行期间永久不变</strong>。</p>
+<h3 id="全局代码中的this"><a href="#全局代码中的this" class="headerlink" title="全局代码中的this"></a>全局代码中的this</h3><p>在全局代码中this就是全局对象本身。</p>
+<h3 id="函数代码中的this"><a href="#函数代码中的this" class="headerlink" title="函数代码中的this"></a>函数代码中的this</h3><p>函数代码的this不是静态绑定的，而是在进入上下文时才会确定。但是在函数代码在运行时，this是不变的。</p>
+<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><p>ECMAScript的类型分为<strong>语言类型</strong>和<strong>规范类型</strong>。语言类型指的是常用的Undefined、Null、Boolean、String、<br>Number、Object。规范类型指的是底层用来描述语言类型的包含，Reference、List、Completion、Property Descriptor、 Property Identifier、Lexical Environment、Environment Record。</p>
+<p>Reference是只存在于规范中的抽象类型，为了更好地描述语言的底层行为逻辑。Reference由三部分构成</p>
+<ul>
+<li>base value，拥有属性的那个对象，值可能是Undefined，Object，Boolean，String，Number，EnvironmentRecord </li>
+<li>referenced name，属性名</li>
+<li>strict reference 是否为严格引用（<strong>非严格模式下，如果this为undefined会被隐式转换为window</strong>）</li>
+</ul>
+<p>举个例子</p>
+<p><img src="https://i.loli.net/2019/07/28/5d3d10c38e03182078.png" alt="image"></p>
+<p>规范中提供了获取Reference组成的方法</p>
+<ul>
+<li>GetBase 获取Reference的base</li>
+<li>IsPropertyReference 如果Reference的base是一个对象返回true</li>
+<li>GetValue 从Reference类型获取对应值的方法</li>
+</ul>
+<h3 id="如何确定this的值？"><a href="#如何确定this的值？" class="headerlink" title="如何确定this的值？"></a>如何确定this的值？</h3><ol>
+<li>计算MemberExpression的结果赋值给ref</li>
+<li>判断ref是不是一个Reference类型<ol>
+<li>如果ref是Reference，并且IsPropertyReference(ref)是true, 那么this的值为GetBase(ref)</li>
+<li>如果ref是Reference，并且base值是EnvironmentRecord, 那么this的值为ImplicitThisValue(ref)</li>
+<li>如果ref不是Reference，那么this的值为undefined</li>
+</ol>
+</li>
+</ol>
+<h4 id="什么是MemberExpression？"><a href="#什么是MemberExpression？" class="headerlink" title="什么是MemberExpression？"></a>什么是MemberExpression？</h4><p>MemberExpression可以简单理解为<strong>()</strong>左边的内容</p>
+<p><img src="https://i.loli.net/2019/07/28/5d3d14a91be8c46018.png" alt="image"></p>
+<h4 id="举例分析"><a href="#举例分析" class="headerlink" title="举例分析"></a>举例分析</h4><p><img src="https://i.loli.net/2019/07/28/5d3d1baea37db74483.png" alt="image"></p>
+<p><img src="https://i.loli.net/2019/07/28/5d3d20368af4149510.png" alt="image"></p>
+<h2 id="2019-7-28-闭包（closure）"><a href="#2019-7-28-闭包（closure）" class="headerlink" title="2019.7.28 闭包（closure）"></a>2019.7.28 闭包（closure）</h2><blockquote>
+<p>参考<a href="https://www.cnblogs.com/TomXu/archive/2012/01/31/2330252.html" target="_blank" rel="noopener">汤姆大叔的博客</a></p>
+</blockquote>
+<h3 id="什么是自由变量？"><a href="#什么是自由变量？" class="headerlink" title="什么是自由变量？"></a>什么是自由变量？</h3><p>自由变量是指在函数中使用的，但既不是函数参数也不是函数的局部变量的变量</p>
+<p><img src="https://i.loli.net/2019/07/28/5d3d52aca1ceb10657.png" alt="image"></p>
+<h3 id="什么是闭包？"><a href="#什么是闭包？" class="headerlink" title="什么是闭包？"></a>什么是闭包？</h3><p><strong>定义：闭包是函数和声明该函数的词法环境的组合</strong></p>
+<p>在闭包创建的同时，上下文的数据就会保存起来。当下次调用函数的时候，自由变量就可以在保存的（闭包）上下文中找到。父级的上下文数据是保存到函数内部的[[scope]]属性中的。</p>
+<p><strong>JavaScript中所有的函数都是闭包的，因为函数在创建的时候就会保存上层的上下文作用域链</strong>。</p>
+<h3 id="所有对象都引用同一个-scope"><a href="#所有对象都引用同一个-scope" class="headerlink" title="所有对象都引用同一个[[scope]]"></a>所有对象都引用同一个[[scope]]</h3><p>同一个父上下文中创建的闭包是共用一个[[Scope]]属性，某个闭包对其中[[Scope]]的变量做修改会影响到其他闭包对其变量的读取。</p>
+<p><img src="https://i.loli.net/2019/07/28/5d3d5de3ea86f14898.png" alt="image"></p>
+<p>举一个例子🌰</p>
+<p><img src="https://i.loli.net/2019/07/28/5d3d61f12687d17829.png" alt="image"></p>
+<ul>
+<li>理论上说，所有函数都是闭包</li>
+<li>实践上说，以下函数是闭包<ul>
+<li>创建它的上下文已经被销毁，但是它依然存在</li>
+<li>函数中引用了自由变量</li>
+</ul>
+</li>
+</ul>
+<h2 id="2019-7-28-变量对象（Variable-Object）"><a href="#2019-7-28-变量对象（Variable-Object）" class="headerlink" title="2019.7.28 变量对象（Variable Object）"></a>2019.7.28 变量对象（Variable Object）</h2><blockquote>
+<p>参考<a href="https://www.cnblogs.com/TomXu/archive/2012/01/16/2309728.html" target="_blank" rel="noopener">汤姆大叔的博客</a></p>
+</blockquote>
+<p>变量对象（VO）是执行上下文相关的属性，变量对象存储着执行上下文中的，变量，函数声明，函数的形参。</p>
+<p>只有在全局上下文中，可以直接访问全局上下文的VO。在其他上下文中不能直接访问VO对象，例如函数上下文中通过访问活动对象（AO）替代VO的功能。</p>
+<p><img src="https://i.loli.net/2019/07/28/5d3d8613ced5e10719.png" alt="image"></p>
+<h3 id="不同类型的上下文对象"><a href="#不同类型的上下文对象" class="headerlink" title="不同类型的上下文对象"></a>不同类型的上下文对象</h3><h4 id="全局上下文变量对象"><a href="#全局上下文变量对象" class="headerlink" title="全局上下文变量对象"></a>全局上下文变量对象</h4><p><strong>全局对象等于全局上下文的变量对象，VO(globalContext) === global;</strong></p>
+<p><img src="https://i.loli.net/2019/07/28/5d3d8f70a39f830332.png" alt="image"></p>
+<h4 id="函数上下文变量对象"><a href="#函数上下文变量对象" class="headerlink" title="函数上下文变量对象"></a>函数上下文变量对象</h4><p>在函数执行上下文中VO是不能直接访问的，通过AO替代VO的角色，<strong>VO(functionContext) === AO</strong>。AO是在进入函数上下文时刻被创建的，通过arguments属性初始化。arguments属性等于Arguments对象。</p>
+<p><img src="https://i.loli.net/2019/07/28/5d3d8d0872be553270.png" alt="image"></p>
+<p>Arguments对象是AO的一个属性。Arguments对象拥有以下属性</p>
+<ul>
+<li>callee，当前函数的引用</li>
+<li>length，真正传递的参数的长度</li>
+<li>properties-indexes（字符串类型的整数），Arguments[0]等于第一个参数。依次类推。</li>
+</ul>
+<h3 id="处理上下文的两个阶段"><a href="#处理上下文的两个阶段" class="headerlink" title="处理上下文的两个阶段"></a>处理上下文的两个阶段</h3><h4 id="进入执行上下文"><a href="#进入执行上下文" class="headerlink" title="进入执行上下文"></a>进入执行上下文</h4><p>在代码执行前，VO拥有以下属性（1，2，3同样是声明的顺序）：</p>
+<ol>
+<li>函数的所有形参，由名称和对应值组成，如果没有传递参数。则由名称和undefined组成。</li>
+<li>所有函数声明（不包含函数表达式）如果变量对象中已经存在同名的属性，则会完全替代这个属性。</li>
+<li>所有变量声明，由名称和对应值（undefined）组成。如果变量名称跟已经声明的形参或函数相同，则变量声明不会干扰已经存在的这类属性。</li>
+</ol>
+<p>举例说明：</p>
+<p><img src="https://i.loli.net/2019/07/28/5d3d993add7da71420.png" alt="image"></p>
+<h4 id="代码执行"><a href="#代码执行" class="headerlink" title="代码执行"></a>代码执行</h4><p>在代码执行阶段，上面的例子中，AO的<em>c</em>、<em>e</em>属性会被修改</p>
+<p><img src="https://i.loli.net/2019/07/28/5d3d997c2408911514.png" alt="image"></p>
+<p>举例说明：</p>
+<p><img src="https://i.loli.net/2019/07/28/5d3d9aa02bd8593736.png" alt="image"></p>
+<p><img src="https://i.loli.net/2019/07/28/5d3d9afbe881191532.png" alt="image"></p>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p><img src="https://i.loli.net/2019/07/28/5d3d9d3de0a2810175.png" alt="image"></p>
+
+        
+      </div>
+      
+      
+      
+    </div>
+    
+    
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="张越" />
+            
+              <p class="site-author-name" itemprop="name">张越</p>
+              <p class="site-description motion-element" itemprop="description">所谓成长，就是经过不断的聚散离合，找到不太会伤害到彼此的距离</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">81</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/BengBu-YueZhang" target="_blank" title="我的GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/5460100952/profile?topnav=1&wvr=6" target="_blank" title="我的微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的微博</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2019-7-17-原型-amp-原型链"><span class="nav-number">2.</span> <span class="nav-text">2019.7.17 原型 &amp; 原型链</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2019-7-17-词法作用域-静态作用域-和动态作用域"><span class="nav-number">3.</span> <span class="nav-text">2019.7.17 词法作用域(静态作用域)和动态作用域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2019-7-18-执行上下文栈"><span class="nav-number">4.</span> <span class="nav-text">2019.7.18 执行上下文栈</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是可执行代码（executable-code）？"><span class="nav-number">4.1.</span> <span class="nav-text">什么是可执行代码（executable code）？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是执行上下文（Execution-Context）？"><span class="nav-number">4.2.</span> <span class="nav-text">什么是执行上下文（Execution Context）？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#变量对象（variable-object）"><span class="nav-number">4.2.1.</span> <span class="nav-text">变量对象（variable object）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#活动对象（activation-object）"><span class="nav-number">4.2.1.1.</span> <span class="nav-text">活动对象（activation object）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#this指针"><span class="nav-number">4.2.2.</span> <span class="nav-text">this指针</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#作用域链"><span class="nav-number">4.2.3.</span> <span class="nav-text">作用域链</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是执行上下文栈（Execution-Context-Stack）？"><span class="nav-number">4.3.</span> <span class="nav-text">什么是执行上下文栈（Execution Context Stack）？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#全局代码执行上下文栈"><span class="nav-number">4.3.1.</span> <span class="nav-text">全局代码执行上下文栈</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#函数代码执行上下文栈"><span class="nav-number">4.3.2.</span> <span class="nav-text">函数代码执行上下文栈</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#eval代码执行上下文栈"><span class="nav-number">4.3.3.</span> <span class="nav-text">eval代码执行上下文栈</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#思考"><span class="nav-number">4.4.</span> <span class="nav-text">思考</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2019-7-20-Node多进程模型"><span class="nav-number">5.</span> <span class="nav-text">2019.7.20 Node多进程模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是进程？"><span class="nav-number">5.1.</span> <span class="nav-text">什么是进程？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是线程？"><span class="nav-number">5.2.</span> <span class="nav-text">什么是线程？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程和线程的关联？"><span class="nav-number">5.3.</span> <span class="nav-text">进程和线程的关联？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单线程（node）和多线程（java）是如何处理并发的？"><span class="nav-number">5.4.</span> <span class="nav-text">单线程（node）和多线程（java）是如何处理并发的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#node的”单线程”"><span class="nav-number">5.5.</span> <span class="nav-text">node的”单线程”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#node的子进程"><span class="nav-number">5.6.</span> <span class="nav-text">node的子进程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#子进程的好处"><span class="nav-number">5.6.1.</span> <span class="nav-text">子进程的好处</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#node子进程的例子"><span class="nav-number">5.6.2.</span> <span class="nav-text">node子进程的例子</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#node的主从模型"><span class="nav-number">5.7.</span> <span class="nav-text">node的主从模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PM2中的cluster"><span class="nav-number">5.8.</span> <span class="nav-text">PM2中的cluster</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#守护进程"><span class="nav-number">5.9.</span> <span class="nav-text">守护进程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2019-7-21-Lodash中的cloneDeep"><span class="nav-number">6.</span> <span class="nav-text">2019.7.21 Lodash中的cloneDeep</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2019-7-27-作用域链（Scope-Chain）"><span class="nav-number">7.</span> <span class="nav-text">2019.7.27 作用域链（Scope Chain）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#作用域的变化过程"><span class="nav-number">7.1.</span> <span class="nav-text">作用域的变化过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#函数创建阶段"><span class="nav-number">7.1.1.</span> <span class="nav-text">函数创建阶段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#函数激活阶段"><span class="nav-number">7.1.2.</span> <span class="nav-text">函数激活阶段</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包"><span class="nav-number">7.2.</span> <span class="nav-text">闭包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#作用域链查找"><span class="nav-number">7.3.</span> <span class="nav-text">作用域链查找</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#全局和eval的作用域链"><span class="nav-number">7.4.</span> <span class="nav-text">全局和eval的作用域链</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2019-7-28-this"><span class="nav-number">8.</span> <span class="nav-text">2019.7.28 this</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#全局代码中的this"><span class="nav-number">8.1.</span> <span class="nav-text">全局代码中的this</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数代码中的this"><span class="nav-number">8.2.</span> <span class="nav-text">函数代码中的this</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reference"><span class="nav-number">8.3.</span> <span class="nav-text">Reference</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何确定this的值？"><span class="nav-number">8.4.</span> <span class="nav-text">如何确定this的值？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是MemberExpression？"><span class="nav-number">8.4.1.</span> <span class="nav-text">什么是MemberExpression？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#举例分析"><span class="nav-number">8.4.2.</span> <span class="nav-text">举例分析</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2019-7-28-闭包（closure）"><span class="nav-number">9.</span> <span class="nav-text">2019.7.28 闭包（closure）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是自由变量？"><span class="nav-number">9.1.</span> <span class="nav-text">什么是自由变量？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是闭包？"><span class="nav-number">9.2.</span> <span class="nav-text">什么是闭包？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#所有对象都引用同一个-scope"><span class="nav-number">9.3.</span> <span class="nav-text">所有对象都引用同一个[[scope]]</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2019-7-28-变量对象（Variable-Object）"><span class="nav-number">10.</span> <span class="nav-text">2019.7.28 变量对象（Variable Object）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#不同类型的上下文对象"><span class="nav-number">10.1.</span> <span class="nav-text">不同类型的上下文对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#全局上下文变量对象"><span class="nav-number">10.1.1.</span> <span class="nav-text">全局上下文变量对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#函数上下文变量对象"><span class="nav-number">10.1.2.</span> <span class="nav-text">函数上下文变量对象</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#处理上下文的两个阶段"><span class="nav-number">10.2.</span> <span class="nav-text">处理上下文的两个阶段</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#进入执行上下文"><span class="nav-number">10.2.1.</span> <span class="nav-text">进入执行上下文</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码执行"><span class="nav-number">10.2.2.</span> <span class="nav-text">代码执行</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他"><span class="nav-number">10.3.</span> <span class="nav-text">其他</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张越</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
