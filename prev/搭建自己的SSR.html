@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content=",,," />
+
+
+
+
+
+
+
+
+
+
+<meta name="keywords" content="vue">
+<meta property="og:type" content="website">
+<meta property="og:title" content="从0到1，搭建VueSSR(learning)">
+<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/prev/搭建自己的SSR.html">
+<meta property="og:site_name" content="新世紀エヴァンゲリオン">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://unsplash.it/1380/766?random">
+<meta property="og:image" content="https://i.loli.net/2019/08/13/P1UvaiXdxuG9YwT.png">
+<meta property="og:image" content="https://i.loli.net/2019/08/13/ibrVzWNsXGe9pmQ.png">
+<meta property="og:image" content="https://i.loli.net/2019/08/13/ko4HCL5lJqSXfza.png">
+<meta property="og:updated_time" content="2019-08-15T00:21:09.443Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="从0到1，搭建VueSSR(learning)">
+<meta name="twitter:image" content="https://unsplash.it/1380/766?random">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/prev/搭建自己的SSR.html"/>
+
+
+
+
+
+  <title>从0到1，搭建VueSSR(learning) | 新世紀エヴァンゲリオン</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">新世紀エヴァンゲリオン</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">前端小学生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            主页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            时间轴
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+    
+    
+    <div class="post-block page">
+      <header class="post-header">
+
+	<h1 class="post-title" itemprop="name headline">从0到1，搭建VueSSR(learning)</h1>
+
+
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+        
+        
+          <p><img src="https://unsplash.it/1380/766?random" alt="image"></p>
+<a id="more"></a>
+<h2 id="什么是CSR"><a href="#什么是CSR" class="headerlink" title="什么是CSR?"></a>什么是CSR?</h2><p><img src="https://i.loli.net/2019/08/13/P1UvaiXdxuG9YwT.png" alt="QQ20190813-203431.png"></p>
+<p>执行过程：</p>
+<ol>
+<li>浏览器下载js</li>
+<li>浏览器执行js，动态生成dom。ajax发送请求，获取数据填充页面。</li>
+<li>页面可用</li>
+</ol>
+<h2 id="什么是SSR"><a href="#什么是SSR" class="headerlink" title="什么是SSR?"></a>什么是SSR?</h2><p><img src="https://i.loli.net/2019/08/13/ibrVzWNsXGe9pmQ.png" alt="QQ20190813-204534.png"></p>
+<ol>
+<li>服务器发送静态html到浏览器，浏览器呈现页面</li>
+<li>浏览器下载js，并执行。由Vue管理整个页面交互。</li>
+<li>页面可用</li>
+</ol>
+<p><img src="https://i.loli.net/2019/08/13/ko4HCL5lJqSXfza.png" alt="QQ20190813-212958.png"></p>
+<p>⬆️上图是SSR项目的构建流程，Node端的ServerBundle负责处理请求，将静态html发送浏览器，而浏览器端的ClientBundle会混合（Hydrate）静态html，形成一个完整的Vue应用。</p>
+<h3 id="SSR的优劣"><a href="#SSR的优劣" class="headerlink" title="SSR的优劣"></a>SSR的优劣</h3><p>优势:</p>
+<ol>
+<li>更好的SEO</li>
+<li>更快的内容到达时间</li>
+</ol>
+<p>劣势:</p>
+<ol>
+<li>更大的服务器负载</li>
+<li>项目复杂度增大，可维护性降低，DEBUG难度提高</li>
+<li>需要考虑服务器环境，只能使用部分生命周期函数，第三方库需要额外的处理。对于window，document的使用需要做额外的判断。s</li>
+</ol>
+<h2 id="Hi-SSR"><a href="#Hi-SSR" class="headerlink" title="Hi!SSR"></a>Hi!SSR</h2><h2 id="什么是同构"><a href="#什么是同构" class="headerlink" title="什么是同构?"></a>什么是同构?</h2><p>当服务器上使用renderer.renderToString渲染页面的时候，是无法处理事件绑定的，我们需要在浏览器上处理对事件的绑定。</p>
+<p>我们需要将代码执行两次。服务端执行第一次渲染html，并发送给浏览器。当浏览器接受到html后，会再执行一次，Vue会接管静态html，使其变为由Vue管理的动态DOM。</p>
+<h2 id="避免状态单例"><a href="#避免状态单例" class="headerlink" title="避免状态单例"></a>避免状态单例</h2><p>我们需要为每一个请求创建一个应用的实例。如果在Node内存创建一个单例，所有请求共享一个实例，会造成不同的请求对实例的状态污染。</p>
+<h2 id="数据预取"><a href="#数据预取" class="headerlink" title="数据预取"></a>数据预取</h2><ul>
+<li>在服务端预取，并且将状态同步到window.<strong>INITIAL_STATE</strong>上，window.<strong>INITIAL_STATE</strong>中存储的就是store的状态。我的思路，是把一个变量window.<strong>INITIAL_STATE</strong>.serverRendered也放到里面，判断渲染是否来自服务器端。</li>
+<li>在客户端预取<ul>
+<li>路由渲染前</li>
+<li>路由渲染后</li>
+</ul>
+</li>
+</ul>
+<h2 id="客户端激活"><a href="#客户端激活" class="headerlink" title="客户端激活"></a>客户端激活</h2><p>客户端激活指的vue接管服务端发送的html。</p>
+<p>服务端输出的静态html根节点，会添加data-server-rendered属性，告诉vue这些是服务端渲染的（客户端只需要激活这些静态html，无需再次创建）。在开发环境下,客户端会比较虚拟dom，与服务端渲染的dom是否是否匹配。如果不匹配，将会退出混合模式，使用客户端渲染dom。</p>
+<p>如果dom节点没有data-server-rendered属性，可以使用$mount()的第二个参数，传true</p>
+<h2 id="一些问题"><a href="#一些问题" class="headerlink" title="一些问题"></a>一些问题</h2><p>开发面对的问题：</p>
+<p>每次修改代码都要重启node服务</p>
+<p>nodejs不支持source map。</p>
+<p>vue-server-renderer提供createBundleRenderer API </p>
+<ol>
+<li>内置source map</li>
+<li>热重载，重新创建renderer实例</li>
+<li></li>
+</ol>
+<h2 id="webpack配置"><a href="#webpack配置" class="headerlink" title="webpack配置"></a>webpack配置</h2><h3 id="服务器配置"><a href="#服务器配置" class="headerlink" title="服务器配置"></a>服务器配置</h3><h3 id="客户端配置"><a href="#客户端配置" class="headerlink" title="客户端配置"></a>客户端配置</h3><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://github.com/vuejs/vue-hackernews-2.0/" target="_blank" rel="noopener">vue-hackernews-2.0</a><br><a href="https://ssr.vuejs.org/zh/" target="_blank" rel="noopener">Vue SSR 指南</a><br><a href="https://juejin.im/post/5bc7ea48e51d450e46289eab?utm_medium=hao.caibaojian.com&amp;utm_source=hao.caibaojian.com#heading-1" target="_blank" rel="noopener">React 中同构（SSR）原理脉络梳理</a><br><a href="https://juejin.im/post/5d1fe6be51882579db031a6d" target="_blank" rel="noopener">从头开始，彻底理解服务端渲染原理(8千字汇总长文)</a><br><a href="https://juejin.im/post/5b98e5875188255c8320f88a" target="_blank" rel="noopener">通过vue-cli3构建一个SSR应用程序</a><br><a href="https://juejin.im/post/5cee8808f265da1b8f1aa45e" target="_blank" rel="noopener">基于 @vue/cli3 与 koa 创建 ssr 工程 </a></p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><h3 id="nuxt-js的asyncData执行策略"><a href="#nuxt-js的asyncData执行策略" class="headerlink" title="nuxt.js的asyncData执行策略"></a>nuxt.js的asyncData执行策略</h3><p>如果是首次渲染, asyncData的执行源自服务器端, asyncData会将数据缓存到window.<strong>NUXT</strong>上</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// server.js</span></span><br><span class="line"></span><br><span class="line">ssrContext.nuxt.data = asyncDatas.map(<span class="function"><span class="params">r</span> =&gt;</span> r[<span class="number">0</span>] || &#123;&#125;)</span><br></pre></td></tr></table></figure>
+<p>在浏览器上，判断如果来自服务器，并且有缓存数据的情况下，不在客户端中重复执行asyncData。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// client.js</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">applySSRData</span>(<span class="params">Component, ssrData</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (NUXT.serverRendered &amp;&amp; ssrData) &#123;</span><br><span class="line">    applyAsyncData(Component, ssrData)</span><br><span class="line">  &#125;</span><br><span class="line">  Component._Ctor = Component</span><br><span class="line">  <span class="keyword">return</span> Component</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果不是来自服务器端的，将会执行执行asyncData</p>
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><ol>
+<li>如何获取当前是服务器环境，还是浏览器环境（如果是来自服务端渲染，并且window.<strong>INITIAL_STATE</strong>有缓存，那么asynData在客户端不能重复执行）</li>
+</ol>
+<p>nuxt中proces.client貌似是通过webpack将环境变量，打包到代码中判断？（不知道，我说的对不对）</p>
+<ol>
+<li>如何判断渲染来自服务端呢？</li>
+</ol>
+<p>nuxt内部是使用NUXT.serverRendered做判断，但是这段源码，不太明白是什么意思？</p>
+<p>我目前的思路是，通过在服务器上设置window.<strong>INITIAL_STATE</strong>.serverRendered = true, 在路由判断是否serverRendered为true，如果为true，不在重复调用请求。然后将serverRendered设置为false。</p>
+<ol>
+<li>首次渲染时，asyncData请求在服务器端触发，如何解决token或者cookie的问题？</li>
+</ol>
+<p>相关问题：<a href="https://github.com/vuejs/vue-hackernews-2.0/issues/272" target="_blank" rel="noopener">https://github.com/vuejs/vue-hackernews-2.0/issues/272</a></p>
+<p>解决思路，如果使用cookie，seesion做鉴权不需要担心什么，我们可以在Node端拿到cookie。如果是使用jwt，我的想法是把token写到cookie里。</p>
+
+        
+      </div>
+      
+      
+      
+    </div>
+    
+    
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="张越" />
+            
+              <p class="site-author-name" itemprop="name">张越</p>
+              <p class="site-description motion-element" itemprop="description">所谓成长，就是经过不断的聚散离合，找到不太会伤害到彼此的距离</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">54</span>
+                  <span class="site-state-item-name">篇博文</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/BengBu-YueZhang" target="_blank" title="我的GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/5460100952/profile?topnav=1&wvr=6" target="_blank" title="我的微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的微博</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是CSR"><span class="nav-number">1.</span> <span class="nav-text">什么是CSR?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是SSR"><span class="nav-number">2.</span> <span class="nav-text">什么是SSR?</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SSR的优劣"><span class="nav-number">2.1.</span> <span class="nav-text">SSR的优劣</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hi-SSR"><span class="nav-number">3.</span> <span class="nav-text">Hi!SSR</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是同构"><span class="nav-number">4.</span> <span class="nav-text">什么是同构?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#避免状态单例"><span class="nav-number">5.</span> <span class="nav-text">避免状态单例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据预取"><span class="nav-number">6.</span> <span class="nav-text">数据预取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#客户端激活"><span class="nav-number">7.</span> <span class="nav-text">客户端激活</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一些问题"><span class="nav-number">8.</span> <span class="nav-text">一些问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#webpack配置"><span class="nav-number">9.</span> <span class="nav-text">webpack配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#服务器配置"><span class="nav-number">9.1.</span> <span class="nav-text">服务器配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#客户端配置"><span class="nav-number">9.2.</span> <span class="nav-text">客户端配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">10.</span> <span class="nav-text">参考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他"><span class="nav-number">11.</span> <span class="nav-text">其他</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#nuxt-js的asyncData执行策略"><span class="nav-number">11.1.</span> <span class="nav-text">nuxt.js的asyncData执行策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题"><span class="nav-number">11.2.</span> <span class="nav-text">问题</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张越</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

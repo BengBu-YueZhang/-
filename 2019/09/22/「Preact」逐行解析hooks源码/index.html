@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="React," />
+
+
+
+
+
+
+
+
+
+
+<meta name="keywords" content="React">
+<meta property="og:type" content="article">
+<meta property="og:title" content="「Preact」逐行解析Hooks源码">
+<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2019/09/22/「Preact」逐行解析hooks源码/index.html">
+<meta property="og:site_name" content="新世紀エヴァンゲリオン">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://unsplash.it/1069/717?random">
+<meta property="og:updated_time" content="2019-09-22T05:52:25.214Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="「Preact」逐行解析Hooks源码">
+<meta name="twitter:image" content="https://unsplash.it/1069/717?random">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/2019/09/22/「Preact」逐行解析hooks源码/"/>
+
+
+
+
+
+  <title>「Preact」逐行解析Hooks源码 | 新世紀エヴァンゲリオン</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">新世紀エヴァンゲリオン</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">前端小学生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            主页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            时间轴
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://bengbu-yuezhang.github.io/yue.github.io/2019/09/22/「Preact」逐行解析hooks源码/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张越">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新世紀エヴァンゲリオン">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">「Preact」逐行解析Hooks源码</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-22T13:48:46+08:00">
+                2019-09-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://unsplash.it/1069/717?random" alt="image"></p>
+<a id="more"></a>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Preact 是什么？React 的 3kb 轻量化方案，拥有同样的 ES6API</p>
+<p>虽然 Preact 和 React 有着相同的 API, 但是其内部实现机制的差异依然是巨大。但是这并不妨碍我们阅读以及学习 Preact 的源码。说一句题外话，今年年初的时候，我的一位哥们@小寒，在北京某家公司面试时遇到了来自 Facebook 的大牛，这位 Facebook 的大牛也曾推荐过他，阅读学习 Preact 的源码。</p>
+<p>hooks 不是什么魔法，hooks 的设计也与 React 无关（Dan Abramov）。在 Preact 中也是如此，所以即使你没有阅读过 Preact 或者 React 源码，也不妨碍理解 hooks 的实现。</p>
+<p>希望下面的分享，对大家理解 hooks 背后的实现能有所启示。</p>
+<h3 id="关于-hooks-的规则"><a href="#关于-hooks-的规则" class="headerlink" title="关于 hooks 的规则"></a>关于 hooks 的规则</h3><p>React 中 hooks 的使用规则如下。我们可以看出 hooks 的使用，高度的依赖执行顺序。在阅读完源码后，我们就会知道，为什么 hooks 的使用会有这两条规则。</p>
+<ol>
+<li>✅ 只在最顶层使用 hook。不要在循环，条件或嵌套函数中调用 hook。</li>
+<li>✅ 不要在普通的 JavaScript 函数中调用 Hook。</li>
+</ol>
+<h2 id="hooks-源码解析"><a href="#hooks-源码解析" class="headerlink" title="hooks 源码解析"></a>hooks 源码解析</h2><h3 id="getHookState"><a href="#getHookState" class="headerlink" title="getHookState"></a>getHookState</h3><blockquote>
+<p><code>getHookState</code>函数，会在<strong>当前组件</strong>的实例上挂载<code>__hooks</code>属性。<code>__hooks</code>为一个对象，<code>__hooks</code>对象中的<code>_list</code>属性使用<strong>数组</strong>的形式，保存了所有类型<code>hooks（useState, useEffect…………）</code>的执行的结果，返回值等。因为<code>_list</code>属性是使用数组的形式存储状态，所以每一个 hooks 的执行顺序尤为重要。</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getHookState</span>(<span class="params">index</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (options._hook) options._hook(currentComponent);</span><br><span class="line">  <span class="comment">// 检查组件，是否有__hooks属性，如果没有，主动挂载一个空的__hooks对象</span></span><br><span class="line">  <span class="keyword">const</span> hooks =</span><br><span class="line">    currentComponent.__hooks ||</span><br><span class="line">    (currentComponent.__hooks = &#123;</span><br><span class="line">      _list: [], <span class="comment">// _list中存储了所有hooks的状态</span></span><br><span class="line">      _pendingEffects: [], <span class="comment">// _pendingEffects中存储了useEffect的state</span></span><br><span class="line">      _pendingLayoutEffects: [], <span class="comment">// _pendingLayoutEffects中存储了useLayoutEffects的state</span></span><br><span class="line">      _handles: []</span><br><span class="line">    &#125;);</span><br><span class="line">  <span class="comment">// 根据索引index。判断__hooks._list数组中，是否有对应的状态。</span></span><br><span class="line">  <span class="comment">// 如果没有,将主动添加一个空的状态。</span></span><br><span class="line">  <span class="keyword">if</span> (index &gt;= hooks._list.length) &#123;</span><br><span class="line">    hooks._list.push(&#123;&#125;);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 返回__hooks._list数组中，索引对应的状态</span></span><br><span class="line">  <span class="keyword">return</span> hooks._list[index];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="一些需要使用到的关键全局变量"><a href="#一些需要使用到的关键全局变量" class="headerlink" title="一些需要使用到的关键全局变量"></a>一些需要使用到的关键全局变量</h4><blockquote>
+<p>在<code>getHookState</code>中，我们使用了全局变量<code>currentComponent</code>。变量<code>currentComponent</code>指向的是当前的组件的实例。我们是如何拿到当前组件实例的引用的呢？结合 hooks 的源码以及 preact 源码后发现，当 preact 进行<code>diff</code>时，会将当前组件的虚拟节点 VNode，传递给 options._render 函数，这样我们就可以顺利获取当前组件的实例了。</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 当前hooks的执行顺序指针</span></span><br><span class="line"><span class="keyword">let</span> currentIndex;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 当前的组件的实例</span></span><br><span class="line"><span class="keyword">let</span> currentComponent;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> oldBeforeRender = options._render;</span><br><span class="line"></span><br><span class="line"><span class="comment">// vnode是</span></span><br><span class="line">options._render = <span class="function"><span class="params">vnode</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (oldBeforeRender) oldBeforeRender(vnode);</span><br><span class="line">  <span class="comment">// 当前组件的实例</span></span><br><span class="line">  currentComponent = vnode._component;</span><br><span class="line">  <span class="comment">// 重置索引，每一个组件hooks state list从0开始累加</span></span><br><span class="line">  currentIndex = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (currentComponent.__hooks) &#123;</span><br><span class="line">    currentComponent.__hooks._pendingEffects = handleEffects(</span><br><span class="line">      currentComponent.__hooks._pendingEffects</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 省略后的diff方法</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">diff</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> tmp, c;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 在VNode上挂载当前组件的实例</span></span><br><span class="line">  newVNode._component = c = <span class="keyword">new</span> Component(newProps, cctx);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 将VNode传递给options._render函数, 这样我们就可以拿到当前组件的实例</span></span><br><span class="line">  <span class="keyword">if</span> ((tmp = options._render)) tmp(newVNode);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="useState-amp-amp-useReducer"><a href="#useState-amp-amp-useReducer" class="headerlink" title="useState &amp;&amp; useReducer"></a>useState &amp;&amp; useReducer</h3><h4 id="useState"><a href="#useState" class="headerlink" title="useState"></a>useState</h4><blockquote>
+<p><code>useState</code>是基于<code>useReducer</code>的封装。详情请看下面的<code>useReducer</code></p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// useState接受一个初始值initialState，初始化state</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">useState</span>(<span class="params">initialState</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> useReducer(invokeOrReturn, initialState);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="invokeOrReturn"><a href="#invokeOrReturn" class="headerlink" title="invokeOrReturn"></a>invokeOrReturn</h5><blockquote>
+<p><code>invokeOrReturn</code>是一个简单的工具函数，这里不作赘述。</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">invokeOrReturn</span>(<span class="params">arg, f</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">typeof</span> f === <span class="string">"function"</span> ? f(arg) : f;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="useReducer"><a href="#useReducer" class="headerlink" title="useReducer"></a>useReducer</h4><blockquote>
+<p><code>useReducer</code>接受三个参数。<code>reducer</code>负责处理<code>dispatch</code>发起的<code>action</code>，<code>initialState</code>是<code>state</code>状态的初始值，<code>init</code>是惰性化初始值的函数。<code>useReducer</code>返回<code>[state, dispatch]</code>格式的内容。</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">useReducer</span>(<span class="params">reducer, initialState, init</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// currentIndex自增一，创建一个新的状态，状态会存储在currentComponent.__hooks._list中</span></span><br><span class="line">  <span class="keyword">const</span> hookState = getHookState(currentIndex++);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (!hookState._component) &#123;</span><br><span class="line">    <span class="comment">// state存储当前组件的引用</span></span><br><span class="line">    hookState._component = currentComponent;</span><br><span class="line"></span><br><span class="line">    hookState._value = [</span><br><span class="line">      <span class="comment">// 如果没有指定第三个参数`init, 返回initialState</span></span><br><span class="line">      <span class="comment">// 如果指定了第三个参数，返回，经过惰性化初始值的函数处理的initialState</span></span><br><span class="line"></span><br><span class="line">      <span class="comment">// `useState`是基于`useReducer`的封装。</span></span><br><span class="line">      <span class="comment">// 在`useState`中，hookState._value[0]，默认直接返回initialState</span></span><br><span class="line">      !init ? invokeOrReturn(<span class="literal">null</span>, initialState) : init(initialState),</span><br><span class="line"></span><br><span class="line">      <span class="comment">// hookState._value[1]，接受一个`action`, &#123; type: `xx` &#125;</span></span><br><span class="line">      <span class="comment">// 由于`useState`是基于`useReducer`的封装，所以action参数也可能是一个新的state值，或者state的更新函数作为参数</span></span><br><span class="line">      action =&gt; &#123;</span><br><span class="line">        <span class="comment">// 返回新的状态值</span></span><br><span class="line">        <span class="keyword">const</span> nextValue = reducer(hookState._value[<span class="number">0</span>], action);</span><br><span class="line">        <span class="comment">// 使用新的状态值，更新状态</span></span><br><span class="line">        <span class="keyword">if</span> (hookState._value[<span class="number">0</span>] !== nextValue) &#123;</span><br><span class="line">          hookState._value[<span class="number">0</span>] = nextValue;</span><br><span class="line">          <span class="comment">// ⭐️调用组件的setState, 重新进行diff运算（在Preact中，diff的过程中会同步更新真实的dom节点）</span></span><br><span class="line">          hookState._component.setState(&#123;&#125;);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    ];</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 对于useReduer而言, 返回[state, dispath]</span></span><br><span class="line">  <span class="comment">// 对于useState而言，返回[state, setState]</span></span><br><span class="line">  <span class="keyword">return</span> hookState._value;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="⭐️useEffect"><a href="#⭐️useEffect" class="headerlink" title="⭐️useEffect"></a>⭐️useEffect</h3><blockquote>
+<p><code>useEffect</code> 可以让我们在函数组件中执行副作用操作。事件绑定，数据请求，动态修改 DOM。<code>useEffect</code> 将会在每一次 React 渲染之后执行。无论是初次挂载时，还是更新。useEffect 可以返回一个函数，当 react 进行清除时, 会执行这个返回的函数。每当执行本次的 effect 时，都会对上一个 effect 进行清除。组件卸载时也会执行进行清除。</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">useEffect</span>(<span class="params">callback, args</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// currentIndex自增1，向currentComponent.__hooks._list中增加一个新的状态</span></span><br><span class="line">  <span class="keyword">const</span> state = getHookState(currentIndex++);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// argsChanged函数，会检查useEffect的依赖是否发生了变化。</span></span><br><span class="line">  <span class="comment">// 如果发生了变化，argsChanged返回true，会重新执行useEffect的callback。</span></span><br><span class="line">  <span class="comment">// 如果没有变化，argsChanged返回false，不执行callback</span></span><br><span class="line">  <span class="comment">// 在第一次渲染中，state._args等于undefined的，argsChanged直接返回true</span></span><br><span class="line">  <span class="keyword">if</span> (argsChanged(state._args, args)) &#123;</span><br><span class="line"></span><br><span class="line">    state._value = callback;</span><br><span class="line">    <span class="comment">// 在useEffect的state中保存上一次的依赖，下一次会使用它进行比较</span></span><br><span class="line">    state._args = args;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 将useEffect的state存储到__hooks._pendingEffects中</span></span><br><span class="line">    currentComponent.__hooks._pendingEffects.push(state);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 把需要执行useEffect的callback的组件，添加到到afterPaintEffects数组中暂时保存起来</span></span><br><span class="line">    <span class="comment">// 因为我们需要等待渲染完成后，执行useEffect的callback</span></span><br><span class="line">    afterPaint(currentComponent);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="argsChanged"><a href="#argsChanged" class="headerlink" title="argsChanged"></a>argsChanged</h4><blockquote>
+<p><code>argsChanged</code> 是一个简单的工具函数, 用来比较两个数组之间的差异。如果数组中每一项相等返回 false，如果有一项不相等返回 true。主要用途是比较 useEffect，useMemo 等 hooks 的依赖。</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">argsChanged</span>(<span class="params">oldArgs, newArgs</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> !oldArgs || newArgs.some(<span class="function">(<span class="params">arg, index</span>) =&gt;</span> arg !== oldArgs[index]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="afterPaint"><a href="#afterPaint" class="headerlink" title="afterPaint"></a>afterPaint</h4><blockquote>
+<p><code>afterPaint</code>函数，负责将需要执行<code>useEffect</code>的callback的componennt，push到全局<code>afterPaintEffects</code>数组中。</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> afterPaintEffects = [];</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> afterPaint = <span class="function"><span class="params">()</span> =&gt;</span> &#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="built_in">window</span> !== <span class="string">"undefined"</span>) &#123;</span><br><span class="line">  <span class="keyword">let</span> prevRaf = options.requestAnimationFrame;</span><br><span class="line">  afterPaint = <span class="function"><span class="params">component</span> =&gt;</span> &#123;  </span><br><span class="line">    <span class="keyword">if</span> (</span><br><span class="line">      <span class="comment">// _afterPaintQueued属性，确保了每一个component只能被push一次到afterPaintEffects中</span></span><br><span class="line">      (!component._afterPaintQueued &amp;&amp;</span><br><span class="line">        (component._afterPaintQueued = <span class="literal">true</span>) &amp;&amp;</span><br><span class="line">        <span class="comment">// afterPaintEffects.push(component) === 1，确保了在清空前`safeRaf`只会被执行一次</span></span><br><span class="line">        <span class="comment">// 将component添加到afterPaintEffects数组中</span></span><br><span class="line">        afterPaintEffects.push(component) === <span class="number">1</span>) ||</span><br><span class="line">      prevRaf !== options.requestAnimationFrame</span><br><span class="line">    ) &#123;</span><br><span class="line">      prevRaf = options.requestAnimationFrame;</span><br><span class="line">      <span class="comment">// 执行safeRaf(flushAfterPaintEffects)</span></span><br><span class="line">      (options.requestAnimationFrame || safeRaf)(flushAfterPaintEffects);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="safeRaf"><a href="#safeRaf" class="headerlink" title="safeRaf"></a>safeRaf</h4><blockquote>
+<p><code>safeRaf</code>会开启一个<code>requestAnimationFrame</code>，它会在diff（在Preact中的diff是同步的过程，相当于一个宏任务）完成后，调用<code>flushAfterPaintEffects</code>，处理useEffect的callback。</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> RAF_TIMEOUT = <span class="number">100</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">safeRaf</span>(<span class="params">callback</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> done = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    clearTimeout(timeout);</span><br><span class="line">    cancelAnimationFrame(raf);</span><br><span class="line">    setTimeout(callback);</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">const</span> timeout = setTimeout(done, RAF_TIMEOUT);</span><br><span class="line">  <span class="comment">// diff过程是同步的，requestAnimationFrame将会在diff完成后（宏任务完成后）执行</span></span><br><span class="line">  <span class="keyword">const</span> raf = requestAnimationFrame(done);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="flushAfterPaintEffects"><a href="#flushAfterPaintEffects" class="headerlink" title="flushAfterPaintEffects"></a>flushAfterPaintEffects</h4><blockquote>
+<p><code>flushAfterPaintEffects</code>负责处理<code>afterPaintEffects</code>数组中的所有组件</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">flushAfterPaintEffects</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 循环处理afterPaintEffects数组中，所有待处理的component</span></span><br><span class="line">  afterPaintEffects.some(<span class="function"><span class="params">component</span> =&gt;</span> &#123;</span><br><span class="line">    component._afterPaintQueued = <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">if</span> (component._parentDom) &#123;</span><br><span class="line">      <span class="comment">// 使用handleEffects清空currentComponent.__hooks._pendingEffects中所有的useEffect的state</span></span><br><span class="line">      <span class="comment">// handleEffects会进行清除effect和执行effect的逻辑</span></span><br><span class="line">      <span class="comment">// handleEffects最后会返回一个空数组，重置component.__hooks._pendingEffects</span></span><br><span class="line">      component.__hooks._pendingEffects = handleEffects(</span><br><span class="line">        component.__hooks._pendingEffects</span><br><span class="line">      );</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="comment">// 清空afterPaintEffects</span></span><br><span class="line">  afterPaintEffects = [];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="handleEffects"><a href="#handleEffects" class="headerlink" title="handleEffects"></a>handleEffects</h4><blockquote>
+<p>清除和执行组件的<code>useEffect</code></p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleEffects</span>(<span class="params">effects</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 清除effect</span></span><br><span class="line">  effects.forEach(invokeCleanup);</span><br><span class="line">  <span class="comment">// 执行所有的effect</span></span><br><span class="line">  effects.forEach(invokeEffect);</span><br><span class="line">  <span class="keyword">return</span> [];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="invokeCleanup"><a href="#invokeCleanup" class="headerlink" title="invokeCleanup"></a>invokeCleanup</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 执行清除effect</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">invokeCleanup</span>(<span class="params">hook</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (hook._cleanup) hook._cleanup();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="invokeEffect"><a href="#invokeEffect" class="headerlink" title="invokeEffect"></a>invokeEffect</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">invokeEffect</span>(<span class="params">hook</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> result = hook._value();</span><br><span class="line">  <span class="comment">// 如果useEffect的callback的返回值是一个函数</span></span><br><span class="line">  <span class="comment">// 函数会被记录到useEffect的_cleanup属性上</span></span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> result === <span class="string">"function"</span>) &#123;</span><br><span class="line">    hook._cleanup = result;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="useMemo-amp-amp-useCallback"><a href="#useMemo-amp-amp-useCallback" class="headerlink" title="useMemo &amp;&amp; useCallback"></a>useMemo &amp;&amp; useCallback</h3><blockquote>
+<p><code>useMemo</code>会返回一个memoized值。<code>useCallback</code>会返回一个memoized回调函数。<code>useMemo</code>会在依赖数组发生变化的时候，重新计算memoized值。<code>useCallback</code>会在依赖数组发生变化的时候，返回一个新的函数。</p>
+</blockquote>
+<h4 id="useMemo"><a href="#useMemo" class="headerlink" title="useMemo"></a>useMemo</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">useMemo</span>(<span class="params">callback, args</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// currentIndex自增1，向currentComponent.__hooks._list中增加一个新的状态</span></span><br><span class="line">  <span class="keyword">const</span> state = getHookState(currentIndex++);</span><br><span class="line">  <span class="comment">// 判断依赖数组是否发生变化</span></span><br><span class="line">  <span class="comment">// 如果发生了变化，会重新执行callback，返回新的返回值</span></span><br><span class="line">  <span class="comment">// 否则返回上一次的返回值</span></span><br><span class="line">	<span class="keyword">if</span> (argsChanged(state._args, args)) &#123;</span><br><span class="line">		state._args = args;</span><br><span class="line">    state._callback = callback;</span><br><span class="line">    <span class="comment">// state._value记录上一次的返回值（对于useCallback而言，记录上一次的callback）</span></span><br><span class="line">		<span class="keyword">return</span> state._value = callback();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 返回callback的返回值</span></span><br><span class="line">	<span class="keyword">return</span> state._value;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="useCallback"><a href="#useCallback" class="headerlink" title="useCallback"></a>useCallback</h4><blockquote>
+<p><code>useCallback</code>是基于<code>useMemo</code>的封装。只有当依赖数组产生变化时，<code>useCallback</code>才会返回一个新的函数，否则始终返回第一次的传入callback。</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">useCallback</span>(<span class="params">callback, args</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> useMemo(<span class="function"><span class="params">()</span> =&gt;</span> callback, args);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="useRef"><a href="#useRef" class="headerlink" title="useRef"></a>useRef</h3><blockquote>
+<p><code>useRef</code>同样是是基于<code>useMemo</code>的封装。但不同的是，依赖数组传入的是一个空数组，这意味着，每一次<code>useRef</code>都会重新计算。</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">useRef</span>(<span class="params">initialValue</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> useMemo(<span class="function"><span class="params">()</span> =&gt;</span> (&#123; <span class="attr">current</span>: initialValue &#125;), []);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="useRef的应用"><a href="#useRef的应用" class="headerlink" title="useRef的应用"></a>useRef的应用</h4><blockquote>
+<p>⭐️<strong>正是因为useRef每一次都会重新计算，我们可以利用特性，避免闭包带来的副作用</strong></p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 会打印出旧值</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Bar</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [ count, setCount ] = useState(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> showMessage = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`count: <span class="subst">$&#123;count&#125;</span>`</span>)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 打印的出的依然是`0`, 形成了闭包</span></span><br><span class="line">    showMessage()</span><br><span class="line">  &#125;, <span class="number">2000</span>)</span><br><span class="line"></span><br><span class="line">  setTimout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    setCount(<span class="function">(<span class="params">prevCount</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> prevCount + <span class="number">1</span></span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;, <span class="number">1000</span>)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> &lt;div/&gt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 利用useRef会打印出新值</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Bar</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> count = useRef(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> showMessage = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`count: <span class="subst">$&#123;count.current&#125;</span>`</span>)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 打印的出的是新值`1`，count.current拿到的是最新的值</span></span><br><span class="line">    showMessage()</span><br><span class="line">  &#125;, <span class="number">2000</span>)</span><br><span class="line"></span><br><span class="line">  setTimout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    count.current += <span class="number">1</span> </span><br><span class="line">  &#125;, <span class="number">1000</span>)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> &lt;div/&gt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="useLayoutEffect"><a href="#useLayoutEffect" class="headerlink" title="useLayoutEffect"></a>useLayoutEffect</h3><blockquote>
+<p><code>useEffec</code>t会在diff算法完成对dom渲染后执行。与<code>useEffect</code>不同的是，<code>useLayoutEffect</code>会在diff算法完成对<strong>dom更新之后，浏览器绘制之前</strong>的时刻执行。<code>useLayoutEffect</code>是如何做到呢？和获取当前组件的方法类似，preact会在diff算法最后返回dom前，插入了一个<code>options.diffed</code>的钩子。</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">useLayoutEffect</span>(<span class="params">callback, args</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// currentIndex自增1，向currentComponent.__hooks._list中增加一个新的状态</span></span><br><span class="line">  <span class="keyword">const</span> state = getHookState(currentIndex++);</span><br><span class="line">  <span class="comment">// 如果依赖数组，没有变化跳过更新</span></span><br><span class="line">  <span class="comment">// 如果依赖数组，参生变化执行callback</span></span><br><span class="line">  <span class="keyword">if</span> (argsChanged(state._args, args)) &#123;</span><br><span class="line">    state._value = callback;</span><br><span class="line">    <span class="comment">// 记录前一次的依赖数组</span></span><br><span class="line">    state._args = args;</span><br><span class="line">    currentComponent.__hooks._pendingLayoutEffects.push(state);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// options.diffed会在diff算法，完成对浏览器的重绘前更新</span></span><br><span class="line">options.diffed = <span class="function"><span class="params">vnode</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (oldAfterDiff) oldAfterDiff(vnode);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> c = vnode._component;</span><br><span class="line">  <span class="keyword">if</span> (!c) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> hooks = c.__hooks;</span><br><span class="line">  <span class="keyword">if</span> (hooks) &#123;</span><br><span class="line">    hooks._handles = bindHandles(hooks._handles);</span><br><span class="line">    <span class="comment">// 执行组件的useLayoutEffects的callback</span></span><br><span class="line">    hooks._pendingLayoutEffects = handleEffects(hooks._pendingLayoutEffects);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 省略后的diff方法</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">diff</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> tmp, c;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 在浏览器绘制前，diff算法更新后，执行useLayoutEffect的callback</span></span><br><span class="line">  <span class="keyword">if</span> (tmp = options.diffed) tmp(newVNode);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 返回更新后的dom, 浏览器重绘</span></span><br><span class="line">  <span class="keyword">return</span> newVNode._dom;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="useImperativeHandle"><a href="#useImperativeHandle" class="headerlink" title="useImperativeHandle"></a>useImperativeHandle</h3><blockquote>
+<p><code>useImperativeHandle</code>可以自定义向父组件暴露的实例值。<code>useImperativeHandle</code>应当与<code>forwardRef</code>一起使用。所以我们首先看一下preact中<code>forwardRef</code>的具体实现。</p>
+</blockquote>
+<h4 id="forwardRef"><a href="#forwardRef" class="headerlink" title="forwardRef"></a>forwardRef</h4><blockquote>
+<p>forwardRef会创建一个React组件，组件接受ref属性，但是会将ref转发到组件的子节点上。我们ref访问到子节点上的元素实例。</p>
+</blockquote>
+<h5 id="forwardRef的使用方式"><a href="#forwardRef的使用方式" class="headerlink" title="forwardRef的使用方式"></a>forwardRef的使用方式</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> FancyButton = React.forwardRef(<span class="function">(<span class="params">props, ref</span>) =&gt;</span> (</span><br><span class="line">  &lt;button ref=&#123;ref&#125; className=<span class="string">"FancyButton"</span>&gt;</span><br><span class="line">    &#123;props.children&#125;</span><br><span class="line">  &lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">))</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">const ref = React.createRef()</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/ 组件接受ref属性，但是会将ref转发到&lt;button&gt;上</span></span><br><span class="line"><span class="regexp">&lt;FancyButton ref=&#123;ref&#125;&gt;Click me!&lt;/</span>FancyButton&gt;</span><br></pre></td></tr></table></figure>
+<h5 id="Preact中forwardRef的源码"><a href="#Preact中forwardRef的源码" class="headerlink" title="Preact中forwardRef的源码"></a>Preact中forwardRef的源码</h5><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// fn为渲染函数，接受(props, ref)作为参数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">forwardRef</span>(<span class="params">fn</span>) </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">Forwarded</span>(<span class="params">props</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// props.ref是forwardRef创建的组件上的ref</span></span><br><span class="line">    <span class="keyword">let</span> ref = props.ref;</span><br><span class="line">    <span class="keyword">delete</span> props.ref;</span><br><span class="line">    <span class="comment">// 调用渲染函数，渲染组件，并将ref转发给渲染函数</span></span><br><span class="line">    <span class="keyword">return</span> fn(props, ref);</span><br><span class="line">  &#125;</span><br><span class="line">  Forwarded.prototype.isReactComponent = <span class="literal">true</span>;</span><br><span class="line">  Forwarded._forwarded = <span class="literal">true</span>;</span><br><span class="line">  Forwarded.displayName = <span class="string">'ForwardRef('</span> + (fn.displayName || fn.name) + <span class="string">')'</span>;</span><br><span class="line">  <span class="keyword">return</span> Forwarded;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="useImperativeHandle-amp-amp-bindHandles"><a href="#useImperativeHandle-amp-amp-bindHandles" class="headerlink" title="useImperativeHandle &amp;&amp; bindHandles"></a>useImperativeHandle &amp;&amp; bindHandles</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">useImperativeHandle</span>(<span class="params">ref, createHandle, args</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// // currentIndex自增1，向currentComponent.__hooks._list中增加一个新的状态</span></span><br><span class="line">  <span class="keyword">const</span> state = getHookState(currentIndex++);</span><br><span class="line">  <span class="comment">// 判断依赖是否产生了变化</span></span><br><span class="line">  <span class="keyword">if</span> (argsChanged(state._args, args)) &#123;</span><br><span class="line">    <span class="comment">// 在useEffect的state中保存上一次的依赖，下一次会使用它进行比较</span></span><br><span class="line">    state._args = args;</span><br><span class="line">    <span class="comment">// 将useImperativeHandle的state添加到__hooks._handles数组中</span></span><br><span class="line">    <span class="comment">// ref，是forwardRef转发的ref</span></span><br><span class="line">    <span class="comment">// createHandle的返回值，是useImperativeHandle向父组件暴露的自定义值</span></span><br><span class="line">    currentComponent.__hooks._handles.push(&#123; ref, createHandle &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// options.diffed中调用bindHandles，对__hooks._handles处理</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bindHandles</span>(<span class="params">handles</span>) </span>&#123;</span><br><span class="line">  handles.some(<span class="function"><span class="params">handle</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (handle.ref) &#123;</span><br><span class="line">      <span class="comment">// 对forwardRef转发的ref的current进行替换</span></span><br><span class="line">      <span class="comment">// 替换的内容就是useImperativeHandle的第二个参数的返回值</span></span><br><span class="line">      handle.ref.current = handle.createHandle();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="keyword">return</span> [];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>举一个例子🌰</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Bar</span>(<span class="params">props, ref</span>) </span>&#123;</span><br><span class="line">  useImperativeHandle(ref, () =&gt; (&#123;</span><br><span class="line">    hello: <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      alert(<span class="string">'Hello'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;));</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">null</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Bar = forwardRef(Bar)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> ref = useRef(<span class="string">''</span>)</span><br><span class="line"></span><br><span class="line">  setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// useImperativeHandle会修改ref的current值</span></span><br><span class="line">    <span class="comment">// current值是useImperativeHandle的第二个参数的返回值</span></span><br><span class="line">    <span class="comment">// 所以我们可以调用useImperativeHandle暴露的hello方法</span></span><br><span class="line">    ref.current.hello()</span><br><span class="line">  &#125;, <span class="number">3000</span>)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> &lt;Bar ref=&#123;ref&#125;/&gt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="推荐阅读"><a href="#推荐阅读" class="headerlink" title="推荐阅读"></a>推荐阅读</h2><ul>
+<li><a href="https://medium.com/@ryardley/react-hooks-not-magic-just-arrays-cd4f1857236e" target="_blank" rel="noopener">React hooks: not magic, just arrays</a></li>
+<li><a href="https://overreacted.io/how-are-function-components-different-from-classes/" target="_blank" rel="noopener">How Are Function Components Different from Classes?</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/React/" rel="tag"># React</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/25/位运算/" rel="next" title="JavaScript中的位运算">
+                <i class="fa fa-chevron-left"></i> JavaScript中的位运算
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/23/leetcode题解-1/" rel="prev" title="LeetCode题解">
+                LeetCode题解 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="张越" />
+            
+              <p class="site-author-name" itemprop="name">张越</p>
+              <p class="site-description motion-element" itemprop="description">所谓成长，就是经过不断的聚散离合，找到不太会伤害到彼此的距离</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">54</span>
+                  <span class="site-state-item-name">篇博文</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/BengBu-YueZhang" target="_blank" title="我的GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/5460100952/profile?topnav=1&wvr=6" target="_blank" title="我的微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的微博</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#关于-hooks-的规则"><span class="nav-number">1.1.</span> <span class="nav-text">关于 hooks 的规则</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hooks-源码解析"><span class="nav-number">2.</span> <span class="nav-text">hooks 源码解析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#getHookState"><span class="nav-number">2.1.</span> <span class="nav-text">getHookState</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一些需要使用到的关键全局变量"><span class="nav-number">2.1.1.</span> <span class="nav-text">一些需要使用到的关键全局变量</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#useState-amp-amp-useReducer"><span class="nav-number">2.2.</span> <span class="nav-text">useState &amp;&amp; useReducer</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#useState"><span class="nav-number">2.2.1.</span> <span class="nav-text">useState</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#invokeOrReturn"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">invokeOrReturn</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#useReducer"><span class="nav-number">2.2.2.</span> <span class="nav-text">useReducer</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#⭐️useEffect"><span class="nav-number">2.3.</span> <span class="nav-text">⭐️useEffect</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#argsChanged"><span class="nav-number">2.3.1.</span> <span class="nav-text">argsChanged</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#afterPaint"><span class="nav-number">2.3.2.</span> <span class="nav-text">afterPaint</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#safeRaf"><span class="nav-number">2.3.3.</span> <span class="nav-text">safeRaf</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#flushAfterPaintEffects"><span class="nav-number">2.3.4.</span> <span class="nav-text">flushAfterPaintEffects</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#handleEffects"><span class="nav-number">2.3.5.</span> <span class="nav-text">handleEffects</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#invokeCleanup"><span class="nav-number">2.3.5.1.</span> <span class="nav-text">invokeCleanup</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#invokeEffect"><span class="nav-number">2.3.5.2.</span> <span class="nav-text">invokeEffect</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#useMemo-amp-amp-useCallback"><span class="nav-number">2.4.</span> <span class="nav-text">useMemo &amp;&amp; useCallback</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#useMemo"><span class="nav-number">2.4.1.</span> <span class="nav-text">useMemo</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#useCallback"><span class="nav-number">2.4.2.</span> <span class="nav-text">useCallback</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#useRef"><span class="nav-number">2.5.</span> <span class="nav-text">useRef</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#useRef的应用"><span class="nav-number">2.5.1.</span> <span class="nav-text">useRef的应用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#useLayoutEffect"><span class="nav-number">2.6.</span> <span class="nav-text">useLayoutEffect</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#useImperativeHandle"><span class="nav-number">2.7.</span> <span class="nav-text">useImperativeHandle</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#forwardRef"><span class="nav-number">2.7.1.</span> <span class="nav-text">forwardRef</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#forwardRef的使用方式"><span class="nav-number">2.7.1.1.</span> <span class="nav-text">forwardRef的使用方式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Preact中forwardRef的源码"><span class="nav-number">2.7.1.2.</span> <span class="nav-text">Preact中forwardRef的源码</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#useImperativeHandle-amp-amp-bindHandles"><span class="nav-number">2.7.2.</span> <span class="nav-text">useImperativeHandle &amp;&amp; bindHandles</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#推荐阅读"><span class="nav-number">3.</span> <span class="nav-text">推荐阅读</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张越</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="," />
+
+
+
+
+
+
+
+
+
+
+<meta name="keywords" content="原理">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Node与事件循环">
+<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/delete/nextTick-setImmediate.html">
+<meta property="og:site_name" content="新世紀エヴァンゲリオン">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://unsplash.it/1082/608?random">
+<meta property="og:updated_time" content="2018-05-29T16:19:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Node与事件循环">
+<meta name="twitter:image" content="https://unsplash.it/1082/608?random">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/delete/nextTick-setImmediate.html"/>
+
+
+
+
+
+  <title>Node与事件循环 | 新世紀エヴァンゲリオン</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">新世紀エヴァンゲリオン</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">前端小学生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            主页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            时间轴
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+    
+    
+    <div class="post-block page">
+      <header class="post-header">
+
+	<h1 class="post-title" itemprop="name headline">Node与事件循环</h1>
+
+
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+        
+        
+          <p><img src="https://unsplash.it/1082/608?random" alt="image"></p>
+<a id="more"></a>
+<blockquote>
+<p>2018年4月6日修改</p>
+</blockquote>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>如果从清明放假开始4月5号，准备花较长一段时间学习Nodejs相关的知识，因为感觉一种无力感吧。视频教程，书籍📚都准备了不少。2017年刚入前端的时候，尝试过学习Node，因为种种原因没有坚持下来，2018年希望能迈入后端大门的一小步吧。笑～😊</p>
+<h2 id="浏览器的事件循环机制-♻️"><a href="#浏览器的事件循环机制-♻️" class="headerlink" title="浏览器的事件循环机制 ♻️"></a>浏览器的事件循环机制 ♻️</h2><p>浏览器的事件循环机制，是基于HTML5的，所以一些特性和Nodejs并不等同。这点需要注意。对于浏览器的事件循环机制，总结为一句话：<strong>执行宏任务，清空微任务队列，执行一个宏任务，清空微任务队列</strong></p>
+<p>😍浏览器的事件循环机制需要注意以下几点：</p>
+<ol>
+<li>Promise中，先遇到then的先进入任务队列（根据阮一峰老师的微博知道的）</li>
+<li>如果微任务一直被添加，则会继续执行微任务，“卡死”宏任务。</li>
+</ol>
+<h2 id="Nodejs中事件循环-♻️"><a href="#Nodejs中事件循环-♻️" class="headerlink" title="Nodejs中事件循环 ♻️"></a>Nodejs中事件循环 ♻️</h2><p>Nodejs中的事件循环是分为不同的6个阶段的，6个阶段如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">   ┌───────────────────────┐</span><br><span class="line">┌─&gt;│        timers         │</span><br><span class="line">│  └──────────┬────────────┘</span><br><span class="line">│  ┌──────────┴────────────┐</span><br><span class="line">│  │     I/O callbacks     │</span><br><span class="line">│  └──────────┬────────────┘</span><br><span class="line">│  ┌──────────┴────────────┐</span><br><span class="line">│  │     idle, prepare     │</span><br><span class="line">│  └──────────┬────────────┘      ┌───────────────┐</span><br><span class="line">│  ┌──────────┴────────────┐      │   incoming:   │</span><br><span class="line">│  │         poll          │&lt;─────┤  connections, │</span><br><span class="line">│  └──────────┬────────────┘      │   data, etc.  │</span><br><span class="line">│  ┌──────────┴────────────┐      └───────────────┘</span><br><span class="line">│  │        check          │</span><br><span class="line">│  └──────────┬────────────┘</span><br><span class="line">│  ┌──────────┴────────────┐</span><br><span class="line">└──┤    close callbacks    │</span><br><span class="line">   └───────────────────────┘</span><br></pre></td></tr></table></figure>
+<h4 id="阶段的预览"><a href="#阶段的预览" class="headerlink" title="阶段的预览"></a>阶段的预览</h4><ol>
+<li>timer阶段：执行到期的setTimeout，setInterval</li>
+<li>IO：检查是否有已完成的IO操作的回调，以及来自上一轮poll阶段的残留（上一次可能因为时间过长或者timer时间到了提前结束的poll阶段，所残留的IO队列的回调）</li>
+<li>idle，prepare：可忽略内部机制</li>
+<li>poll阶段：等待还没完成的I/O事件，并执行<strong>IO事件队列</strong>。（poll等待可能会终止，如果timer阶段异步操作完成，会结束等待，依次经过check，close阶段重新进入timer阶段）</li>
+<li>check：执行setImmediate的回调</li>
+<li>close：执行一些onClose事件</li>
+</ol>
+<h6 id="timer阶段"><a href="#timer阶段" class="headerlink" title="timer阶段"></a>timer阶段</h6><p>会执行setTimout，setInterval到期，进入timers队列的任务</p>
+<h6 id="IO阶段"><a href="#IO阶段" class="headerlink" title="IO阶段"></a>IO阶段</h6><p>会执行上一次残留的IO队列，以及系统操作的回调</p>
+<h6 id="poll阶段"><a href="#poll阶段" class="headerlink" title="poll阶段"></a>poll阶段</h6><p>poll阶段情况比较复杂，可能有多种情况</p>
+<ol>
+<li>如果 poll 队列不是空的，event loop 就会依次执行队列里的回调函数，直到队列被清空或者到达 poll 阶段的时间上限。</li>
+<li>如果 poll 队列是空的，就会：<ul>
+<li>如果有 setImmediate() 任务，event loop 就结束 poll 阶段去往 check 阶段。</li>
+<li>如果没有 setImmediate() 任务，event loop 就会等待新的回调函数进入 poll 队列，并立即执行它。</li>
+<li>poll会拥有过期时间，结束等待。</li>
+<li>如果poll队列为空，并且还在等待中。event loop就会检查计时器有没有到期，如果有计时器到期了，event loop 就会回到 timers 阶段执行计时器的回调。</li>
+</ul>
+</li>
+</ol>
+<h6 id="check"><a href="#check" class="headerlink" title="check"></a>check</h6><p>这个阶段允许开发者在 poll 阶段结束后立即执行一些函数。如果 poll 阶段空闲了，同时存在 setImmediate() 任务，event loop 就会进入 check 阶段。如果一个回调是由 setImmediate() 发出的，同时 poll 阶段空闲下来了，event loop就会结束 poll 阶段进入 check 阶段，不再等待新的 poll 事件。</p>
+<h6 id="setTimeout-与-setImmediate"><a href="#setTimeout-与-setImmediate" class="headerlink" title="setTimeout 与 setImmediate"></a>setTimeout 与 setImmediate</h6><ol>
+<li><p>如果在timers阶段执行时创建了setImmediate则会在此轮循环的check阶段执行，如果在timers阶段创建了setTimeout，由于timers已取出完毕，则会进入下轮循环，check阶段创建timers任务同理。</p>
+</li>
+<li><p>setTimeout优先级比setImmediate高，但是由于setTimeout(fn,0)的真正延迟不可能完全为0秒，可能出现先创建的setTimeout(fn,0)而比setImmediate的回调后执行的情况。</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">const fs = require(&apos;fs&apos;);</span><br><span class="line"></span><br><span class="line">fs.readFile(__filename, () =&gt; &#123;</span><br><span class="line">  setTimeout(() =&gt; &#123;</span><br><span class="line">    console.log(&apos;timeout&apos;);</span><br><span class="line">  &#125;, 0);</span><br><span class="line">  setImmediate(() =&gt; &#123;</span><br><span class="line">    console.log(&apos;immediate&apos;);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">// poll等待io的时候，event loop发现有setImmediate，就会立刻执行setImmediate,然后是timeout</span><br></pre></td></tr></table></figure>
+<h4 id="关于process-nextTick"><a href="#关于process-nextTick" class="headerlink" title="关于process.nextTick()"></a>关于process.nextTick()</h4><blockquote>
+<p>process.nextTick并不属于 event loop的一部分，不管event loop处在哪一个部分，都会在当前阶段之后执行。（清空当前阶段的队列后，就会立刻执行process.nextTick的回调）</p>
+</blockquote>
+<h4 id="Node中event-loop执行的过程"><a href="#Node中event-loop执行的过程" class="headerlink" title="Node中event loop执行的过程"></a>Node中event loop执行的过程</h4><h6 id="1-执行主线程"><a href="#1-执行主线程" class="headerlink" title="1. 执行主线程"></a>1. 执行主线程</h6><ol>
+<li>同步任务</li>
+<li>发出异步请求</li>
+<li>规划定时器生效的时间</li>
+<li>执行process.nextTick() (第一次清空process.nextTick)</li>
+</ol>
+<h6 id="2-事件循环"><a href="#2-事件循环" class="headerlink" title="2. 事件循环"></a>2. 事件循环</h6><ol>
+<li>如果setTimeout，setInInterval完成，回调用进入timer队列 | <strong>清空timer队列；清空process.nextTick()；清空微任务队列</strong></li>
+<li>如果IO操作完成，<strong>清空IO队列；清空process.nextTick()；清空微任务队列</strong></li>
+<li><strong>清空 setImmediate；清空process.nextTick()；清空微任务队列</strong></li>
+<li><strong>清空 Close队列；清空process.nextTick()；清空微任务队列</strong></li>
+<li>对于Promise微任务，process.nextTick，如果在回调中遇到会立即添加到对应的任务队列的尾部</li>
+<li>进入下一轮循环</li>
+</ol>
+<p>可以看出优先级如下：</p>
+<p>process.nextTick &gt; setTimeout, setInterval &gt; setImmediate</p>
+<h2 id="🌰例子代码："><a href="#🌰例子代码：" class="headerlink" title="🌰例子代码："></a>🌰例子代码：</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 测试代码</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sleep</span>(<span class="params">time</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> startTime = <span class="keyword">new</span> <span class="built_in">Date</span>()</span><br><span class="line">  <span class="keyword">while</span> (<span class="keyword">new</span> <span class="built_in">Date</span>() - startTime &lt; time) &#123;&#125;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'1s over'</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'setTimeout - 1'</span>)</span><br><span class="line">  setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">'setTimeout - 1 - 1'</span>)</span><br><span class="line">      sleep(<span class="number">1000</span>)</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> resolve()).then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">'setTimeout - 1 - then'</span>)</span><br><span class="line">      <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> resolve()).then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">          <span class="built_in">console</span>.log(<span class="string">'setTimeout - 1 - then - then'</span>)</span><br><span class="line">      &#125;)</span><br><span class="line">  &#125;)</span><br><span class="line">  sleep(<span class="number">1000</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'setTimeout - 2'</span>)</span><br><span class="line">  setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">'setTimeout - 2 - 1'</span>)</span><br><span class="line">      sleep(<span class="number">1000</span>)</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> resolve()).then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">'setTimeout - 2 - then'</span>)</span><br><span class="line">      <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> resolve()).then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">          <span class="built_in">console</span>.log(<span class="string">'setTimeout - 2 - then - then'</span>)</span><br><span class="line">      &#125;)</span><br><span class="line">  &#125;)</span><br><span class="line">  sleep(<span class="number">1000</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="浏览器下"><a href="#浏览器下" class="headerlink" title="浏览器下"></a>浏览器下</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">// 浏览器环境下</span><br><span class="line"></span><br><span class="line">// 主线程执行完成后，进入事件循环</span><br><span class="line">// 遇到第一setTimeout</span><br><span class="line">setTimeout - 1</span><br><span class="line">1s over</span><br><span class="line"></span><br><span class="line">// 第一个宏任务执行完成，清空微任务队列</span><br><span class="line">setTimeout - 1 - then</span><br><span class="line">setTimeout - 1 - then - then </span><br><span class="line"></span><br><span class="line">// 第二次事件循环</span><br><span class="line">setTimeout - 2</span><br><span class="line">1s over</span><br><span class="line"></span><br><span class="line">// 第二个宏任务执行完成，清空微任务队列</span><br><span class="line">setTimeout - 2 - then</span><br><span class="line">setTimeout - 2 - then - then</span><br><span class="line"></span><br><span class="line">// 第三次事件循环</span><br><span class="line">setTimeout - 1 - 1</span><br><span class="line">1s over</span><br><span class="line"></span><br><span class="line">// 第四次事件循环</span><br><span class="line">setTimeout - 2 - 1</span><br><span class="line">1s over</span><br></pre></td></tr></table></figure>
+<h4 id="Nodejs环境下"><a href="#Nodejs环境下" class="headerlink" title="Nodejs环境下"></a>Nodejs环境下</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">// Nodejs环境下</span><br><span class="line"></span><br><span class="line">// 主线程执行完成后，因为两个setTimeout都是0延迟，所以setTimeout进入timer队列，并清空timer队列</span><br><span class="line">setTimeout - 1 </span><br><span class="line">1s over</span><br><span class="line">setTimeout - 2 //1、2为单阶段task</span><br><span class="line">1s over</span><br><span class="line"></span><br><span class="line">// timer队列清空后，清空所有的微任务队列，new Promise嵌套new Promise, 微任务队列直到清空</span><br><span class="line">// 队列是先进先出的。所以先执行setTimeout - 1，后执行setTimeout - 2</span><br><span class="line">setTimeout - 1 - then</span><br><span class="line">setTimeout - 2 - then</span><br><span class="line">setTimeout - 1 - then - then</span><br><span class="line">setTimeout - 2 - then - then</span><br><span class="line"></span><br><span class="line">// 进入下一次循环，清空timer队列</span><br><span class="line">setTimeout - 1 - 1</span><br><span class="line">1s over</span><br><span class="line">setTimeout - 2 - 1</span><br><span class="line">1s over</span><br></pre></td></tr></table></figure>
+<hr>
+<p>本文参考：</p>
+<p><a href="https://juejin.im/post/5ab7677f6fb9a028d56711d0" target="_blank" rel="noopener">Event Loop、计时器、nextTick</a></p>
+<p><a href="https://juejin.im/post/5aa5dcabf265da239c7afe1e" target="_blank" rel="noopener">浏览器和Node不同的事件循环（Event Loop）</a></p>
+<p><a href="https://cnodejs.org/topic/5a9108d78d6e16e56bb80882" target="_blank" rel="noopener">不要混淆nodejs和浏览器中的event loop（设计到c++源码，可以只看总结部分）</a></p>
+<p><a href="https://github.com/SunShinewyf/issue-blog/issues/34#issuecomment-371106502" target="_blank" rel="noopener">node中的Event模块(上）</a></p>
+
+        
+      </div>
+      
+      
+      
+    </div>
+    
+    
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="张越" />
+            
+              <p class="site-author-name" itemprop="name">张越</p>
+              <p class="site-description motion-element" itemprop="description">所谓成长，就是经过不断的聚散离合，找到不太会伤害到彼此的距离</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">54</span>
+                  <span class="site-state-item-name">篇博文</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/BengBu-YueZhang" target="_blank" title="我的GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/5460100952/profile?topnav=1&wvr=6" target="_blank" title="我的微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的微博</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浏览器的事件循环机制-♻️"><span class="nav-number">2.</span> <span class="nav-text">浏览器的事件循环机制 ♻️</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Nodejs中事件循环-♻️"><span class="nav-number">3.</span> <span class="nav-text">Nodejs中事件循环 ♻️</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#阶段的预览"><span class="nav-number">3.0.1.</span> <span class="nav-text">阶段的预览</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#timer阶段"><span class="nav-number">3.0.1.0.1.</span> <span class="nav-text">timer阶段</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#IO阶段"><span class="nav-number">3.0.1.0.2.</span> <span class="nav-text">IO阶段</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#poll阶段"><span class="nav-number">3.0.1.0.3.</span> <span class="nav-text">poll阶段</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#check"><span class="nav-number">3.0.1.0.4.</span> <span class="nav-text">check</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#setTimeout-与-setImmediate"><span class="nav-number">3.0.1.0.5.</span> <span class="nav-text">setTimeout 与 setImmediate</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关于process-nextTick"><span class="nav-number">3.0.2.</span> <span class="nav-text">关于process.nextTick()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Node中event-loop执行的过程"><span class="nav-number">3.0.3.</span> <span class="nav-text">Node中event loop执行的过程</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#1-执行主线程"><span class="nav-number">3.0.3.0.1.</span> <span class="nav-text">1. 执行主线程</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#2-事件循环"><span class="nav-number">3.0.3.0.2.</span> <span class="nav-text">2. 事件循环</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#🌰例子代码："><span class="nav-number">4.</span> <span class="nav-text">🌰例子代码：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#浏览器下"><span class="nav-number">4.0.1.</span> <span class="nav-text">浏览器下</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Nodejs环境下"><span class="nav-number">4.0.2.</span> <span class="nav-text">Nodejs环境下</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张越</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

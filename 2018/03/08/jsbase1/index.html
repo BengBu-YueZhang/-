@@ -79,18 +79,17 @@
 
 
 
-<meta name="description" content="节流与防抖节流与防抖的区别节流与防抖的区别，函数节流指的是一段事件内某个函数只运行一次。防抖指的是，有足够空闲空间时，才执行某个函数一次。">
 <meta name="keywords" content="技巧">
 <meta property="og:type" content="article">
 <meta property="og:title" content="节流和防抖">
 <meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2018/03/08/jsbase1/index.html">
 <meta property="og:site_name" content="新世紀エヴァンゲリオン">
-<meta property="og:description" content="节流与防抖节流与防抖的区别节流与防抖的区别，函数节流指的是一段事件内某个函数只运行一次。防抖指的是，有足够空闲空间时，才执行某个函数一次。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-15T07:48:27.000Z">
+<meta property="og:image" content="https://unsplash.it/1069/716?random">
+<meta property="og:updated_time" content="2019-09-22T05:40:49.145Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="节流和防抖">
-<meta name="twitter:description" content="节流与防抖节流与防抖的区别节流与防抖的区别，函数节流指的是一段事件内某个函数只运行一次。防抖指的是，有足够空闲空间时，才执行某个函数一次。">
+<meta name="twitter:image" content="https://unsplash.it/1069/716?random">
 
 
 
@@ -186,7 +185,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Home
+            主页
           </a>
         </li>
       
@@ -196,7 +195,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
-            Tags
+            标签
           </a>
         </li>
       
@@ -206,7 +205,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archives
+            时间轴
           </a>
         </li>
       
@@ -310,8 +309,10 @@
       
 
       
-        <h2 id="节流与防抖"><a href="#节流与防抖" class="headerlink" title="节流与防抖"></a>节流与防抖</h2><h4 id="节流与防抖的区别"><a href="#节流与防抖的区别" class="headerlink" title="节流与防抖的区别"></a>节流与防抖的区别</h4><p>节流与防抖的区别，函数节流指的是一段事件内某个函数只运行一次。防抖指的是，有足够空闲空间时，才执行某个函数一次。</p>
+        <p><img src="https://unsplash.it/1069/716?random" alt="image"></p>
 <a id="more"></a>
+<h2 id="节流与防抖"><a href="#节流与防抖" class="headerlink" title="节流与防抖"></a>节流与防抖</h2><h4 id="节流与防抖的区别"><a href="#节流与防抖的区别" class="headerlink" title="节流与防抖的区别"></a>节流与防抖的区别</h4><p>节流与防抖的区别，函数节流指的是一段事件内某个函数只运行一次。防抖指的是，有足够空闲空间时，才执行某个函数一次。</p>
+<!--more-->
 <h4 id="函数节流"><a href="#函数节流" class="headerlink" title="函数节流"></a>函数节流</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 函数节流</span></span><br><span class="line"><span class="comment"> * @param &#123;function&#125; fn 节流函数</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">throttle</span> (<span class="params">fn, time = <span class="number">500</span></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> self = fn</span><br><span class="line">    <span class="keyword">let</span> timer = <span class="literal">null</span></span><br><span class="line">    <span class="keyword">let</span> isFirst = <span class="literal">true</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">...rest</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (isFirst) &#123;</span><br><span class="line">            self.apply(<span class="keyword">this</span>, rest)</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (timer) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        timer = setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">            clearTimeout(timer)</span><br><span class="line">            timer = <span class="literal">null</span></span><br><span class="line">            self.apply(<span class="keyword">this</span>, rest)</span><br><span class="line">        &#125;, time)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="函数防抖"><a href="#函数防抖" class="headerlink" title="函数防抖"></a>函数防抖</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 函数防抖</span></span><br><span class="line"><span class="comment"> * @param &#123;function&#125; fn 防抖函数</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">debounce</span> (<span class="params">fn, time = <span class="number">500</span></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> timer = <span class="literal">null</span></span><br><span class="line">    <span class="keyword">let</span> self = fn</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">...rest</span>) </span>&#123;</span><br><span class="line">        <span class="comment">// 如果函数一直执行会不断的清楚定时器，只有在最后一次执行之后time时间内才会执行函数</span></span><br><span class="line">        timer = clearTimeout(timer)</span><br><span class="line">        setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">           self.apply(<span class="keyword">this</span>, rest) </span><br><span class="line">        &#125;, time)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -344,8 +345,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/08/EventLoop/" rel="next" title="事件循环">
-                <i class="fa fa-chevron-left"></i> 事件循环
+              <a href="/2018/03/06/http2/" rel="next" title="http协议基础知识(2)">
+                <i class="fa fa-chevron-left"></i> http协议基础知识(2)
               </a>
             
           </div>
@@ -437,8 +438,8 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">81</span>
-                  <span class="site-state-item-name">posts</span>
+                  <span class="site-state-item-count">54</span>
+                  <span class="site-state-item-name">篇博文</span>
                 </a>
               </div>
             
@@ -450,7 +451,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-count">27</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>

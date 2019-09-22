@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content=",,,,,," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="未完成待续">
+<meta name="keywords" content="vscode">
+<meta property="og:type" content="website">
+<meta property="og:title" content="开发VScode扩展">
+<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/prev/编写vscode插件.html">
+<meta property="og:site_name" content="新世紀エヴァンゲリオン">
+<meta property="og:description" content="未完成待续">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://unsplash.it/1380/803?random">
+<meta property="og:image" content="https://i.loli.net/2019/04/03/5ca487abdc9c5.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/04/5ca57e5572cfc.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/04/5ca58513c2f0e.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/04/5ca580a47ba68.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/04/5ca581958fb81.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/04/5ca582382fddf.png">
+<meta property="og:updated_time" content="2019-04-08T03:13:08.334Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="开发VScode扩展">
+<meta name="twitter:description" content="未完成待续">
+<meta name="twitter:image" content="https://unsplash.it/1380/803?random">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/prev/编写vscode插件.html"/>
+
+
+
+
+
+  <title>开发VScode扩展 | 新世紀エヴァンゲリオン</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">新世紀エヴァンゲリオン</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">前端小学生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            主页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            时间轴
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+    
+    
+    <div class="post-block page">
+      <header class="post-header">
+
+	<h1 class="post-title" itemprop="name headline">开发VScode扩展</h1>
+
+
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+        
+        
+          <p>未完成待续</p>
+<p><img src="https://unsplash.it/1380/803?random" alt="image"></p>
+<a id="more"></a>
+<h2 id="HelloWorld"><a href="#HelloWorld" class="headerlink" title="HelloWorld"></a>HelloWorld</h2><h3 id="安装Yeoman和VScode扩展生成器"><a href="#安装Yeoman和VScode扩展生成器" class="headerlink" title="安装Yeoman和VScode扩展生成器"></a>安装Yeoman和VScode扩展生成器</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">npm install -g yo generator-code</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 创建项目模版</span><br><span class="line">yo code</span><br></pre></td></tr></table></figure>
+<p>回答所有的问题</p>
+<p><img src="https://i.loli.net/2019/04/03/5ca487abdc9c5.png" alt="image"></p>
+<blockquote>
+<p>Q: What type of extension do you want to create?</p>
+</blockquote>
+<blockquote>
+<p>A: New Extension (TypeScript)</p>
+</blockquote>
+<blockquote>
+<p>Q: What’s the name of your extension?</p>
+</blockquote>
+<blockquote>
+<p>A: Fish(摸鱼😏)</p>
+</blockquote>
+<blockquote>
+<p>Q: What’s the identifier of your extension?</p>
+</blockquote>
+<blockquote>
+<p>A: fish</p>
+</blockquote>
+<blockquote>
+<p>Q: What’s the description of your extension? </p>
+</blockquote>
+<blockquote>
+<p>A: Fish in troubled waters</p>
+</blockquote>
+<blockquote>
+<p>Q: Initialize a git repository?</p>
+</blockquote>
+<blockquote>
+<p>A: y</p>
+</blockquote>
+<blockquote>
+<p>Q: Which package manager to use?</p>
+</blockquote>
+<blockquote>
+<p>A: yarn</p>
+</blockquote>
+<h3 id="启动扩展"><a href="#启动扩展" class="headerlink" title="启动扩展"></a>启动扩展</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">cd fish</span><br><span class="line"></span><br><span class="line">code .</span><br></pre></td></tr></table></figure>
+<p><a href="https://stackoverflow.com/questions/29955500/code-not-working-in-command-line-for-visual-code-studio-on-osx-mac" target="_blank" rel="noopener">如果遇到code: command not found的问题请查看</a></p>
+<p>进入新的Vscode的编辑器的页面, 按F5, 然后按⇧⌘P输入HelloWorld命令, 可以看到右下角弹出了HelloWorld的弹窗</p>
+<h3 id="修改扩展"><a href="#修改扩展" class="headerlink" title="修改扩展"></a>修改扩展</h3><p>我们打开src/extension.ts目录下的文件, 修改showInformationMessage方法，修改为<strong>vscode.window.showErrorMessage(‘Error !’)</strong>。刷新编辑器，重新执行HelloWorld的命令可以看到一个Error的错误弹窗。</p>
+<h3 id="分析扩展"><a href="#分析扩展" class="headerlink" title="分析扩展"></a>分析扩展</h3><h4 id="HelloWorld做了什么"><a href="#HelloWorld做了什么" class="headerlink" title="HelloWorld做了什么?"></a>HelloWorld做了什么?</h4><h5 id="activationEvents"><a href="#activationEvents" class="headerlink" title="activationEvents"></a>activationEvents</h5><p>激活事件是我们在package.json中创建的声明, 当事件发生时你的扩展将会被激活，以下是部分事件列表，更多事件请<a href="https://code.visualstudio.com/api/references/activation-events#onLanguage" target="_blank" rel="noopener">查看</a></p>
+<h6 id="onLanguage"><a href="#onLanguage" class="headerlink" title="onLanguage"></a>onLanguage</h6><p>当某种类型的文件被打开就会激活扩展</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="string">"activationEvents"</span>: [</span><br><span class="line">  <span class="string">"onLanguage:json"</span>,</span><br><span class="line">  <span class="string">"onLanguage:markdown"</span>,</span><br><span class="line">  <span class="string">"onLanguage:typescript"</span></span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<h6 id="onCommand"><a href="#onCommand" class="headerlink" title="onCommand"></a>onCommand</h6><p>调用相关命令, 可以激活扩展(HelloWorld默认使用的就是onCommand)</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="string">"activationEvents"</span>: [</span><br><span class="line">  <span class="string">"onCommand:extension.helloWorld"</span></span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<h6 id="workspaceContains"><a href="#workspaceContains" class="headerlink" title="workspaceContains"></a>workspaceContains</h6><p>打开文件夹并且文件夹中至少包含一个文件的名称与workspaceContains指定的模式匹配就会激活扩展</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="string">"activationEvents"</span>: [</span><br><span class="line">  <span class="string">"workspaceContains:**/.editorconfig"</span></span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<h5 id="Contribution-Points"><a href="#Contribution-Points" class="headerlink" title="Contribution Points"></a>Contribution Points</h5><blockquote>
+<p>VSCode扩展的配置大多都在这里, 以下是部分配置选项, 更多配置请<a href="https://code.visualstudio.com/api/references/contribution-points#contributes.configuration" target="_blank" rel="noopener">参考</a></p>
+</blockquote>
+<h6 id="commands"><a href="#commands" class="headerlink" title="commands"></a>commands</h6><p>commands是一个由标题(title)和命令(command)组成的配置项, 我们还可以定义category为命令添加前缀。</p>
+<p><strong>当调用命令时, vscode会发出激活事件, onCommand:${command}。在下面的例子会发出extension.helloworld的事件</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// package.json</span></span><br><span class="line"></span><br><span class="line"><span class="string">"activationEvents"</span>: [</span><br><span class="line">	<span class="string">"onCommand:extension.helloworld"</span> <span class="comment">// 发出extension.helloworld的激活事件</span></span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="string">"contributes"</span>: &#123;</span><br><span class="line">	<span class="string">"commands"</span>: [&#123;</span><br><span class="line">		<span class="string">"command"</span>: <span class="string">"extension.helloworld"</span>, <span class="comment">// 命令的内容</span></span><br><span class="line">    <span class="string">"title"</span>: <span class="string">"Hello World"</span>, <span class="comment">// 命令的标题</span></span><br><span class="line">    <span class="string">"category"</span>: <span class="string">"您好"</span> <span class="comment">// 命令的分组</span></span><br><span class="line">	&#125;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/04/04/5ca57e5572cfc.png" alt="image"></p>
+<p>在扩展的文件中, 我们通过registerCommand函数监听激活扩展的事件</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// extension.ts</span></span><br><span class="line"></span><br><span class="line">vscode.commands.registerCommand(<span class="string">'extension.helloworld'</span>, () =&gt; &#123;</span><br><span class="line">  <span class="comment">// 当监听到helloworld命令, 弹出helloworld的tabs</span></span><br><span class="line">	vscode.window.createWebviewPanel(<span class="string">"Helloworld"</span>, <span class="string">"Helloworld"</span>, vscode.ViewColumn.One);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h6 id="configuration"><a href="#configuration" class="headerlink" title="configuration"></a>configuration</h6><p>提供了向用户公开配置项, 用户可以在settings.json中配置这些配置项。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="string">"configuration"</span>: &#123;</span><br><span class="line">	<span class="string">"title"</span>: <span class="string">"Hello World"</span>,</span><br><span class="line">	<span class="string">"properties"</span>: &#123;</span><br><span class="line">		<span class="string">"isHello"</span>: &#123;</span><br><span class="line">		<span class="string">"type"</span>: <span class="string">"boolean"</span>,</span><br><span class="line">		<span class="string">"default"</span>: <span class="literal">false</span>,</span><br><span class="line">		<span class="string">"description"</span>: <span class="string">"是否打招呼🙋"</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/04/04/5ca58513c2f0e.png" alt="image"></p>
+<h6 id="menus"><a href="#menus" class="headerlink" title="menus"></a>menus</h6><p>menus定义了编辑器的菜单项。menus的配置中command是必选的, 定义了菜单选中时触发的事件。alt选项则定义了备用的命令。group定义了菜单的排序和分组。when则定义了菜单显示的条件。</p>
+<p>menus中的key定义了菜单的位置，editor/context为编辑器的上下文菜单, editor/title为编辑器的标题菜单等……</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="string">"menus"</span>: &#123;</span><br><span class="line">	<span class="string">"editor/context"</span>: [&#123;</span><br><span class="line">		<span class="string">"command"</span>: <span class="string">"extension.helloworld"</span></span><br><span class="line">	&#125;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/04/04/5ca580a47ba68.png" alt="image"></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="string">"menus"</span>: &#123;</span><br><span class="line">	<span class="string">"editor/context"</span>: [&#123;</span><br><span class="line">		<span class="string">"command"</span>: <span class="string">"extension.helloworld"</span>,</span><br><span class="line">		<span class="string">"when"</span>: <span class="string">"editorHasSelection"</span></span><br><span class="line">	&#125;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果我们定义了when字段, 如上配置所示, 只有当我们选中了部分内容时, 菜单才是可见的</p>
+<p><img src="https://i.loli.net/2019/04/04/5ca581958fb81.png" alt="image"></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="string">"editor/title"</span>: [&#123;</span><br><span class="line">	<span class="string">"command"</span>: <span class="string">"extension.helloworld"</span></span><br><span class="line">&#125;]</span><br></pre></td></tr></table></figure>
+<p>当我们使用editor/title作为key, 菜单会在VScode的标题菜单出现</p>
+<p><img src="https://i.loli.net/2019/04/04/5ca582382fddf.png" alt="image"></p>
+<h4 id="package-json"><a href="#package-json" class="headerlink" title="package.json"></a>package.json</h4>
+        
+      </div>
+      
+      
+      
+    </div>
+    
+    
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="张越" />
+            
+              <p class="site-author-name" itemprop="name">张越</p>
+              <p class="site-description motion-element" itemprop="description">所谓成长，就是经过不断的聚散离合，找到不太会伤害到彼此的距离</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">54</span>
+                  <span class="site-state-item-name">篇博文</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/BengBu-YueZhang" target="_blank" title="我的GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/5460100952/profile?topnav=1&wvr=6" target="_blank" title="我的微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的微博</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#HelloWorld"><span class="nav-number">1.</span> <span class="nav-text">HelloWorld</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装Yeoman和VScode扩展生成器"><span class="nav-number">1.1.</span> <span class="nav-text">安装Yeoman和VScode扩展生成器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动扩展"><span class="nav-number">1.2.</span> <span class="nav-text">启动扩展</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改扩展"><span class="nav-number">1.3.</span> <span class="nav-text">修改扩展</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分析扩展"><span class="nav-number">1.4.</span> <span class="nav-text">分析扩展</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#HelloWorld做了什么"><span class="nav-number">1.4.1.</span> <span class="nav-text">HelloWorld做了什么?</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#activationEvents"><span class="nav-number">1.4.1.1.</span> <span class="nav-text">activationEvents</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#onLanguage"><span class="nav-number">1.4.1.1.1.</span> <span class="nav-text">onLanguage</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#onCommand"><span class="nav-number">1.4.1.1.2.</span> <span class="nav-text">onCommand</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#workspaceContains"><span class="nav-number">1.4.1.1.3.</span> <span class="nav-text">workspaceContains</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Contribution-Points"><span class="nav-number">1.4.1.2.</span> <span class="nav-text">Contribution Points</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#commands"><span class="nav-number">1.4.1.2.1.</span> <span class="nav-text">commands</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#configuration"><span class="nav-number">1.4.1.2.2.</span> <span class="nav-text">configuration</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#menus"><span class="nav-number">1.4.1.2.3.</span> <span class="nav-text">menus</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#package-json"><span class="nav-number">1.4.2.</span> <span class="nav-text">package.json</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张越</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -79,18 +79,17 @@
 
 
 
-<meta name="description" content="currying柯里化又称部分求值，一个被currying的函树，如果接受的参数长度小于形参的长度，函数不会立即执行，而是返回新的函数。currying在FP(函数式编程)中有着很重要的作用">
 <meta name="keywords" content="技巧">
 <meta property="og:type" content="article">
 <meta property="og:title" content="柯里化,反柯里化的具体实现">
 <meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2018/03/08/curry-uncurry/index.html">
 <meta property="og:site_name" content="新世紀エヴァンゲリオン">
-<meta property="og:description" content="currying柯里化又称部分求值，一个被currying的函树，如果接受的参数长度小于形参的长度，函数不会立即执行，而是返回新的函数。currying在FP(函数式编程)中有着很重要的作用">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-15T07:47:15.000Z">
+<meta property="og:image" content="https://unsplash.it/1069/713?random">
+<meta property="og:updated_time" content="2019-09-22T05:38:39.531Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="柯里化,反柯里化的具体实现">
-<meta name="twitter:description" content="currying柯里化又称部分求值，一个被currying的函树，如果接受的参数长度小于形参的长度，函数不会立即执行，而是返回新的函数。currying在FP(函数式编程)中有着很重要的作用">
+<meta name="twitter:image" content="https://unsplash.it/1069/713?random">
 
 
 
@@ -186,7 +185,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Home
+            主页
           </a>
         </li>
       
@@ -196,7 +195,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
-            Tags
+            标签
           </a>
         </li>
       
@@ -206,7 +205,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archives
+            时间轴
           </a>
         </li>
       
@@ -310,8 +309,9 @@
       
 
       
-        <h2 id="currying"><a href="#currying" class="headerlink" title="currying"></a>currying</h2><p>柯里化又称部分求值，一个被currying的函树，如果接受的参数长度小于形参的长度，函数不会立即执行，而是返回新的函数。currying在FP(函数式编程)中有着很重要的作用</p>
+        <p><img src="https://unsplash.it/1069/713?random" alt="image"></p>
 <a id="more"></a>
+<h2 id="currying"><a href="#currying" class="headerlink" title="currying"></a>currying</h2><p>柯里化又称部分求值，一个被currying的函树，如果接受的参数长度小于形参的长度，函数不会立即执行，而是返回新的函数。currying在FP(函数式编程)中有着很重要的作用</p>
 <h4 id="柯里化的ES6实现"><a href="#柯里化的ES6实现" class="headerlink" title="柯里化的ES6实现"></a>柯里化的ES6实现</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">currying</span> (<span class="params">callback, ...initialParam</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function">(<span class="params">...param</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="function">(<span class="params">(params</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> params.length === callback.length ? callback(...params) : currying(callback, ...params)</span><br><span class="line">        &#125;)([...initialParam, ...param])</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="柯里化的ES5实现"><a href="#柯里化的ES5实现" class="headerlink" title="柯里化的ES5实现"></a>柯里化的ES5实现</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">currying</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> initialParams = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>)</span><br><span class="line">    <span class="keyword">let</span> callback = params.shift()</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (<span class="function"><span class="keyword">function</span> (<span class="params">params</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> params.length === callback.length ? callback(...params) : currying(callback, ...params)</span><br><span class="line">        &#125;)(initialParams.concat(<span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>)))</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="柯里化的使用"><a href="#柯里化的使用" class="headerlink" title="柯里化的使用"></a>柯里化的使用</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span> (<span class="params">a, b, c</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(a + b + c)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> fn1 = currying(fn, <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> fn2 = fn1(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">fn2(<span class="number">3</span>) <span class="comment">// 6</span></span><br></pre></td></tr></table></figure>
@@ -358,8 +358,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/03/16/redux-thunk解析/" rel="prev" title="redux-thunk解析">
-                redux-thunk解析 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/04/01/Skill01/" rel="prev" title="技巧：重构if...else if...else...">
+                技巧：重构if...else if...else... <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -441,8 +441,8 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">81</span>
-                  <span class="site-state-item-name">posts</span>
+                  <span class="site-state-item-count">54</span>
+                  <span class="site-state-item-name">篇博文</span>
                 </a>
               </div>
             
@@ -454,7 +454,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-count">27</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
