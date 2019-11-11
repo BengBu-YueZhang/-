@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Vue," />
+  <meta name="keywords" content="vue," />
 
 
 
@@ -79,17 +79,18 @@
 
 
 
-<meta name="keywords" content="Vue">
+<meta name="keywords" content="vue">
 <meta property="og:type" content="article">
-<meta property="og:title" content="「组件」设计一款Form组件">
-<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2019/07/13/设计Form组件/index.html">
+<meta property="og:title" content="「Reactivity」Vue3源码解析(1).md">
+<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2019/11/11/vue源码/index.html">
 <meta property="og:site_name" content="新世紀エヴァンゲリオン">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://unsplash.it/1392/835?random">
-<meta property="og:updated_time" content="2019-07-09T14:51:42.980Z">
+<meta property="og:image" content="https://unsplash.it/1169/612?random">
+<meta property="og:image" content="https://i.loli.net/2019/11/11/LoeQqi13BP7HjnW.png">
+<meta property="og:updated_time" content="2019-11-11T15:36:16.626Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="「组件」设计一款Form组件">
-<meta name="twitter:image" content="https://unsplash.it/1392/835?random">
+<meta name="twitter:title" content="「Reactivity」Vue3源码解析(1).md">
+<meta name="twitter:image" content="https://unsplash.it/1169/612?random">
 
 
 
@@ -119,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/2019/07/13/设计Form组件/"/>
+  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/2019/11/11/vue源码/"/>
 
 
 
 
 
-  <title>「组件」设计一款Form组件 | 新世紀エヴァンゲリオン</title>
+  <title>「Reactivity」Vue3源码解析(1).md | 新世紀エヴァンゲリオン</title>
   
 
 
@@ -242,7 +243,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://bengbu-yuezhang.github.io/yue.github.io/2019/07/13/设计Form组件/">
+    <link itemprop="mainEntityOfPage" href="https://bengbu-yuezhang.github.io/yue.github.io/2019/11/11/vue源码/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="张越">
@@ -259,7 +260,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">「组件」设计一款Form组件</h1>
+          <h1 class="post-title" itemprop="name headline">「Reactivity」Vue3源码解析(1).md</h1>
         
 
         <div class="post-meta">
@@ -271,8 +272,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-13T16:30:00+08:00">
-                2019-07-13
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-11-11T23:30:00+08:00">
+                2019-11-11
               </time>
             
 
@@ -309,8 +310,18 @@
       
 
       
-        <p><img src="https://unsplash.it/1392/835?random" alt="image"></p>
+        <p><img src="https://unsplash.it/1169/612?random" alt="image"></p>
 <a id="more"></a>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文是本人的一些拙见，如有错误请观众老爷们指出。</p>
+<h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><p>Reactivity目录结构：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 📁 reactivity</span><br><span class="line"># |——  📁 __tests__ // 包含所有的单元测试文件</span><br><span class="line"># |——  📁 src</span><br><span class="line"># |——  |——  📃 baseHandlers.js  // 包含了，针对普通的数据类型，Proxy代理使用的处理函数（例如：get、set、has、ownKeys）</span><br><span class="line"># |——  |——  📃 collectionHandlers.ts  // 包含了，针对特殊的数据类型（Set, Map, WeakMap, WeakSet），Proxy代理使用的处理函数</span><br><span class="line"># |——  |——  📃 computed.ts // 包含了计算属性相关内容</span><br><span class="line"># |——  |——  📃 effect.ts // 包了effect创建函数，依赖收集函数（track），依赖响应函数（trigger）</span><br><span class="line"># |——  |——  📃 reactive.ts // 将对象包装为响应式对象</span><br><span class="line"># |——  |——  📃 ref.ts // 将普通类型包装为响应式对象</span><br><span class="line"># |——  |——  📃 lock.ts</span><br><span class="line"># |——  |——  📃 operations.ts // 操作数据行为枚举，set、add、delete、get、has等</span><br><span class="line"># |——  |——  📃 index.ts // 入口文件</span><br></pre></td></tr></table></figure>
+<h2 id="reactive"><a href="#reactive" class="headerlink" title="reactive"></a>reactive</h2><h3 id="reactive的作用？"><a href="#reactive的作用？" class="headerlink" title="reactive的作用？"></a>reactive的作用？</h3><h3 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Dep类型，是ReactiveEffect的集合。而ReactiveEffect是effect函数的接口</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">type</span> Dep = Set&lt;ReactiveEffect&gt;</span><br><span class="line"><span class="comment">// KeyToDepMap类型，是key与Dep集合的映射</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">type</span> KeyToDepMap = Map&lt;<span class="built_in">any</span>, Dep&gt;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> targetMap = <span class="keyword">new</span> WeakMap&lt;<span class="built_in">any</span>, KeyToDepMap&gt;()</span><br></pre></td></tr></table></figure>
+<p>在<code>reactive.ts</code>文件的开头，定义了常量<code>targetMap</code>。<code>targetMap</code>是整个响应式系统的关键，<code>targetMap</code>中包含了响应式系统中所有的依赖关系。<code>targetMap</code>的存储结构大致如下图所示。</p>
+<p><img src="https://i.loli.net/2019/11/11/LoeQqi13BP7HjnW.png" alt="targetMap"></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// WeakMaps that store &#123;raw &lt;-&gt; observed&#125; pairs.</span></span><br><span class="line"><span class="keyword">const</span> rawToReactive = <span class="keyword">new</span> WeakMap&lt;<span class="built_in">any</span>, <span class="built_in">any</span>&gt;()</span><br><span class="line"><span class="keyword">const</span> reactiveToRaw = <span class="keyword">new</span> WeakMap&lt;<span class="built_in">any</span>, <span class="built_in">any</span>&gt;()</span><br><span class="line"><span class="keyword">const</span> rawToReadonly = <span class="keyword">new</span> WeakMap&lt;<span class="built_in">any</span>, <span class="built_in">any</span>&gt;()</span><br><span class="line"><span class="keyword">const</span> readonlyToRaw = <span class="keyword">new</span> WeakMap&lt;<span class="built_in">any</span>, <span class="built_in">any</span>&gt;()</span><br><span class="line"></span><br><span class="line"><span class="comment">// WeakSets for values that are marked readonly or non-reactive during</span></span><br><span class="line"><span class="comment">// observable creation.</span></span><br><span class="line"><span class="keyword">const</span> readonlyValues = <span class="keyword">new</span> WeakSet&lt;<span class="built_in">any</span>&gt;()</span><br><span class="line"><span class="keyword">const</span> nonReactiveValues = <span class="keyword">new</span> WeakSet&lt;<span class="built_in">any</span>&gt;()</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> collectionTypes = <span class="keyword">new</span> Set&lt;<span class="built_in">Function</span>&gt;([Set, Map, WeakMap, WeakSet])</span><br><span class="line"><span class="keyword">const</span> isObservableType = <span class="comment">/*#__PURE__*/</span> makeMap(</span><br><span class="line">  <span class="string">'Object,Array,Map,Set,WeakMap,WeakSet'</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h2 id="ref"><a href="#ref" class="headerlink" title="ref"></a>ref</h2><h2 id="baseHandlers"><a href="#baseHandlers" class="headerlink" title="baseHandlers"></a>baseHandlers</h2><h2 id="collectionHandlers"><a href="#collectionHandlers" class="headerlink" title="collectionHandlers"></a>collectionHandlers</h2><h2 id="computed"><a href="#computed" class="headerlink" title="computed"></a>computed</h2><h2 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h2><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href=""></a></li>
+</ul>
 
       
     </div>
@@ -328,7 +339,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Vue/" rel="tag"># Vue</a>
+            <a href="/tags/vue/" rel="tag"># vue</a>
           
         </div>
       
@@ -341,8 +352,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/06/30/ReactHooks学习笔记/" rel="next" title="「学习笔记」ReactHooks入门">
-                <i class="fa fa-chevron-left"></i> 「学习笔记」ReactHooks入门
+              <a href="/2019/10/26/typescript2/" rel="next" title="「学习笔记」TypeScript">
+                <i class="fa fa-chevron-left"></i> 「学习笔记」TypeScript
               </a>
             
           </div>
@@ -350,10 +361,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/07/21/lodashcloneDeep/" rel="prev" title="JavaScript中的深拷贝">
-                JavaScript中的深拷贝 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -405,8 +412,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -477,6 +493,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#概览"><span class="nav-number">2.</span> <span class="nav-text">概览</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reactive"><span class="nav-number">3.</span> <span class="nav-text">reactive</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#reactive的作用？"><span class="nav-number">3.1.</span> <span class="nav-text">reactive的作用？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#源码分析"><span class="nav-number">3.2.</span> <span class="nav-text">源码分析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ref"><span class="nav-number">4.</span> <span class="nav-text">ref</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#baseHandlers"><span class="nav-number">5.</span> <span class="nav-text">baseHandlers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#collectionHandlers"><span class="nav-number">6.</span> <span class="nav-text">collectionHandlers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#computed"><span class="nav-number">7.</span> <span class="nav-text">computed</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后续"><span class="nav-number">8.</span> <span class="nav-text">后续</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">9.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
