@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="vue," />
+
+
+
+
+
+
+
+
+
+
+<meta name="keywords" content="vue">
+<meta property="og:type" content="article">
+<meta property="og:title" content="「Reactivity」Vue3源码解析(1)">
+<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2019/11/12/vue源码/index.html">
+<meta property="og:site_name" content="新世紀エヴァンゲリオン">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://unsplash.it/1169/612?random">
+<meta property="og:image" content="https://i.loli.net/2019/11/11/LoeQqi13BP7HjnW.png">
+<meta property="og:updated_time" content="2019-11-12T15:48:49.217Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="「Reactivity」Vue3源码解析(1)">
+<meta name="twitter:image" content="https://unsplash.it/1169/612?random">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Penulis'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/2019/11/12/vue源码/"/>
+
+
+
+
+
+  <title>「Reactivity」Vue3源码解析(1) | 新世紀エヴァンゲリオン</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">新世紀エヴァンゲリオン</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">前端小学生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Beranda
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Arsip
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://bengbu-yuezhang.github.io/yue.github.io/2019/11/12/vue源码/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张越">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新世紀エヴァンゲリオン">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">「Reactivity」Vue3源码解析(1)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Diposting di</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-11-12T23:30:00+08:00">
+                2019-11-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://unsplash.it/1169/612?random" alt="image"></p>
+<a id="more"></a>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文是本人的一些拙见，如有错误请观众老爷们指出。</p>
+<h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><p>Reactivity目录结构：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 📁 reactivity</span><br><span class="line"># |——  📁 __tests__ // 包含所有的单元测试文件</span><br><span class="line"># |——  📁 src</span><br><span class="line"># |——  |——  📃 baseHandlers.ts  // 包含了，针对普通的数据类型，Proxy代理使用的处理函数（例如：get、set、has、ownKeys）</span><br><span class="line"># |——  |——  📃 collectionHandlers.ts  // 包含了，针对特殊的数据类型（Set, Map, WeakMap, WeakSet），Proxy代理使用的处理函数</span><br><span class="line"># |——  |——  📃 computed.ts // 包含了计算属性相关内容</span><br><span class="line"># |——  |——  📃 effect.ts // 包了effect创建函数，依赖收集函数（track），依赖响应函数（trigger）</span><br><span class="line"># |——  |——  📃 reactive.ts // 将对象包装为响应式对象</span><br><span class="line"># |——  |——  📃 ref.ts // 将普通类型包装为响应式对象</span><br><span class="line"># |——  |——  📃 lock.ts</span><br><span class="line"># |——  |——  📃 operations.ts // 操作数据行为枚举，set、add、delete、get、has等</span><br><span class="line"># |——  |——  📃 index.ts // 入口文件</span><br></pre></td></tr></table></figure>
+<h2 id="reactive-ts"><a href="#reactive-ts" class="headerlink" title="reactive.ts"></a>reactive.ts</h2><p>reactive.ts文件中，主要定义了两个主要的API，<code>reactive</code>和<code>readonly</code>。关于这两个的使用方法，以及效果。大家可以参考，<code>__tests__</code>目录下的单元测试文件，<code>readonly.spec.ts</code>和<code>reactive.spec.ts</code>文件。</p>
+<h3 id="reactive-ts源码分析"><a href="#reactive-ts源码分析" class="headerlink" title="reactive.ts源码分析"></a>reactive.ts源码分析</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Dep类型，是ReactiveEffect的集合。而ReactiveEffect是effect函数的接口</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">type</span> Dep = Set&lt;ReactiveEffect&gt;</span><br><span class="line"><span class="comment">// KeyToDepMap类型，是key与Dep集合的映射</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">type</span> KeyToDepMap = Map&lt;<span class="built_in">any</span>, Dep&gt;</span><br><span class="line"><span class="comment">// targetMap&lt;any, KeyToDepMap&lt;any, Dep[]&gt;&gt;</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> targetMap = <span class="keyword">new</span> WeakMap&lt;<span class="built_in">any</span>, KeyToDepMap&gt;()</span><br></pre></td></tr></table></figure>
+<p>在<code>reactive.ts</code>文件的开头，定义了常量<code>targetMap</code>。<code>targetMap</code>是整个响应式系统的关键，<code>targetMap</code>中包含了响应式系统中所有的依赖关系。<code>targetMap</code>的存储结构如下图所示。</p>
+<p><img src="https://i.loli.net/2019/11/11/LoeQqi13BP7HjnW.png" alt="targetMap"></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// WeakMap&lt;原对象，响应式对象&gt;之间的映射</span></span><br><span class="line"><span class="keyword">const</span> rawToReactive = <span class="keyword">new</span> WeakMap&lt;<span class="built_in">any</span>, <span class="built_in">any</span>&gt;()</span><br><span class="line"></span><br><span class="line"><span class="comment">// WeakMap&lt;响应式对象，原对象&gt;之间的映射</span></span><br><span class="line"><span class="keyword">const</span> reactiveToRaw = <span class="keyword">new</span> WeakMap&lt;<span class="built_in">any</span>, <span class="built_in">any</span>&gt;()</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> rawToReadonly = <span class="keyword">new</span> WeakMap&lt;<span class="built_in">any</span>, <span class="built_in">any</span>&gt;()</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> readonlyToRaw = <span class="keyword">new</span> WeakMap&lt;<span class="built_in">any</span>, <span class="built_in">any</span>&gt;()</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> readonlyValues = <span class="keyword">new</span> WeakSet&lt;<span class="built_in">any</span>&gt;()</span><br><span class="line"></span><br><span class="line"><span class="comment">// 非响应式对象的集合（使用的情况较少）</span></span><br><span class="line"><span class="keyword">const</span> nonReactiveValues = <span class="keyword">new</span> WeakSet&lt;<span class="built_in">any</span>&gt;()</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用Proxy代理时，需要特殊处理的类型集合</span></span><br><span class="line"><span class="keyword">const</span> collectionTypes = <span class="keyword">new</span> Set&lt;<span class="built_in">Function</span>&gt;([Set, Map, WeakMap, WeakSet])</span><br><span class="line"></span><br><span class="line"><span class="comment">// isObservableType是一个函数</span></span><br><span class="line"><span class="comment">// 如果参数不是'Object'、'Array'、'Map'、'Set'、'WeakMap'、WeakSet的字符串将会返回false</span></span><br><span class="line"><span class="keyword">const</span> isObservableType = <span class="comment">/*#__PURE__*/</span> makeMap(</span><br><span class="line">  <span class="string">'Object,Array,Map,Set,WeakMap,WeakSet'</span></span><br><span class="line">)</span><br><span class="line"><span class="comment">// canObserve用来判断对象是否可以被观察</span></span><br><span class="line"><span class="keyword">const</span> canObserve = (value: <span class="built_in">any</span>): <span class="function"><span class="params">boolean</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="comment">// 如果是Vue实例不可以被观察</span></span><br><span class="line">    !value._isVue &amp;&amp;</span><br><span class="line">    <span class="comment">// 如果是虚拟VNode不可以被观察</span></span><br><span class="line">    !value._isVNode &amp;&amp;</span><br><span class="line">    <span class="comment">// 如果对象类型不属于Object、Array、Map、Set、WeakMap、WeakSet，不可以被观察</span></span><br><span class="line">    <span class="comment">// toRawType是一个工具函数，会返回value的类型字符串。比如，如果value是一个数组，toRawType会返回字符串'Array'</span></span><br><span class="line">    isObservableType(toRawType(value)) &amp;&amp;</span><br><span class="line">    <span class="comment">// 如果对象在nonReactiveValues集合中，不可以被观察</span></span><br><span class="line">    !nonReactiveValues.has(value)</span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> UnwrapNestedRefs&lt;T&gt; = T <span class="keyword">extends</span> Ref ? T : UnwrapRef&lt;T&gt;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">reactive</span>&lt;<span class="title">T</span> <span class="title">extends</span> <span class="title">object</span>&gt;(<span class="params">target: T</span>): <span class="title">UnwrapNestedRefs</span>&lt;<span class="title">T</span>&gt;</span></span><br><span class="line"><span class="function"><span class="title">export</span> <span class="function"><span class="keyword">function</span> <span class="title">reactive</span>(<span class="params">target: object</span>) </span>&#123;</span></span><br><span class="line"><span class="function">  // <span class="title">if</span> <span class="title">trying</span> <span class="title">to</span> <span class="title">observe</span> <span class="title">a</span> <span class="title">readonly</span> <span class="title">proxy</span>, <span class="title">return</span> <span class="title">the</span> <span class="title">readonly</span> <span class="title">version</span>.</span></span><br><span class="line">  if (readonlyToRaw.has(target)) &#123;</span><br><span class="line">    <span class="keyword">return</span> target</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// target is explicitly marked as readonly by user</span></span><br><span class="line">  <span class="keyword">if</span> (readonlyValues.has(target)) &#123;</span><br><span class="line">    <span class="keyword">return</span> readonly(target)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 调用createReactiveObject，创建响应式对象</span></span><br><span class="line">  <span class="keyword">return</span> createReactiveObject(</span><br><span class="line">    target, <span class="comment">// 原对象</span></span><br><span class="line">    rawToReactive, <span class="comment">// &lt;原对象，响应式对象&gt;的映射</span></span><br><span class="line">    reactiveToRaw, <span class="comment">// &lt;响应式对象，原对象&gt;的映射</span></span><br><span class="line">    mutableHandlers, <span class="comment">// 普通对象，进行Proxy代理的handle</span></span><br><span class="line">    mutableCollectionHandlers <span class="comment">// Set, Map, WeakMap, WeakSet类型，进行Proxy代理的handle</span></span><br><span class="line">  )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createReactiveObject</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  target: unknown,</span></span></span><br><span class="line"><span class="function"><span class="params">  toProxy: WeakMap&lt;<span class="built_in">any</span>, <span class="built_in">any</span>&gt;,</span></span></span><br><span class="line"><span class="function"><span class="params">  toRaw: WeakMap&lt;<span class="built_in">any</span>, <span class="built_in">any</span>&gt;,</span></span></span><br><span class="line"><span class="function"><span class="params">  baseHandlers: ProxyHandler&lt;<span class="built_in">any</span>&gt;,</span></span></span><br><span class="line"><span class="function"><span class="params">  collectionHandlers: ProxyHandler&lt;<span class="built_in">any</span>&gt;</span></span></span><br><span class="line"><span class="function"><span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 如果target不是一个对象类型。在开发环境时，会发出警告。并返回原target</span></span><br><span class="line">  <span class="keyword">if</span> (!isObject(target)) &#123;</span><br><span class="line">    <span class="keyword">if</span> (__DEV__) &#123;</span><br><span class="line">      <span class="built_in">console</span>.warn(<span class="string">`value cannot be made reactive: <span class="subst">$&#123;String(target)&#125;</span>`</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> target</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 在rawToReactive中查找，如果target已经被代理，直接返回响应式对象</span></span><br><span class="line">  <span class="keyword">let</span> observed = toProxy.get(target)</span><br><span class="line">  <span class="keyword">if</span> (observed !== <span class="built_in">void</span> <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> observed</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 在reactiveToRaw中查找，如果target本身就是响应式对象，直接返回target</span></span><br><span class="line">  <span class="keyword">if</span> (toRaw.has(target)) &#123;</span><br><span class="line">    <span class="keyword">return</span> target</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 如果target不可被观察，直接返回target</span></span><br><span class="line">  <span class="keyword">if</span> (!canObserve(target)) &#123;</span><br><span class="line">    <span class="keyword">return</span> target</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// collectionTypes.has判断target是否是Set, Map, WeakMap, WeakSet中的类型之一</span></span><br><span class="line">  <span class="comment">// 如果是，handlers等于mutableCollectionHandlers</span></span><br><span class="line">  <span class="comment">// 如果不是，handlers等于mutableHandlers</span></span><br><span class="line">  <span class="keyword">const</span> handlers = collectionTypes.has(target.constructor)</span><br><span class="line">    ? collectionHandlers</span><br><span class="line">    : baseHandlers</span><br><span class="line">  <span class="comment">// 使用Proxy对target进行代理</span></span><br><span class="line">  observed = <span class="keyword">new</span> Proxy(target, handlers)</span><br><span class="line">  <span class="comment">// 在rawToReactive和reactiveToRaw中添加映射关系</span></span><br><span class="line">  toProxy.set(target, observed)</span><br><span class="line">  toRaw.set(observed, target)</span><br><span class="line">  <span class="comment">// 在targetMap中添加映射关系</span></span><br><span class="line">  <span class="keyword">if</span> (!targetMap.has(target)) &#123;</span><br><span class="line">    targetMap.set(target, <span class="keyword">new</span> Map())</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> observed</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 判断是否是响应式对象</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">isReactive</span>(<span class="params">value: unknown</span>): <span class="title">boolean</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> reactiveToRaw.has(value) || readonlyToRaw.has(value)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 判断是否是只读响应式对象</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">isReadonly</span>(<span class="params">value: unknown</span>): <span class="title">boolean</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> readonlyToRaw.has(value)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 如果数据是响应式对象，转换为原数据</span></span><br><span class="line"><span class="comment">// 如果不是，直接返回原数据</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">toRaw</span>&lt;<span class="title">T</span>&gt;(<span class="params">observed: T</span>): <span class="title">T</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> reactiveToRaw.get(observed) || readonlyToRaw.get(observed) || observed</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将value标记为只读响应式对象</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">markReadonly</span>&lt;<span class="title">T</span>&gt;(<span class="params">value: T</span>): <span class="title">T</span> </span>&#123;</span><br><span class="line">  readonlyValues.add(value)</span><br><span class="line">  <span class="keyword">return</span> value</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将value标记为非响应式对象</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">markNonReactive</span>&lt;<span class="title">T</span>&gt;(<span class="params">value: T</span>): <span class="title">T</span> </span>&#123;</span><br><span class="line">  nonReactiveValues.add(value)</span><br><span class="line">  <span class="keyword">return</span> value</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="ref"><a href="#ref" class="headerlink" title="ref"></a>ref</h2><h2 id="baseHandlers-ts"><a href="#baseHandlers-ts" class="headerlink" title="baseHandlers.ts"></a>baseHandlers.ts</h2><p>baseHandlers.ts中包含了两套Proxy的handle，<code>mutableHandlers</code>和<code>readonlyHandlers</code>。<code>mutableHandlers</code>处理普通的响应式对象，<code>readonlyHandlers</code>处理只读响应式对象。</p>
+<h3 id="baseHandlers-ts源码分析"><a href="#baseHandlers-ts源码分析" class="headerlink" title="baseHandlers.ts源码分析"></a>baseHandlers.ts源码分析</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> builtInSymbols = <span class="keyword">new</span> Set(</span><br><span class="line">  <span class="built_in">Object</span>.getOwnPropertyNames(Symbol)</span><br><span class="line">    .map(<span class="function"><span class="params">key</span> =&gt;</span> (Symbol <span class="keyword">as</span> <span class="built_in">any</span>)[key])</span><br><span class="line">    .filter(isSymbol)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<h4 id="get劫持"><a href="#get劫持" class="headerlink" title="get劫持"></a>get劫持</h4><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// isReadonly是否是只读的劫持</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createGetter</span>(<span class="params">isReadonly: <span class="built_in">boolean</span>, unwrap: <span class="built_in">boolean</span> = <span class="literal">true</span></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// target 原对象</span></span><br><span class="line">  <span class="comment">// key 属性名</span></span><br><span class="line">  <span class="comment">// receiver proxy的实例</span></span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">get</span>(<span class="params">target: object, key: <span class="built_in">string</span> | symbol, receiver: object</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 使用Reflect.get获取原属性值</span></span><br><span class="line">    <span class="keyword">let</span> res = Reflect.get(target, key, receiver)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (isSymbol(key) &amp;&amp; builtInSymbols.has(key)) &#123;</span><br><span class="line">      <span class="keyword">return</span> res</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 如果res是Ref对象</span></span><br><span class="line">    <span class="comment">// res的value属性的getter操作，包含了收集依赖的操作（见后文）。所以我们无需使用track重复收集依赖</span></span><br><span class="line">    <span class="keyword">if</span> (unwrap &amp;&amp; isRef(res)) &#123;</span><br><span class="line">      <span class="comment">// 同时这里会自动解开ref的包装。可以使用户无需使用`target.key.value`进行取值</span></span><br><span class="line">      <span class="comment">// 举一个例子</span></span><br><span class="line">      <span class="comment">// const a = ref(1)</span></span><br><span class="line">      <span class="comment">// const obj = reactive(&#123; a &#125;)</span></span><br><span class="line">      <span class="comment">// const temp = obj.a // 不需要使用obj.a.value</span></span><br><span class="line">      res = res.value</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// 使用track收集依赖，track具体实现的细节见下文</span></span><br><span class="line">      track(target, OperationTypes.GET, key)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 如果res是一个对象，递归的进行代理。因为Proxy在初始化时只会对第一层的属性进行代理</span></span><br><span class="line">    <span class="comment">// Vue3对于嵌套对象的代理行为是懒惰的，只有当使用到（get）时，才会进行代理劫持 </span></span><br><span class="line">    <span class="comment">// 这样做同时可以避免循环引用。</span></span><br><span class="line">    <span class="comment">// 举一个例子，当使用a.b.c时，reactive(a.b.c)，reactive的内部会通过toProxy.get(target)判断</span></span><br><span class="line">    <span class="comment">// a已经被代理了，直接返回代理对象下。避免了调用栈溢出</span></span><br><span class="line">    <span class="comment">// const a = &#123;</span></span><br><span class="line">    <span class="comment">//   b: &#123;</span></span><br><span class="line">    <span class="comment">//     c: a</span></span><br><span class="line">    <span class="comment">//   &#125;  </span></span><br><span class="line">    <span class="comment">// &#125;</span></span><br><span class="line">    <span class="keyword">return</span> isObject(res)</span><br><span class="line">      ? isReadonly</span><br><span class="line">        ? readonly(res) : reactive(res)</span><br><span class="line">      : res</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="为什么使用Reflect-get，而不直接使用target-key-？"><a href="#为什么使用Reflect-get，而不直接使用target-key-？" class="headerlink" title="为什么使用Reflect.get，而不直接使用target[key]？"></a>为什么使用Reflect.get，而不直接使用target[key]？</h5><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> original = &#123;</span><br><span class="line">  bar: <span class="number">2</span>,</span><br><span class="line">  <span class="keyword">get</span> foo () &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.bar</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> observed = reactive(original)</span><br><span class="line">observed.foo</span><br><span class="line"><span class="built_in">console</span>.log(num) <span class="comment">// num是依赖收集次数</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 如果get劫持内部，使用target[key]</span></span><br><span class="line"><span class="comment">// this指向target，而不是proxy对象，所以会少触发一次依赖收集</span></span><br><span class="line">num === <span class="number">1</span> </span><br><span class="line"></span><br><span class="line"><span class="comment">// 如果get劫持内部，使用Reflect.get</span></span><br><span class="line"><span class="comment">// 如果属性部署了读取函数（getter），则读取函数的this绑定proxy，所以会触发两次依赖收集</span></span><br><span class="line">num === <span class="number">2</span></span><br></pre></td></tr></table></figure>
+<h4 id="set劫持"><a href="#set劫持" class="headerlink" title="set劫持"></a>set劫持</h4><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">set</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  target: object,</span></span></span><br><span class="line"><span class="function"><span class="params">  key: <span class="built_in">string</span> | symbol,</span></span></span><br><span class="line"><span class="function"><span class="params">  value: unknown,</span></span></span><br><span class="line"><span class="function"><span class="params">  receiver: object</span></span></span><br><span class="line"><span class="function"><span class="params"></span>): <span class="title">boolean</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 新值</span></span><br><span class="line">  value = toRaw(value)</span><br><span class="line">  <span class="comment">// 未更新前的旧值</span></span><br><span class="line">  <span class="keyword">const</span> oldValue = (target <span class="keyword">as</span> <span class="built_in">any</span>)[key]</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 如果旧值是ref类型，而新的值不是ref类型，直接赋值给oldValue.value</span></span><br><span class="line">  <span class="keyword">if</span> (isRef(oldValue) &amp;&amp; !isRef(value)) &#123;</span><br><span class="line">    <span class="comment">// 在ref类型的数据setter value中，已经包含了trigger，不需要重复触发响应依赖</span></span><br><span class="line">    oldValue.value = value</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 判断target之前是否已经存在了该key</span></span><br><span class="line">  <span class="comment">// 如果存在，trigger触发依赖响应的类型是OperationTypes.SET</span></span><br><span class="line">  <span class="comment">// 如果不存在，trigger触发依赖响应的类型是OperationTypes.ADD</span></span><br><span class="line">  <span class="comment">// 两者的区别是，如果是ADD类型，trigger会额外触发targetMap中ITERATE_KEY（迭代器）的响应</span></span><br><span class="line">  <span class="comment">// 因为进行增删对象的属性的操作时，会影响到包含了迭代器的effect</span></span><br><span class="line">  <span class="comment">// 而SET类型不会</span></span><br><span class="line">  <span class="keyword">const</span> hadKey = hasOwn(target, key)</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 修改target上的对应的属性值</span></span><br><span class="line">  <span class="keyword">const</span> result = Reflect.set(target, key, value, receiver)</span><br><span class="line">  <span class="comment">// 为什么需要判断target === toRaw(receiver)，见下面的补充</span></span><br><span class="line">  <span class="keyword">if</span> (target === toRaw(receiver)) &#123;</span><br><span class="line">    <span class="comment">/* istanbul ignore else */</span></span><br><span class="line">    <span class="comment">// trigger触发依赖更新（trigger的具体实现见下文），如果key之前已经存在是SET类型</span></span><br><span class="line">    <span class="comment">// 如果不存在是ADD类型</span></span><br><span class="line">    <span class="keyword">if</span> (__DEV__) &#123;</span><br><span class="line">      <span class="keyword">const</span> extraInfo = &#123; oldValue, newValue: value &#125;</span><br><span class="line">      <span class="keyword">if</span> (!hadKey) &#123;</span><br><span class="line">        trigger(target, OperationTypes.ADD, key, extraInfo)</span><br><span class="line">        <span class="comment">// hasChanged会判断，如果value和oldValue前后一致，不会触发依赖更新</span></span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (hasChanged(value, oldValue)) &#123;</span><br><span class="line">        trigger(target, OperationTypes.SET, key, extraInfo)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (!hadKey) &#123;</span><br><span class="line">        trigger(target, OperationTypes.ADD, key)</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (hasChanged(value, oldValue)) &#123;</span><br><span class="line">        trigger(target, OperationTypes.SET, key)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="target-toRaw-receiver-是什么判断逻辑？"><a href="#target-toRaw-receiver-是什么判断逻辑？" class="headerlink" title="target === toRaw(receiver)是什么判断逻辑？"></a>target === toRaw(receiver)是什么判断逻辑？</h5><h4 id="deleteProperty劫持"><a href="#deleteProperty劫持" class="headerlink" title="deleteProperty劫持"></a>deleteProperty劫持</h4><h4 id="has劫持"><a href="#has劫持" class="headerlink" title="has劫持"></a>has劫持</h4><h4 id="ownKeys劫持"><a href="#ownKeys劫持" class="headerlink" title="ownKeys劫持"></a>ownKeys劫持</h4><h2 id="collectionHandlers"><a href="#collectionHandlers" class="headerlink" title="collectionHandlers"></a>collectionHandlers</h2><h2 id="computed"><a href="#computed" class="headerlink" title="computed"></a>computed</h2><h2 id="后续计划"><a href="#后续计划" class="headerlink" title="后续计划"></a>后续计划</h2><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/vue/" rel="tag"># vue</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/26/typescript2/" rel="next" title="「学习笔记」TypeScript">
+                <i class="fa fa-chevron-left"></i> 「学习笔记」TypeScript
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Daftar Isi
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Ikhtisar
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="张越" />
+            
+              <p class="site-author-name" itemprop="name">张越</p>
+              <p class="site-description motion-element" itemprop="description">所谓成长，就是经过不断的聚散离合，找到不太会伤害到彼此的距离</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">58</span>
+                  <span class="site-state-item-name">posting</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/BengBu-YueZhang" target="_blank" title="我的GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/5460100952/profile?topnav=1&wvr=6" target="_blank" title="我的微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的微博</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#概览"><span class="nav-number">2.</span> <span class="nav-text">概览</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reactive-ts"><span class="nav-number">3.</span> <span class="nav-text">reactive.ts</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#reactive-ts源码分析"><span class="nav-number">3.1.</span> <span class="nav-text">reactive.ts源码分析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ref"><span class="nav-number">4.</span> <span class="nav-text">ref</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#baseHandlers-ts"><span class="nav-number">5.</span> <span class="nav-text">baseHandlers.ts</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#baseHandlers-ts源码分析"><span class="nav-number">5.1.</span> <span class="nav-text">baseHandlers.ts源码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#get劫持"><span class="nav-number">5.1.1.</span> <span class="nav-text">get劫持</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#为什么使用Reflect-get，而不直接使用target-key-？"><span class="nav-number">5.1.1.1.</span> <span class="nav-text">为什么使用Reflect.get，而不直接使用target[key]？</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#set劫持"><span class="nav-number">5.1.2.</span> <span class="nav-text">set劫持</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#target-toRaw-receiver-是什么判断逻辑？"><span class="nav-number">5.1.2.1.</span> <span class="nav-text">target === toRaw(receiver)是什么判断逻辑？</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#deleteProperty劫持"><span class="nav-number">5.1.3.</span> <span class="nav-text">deleteProperty劫持</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#has劫持"><span class="nav-number">5.1.4.</span> <span class="nav-text">has劫持</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ownKeys劫持"><span class="nav-number">5.1.5.</span> <span class="nav-text">ownKeys劫持</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#collectionHandlers"><span class="nav-number">6.</span> <span class="nav-text">collectionHandlers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#computed"><span class="nav-number">7.</span> <span class="nav-text">computed</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后续计划"><span class="nav-number">8.</span> <span class="nav-text">后续计划</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">9.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张越</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Tema &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
