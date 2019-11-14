@@ -195,7 +195,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            主页
+            Home
           </a>
         </li>
       
@@ -205,7 +205,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
-            标签
+            Tags
           </a>
         </li>
       
@@ -215,7 +215,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            时间轴
+            Archives
           </a>
         </li>
       
@@ -470,7 +470,7 @@
 </ul>
 <h4 id="实现-3"><a href="#实现-3" class="headerlink" title="实现"></a>实现</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> reg = <span class="regexp">/^[a-zA-Z]:\\([^\\:*&lt;&gt;|"?\r\n/]+\\)*([^\\:*&lt;&gt;|"?\r\n/]+)?$/g</span></span><br></pre></td></tr></table></figure>
 <p><img src="https://i.loli.net/2019/03/28/5c9cd108e6cb3.png" alt="image"></p>
-<h3 id="💻-匹配HTML中id属性"><a href="#💻-匹配HTML中id属性" class="headerlink" title="💻 匹配HTML中id属性"></a>💻 匹配HTML中id属性</h3><h4 id="分析-4"><a href="#分析-4" class="headerlink" title="分析"></a>分析</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;div id=<span class="string">"app"</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">"app"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> reg = <span class="regexp">/id=".*"/</span></span><br></pre></td></tr></table></figure>
+<h3 id="💻-匹配HTML中id属性"><a href="#💻-匹配HTML中id属性" class="headerlink" title="💻 匹配HTML中id属性"></a>💻 匹配HTML中id属性</h3><h4 id="分析-4"><a href="#分析-4" class="headerlink" title="分析"></a>分析</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;div id=<span class="string">"app"</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">"app"</span>&gt;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> reg = <span class="regexp">/id=".*"/</span></span><br></pre></td></tr></table></figure>
 <p>如果使用此正则, 由于<em>是贪婪的, 并且.是通配符包含了”, 所以</em>会匹配到最后一个”之前的所用内容(包括其他的”)。我们可以使用惰性匹配模式(在量词后面添加问号)</p>
 <h4 id="实现-4"><a href="#实现-4" class="headerlink" title="实现"></a>实现</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// .*后遇到第一个"就会停止匹配</span></span><br><span class="line"><span class="keyword">var</span> reg1 = <span class="regexp">/id=".*?"/g</span></span><br></pre></td></tr></table></figure>
 
@@ -597,7 +597,7 @@
                 <a href="/archives/">
               
                   <span class="site-state-item-count">58</span>
-                  <span class="site-state-item-name">篇博文</span>
+                  <span class="site-state-item-name">posts</span>
                 </a>
               </div>
             
