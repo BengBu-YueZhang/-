@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="vue," />
+
+
+
+
+
+
+
+
+
+
+<meta name="keywords" content="vue">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue3源码解析：Reactivity">
+<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2019/11/18/vue源码/index.html">
+<meta property="og:site_name" content="新世紀エヴァンゲリオン">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://unsplash.it/1169/612?random">
+<meta property="og:image" content="https://i.loli.net/2019/11/11/LoeQqi13BP7HjnW.png">
+<meta property="og:updated_time" content="2019-11-17T15:41:30.090Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Vue3源码解析：Reactivity">
+<meta name="twitter:image" content="https://unsplash.it/1169/612?random">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/2019/11/18/vue源码/"/>
+
+
+
+
+
+  <title>Vue3源码解析：Reactivity | 新世紀エヴァンゲリオン</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">新世紀エヴァンゲリオン</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">前端小学生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://bengbu-yuezhang.github.io/yue.github.io/2019/11/18/vue源码/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张越">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新世紀エヴァンゲリオン">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Vue3源码解析：Reactivity</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-11-18T01:00:00+08:00">
+                2019-11-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://unsplash.it/1169/612?random" alt="image"></p>
+<a id="more"></a>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文是本人的一些拙见，如有错误请观众老爷们指出。</p>
+<h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><p>Reactivity包含了Vue3整个数据响应系统，Reactivity目录结构：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 📁 reactivity</span><br><span class="line"># |——  📁 __tests__ // 包含所有的单元测试文件</span><br><span class="line"># |——  📁 src</span><br><span class="line"># |——  |——  📃 baseHandlers.ts  // 包含了，针对普通的数据类型，Proxy代理使用的处理函数（例如：get、set、has、ownKeys）</span><br><span class="line"># |——  |——  📃 collectionHandlers.ts  // 包含了，针对特殊的数据类型（Set, Map, WeakMap, WeakSet），Proxy代理使用的处理函数</span><br><span class="line"># |——  |——  📃 computed.ts // 包含了计算属性相关内容</span><br><span class="line"># |——  |——  📃 effect.ts // 包含了effect创建函数，依赖收集函数（track），触发监听函数（trigger）等</span><br><span class="line"># |——  |——  📃 reactive.ts // reactive会将对象包装为响应式对象</span><br><span class="line"># |——  |——  📃 ref.ts // ref会将基本类型包装为响应式对象</span><br><span class="line"># |——  |——  📃 lock.ts</span><br><span class="line"># |——  |——  📃 operations.ts // 操作数据行为枚举，set、add、delete、get、has等</span><br><span class="line"># |——  |——  📃 index.ts // 入口文件</span><br></pre></td></tr></table></figure>
+<h2 id="🤔️reactive-ts"><a href="#🤔️reactive-ts" class="headerlink" title="🤔️reactive.ts"></a>🤔️reactive.ts</h2><p>reactive.ts文件中，主要定义了两个主要的API，<code>reactive</code>和<code>readonly</code>。关于这两个的使用方法，以及使用效果。大家可以参考，<code>__tests__</code>目录下的单元测试文件，<code>readonly.spec.ts</code>和<code>reactive.spec.ts</code>文件。下面我简略的介绍以下，这两个API。</p>
+<p>reactive会将数据包装成响应式数据。如果在<code>effect</code>（后文会介绍，<code>watch</code>和<code>computed</code>都是基于<code>effect</code>实现的）中使用了响应式数据。比如使用对象上的某个属性，这种依赖会被收集起来，当响应式数据的属性值发生了变化，内部使用到响应式数据的<code>effect</code>会重新执行。举一个例子，代码如下。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> dummy = <span class="literal">null</span></span><br><span class="line"><span class="keyword">const</span> original = &#123; foo: <span class="number">1</span> &#125;</span><br><span class="line"><span class="keyword">const</span> observed = reactive(original)</span><br><span class="line"></span><br><span class="line">effect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  dummy = observed.foo</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// dummy: 1</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">`dummy:<span class="subst">$&#123;dummy&#125;</span>`</span>)</span><br><span class="line">observed.foo = <span class="number">2</span></span><br><span class="line"><span class="comment">// dummy: 2</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">`dummy:<span class="subst">$&#123;dummy&#125;</span>`</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="reactive-ts源码分析"><a href="#reactive-ts源码分析" class="headerlink" title="reactive.ts源码分析"></a>reactive.ts源码分析</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Dep类型，是ReactiveEffect类型的集合</span></span><br><span class="line"><span class="comment">// ReactiveEffect类型是监听函数的接口，会在effect.ts文件中介绍到</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">type</span> Dep = Set&lt;ReactiveEffect&gt;</span><br><span class="line"><span class="comment">// KeyToDepMap类型，是key与Dep集合的映射</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">type</span> KeyToDepMap = Map&lt;<span class="built_in">any</span>, Dep&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment">// targetMap&lt;any, KeyToDepMap&lt;any, Dep[]&gt;&gt;</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> targetMap = <span class="keyword">new</span> WeakMap&lt;<span class="built_in">any</span>, KeyToDepMap&gt;()</span><br></pre></td></tr></table></figure>
+<p>在<code>reactive.ts</code>文件的开头，定义了常量<code>targetMap</code>。<code>targetMap</code>是整个响应式系统的关键，<code>targetMap</code>中包含了响应式系统中所有的依赖关系。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// WeakMap&lt;原对象，响应式对象&gt;之间的映射</span></span><br><span class="line"><span class="keyword">const</span> rawToReactive = <span class="keyword">new</span> WeakMap&lt;<span class="built_in">any</span>, <span class="built_in">any</span>&gt;()</span><br><span class="line"></span><br><span class="line"><span class="comment">// WeakMap&lt;响应式对象，原对象&gt;之间的映射</span></span><br><span class="line"><span class="keyword">const</span> reactiveToRaw = <span class="keyword">new</span> WeakMap&lt;<span class="built_in">any</span>, <span class="built_in">any</span>&gt;()</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> rawToReadonly = <span class="keyword">new</span> WeakMap&lt;<span class="built_in">any</span>, <span class="built_in">any</span>&gt;()</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> readonlyToRaw = <span class="keyword">new</span> WeakMap&lt;<span class="built_in">any</span>, <span class="built_in">any</span>&gt;()</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> readonlyValues = <span class="keyword">new</span> WeakSet&lt;<span class="built_in">any</span>&gt;()</span><br><span class="line"></span><br><span class="line"><span class="comment">// 非响应式对象的集合（使用的情况较少）</span></span><br><span class="line"><span class="keyword">const</span> nonReactiveValues = <span class="keyword">new</span> WeakSet&lt;<span class="built_in">any</span>&gt;()</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用Proxy代理时，需要特殊处理的类型集合</span></span><br><span class="line"><span class="keyword">const</span> collectionTypes = <span class="keyword">new</span> Set&lt;<span class="built_in">Function</span>&gt;([Set, Map, WeakMap, WeakSet])</span><br><span class="line"></span><br><span class="line"><span class="comment">// isObservableType是一个函数</span></span><br><span class="line"><span class="comment">// 如果参数不是'Object'、'Array'、'Map'、'Set'、'WeakMap'、WeakSet的字符串将会返回false</span></span><br><span class="line"><span class="keyword">const</span> isObservableType = <span class="comment">/*#__PURE__*/</span> makeMap(</span><br><span class="line">  <span class="string">'Object,Array,Map,Set,WeakMap,WeakSet'</span></span><br><span class="line">)</span><br><span class="line"><span class="comment">// canObserve函数用来判断对象是否可以被观察</span></span><br><span class="line"><span class="keyword">const</span> canObserve = (value: <span class="built_in">any</span>): <span class="function"><span class="params">boolean</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="comment">// 如果是Vue实例不可以被观察</span></span><br><span class="line">    !value._isVue &amp;&amp;</span><br><span class="line">    <span class="comment">// 如果是虚拟VNode不可以被观察</span></span><br><span class="line">    !value._isVNode &amp;&amp;</span><br><span class="line">    <span class="comment">// 如果对象类型不属于Object、Array、Map、Set、WeakMap、WeakSet，不可以被观察</span></span><br><span class="line">    <span class="comment">// toRawType是一个工具函数，会返回value的类型字符串。比如，如果value是一个数组，toRawType会返回字符串'Array'</span></span><br><span class="line">    isObservableType(toRawType(value)) &amp;&amp;</span><br><span class="line">    <span class="comment">// 如果对象在nonReactiveValues集合中，不可以被观察</span></span><br><span class="line">    !nonReactiveValues.has(value)</span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> UnwrapNestedRefs&lt;T&gt; = T <span class="keyword">extends</span> Ref ? T : UnwrapRef&lt;T&gt;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">reactive</span>&lt;<span class="title">T</span> <span class="title">extends</span> <span class="title">object</span>&gt;(<span class="params">target: T</span>): <span class="title">UnwrapNestedRefs</span>&lt;<span class="title">T</span>&gt;</span></span><br><span class="line"><span class="function"><span class="title">export</span> <span class="function"><span class="keyword">function</span> <span class="title">reactive</span>(<span class="params">target: object</span>) </span>&#123;</span></span><br><span class="line"><span class="function">  // <span class="title">if</span> <span class="title">trying</span> <span class="title">to</span> <span class="title">observe</span> <span class="title">a</span> <span class="title">readonly</span> <span class="title">proxy</span>, <span class="title">return</span> <span class="title">the</span> <span class="title">readonly</span> <span class="title">version</span>.</span></span><br><span class="line">  if (readonlyToRaw.has(target)) &#123;</span><br><span class="line">    <span class="keyword">return</span> target</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// target is explicitly marked as readonly by user</span></span><br><span class="line">  <span class="keyword">if</span> (readonlyValues.has(target)) &#123;</span><br><span class="line">    <span class="keyword">return</span> readonly(target)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 调用createReactiveObject，创建响应式对象</span></span><br><span class="line">  <span class="keyword">return</span> createReactiveObject(</span><br><span class="line">    target, <span class="comment">// 原对象</span></span><br><span class="line">    rawToReactive, <span class="comment">// &lt;原对象，响应式对象&gt;的映射</span></span><br><span class="line">    reactiveToRaw, <span class="comment">// &lt;响应式对象，原对象&gt;的映射</span></span><br><span class="line">    mutableHandlers, <span class="comment">// 普通对象，进行Proxy代理的handle</span></span><br><span class="line">    mutableCollectionHandlers <span class="comment">// Set, Map, WeakMap, WeakSet类型，进行Proxy代理的handle</span></span><br><span class="line">  )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createReactiveObject</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  target: unknown,</span></span></span><br><span class="line"><span class="function"><span class="params">  toProxy: WeakMap&lt;<span class="built_in">any</span>, <span class="built_in">any</span>&gt;,</span></span></span><br><span class="line"><span class="function"><span class="params">  toRaw: WeakMap&lt;<span class="built_in">any</span>, <span class="built_in">any</span>&gt;,</span></span></span><br><span class="line"><span class="function"><span class="params">  baseHandlers: ProxyHandler&lt;<span class="built_in">any</span>&gt;,</span></span></span><br><span class="line"><span class="function"><span class="params">  collectionHandlers: ProxyHandler&lt;<span class="built_in">any</span>&gt;</span></span></span><br><span class="line"><span class="function"><span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 如果target不是一个对象类型。在开发环境时，会发出警告。并返回原target</span></span><br><span class="line">  <span class="keyword">if</span> (!isObject(target)) &#123;</span><br><span class="line">    <span class="keyword">if</span> (__DEV__) &#123;</span><br><span class="line">      <span class="built_in">console</span>.warn(<span class="string">`value cannot be made reactive: <span class="subst">$&#123;String(target)&#125;</span>`</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> target</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 在rawToReactive中查找，如果target已经被代理，直接返回响应式对象</span></span><br><span class="line">  <span class="keyword">let</span> observed = toProxy.get(target)</span><br><span class="line">  <span class="keyword">if</span> (observed !== <span class="built_in">void</span> <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> observed</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 在reactiveToRaw中查找，如果target本身就是响应式对象，直接返回target</span></span><br><span class="line">  <span class="keyword">if</span> (toRaw.has(target)) &#123;</span><br><span class="line">    <span class="keyword">return</span> target</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 如果target不可被观察，直接返回target</span></span><br><span class="line">  <span class="keyword">if</span> (!canObserve(target)) &#123;</span><br><span class="line">    <span class="keyword">return</span> target</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// collectionTypes.has判断target是否是Set, Map, WeakMap, WeakSet中的类型之一</span></span><br><span class="line">  <span class="comment">// 如果是，handlers等于mutableCollectionHandlers</span></span><br><span class="line">  <span class="comment">// 如果不是，handlers等于mutableHandlers</span></span><br><span class="line">  <span class="keyword">const</span> handlers = collectionTypes.has(target.constructor)</span><br><span class="line">    ? collectionHandlers</span><br><span class="line">    : baseHandlers</span><br><span class="line">  <span class="comment">// 使用Proxy对target进行代理</span></span><br><span class="line">  observed = <span class="keyword">new</span> Proxy(target, handlers)</span><br><span class="line">  <span class="comment">// 在rawToReactive和reactiveToRaw中添加映射关系</span></span><br><span class="line">  toProxy.set(target, observed)</span><br><span class="line">  toRaw.set(observed, target)</span><br><span class="line">  <span class="comment">// 在targetMap中添加映射关系</span></span><br><span class="line">  <span class="keyword">if</span> (!targetMap.has(target)) &#123;</span><br><span class="line">    targetMap.set(target, <span class="keyword">new</span> Map())</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> observed</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 判断是否是响应式对象</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">isReactive</span>(<span class="params">value: unknown</span>): <span class="title">boolean</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> reactiveToRaw.has(value) || readonlyToRaw.has(value)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 判断是否是只读响应式对象</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">isReadonly</span>(<span class="params">value: unknown</span>): <span class="title">boolean</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> readonlyToRaw.has(value)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 如果数据是响应式对象，转换为原数据</span></span><br><span class="line"><span class="comment">// 如果不是，直接返回原数据</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">toRaw</span>&lt;<span class="title">T</span>&gt;(<span class="params">observed: T</span>): <span class="title">T</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> reactiveToRaw.get(observed) || readonlyToRaw.get(observed) || observed</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将value标记为只读响应式对象</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">markReadonly</span>&lt;<span class="title">T</span>&gt;(<span class="params">value: T</span>): <span class="title">T</span> </span>&#123;</span><br><span class="line">  readonlyValues.add(value)</span><br><span class="line">  <span class="keyword">return</span> value</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将value标记为非响应式对象</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">markNonReactive</span>&lt;<span class="title">T</span>&gt;(<span class="params">value: T</span>): <span class="title">T</span> </span>&#123;</span><br><span class="line">  nonReactiveValues.add(value)</span><br><span class="line">  <span class="keyword">return</span> value</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="为什么使用WeakMap存储映射关系，而不是使用Map？"><a href="#为什么使用WeakMap存储映射关系，而不是使用Map？" class="headerlink" title="为什么使用WeakMap存储映射关系，而不是使用Map？"></a>为什么使用WeakMap存储映射关系，而不是使用Map？</h4><h2 id="🤔️baseHandlers-ts"><a href="#🤔️baseHandlers-ts" class="headerlink" title="🤔️baseHandlers.ts"></a>🤔️baseHandlers.ts</h2><p>baseHandlers.ts中包含了两套Proxy的handle，<code>mutableHandlers</code>和<code>readonlyHandlers</code>。<code>mutableHandlers</code>处理普通的响应式对象，<code>readonlyHandlers</code>处理只读响应式对象。</p>
+<h3 id="baseHandlers-ts源码分析"><a href="#baseHandlers-ts源码分析" class="headerlink" title="baseHandlers.ts源码分析"></a>baseHandlers.ts源码分析</h3><h4 id="get劫持"><a href="#get劫持" class="headerlink" title="get劫持"></a>get劫持</h4><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// isReadonly是否是只读的劫持</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createGetter</span>(<span class="params">isReadonly: <span class="built_in">boolean</span>, unwrap: <span class="built_in">boolean</span> = <span class="literal">true</span></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// target 原对象</span></span><br><span class="line">  <span class="comment">// key 属性名</span></span><br><span class="line">  <span class="comment">// receiver proxy的实例</span></span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">get</span>(<span class="params">target: object, key: <span class="built_in">string</span> | symbol, receiver: object</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 使用Reflect.get获取原属性值</span></span><br><span class="line">    <span class="keyword">let</span> res = Reflect.get(target, key, receiver)</span><br><span class="line">    <span class="comment">// 对于target上，内置的Symbol类型的key，比如Symbol.iterator，不进行收集依赖</span></span><br><span class="line">    <span class="keyword">if</span> (isSymbol(key) &amp;&amp; builtInSymbols.has(key)) &#123;</span><br><span class="line">      <span class="keyword">return</span> res</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 如果res是Ref对象</span></span><br><span class="line">    <span class="comment">// res的value属性的getter操作，包含了收集依赖的操作（见后文）。所以我们无需使用track重复收集依赖</span></span><br><span class="line">    <span class="keyword">if</span> (unwrap &amp;&amp; isRef(res)) &#123;</span><br><span class="line">      <span class="comment">// 同时这里会自动解开ref的包装。可以使用户无需使用`target.key.value`进行取值</span></span><br><span class="line">      <span class="comment">// 举一个例子</span></span><br><span class="line">      <span class="comment">// const a = ref(1)</span></span><br><span class="line">      <span class="comment">// const obj = reactive(&#123; a &#125;)</span></span><br><span class="line">      <span class="comment">// const temp = obj.a // 不需要使用obj.a.value</span></span><br><span class="line">      res = res.value</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// 使用track收集依赖，track具体实现的细节见下文</span></span><br><span class="line">      track(target, OperationTypes.GET, key)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 如果res是一个对象，递归的进行代理。因为Proxy在初始化时只会对第一层的属性进行代理</span></span><br><span class="line">    <span class="comment">// Vue3对于嵌套对象的代理行为是懒惰的，只有当使用到（get）时，才会进行代理劫持 </span></span><br><span class="line">    <span class="comment">// 这样做同时可以避免循环引用。</span></span><br><span class="line">    <span class="comment">// 举一个例子，当使用a.b.c时，reactive(a.b.c)，reactive的内部会通过toProxy.get(target)判断</span></span><br><span class="line">    <span class="comment">// a已经被代理了，直接返回代理对象下。避免了调用栈溢出</span></span><br><span class="line">    <span class="comment">// const a = &#123;</span></span><br><span class="line">    <span class="comment">//   b: &#123;</span></span><br><span class="line">    <span class="comment">//     c: a</span></span><br><span class="line">    <span class="comment">//   &#125;  </span></span><br><span class="line">    <span class="comment">// &#125;</span></span><br><span class="line">    <span class="keyword">return</span> isObject(res)</span><br><span class="line">      ? isReadonly</span><br><span class="line">        ? readonly(res) : reactive(res)</span><br><span class="line">      : res</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="为什么使用Reflect-get，而不直接使用target-key-？"><a href="#为什么使用Reflect-get，而不直接使用target-key-？" class="headerlink" title="为什么使用Reflect.get，而不直接使用target[key]？"></a>为什么使用Reflect.get，而不直接使用target[key]？</h5><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> original = &#123;</span><br><span class="line">  bar: <span class="number">2</span>,</span><br><span class="line">  <span class="keyword">get</span> foo () &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.bar</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> observed = reactive(original)</span><br><span class="line">observed.foo</span><br><span class="line"><span class="built_in">console</span>.log(num) <span class="comment">// num是依赖收集次数</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 如果get劫持内部，使用target[key]</span></span><br><span class="line"><span class="comment">// this指向target，而不是proxy对象，所以会少触发一次依赖收集</span></span><br><span class="line">num === <span class="number">1</span> </span><br><span class="line"></span><br><span class="line"><span class="comment">// 如果get劫持内部，使用Reflect.get</span></span><br><span class="line"><span class="comment">// 如果属性部署了读取函数（getter），则读取函数的this绑定proxy，所以会触发两次依赖收集</span></span><br><span class="line">num === <span class="number">2</span></span><br></pre></td></tr></table></figure>
+<h4 id="set劫持"><a href="#set劫持" class="headerlink" title="set劫持"></a>set劫持</h4><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">set</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  target: object,</span></span></span><br><span class="line"><span class="function"><span class="params">  key: <span class="built_in">string</span> | symbol,</span></span></span><br><span class="line"><span class="function"><span class="params">  value: unknown,</span></span></span><br><span class="line"><span class="function"><span class="params">  receiver: object</span></span></span><br><span class="line"><span class="function"><span class="params"></span>): <span class="title">boolean</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 新值</span></span><br><span class="line">  value = toRaw(value)</span><br><span class="line">  <span class="comment">// 未更新前的旧值</span></span><br><span class="line">  <span class="keyword">const</span> oldValue = (target <span class="keyword">as</span> <span class="built_in">any</span>)[key]</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 如果旧值是ref类型，而新的值不是ref类型，直接赋值给oldValue.value</span></span><br><span class="line">  <span class="keyword">if</span> (isRef(oldValue) &amp;&amp; !isRef(value)) &#123;</span><br><span class="line">    <span class="comment">// 在ref类型的数据setter value中，已经包含了trigger，不需要重复触发响应依赖，所以直接return</span></span><br><span class="line">    oldValue.value = value</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 判断target之前是否已经存在了该key</span></span><br><span class="line">  <span class="comment">// 如果存在，trigger触发依赖响应的类型是OperationTypes.SET</span></span><br><span class="line">  <span class="comment">// 如果不存在，trigger触发依赖响应的类型是OperationTypes.ADD</span></span><br><span class="line">  <span class="comment">// 两者的区别是，如果是ADD类型，trigger会额外触发targetMap中ITERATE_KEY（迭代器）的响应</span></span><br><span class="line">  <span class="comment">// 因为进行增删对象的属性的操作时，会影响到涉及了迭代器的effect</span></span><br><span class="line">  <span class="comment">// 而SET类型不会</span></span><br><span class="line">  <span class="keyword">const</span> hadKey = hasOwn(target, key)</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 修改target上的对应的属性值</span></span><br><span class="line">  <span class="keyword">const</span> result = Reflect.set(target, key, value, receiver)</span><br><span class="line">  <span class="comment">// 为什么需要判断target === toRaw(receiver)，见下面的补充说明</span></span><br><span class="line">  <span class="keyword">if</span> (target === toRaw(receiver)) &#123;</span><br><span class="line">    <span class="comment">/* istanbul ignore else */</span></span><br><span class="line">    <span class="comment">// trigger触发依赖更新（trigger的具体实现见下文），如果key之前已经存在是SET类型</span></span><br><span class="line">    <span class="comment">// 如果不存在是ADD类型</span></span><br><span class="line">    <span class="keyword">if</span> (__DEV__) &#123;</span><br><span class="line">      <span class="keyword">const</span> extraInfo = &#123; oldValue, newValue: value &#125;</span><br><span class="line">      <span class="keyword">if</span> (!hadKey) &#123;</span><br><span class="line">        trigger(target, OperationTypes.ADD, key, extraInfo)</span><br><span class="line">        <span class="comment">// hasChanged会判断，如果value和oldValue前后一致，不会触发依赖更新</span></span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (hasChanged(value, oldValue)) &#123;</span><br><span class="line">        trigger(target, OperationTypes.SET, key, extraInfo)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (!hadKey) &#123;</span><br><span class="line">        trigger(target, OperationTypes.ADD, key)</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (hasChanged(value, oldValue)) &#123;</span><br><span class="line">        trigger(target, OperationTypes.SET, key)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="target-toRaw-receiver-是什么判断逻辑？"><a href="#target-toRaw-receiver-是什么判断逻辑？" class="headerlink" title="target === toRaw(receiver)是什么判断逻辑？"></a>target === toRaw(receiver)是什么判断逻辑？</h5><p>举一个例子，例子如下。在这里，我们并没有对parentProxy对象，进行set操作。但是确触发了parentProxy的set。如果不使用<code>target === toRaw(receiver)</code>进行判断target和receiver是否对应的，会造成额外的trigger。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> childProxy = <span class="keyword">new</span> Proxy(&#123;</span><br><span class="line">  name: <span class="string">'Atreus'</span></span><br><span class="line">&#125;, &#123;</span><br><span class="line">  <span class="keyword">set</span>(target, key, value, receiver) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'触发Atreus的set'</span>, target, receiver)</span><br><span class="line">    <span class="keyword">return</span> Reflect.set(target, key, value, receiver)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> parentProxy = <span class="keyword">new</span> Proxy(&#123;</span><br><span class="line">  name: <span class="string">'Kratos'</span></span><br><span class="line">&#125;, &#123;</span><br><span class="line">  <span class="keyword">set</span>(target, key, value, receiver) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'触发Kratos的set'</span>, target, receiver)</span><br><span class="line">    <span class="keyword">return</span> Reflect.set(target, key, value, receiver)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="built_in">Object</span>.setPrototypeOf(childProxy, parentProxy)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 触发Atreus的set，&#123;name: "Atreus"&#125;，Proxy &#123;name: "Atreus"&#125;</span></span><br><span class="line"><span class="comment">// 触发Kratos的set，&#123;name: "Kratos"&#125; Proxy &#123;name: "Atreus"&#125;</span></span><br><span class="line"><span class="comment">// 虽然触发了parentProxy的set。但是target和receiver并不是对应的</span></span><br><span class="line">childProxy.age = <span class="number">8</span></span><br></pre></td></tr></table></figure>
+<h5 id="unshift-shift-pop-push等的处理"><a href="#unshift-shift-pop-push等的处理" class="headerlink" title="unshift, shift, pop, push等的处理"></a>unshift, shift, pop, push等的处理</h5><p>使用数组的实例方法，比如<code>shift</code>会触发set劫持吗？举一个例子，代码如下</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> original = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line"><span class="keyword">const</span> observed = reactive(original)</span><br><span class="line">observed.shift()</span><br><span class="line"><span class="comment">// num == 3，触发了3次set劫持</span></span><br><span class="line"><span class="comment">// 3次set劫持的key，分别是0、1、length</span></span><br><span class="line"><span class="comment">// 这是因为，我们删除了数组的首位。数组内部需要依次将内容往前挪动一位，并且需要修改数组的length</span></span><br><span class="line"><span class="comment">// 由此也可以看出，数组在插入删除操作性能上，相较于链表较差（因为链表在插入删除时，不会影响其他元素的内存位置）</span></span><br><span class="line"><span class="built_in">console</span>.log(num)</span><br></pre></td></tr></table></figure>
+<h4 id="deleteProperty、has、ownKeys劫持"><a href="#deleteProperty、has、ownKeys劫持" class="headerlink" title="deleteProperty、has、ownKeys劫持"></a>deleteProperty、has、ownKeys劫持</h4><p>deleteProperty、has、ownKeys分别对应着，<code>delete obj[key]</code>、 <code>key in obj</code>、 <code>Object.getOwnPropertyNames() | Object.getOwnPropertySymbols() | Object.keys() | for...in</code>行为劫持。它们的内容相对来说比较简单，所以放在一起说。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">deleteProperty</span>(<span class="params">target: object, key: <span class="built_in">string</span> | symbol</span>): <span class="title">boolean</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 判断target是否存在属性key</span></span><br><span class="line">  <span class="keyword">const</span> hadKey = hasOwn(target, key)</span><br><span class="line">  <span class="keyword">const</span> oldValue = (target <span class="keyword">as</span> <span class="built_in">any</span>)[key]</span><br><span class="line">  <span class="comment">// 删除target上的key属性</span></span><br><span class="line">  <span class="keyword">const</span> result = Reflect.deleteProperty(target, key)</span><br><span class="line">  <span class="comment">// 如果删除不存在的属性，或者删除不成功，不会trigger触发依赖更新</span></span><br><span class="line">  <span class="keyword">if</span> (result &amp;&amp; hadKey) &#123;</span><br><span class="line">    <span class="comment">/* istanbul ignore else */</span></span><br><span class="line">    <span class="keyword">if</span> (__DEV__) &#123;</span><br><span class="line">      trigger(target, OperationTypes.DELETE, key, &#123; oldValue &#125;)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      trigger(target, OperationTypes.DELETE, key)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">has</span>(<span class="params">target: object, key: <span class="built_in">string</span> | symbol</span>): <span class="title">boolean</span> </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> result = Reflect.has(target, key)</span><br><span class="line">  <span class="comment">// 收集依赖</span></span><br><span class="line">  track(target, OperationTypes.HAS, key)</span><br><span class="line">  <span class="comment">// 返回in操作符的结果</span></span><br><span class="line">  <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ownKeys</span>(<span class="params">target: object</span>): (<span class="params"><span class="built_in">string</span> | <span class="built_in">number</span> | symbol</span>)[] </span>&#123;</span><br><span class="line">  <span class="comment">// 收集依赖，注意OperationTypes.ITERATE类型，这个类型会在收集依赖的track函数中特殊处理</span></span><br><span class="line">  track(target, OperationTypes.ITERATE)</span><br><span class="line">  <span class="comment">// 返回结果</span></span><br><span class="line">  <span class="keyword">return</span> Reflect.ownKeys(target)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="readonlyHandlers"><a href="#readonlyHandlers" class="headerlink" title="readonlyHandlers"></a>readonlyHandlers</h4><h2 id="😊ref-ts"><a href="#😊ref-ts" class="headerlink" title="😊ref.ts"></a>😊ref.ts</h2><p>使用Proxy可以让对象成为响应式数据，但是对于基本数据类型却无能为力。我们可以使用Ref将基本数据类型包转成对象，将原数据存储在创建的新对象的value属性上，直接劫持value属性的get和set即可</p>
+<h3 id="ref-ts源码分析"><a href="#ref-ts源码分析" class="headerlink" title="ref.ts源码分析"></a>ref.ts源码分析</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 如果val是对象，使用reactive处理为响应式对象</span></span><br><span class="line"><span class="comment">// 否则直接返回val</span></span><br><span class="line"><span class="keyword">const</span> convert = &lt;T <span class="keyword">extends</span> unknown&gt;(val: T): <span class="function"><span class="params">T</span> =&gt;</span></span><br><span class="line">  isObject(val) ? reactive(val) : val</span><br><span class="line"></span><br><span class="line"><span class="comment">// 判断是否为Ref对象</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">isRef</span>(<span class="params">r: <span class="built_in">any</span></span>): <span class="title">r</span> <span class="title">is</span> <span class="title">Ref</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> r ? r._isRef === <span class="literal">true</span> : <span class="literal">false</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ref函数的重载列表</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">ref</span>&lt;<span class="title">T</span> <span class="title">extends</span> <span class="title">Ref</span>&gt;(<span class="params">raw: T</span>): <span class="title">T</span></span></span><br><span class="line"><span class="function"><span class="title">export</span> <span class="function"><span class="keyword">function</span> <span class="title">ref</span>&lt;<span class="title">T</span>&gt;(<span class="params">raw: T</span>): <span class="title">Ref</span>&lt;<span class="title">T</span>&gt;</span></span></span><br><span class="line"><span class="function"><span class="function"><span class="title">export</span> <span class="function"><span class="keyword">function</span> <span class="title">ref</span>&lt;<span class="title">T</span> = <span class="title">any</span>&gt;(<span class="params"></span>): <span class="title">Ref</span>&lt;<span class="title">T</span>&gt;</span></span></span></span><br><span class="line"><span class="function"><span class="function"><span class="function"><span class="title">export</span> <span class="function"><span class="keyword">function</span> <span class="title">ref</span>(<span class="params">raw?: unknown</span>) </span>&#123;</span></span></span></span><br><span class="line"><span class="function"><span class="function"><span class="function">  // 如果已经是<span class="title">Ref</span>对象直接返回</span></span></span></span><br><span class="line">  if (isRef(raw)) &#123;</span><br><span class="line">    <span class="keyword">return</span> raw</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 如果raw是Object，首先使用reactive转换为响应式对象</span></span><br><span class="line">  <span class="comment">// 也就是说，ref函数既可以用于基本数据类型，也可以用于引用数据类型</span></span><br><span class="line">  raw = convert(raw)</span><br><span class="line">  <span class="comment">// 对r.value的get和set进行劫持</span></span><br><span class="line">  <span class="keyword">const</span> r = &#123;</span><br><span class="line">    _isRef: <span class="literal">true</span>, <span class="comment">// 添加_isRef标识，标记为Ref对象</span></span><br><span class="line">    <span class="keyword">get</span> value() &#123;</span><br><span class="line">      <span class="comment">// track收集依赖</span></span><br><span class="line">      track(r, OperationTypes.GET, <span class="string">'value'</span>)</span><br><span class="line">      <span class="keyword">return</span> raw</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="keyword">set</span> value(newVal) &#123;</span><br><span class="line">      raw = convert(newVal)</span><br><span class="line">      <span class="comment">// trigger触发依赖更新</span></span><br><span class="line">      trigger(</span><br><span class="line">        r,</span><br><span class="line">        OperationTypes.SET,</span><br><span class="line">        <span class="string">'value'</span>,</span><br><span class="line">        __DEV__ ? &#123; newValue: newVal &#125; : <span class="built_in">void</span> <span class="number">0</span></span><br><span class="line">      )</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> r</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="interface-Ref"><a href="#interface-Ref" class="headerlink" title="interface Ref"></a>interface Ref</h4><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> isRefSymbol = Symbol()</span><br><span class="line"><span class="comment">// Ref接口</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">interface</span> Ref&lt;T = any&gt; &#123;</span><br><span class="line">  <span class="comment">// [isRefSymbol]字段是必须的，用于区分恰好拥有value属性的普通对象</span></span><br><span class="line">  <span class="comment">// 但是在对象上检查Symbol属性，比检查普通属性慢的多，所以在isRef函数中，使用_isRef普通属性进行检查</span></span><br><span class="line">  [isRefSymbol]: <span class="literal">true</span></span><br><span class="line">  value: UnwrapRef&lt;T&gt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 如果泛型参数T，满足约束条件ComputedRef&lt;any&gt;，递归的展开嵌套绑定</span></span><br><span class="line"><span class="comment">// 如果泛型参数T，满足约束条件Ref, 递归的展开嵌套绑定</span></span><br><span class="line"><span class="comment">// 如果泛型参数T，满足约束条件Array&lt;any&gt;，循环数组解开绑定</span></span><br><span class="line"><span class="comment">// 如果泛型参数T，满足约束条件Function | Map&lt;any, any&gt; | Set&lt;any&gt; | WeakMap&lt;any, any&gt; | WeakSet&lt;any&gt;，直接返回泛型参数T的类型</span></span><br><span class="line"><span class="comment">// 如果泛型参数T，满足约束条件object，循环object的keys解开绑定</span></span><br><span class="line"><span class="comment">// 如果上述的约束条件都不满足，返回泛型参数T的类型</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">type</span> UnwrapRef&lt;T&gt; = &#123;</span><br><span class="line">  cRef: T <span class="keyword">extends</span> ComputedRef&lt;infer V&gt; ? UnwrapRef&lt;V&gt; : T</span><br><span class="line">  ref: T <span class="keyword">extends</span> Ref&lt;infer V&gt; ? UnwrapRef&lt;V&gt; : T</span><br><span class="line">  array: T <span class="keyword">extends</span> <span class="built_in">Array</span>&lt;infer V&gt; ? <span class="built_in">Array</span>&lt;UnwrapRef&lt;V&gt;&gt; &amp; UnwrapArray&lt;T&gt; : T</span><br><span class="line">  object: &#123; [K <span class="keyword">in</span> keyof T]: UnwrapRef&lt;T[K]&gt; &#125;</span><br><span class="line">&#125;[T <span class="keyword">extends</span> ComputedRef&lt;<span class="built_in">any</span>&gt;</span><br><span class="line">  ? <span class="string">'cRef'</span></span><br><span class="line">  : T <span class="keyword">extends</span> Ref</span><br><span class="line">    ? <span class="string">'ref'</span></span><br><span class="line">    : T <span class="keyword">extends</span> <span class="built_in">Array</span>&lt;<span class="built_in">any</span>&gt;</span><br><span class="line">      ? <span class="string">'array'</span></span><br><span class="line">      : T <span class="keyword">extends</span> <span class="built_in">Function</span> | CollectionTypes</span><br><span class="line">        ? <span class="string">'ref'</span> <span class="comment">// bail out on types that shouldn't be unwrapped</span></span><br><span class="line">        : T <span class="keyword">extends</span> object ? <span class="string">'object'</span> : <span class="string">'ref'</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">// 循环的数组的属性，解开绑定</span></span><br><span class="line"><span class="keyword">type</span> UnwrapArray&lt;T&gt; = &#123; [P <span class="keyword">in</span> keyof T]: UnwrapRef&lt;T[P]&gt; &#125;</span><br></pre></td></tr></table></figure>
+<p>通过上面的类型推导的分析，可知<code>Ref</code>类型的<code>value</code>属性是不支持嵌套<code>Ref</code>类型的值。如果<code>value</code>的值是<code>Ref</code>类型，会进行递归解套。举一个例子，代码如下</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> foo = Ref&lt;&#123;a: <span class="number">1</span>, b: Ref&lt;<span class="number">2</span>&gt;&#125;&gt;</span><br><span class="line"><span class="keyword">let</span> bar!: foo</span><br><span class="line"><span class="comment">// bar.value类型等于&#123;a: 1, b: 2&#125;</span></span><br><span class="line">bar.value</span><br></pre></td></tr></table></figure>
+<h4 id="toRefs"><a href="#toRefs" class="headerlink" title="toRefs"></a>toRefs</h4><p>上面我们说过<code>ref</code>是为了解决基本数据数据类型，无法使用<code>reactive</code>成为响应式数据。考虑下面这种情况，<code>observed</code>是一个响应式对象，但是经过解构（解构出来的值是基本数据类型的情况下），解构出来的值也不在是响应式数据。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">let</span> dummy = <span class="literal">null</span></span><br><span class="line"><span class="keyword">const</span> original = &#123; foo: <span class="number">1</span> &#125;</span><br><span class="line"><span class="keyword">const</span> observed = reactive(original)</span><br><span class="line">effect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  dummy = observed.foo</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// dummy: 1</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">`dummy:<span class="subst">$&#123;dummy&#125;</span>`</span>)</span><br><span class="line"><span class="keyword">let</span> &#123; foo &#125; = observed</span><br><span class="line"><span class="comment">// foo不是响应式数据</span></span><br><span class="line">foo = <span class="number">2</span></span><br><span class="line"><span class="comment">// dummy: 1</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">`dummy:<span class="subst">$&#123;dummy&#125;</span>`</span>)</span><br></pre></td></tr></table></figure>
+<p>我们可以使用<code>toRefs</code>解决这个问题，<code>toRefs</code>会遍历对象，将对象的每一个属性变为Ref数据。但是<code>toRef</code>的参数必须响应式数据，普通对象使用<code>toRefs</code>是无效的，在开发环境下还会发出警告。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> dummy = <span class="literal">null</span></span><br><span class="line"><span class="keyword">const</span> original = &#123; foo: <span class="number">1</span> &#125;</span><br><span class="line"><span class="keyword">const</span> observed = reactive(original)</span><br><span class="line"><span class="keyword">const</span> observedRef = toRefs(observed)</span><br><span class="line">effect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  dummy = observedRef.foo.value</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// dummy: 1</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">`dummy:<span class="subst">$&#123;dummy&#125;</span>`</span>)</span><br><span class="line"><span class="keyword">let</span> &#123; foo &#125; = observedRef</span><br><span class="line"><span class="comment">// foo现在是响应式数据</span></span><br><span class="line">foo.value = <span class="number">2</span></span><br><span class="line"><span class="comment">// dummy: 2</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">`dummy:<span class="subst">$&#123;dummy&#125;</span>`</span>)</span><br></pre></td></tr></table></figure>
+<p>toRefs的源码如下</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">toRefs</span>&lt;<span class="title">T</span> <span class="title">extends</span> <span class="title">object</span>&gt;(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  object: T</span></span></span><br><span class="line"><span class="function"><span class="params"></span>): </span>&#123; [K <span class="keyword">in</span> keyof T]: Ref&lt;T[K]&gt; &#125; &#123;</span><br><span class="line">  <span class="comment">// 参数必须是响应式数据，否则会发出警告</span></span><br><span class="line">  <span class="keyword">if</span> (__DEV__ &amp;&amp; !isReactive(object)) &#123;</span><br><span class="line">    <span class="built_in">console</span>.warn(<span class="string">`toRefs() expects a reactive object but received a plain one.`</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> ret: <span class="built_in">any</span> = &#123;&#125;</span><br><span class="line">  <span class="comment">// 遍历对象中所以key</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> object) &#123;</span><br><span class="line">    <span class="comment">// toProxyRef会将每一个属性，转换为Ref对象</span></span><br><span class="line">    ret[key] = toProxyRef(object, key)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> ret</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">toProxyRef</span>&lt;<span class="title">T</span> <span class="title">extends</span> <span class="title">object</span>, <span class="title">K</span> <span class="title">extends</span> <span class="title">keyof</span> <span class="title">T</span>&gt;(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  object: T,</span></span></span><br><span class="line"><span class="function"><span class="params">  key: K</span></span></span><br><span class="line"><span class="function"><span class="params"></span>): <span class="title">Ref</span>&lt;<span class="title">T</span>[<span class="title">K</span>]&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    <span class="comment">// get，set中并没有收集依赖和进行触发依赖更新</span></span><br><span class="line">    <span class="comment">// 这是因为object本身就是响应式数据</span></span><br><span class="line">    <span class="comment">// object[key]会进行收集依赖</span></span><br><span class="line">    <span class="comment">// object[key] = newVal 也会触发依赖更新</span></span><br><span class="line">    _isRef: <span class="literal">true</span>,</span><br><span class="line">    <span class="keyword">get</span> value(): <span class="built_in">any</span> &#123;</span><br><span class="line">      <span class="comment">// 这里没有使用track，收集依赖</span></span><br><span class="line">      <span class="keyword">return</span> object[key]</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="keyword">set</span> value(newVal) &#123;</span><br><span class="line">      <span class="comment">// 这里没有使用trigger，触发依赖更新</span></span><br><span class="line">      object[key] = newVal</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">as</span> <span class="built_in">any</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="effect-ts"><a href="#effect-ts" class="headerlink" title="effect.ts"></a>effect.ts</h2><p>effect接受一个函数作为参数，作为参数的函数会成为一个监听函数。<code>track</code>函数会收集监听函数中的依赖，当依赖发生变化的时候会通过<code>trigger</code>，再次触发监听函数的执行。而<code>watch</code>和<code>computed</code>均是基于effect实现的。</p>
+<h3 id="effect-ts源码解析"><a href="#effect-ts源码解析" class="headerlink" title="effect.ts源码解析"></a>effect.ts源码解析</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// effect的接口</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">interface</span> ReactiveEffect&lt;T = any&gt; &#123;</span><br><span class="line">  (): T</span><br><span class="line">  <span class="comment">// 标记为监听函数</span></span><br><span class="line">  _isEffect: <span class="literal">true</span></span><br><span class="line">  <span class="comment">// 终止响应的标记</span></span><br><span class="line">  active: <span class="built_in">boolean</span></span><br><span class="line">  <span class="comment">// effect的参数的原函数</span></span><br><span class="line">  raw: <span class="function"><span class="params">()</span> =&gt;</span> T</span><br><span class="line">  <span class="comment">// Dep类型别名在reactive.ts中介绍过，type Dep = Set&lt;ReactiveEffect&gt;</span></span><br><span class="line">  <span class="comment">// 所以deps数组中的内容类似为[Set&lt;effect1, effect2&gt;, Set&lt;effect1, effect3&gt;]</span></span><br><span class="line">  <span class="comment">// 不同的Set中，可能存储了同一个effect，那么为什么使用deps选项呢？请看下面</span></span><br><span class="line">  deps: <span class="built_in">Array</span>&lt;Dep&gt;</span><br><span class="line">  <span class="comment">// effect的配置项</span></span><br><span class="line">  options: ReactiveEffectOptions</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// effect的options配置项的接口</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">interface</span> ReactiveEffectOptions &#123;</span><br><span class="line">  <span class="comment">// effect是否进行惰性计算</span></span><br><span class="line">  <span class="comment">// 如果设置为true，effect在创建时，不会主动执行监听函数</span></span><br><span class="line">  <span class="comment">// 如果不设置，effect在创建时，会主动执行一次监听函数，收集依赖</span></span><br><span class="line">  lazy?: <span class="built_in">boolean</span></span><br><span class="line">  <span class="comment">// 将effect标记为computed，以便在更新阶段拥有更高的执行优先级（具体的作用请看后文）</span></span><br><span class="line">  computed?: <span class="built_in">boolean</span></span><br><span class="line">  <span class="comment">// 如果设置了scheduler选项，触发更新时不会直接调用effect(fn)的fn()，而是会调用scheduler(fn)</span></span><br><span class="line">  scheduler?: <span class="function">(<span class="params">run: <span class="built_in">Function</span></span>) =&gt;</span> <span class="built_in">void</span></span><br><span class="line">  onTrack?: <span class="function">(<span class="params">event: DebuggerEvent</span>) =&gt;</span> <span class="built_in">void</span></span><br><span class="line">  onTrigger?: <span class="function">(<span class="params">event: DebuggerEvent</span>) =&gt;</span> <span class="built_in">void</span></span><br><span class="line">  onStop?: <span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">void</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 正在执行中的effect的堆栈</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> effectStack: ReactiveEffect[] = []</span><br><span class="line"><span class="comment">// 收集依赖，遇到迭代操作。如，for……in，Object.keys()时所用的key</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> ITERATE_KEY = Symbol(<span class="string">'iterate'</span>)</span><br></pre></td></tr></table></figure>
+<p>上面我们介绍到，监听函数的<code>deps</code>属性是一个数组，那么这个数组中到底存储的什么东西呢？因为<code>deps</code>这个属性很重要，后面很多函数逻辑中都会使用到，所以这里先放结论。具体细节请看后面关于<code>track</code>函数的解析。</p>
+<p>收集依赖的过程发生在effect执行的过程中，使用了响应式数据，触发Proxy的劫持，调用<code>track</code>收集<code>effect</code>的依赖。我们之前介绍过<code>targetMap</code>的结构，如下图，由此可知<code>Dep</code>中保存的都是使用了某个响应式对象key的<code>effect</code>，因为<code>effect</code>可能使用到了多个响应式对象，所以当前<code>effect</code>可能会被多个<code>Dep</code>重复收集。</p>
+<p><img src="https://i.loli.net/2019/11/11/LoeQqi13BP7HjnW.png" alt="targetMap"></p>
+<p>而<code>effect.deps</code>的集合中，则保存了当前<code>effect</code>涉及的，所有对应的<code>Dep</code>的引用。（换一句话说，<code>deps</code>中保存了所有包含自身的<code>effect</code>的<code>Dep</code>，这一点很重要）</p>
+<h4 id="effect"><a href="#effect" class="headerlink" title="effect"></a>effect</h4><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 判断是否是监听函数</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">isEffect</span>(<span class="params">fn: <span class="built_in">any</span></span>): <span class="title">fn</span> <span class="title">is</span> <span class="title">ReactiveEffect</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 通过判断_isEffect属性，判断是否为监听函数</span></span><br><span class="line">  <span class="keyword">return</span> fn != <span class="literal">null</span> &amp;&amp; fn._isEffect === <span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建监听函数</span></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">effect</span>&lt;<span class="title">T</span> = <span class="title">any</span>&gt;(<span class="params"></span></span></span><br><span class="line">  fn: () =&gt; T,</span><br><span class="line">  options: ReactiveEffectOptions = EMPTY_OBJ</span><br><span class="line">): ReactiveEffect&lt;T&gt; &#123;</span><br><span class="line">  <span class="comment">// 如果fn本身就是监听函数，取fn.raw上的原始函数，重新创建一个新的监听函数</span></span><br><span class="line">  <span class="keyword">if</span> (isEffect(fn)) &#123;</span><br><span class="line">    fn = fn.raw</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 调用createReactiveEffect创建监听函数</span></span><br><span class="line">  <span class="keyword">const</span> effect = createReactiveEffect(fn, options)</span><br><span class="line">  <span class="comment">// 如果lazy没有设置成true，监听函数会立即执行一次（收集依赖）</span></span><br><span class="line">  <span class="keyword">if</span> (!options.lazy) &#123;</span><br><span class="line">    effect()</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> effect</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createReactiveEffect</span>&lt;<span class="title">T</span> = <span class="title">any</span>&gt;(<span class="params"></span></span></span><br><span class="line">  fn: () =&gt; T,</span><br><span class="line">  options: ReactiveEffectOptions</span><br><span class="line">): ReactiveEffect&lt;T&gt; &#123;</span><br><span class="line">  <span class="comment">// 创建监听函数，并做了一层额外的包裹</span></span><br><span class="line">  <span class="keyword">const</span> effect = <span class="function"><span class="keyword">function</span> <span class="title">reactiveEffect</span>(<span class="params">...args: unknown[]</span>): <span class="title">unknown</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> run(effect, fn, args)</span><br><span class="line">  &#125; <span class="keyword">as</span> ReactiveEffect</span><br><span class="line">  <span class="comment">// 标记为监听函数</span></span><br><span class="line">  effect._isEffect = <span class="literal">true</span></span><br><span class="line">  <span class="comment">// 是否停止监听的标记</span></span><br><span class="line">  effect.active = <span class="literal">true</span></span><br><span class="line">  <span class="comment">// 保存原函数</span></span><br><span class="line">  effect.raw = fn</span><br><span class="line">  effect.deps = []</span><br><span class="line">  effect.options = options</span><br><span class="line">  <span class="keyword">return</span> effect</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">run</span>(<span class="params">effect: ReactiveEffect, fn: <span class="built_in">Function</span>, args: unknown[]</span>): <span class="title">unknown</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!effect.active) &#123;</span><br><span class="line">    <span class="keyword">return</span> fn(...args)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 防止递归引用爆栈</span></span><br><span class="line">  <span class="keyword">if</span> (!effectStack.includes(effect)) &#123;</span><br><span class="line">    <span class="comment">// 清除当前effect在targetMap的所有的映射关系</span></span><br><span class="line">    cleanup(effect)</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="comment">// 将当前正在执行effect，推到effectStack堆栈中</span></span><br><span class="line">      effectStack.push(effect)</span><br><span class="line">      <span class="comment">// 执行原函数，并且重新收集依赖</span></span><br><span class="line">      <span class="keyword">return</span> fn(...args)</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">      <span class="comment">// 执行完成后，将当前的effect从effectStack中清除</span></span><br><span class="line">      effectStack.pop()</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 清除当前effect在targetMap中所有映射关系</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">cleanup</span>(<span class="params">effect: ReactiveEffect</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; deps &#125; = effect</span><br><span class="line">  <span class="keyword">if</span> (deps.length) &#123;</span><br><span class="line">    <span class="comment">// 清除deps数组中，所有Dep中保存的当前的effect</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; deps.length; i++) &#123;</span><br><span class="line">      <span class="comment">// 删除Set中的effect</span></span><br><span class="line">      deps[i].delete(effect)</span><br><span class="line">    &#125;</span><br><span class="line">    deps.length = <span class="number">0</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="run中的-effectStack-includes-effect-什么逻辑？"><a href="#run中的-effectStack-includes-effect-什么逻辑？" class="headerlink" title="run中的!effectStack.includes(effect)什么逻辑？"></a>run中的!effectStack.includes(effect)什么逻辑？</h5><p><code>!effectStack.includes(effect)</code>的目的是为了避免递归引用。请看下面的单元测试。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">it(<span class="string">'should avoid implicit infinite recursive loops with itself'</span>, <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> counter = reactive(&#123; num: <span class="number">0</span> &#125;)</span><br><span class="line">  <span class="keyword">const</span> counterSpy = jest.fn(<span class="function"><span class="params">()</span> =&gt;</span> counter.num++)</span><br><span class="line">  effect(counterSpy)</span><br><span class="line">  expect(counter.num).toBe(<span class="number">1</span>)</span><br><span class="line">  expect(counterSpy).toHaveBeenCalledTimes(<span class="number">1</span>)</span><br><span class="line">  <span class="comment">// effect执行时，会将监听函数push到effectStack堆栈中</span></span><br><span class="line">  <span class="comment">// 修改响应式数据counter，触发监听函数执行</span></span><br><span class="line">  <span class="comment">// 但是counterSpy内部又会再一次修改响应式数据counter</span></span><br><span class="line">  <span class="comment">// 如果不添加`!effectStack.includes(effect)`的判断，遇到这种情况就会产生递归引用的错误</span></span><br><span class="line">  counter.num = <span class="number">4</span></span><br><span class="line">  expect(counter.num).toBe(<span class="number">5</span>)</span><br><span class="line">  expect(counterSpy).toHaveBeenCalledTimes(<span class="number">2</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="为什么在run中执行fn前，需要使用cleanup-effect-清除所有依赖关系？"><a href="#为什么在run中执行fn前，需要使用cleanup-effect-清除所有依赖关系？" class="headerlink" title="为什么在run中执行fn前，需要使用cleanup(effect)清除所有依赖关系？"></a>为什么在run中执行fn前，需要使用cleanup(effect)清除所有依赖关系？</h4><p>下面的单元测试中举出的例子。当<code>obj.run</code>等于false时，<code>obj.prop</code>这个分支，永远不会被执行，所以<code>obj.prop</code>的依赖关系也应该从<code>targetMap</code>中删除。所以在每次执行监听函数是，都要删除，并重新收集依赖。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">it(<span class="string">'should not be triggered by mutating a property, which is used in an inactive branch'</span>, <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">let</span> dummy</span><br><span class="line">  <span class="keyword">const</span> obj = reactive(&#123; prop: <span class="string">'value'</span>, run: <span class="literal">true</span> &#125;)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> conditionalSpy = jest.fn(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    dummy = obj.run ? obj.prop : <span class="string">'other'</span></span><br><span class="line">  &#125;)</span><br><span class="line">  effect(conditionalSpy)</span><br><span class="line"></span><br><span class="line">  expect(dummy).toBe(<span class="string">'value'</span>)</span><br><span class="line">  expect(conditionalSpy).toHaveBeenCalledTimes(<span class="number">1</span>)</span><br><span class="line">  <span class="comment">// 当obj.run设置为false时，触发监听函数的响应</span></span><br><span class="line">  <span class="comment">// 在响应前，会调用cleanup(effect)，清空effect所对应所有的依赖关系</span></span><br><span class="line">  <span class="comment">// 由于obj.run等于false，所以obj.prop的分支是永远不会执行（依赖也不会被收集）</span></span><br><span class="line">  <span class="comment">// 所以监听函数执行完后，修改obj.prop将不会再触发监听函数了</span></span><br><span class="line">  obj.run = <span class="literal">false</span></span><br><span class="line">  expect(dummy).toBe(<span class="string">'other'</span>)</span><br><span class="line">  expect(conditionalSpy).toHaveBeenCalledTimes(<span class="number">2</span>)</span><br><span class="line">  obj.prop = <span class="string">'value2'</span></span><br><span class="line">  expect(dummy).toBe(<span class="string">'other'</span>)</span><br><span class="line">  expect(conditionalSpy).toHaveBeenCalledTimes(<span class="number">2</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="track"><a href="#track" class="headerlink" title="track"></a>track</h4><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">track</span>(<span class="params">target: object, <span class="keyword">type</span>: OperationTypes, key?: unknown</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!shouldTrack || effectStack.length === <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> effect = effectStack[effectStack.length - <span class="number">1</span>]</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">type</span> === OperationTypes.ITERATE) &#123;</span><br><span class="line">    key = ITERATE_KEY</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">let</span> depsMap = targetMap.get(target)</span><br><span class="line">  <span class="keyword">if</span> (depsMap === <span class="built_in">void</span> <span class="number">0</span>) &#123;</span><br><span class="line">    targetMap.set(target, (depsMap = <span class="keyword">new</span> Map()))</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">let</span> dep = depsMap.get(key!)</span><br><span class="line">  <span class="keyword">if</span> (dep === <span class="built_in">void</span> <span class="number">0</span>) &#123;</span><br><span class="line">    depsMap.set(key!, (dep = <span class="keyword">new</span> Set()))</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (!dep.has(effect)) &#123;</span><br><span class="line">    dep.add(effect)</span><br><span class="line">    effect.deps.push(dep)</span><br><span class="line">    <span class="keyword">if</span> (__DEV__ &amp;&amp; effect.options.onTrack) &#123;</span><br><span class="line">      effect.options.onTrack(&#123;</span><br><span class="line">        effect,</span><br><span class="line">        target,</span><br><span class="line">        <span class="keyword">type</span>,</span><br><span class="line">        key</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="trigger"><a href="#trigger" class="headerlink" title="trigger"></a>trigger</h4><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">trigger</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  target: object,</span></span></span><br><span class="line"><span class="function"><span class="params">  <span class="keyword">type</span>: OperationTypes,</span></span></span><br><span class="line"><span class="function"><span class="params">  key?: unknown,</span></span></span><br><span class="line"><span class="function"><span class="params">  extraInfo?: DebuggerEventExtraInfo</span></span></span><br><span class="line"><span class="function"><span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> depsMap = targetMap.get(target)</span><br><span class="line">  <span class="keyword">if</span> (depsMap === <span class="built_in">void</span> <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="comment">// never been tracked</span></span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> effects = <span class="keyword">new</span> Set&lt;ReactiveEffect&gt;()</span><br><span class="line">  <span class="keyword">const</span> computedRunners = <span class="keyword">new</span> Set&lt;ReactiveEffect&gt;()</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">type</span> === OperationTypes.CLEAR) &#123;</span><br><span class="line">    <span class="comment">// collection being cleared, trigger all effects for target</span></span><br><span class="line">    depsMap.forEach(<span class="function"><span class="params">dep</span> =&gt;</span> &#123;</span><br><span class="line">      addRunners(effects, computedRunners, dep)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// schedule runs for SET | ADD | DELETE</span></span><br><span class="line">    <span class="keyword">if</span> (key !== <span class="built_in">void</span> <span class="number">0</span>) &#123;</span><br><span class="line">      addRunners(effects, computedRunners, depsMap.get(key))</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// also run for iteration key on ADD | DELETE</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">type</span> === OperationTypes.ADD || <span class="keyword">type</span> === OperationTypes.DELETE) &#123;</span><br><span class="line">      <span class="keyword">const</span> iterationKey = isArray(target) ? <span class="string">'length'</span> : ITERATE_KEY</span><br><span class="line">      addRunners(effects, computedRunners, depsMap.get(iterationKey))</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> run = <span class="function">(<span class="params">effect: ReactiveEffect</span>) =&gt;</span> &#123;</span><br><span class="line">    scheduleRun(effect, target, <span class="keyword">type</span>, key, extraInfo)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// Important: computed effects must be run first so that computed getters</span></span><br><span class="line">  <span class="comment">// can be invalidated before any normal effects that depend on them are run.</span></span><br><span class="line">  computedRunners.forEach(run)</span><br><span class="line">  effects.forEach(run)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="collectionHandlers-ts"><a href="#collectionHandlers-ts" class="headerlink" title="collectionHandlers.ts"></a>collectionHandlers.ts</h2><h2 id="computed-ts"><a href="#computed-ts" class="headerlink" title="computed.ts"></a>computed.ts</h2><h2 id="后续计划"><a href="#后续计划" class="headerlink" title="后续计划"></a>后续计划</h2><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/vue/" rel="tag"># vue</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/26/typescript2/" rel="next" title="「学习笔记」TypeScript">
+                <i class="fa fa-chevron-left"></i> 「学习笔记」TypeScript
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="张越" />
+            
+              <p class="site-author-name" itemprop="name">张越</p>
+              <p class="site-description motion-element" itemprop="description">所谓成长，就是经过不断的聚散离合，找到不太会伤害到彼此的距离</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">58</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/BengBu-YueZhang" target="_blank" title="我的GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/5460100952/profile?topnav=1&wvr=6" target="_blank" title="我的微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的微博</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#概览"><span class="nav-number">2.</span> <span class="nav-text">概览</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#🤔️reactive-ts"><span class="nav-number">3.</span> <span class="nav-text">🤔️reactive.ts</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#reactive-ts源码分析"><span class="nav-number">3.1.</span> <span class="nav-text">reactive.ts源码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#为什么使用WeakMap存储映射关系，而不是使用Map？"><span class="nav-number">3.1.1.</span> <span class="nav-text">为什么使用WeakMap存储映射关系，而不是使用Map？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#🤔️baseHandlers-ts"><span class="nav-number">4.</span> <span class="nav-text">🤔️baseHandlers.ts</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#baseHandlers-ts源码分析"><span class="nav-number">4.1.</span> <span class="nav-text">baseHandlers.ts源码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#get劫持"><span class="nav-number">4.1.1.</span> <span class="nav-text">get劫持</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#为什么使用Reflect-get，而不直接使用target-key-？"><span class="nav-number">4.1.1.1.</span> <span class="nav-text">为什么使用Reflect.get，而不直接使用target[key]？</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#set劫持"><span class="nav-number">4.1.2.</span> <span class="nav-text">set劫持</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#target-toRaw-receiver-是什么判断逻辑？"><span class="nav-number">4.1.2.1.</span> <span class="nav-text">target === toRaw(receiver)是什么判断逻辑？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#unshift-shift-pop-push等的处理"><span class="nav-number">4.1.2.2.</span> <span class="nav-text">unshift, shift, pop, push等的处理</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#deleteProperty、has、ownKeys劫持"><span class="nav-number">4.1.3.</span> <span class="nav-text">deleteProperty、has、ownKeys劫持</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#readonlyHandlers"><span class="nav-number">4.1.4.</span> <span class="nav-text">readonlyHandlers</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#😊ref-ts"><span class="nav-number">5.</span> <span class="nav-text">😊ref.ts</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ref-ts源码分析"><span class="nav-number">5.1.</span> <span class="nav-text">ref.ts源码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#interface-Ref"><span class="nav-number">5.1.1.</span> <span class="nav-text">interface Ref</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#toRefs"><span class="nav-number">5.1.2.</span> <span class="nav-text">toRefs</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#effect-ts"><span class="nav-number">6.</span> <span class="nav-text">effect.ts</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#effect-ts源码解析"><span class="nav-number">6.1.</span> <span class="nav-text">effect.ts源码解析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#effect"><span class="nav-number">6.1.1.</span> <span class="nav-text">effect</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#run中的-effectStack-includes-effect-什么逻辑？"><span class="nav-number">6.1.1.1.</span> <span class="nav-text">run中的!effectStack.includes(effect)什么逻辑？</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#为什么在run中执行fn前，需要使用cleanup-effect-清除所有依赖关系？"><span class="nav-number">6.1.2.</span> <span class="nav-text">为什么在run中执行fn前，需要使用cleanup(effect)清除所有依赖关系？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#track"><span class="nav-number">6.1.3.</span> <span class="nav-text">track</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#trigger"><span class="nav-number">6.1.4.</span> <span class="nav-text">trigger</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#collectionHandlers-ts"><span class="nav-number">7.</span> <span class="nav-text">collectionHandlers.ts</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#computed-ts"><span class="nav-number">8.</span> <span class="nav-text">computed.ts</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后续计划"><span class="nav-number">9.</span> <span class="nav-text">后续计划</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">10.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张越</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
