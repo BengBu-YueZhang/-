@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="vue," />
+
+
+
+
+
+
+
+
+
+
+<meta name="keywords" content="vue">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue3源码解析：nextTick">
+<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2019/12/08/vue源码2/index.html">
+<meta property="og:site_name" content="新世紀エヴァンゲリオン">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://unsplash.it/1169/613?random">
+<meta property="og:updated_time" content="2019-12-08T07:55:36.111Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Vue3源码解析：nextTick">
+<meta name="twitter:image" content="https://unsplash.it/1169/613?random">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/2019/12/08/vue源码2/"/>
+
+
+
+
+
+  <title>Vue3源码解析：nextTick | 新世紀エヴァンゲリオン</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">新世紀エヴァンゲリオン</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">前端小学生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            主页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            时间轴
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://bengbu-yuezhang.github.io/yue.github.io/2019/12/08/vue源码2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张越">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新世紀エヴァンゲリオン">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Vue3源码解析：nextTick</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发布于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-12-08T16:00:00+08:00">
+                2019-12-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://unsplash.it/1169/613?random" alt="image"></p>
+<a id="more"></a>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文是本人的一些拙见，如有错误请观众老爷们指出。</p>
+<h2 id="nextTick"><a href="#nextTick" class="headerlink" title="nextTick"></a>nextTick</h2><h3 id="💭为什么需要nextTick？"><a href="#💭为什么需要nextTick？" class="headerlink" title="💭为什么需要nextTick？"></a>💭为什么需要nextTick？</h3><p>我们为什么需要<code>nextTick</code>？考虑如下的场景。如果每一次<code>foo</code>的变化，都会同步的触发<code>watch</code>的更新。那么，如果<code>watch</code>中包含了大量耗时的操作，则会造成严重的性能问题。所以在Vue的源码中，<code>watch</code>的更新发生在<code>nextTick</code>之后。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Demo = createComponent(&#123;</span><br><span class="line">  setup() &#123;</span><br><span class="line">    <span class="keyword">const</span> foo = ref(<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">const</span> bar = ref(<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">const</span> change = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; i++) &#123;</span><br><span class="line">        foo.value += <span class="number">1</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    watch(foo, <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      bar.value += <span class="number">1</span></span><br><span class="line">    &#125;, &#123;</span><br><span class="line">      lazy: <span class="literal">true</span></span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">return</span> &#123; foo, bar, change &#125;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; foo, bar, change &#125; = <span class="keyword">this</span></span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;p&gt;foo: &#123;foo&#125;&lt;<span class="regexp">/p&gt;</span></span><br><span class="line"><span class="regexp">        &lt;p&gt;bar: &#123;bar&#125;&lt;/</span>p&gt;</span><br><span class="line">        &#123;<span class="comment">/* 点击按钮，bar实际上只会更新一次 */</span>&#125;</span><br><span class="line">        &lt;button onClick=&#123;change&#125;&gt;change&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">      &lt;/</span>div&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h3><p>快速了解源码的最好办法是阅读对应的单元测试。可以帮助我们快速的了解，每一个函数，每一个变量的具体含义和用法，以及一些边界情况的处理。</p>
+<p><code>nextTick</code>源码的文件目录位置：<code>packages/runtime-core/src/scheduler.ts</code></p>
+<p><code>nextTick</code>单元测试文件的文件目录位置：<code>packages/runtime-core/__tests__/scheduler.spec.ts</code></p>
+<h4 id="第一个单测"><a href="#第一个单测" class="headerlink" title="第一个单测"></a>第一个单测</h4><p><code>nextTick</code>会创建一个微任务。当宏任务<code>job2</code>执行完成后，清空微任务队列，执行<code>job1</code>。此时<code>calls</code>数组的长度等于2。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">it(<span class="string">'nextTick'</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> calls: <span class="built_in">string</span>[] = []</span><br><span class="line">  <span class="keyword">const</span> dummyThen = <span class="built_in">Promise</span>.resolve().then()</span><br><span class="line">  <span class="keyword">const</span> job1 = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    calls.push(<span class="string">'job1'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> job2 = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    calls.push(<span class="string">'job2'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  nextTick(job1)</span><br><span class="line">  job2()</span><br><span class="line">  expect(calls.length).toBe(<span class="number">1</span>)</span><br><span class="line">  <span class="comment">// 等待微任务队列被清空</span></span><br><span class="line">  <span class="keyword">await</span> dummyThen</span><br><span class="line">  expect(calls.length).toBe(<span class="number">2</span>)</span><br><span class="line">  expect(calls).toMatchObject([<span class="string">'job2'</span>, <span class="string">'job1'</span>])</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="第二个单测"><a href="#第二个单测" class="headerlink" title="第二个单测"></a>第二个单测</h4><p>这里涉及到一个新的函数，<code>queueJob</code>。目前还不清楚其内部的实现，不过我们可以从单测中可以看出来。<code>queueJob</code>接受一个函数作为参数，<code>queueJob</code>会将参数<strong>按顺序</strong>保存到一个队列中，当宏任务执行完成后，微任务开始执行时，依次执行队列中的函数。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">it(<span class="string">'basic usage'</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> calls: <span class="built_in">string</span>[] = []</span><br><span class="line">  <span class="keyword">const</span> job1 = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    calls.push(<span class="string">'job1'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> job2 = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    calls.push(<span class="string">'job2'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  queueJob(job1)</span><br><span class="line">  queueJob(job2)</span><br><span class="line">  expect(calls).toEqual([])</span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  <span class="comment">// 按照顺序执行</span></span><br><span class="line">  expect(calls).toEqual([<span class="string">'job1'</span>, <span class="string">'job2'</span>])</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="第三个单测"><a href="#第三个单测" class="headerlink" title="第三个单测"></a>第三个单测</h4><p><code>queueJob</code>会避免同一个函数（job），多次push到队列之中。<code>queueJob</code>包含了去重的处理。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">it(<span class="string">'should dedupe queued jobs'</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> calls: <span class="built_in">string</span>[] = []</span><br><span class="line">  <span class="keyword">const</span> job1 = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    calls.push(<span class="string">'job1'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> job2 = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    calls.push(<span class="string">'job2'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  queueJob(job1)</span><br><span class="line">  queueJob(job2)</span><br><span class="line">  queueJob(job1)</span><br><span class="line">  queueJob(job2)</span><br><span class="line">  expect(calls).toEqual([])</span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  expect(calls).toEqual([<span class="string">'job1'</span>, <span class="string">'job2'</span>])</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="第四个单测"><a href="#第四个单测" class="headerlink" title="第四个单测"></a>第四个单测</h4><p>如果<code>queueJob(job2)</code>的调用发生在<code>job1</code>的内部。<code>job2</code>将会在<code>job1</code>之后同一时间执行。不会等到下一次执行微任务时。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">it(<span class="string">'queueJob while flushing'</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> calls: <span class="built_in">string</span>[] = []</span><br><span class="line">  <span class="keyword">const</span> job1 = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    calls.push(<span class="string">'job1'</span>)</span><br><span class="line">    queueJob(job2)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> job2 = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    calls.push(<span class="string">'job2'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  queueJob(job1)</span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  <span class="comment">// job2会在同一个微任务队列执行期间被执行</span></span><br><span class="line">  expect(calls).toEqual([<span class="string">'job1'</span>, <span class="string">'job2'</span>])</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="第五个单测"><a href="#第五个单测" class="headerlink" title="第五个单测"></a>第五个单测</h4><p>这里又出现了一个新的函数<code>queuePostFlushCb</code>。目前依然尚不清楚其内部的实现，不过我们可以从单测中可以看出来，<code>queuePostFlushCb</code>接受函数作为参数，或者由函数组成的数组作为参数。</p>
+<p><code>queuePostFlushCb</code>, 会将参数依次保存到一个队列中，当宏任务执行完成后，清空微任务队列时，会依次执行队列中的每一个函数。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">it(<span class="string">'basic usage'</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> calls: <span class="built_in">string</span>[] = []</span><br><span class="line">  <span class="keyword">const</span> cb1 = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    calls.push(<span class="string">'cb1'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> cb2 = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    calls.push(<span class="string">'cb2'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> cb3 = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    calls.push(<span class="string">'cb3'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  queuePostFlushCb([cb1, cb2])</span><br><span class="line">  queuePostFlushCb(cb3)</span><br><span class="line">  expect(calls).toEqual([])</span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  <span class="comment">// 按照添加队列的顺序，依次执行函数</span></span><br><span class="line">  expect(calls).toEqual([<span class="string">'cb1'</span>, <span class="string">'cb2'</span>, <span class="string">'cb3'</span>])</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="第六个单测"><a href="#第六个单测" class="headerlink" title="第六个单测"></a>第六个单测</h4><p><code>queuePostFlushCb</code>不会将相同的函数，重复添加到队列之中。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">it(<span class="string">'should dedupe queued postFlushCb'</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> calls: <span class="built_in">string</span>[] = []</span><br><span class="line">  <span class="keyword">const</span> cb1 = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    calls.push(<span class="string">'cb1'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> cb2 = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    calls.push(<span class="string">'cb2'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> cb3 = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    calls.push(<span class="string">'cb3'</span>)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  queuePostFlushCb([cb1, cb2])</span><br><span class="line">  queuePostFlushCb(cb3)</span><br><span class="line"></span><br><span class="line">  queuePostFlushCb([cb1, cb3])</span><br><span class="line">  queuePostFlushCb(cb2)</span><br><span class="line"></span><br><span class="line">  expect(calls).toEqual([])</span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  expect(calls).toEqual([<span class="string">'cb1'</span>, <span class="string">'cb2'</span>, <span class="string">'cb3'</span>])</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="第七个单测"><a href="#第七个单测" class="headerlink" title="第七个单测"></a>第七个单测</h4><p>如果<code>queuePostFlushCb(cb2)</code>的调用发生在<code>cb1</code>的内部。<code>cb2</code>将会在<code>cb1</code>之后同一时间执行。不会等到下一次执行微任务时。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">it(<span class="string">'queuePostFlushCb while flushing'</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> calls: <span class="built_in">string</span>[] = []</span><br><span class="line">  <span class="keyword">const</span> cb1 = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    calls.push(<span class="string">'cb1'</span>)</span><br><span class="line">    queuePostFlushCb(cb2)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> cb2 = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    calls.push(<span class="string">'cb2'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  queuePostFlushCb(cb1)</span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  expect(calls).toEqual([<span class="string">'cb1'</span>, <span class="string">'cb2'</span>])</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="第八个单测"><a href="#第八个单测" class="headerlink" title="第八个单测"></a>第八个单测</h4><p>允许在<code>queuePostFlushCb</code>中嵌套<code>queueJob</code></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">it(<span class="string">'queueJob inside postFlushCb'</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> calls: <span class="built_in">string</span>[] = []</span><br><span class="line">  <span class="keyword">const</span> job1 = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    calls.push(<span class="string">'job1'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> cb1 = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    calls.push(<span class="string">'cb1'</span>)</span><br><span class="line">    queueJob(job1)</span><br><span class="line">  &#125;</span><br><span class="line">  queuePostFlushCb(cb1)</span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  expect(calls).toEqual([<span class="string">'cb1'</span>, <span class="string">'job1'</span>])</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="第九个单测"><a href="#第九个单测" class="headerlink" title="第九个单测"></a>第九个单测</h4><p><code>job1</code>的执行顺序高于<code>cb2</code>。<code>queueJob</code>的优先级高于<code>queuePostFlushCb</code>。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">it(<span class="string">'queueJob &amp; postFlushCb inside postFlushCb'</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> calls: <span class="built_in">string</span>[] = []</span><br><span class="line">  <span class="keyword">const</span> job1 = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    calls.push(<span class="string">'job1'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> cb1 = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    calls.push(<span class="string">'cb1'</span>)</span><br><span class="line">    queuePostFlushCb(cb2)</span><br><span class="line">    queueJob(job1)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> cb2 = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    calls.push(<span class="string">'cb2'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  queuePostFlushCb(cb1)</span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  expect(calls).toEqual([<span class="string">'cb1'</span>, <span class="string">'job1'</span>, <span class="string">'cb2'</span>])</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="第十个单测"><a href="#第十个单测" class="headerlink" title="第十个单测"></a>第十个单测</h4><p>允许在<code>queueJob</code>中嵌套<code>queuePostFlushCb</code></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">it(<span class="string">'postFlushCb inside queueJob'</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> calls: <span class="built_in">string</span>[] = []</span><br><span class="line">  <span class="keyword">const</span> job1 = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    calls.push(<span class="string">'job1'</span>)</span><br><span class="line">    queuePostFlushCb(cb1)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> cb1 = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    calls.push(<span class="string">'cb1'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  queueJob(job1)</span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  expect(calls).toEqual([<span class="string">'job1'</span>, <span class="string">'cb1'</span>])</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="第十一个单试"><a href="#第十一个单试" class="headerlink" title="第十一个单试"></a>第十一个单试</h4><p><code>job2</code>将在<code>cb1</code>之前执行。<code>queueJob</code>优先级高于<code>postFlushCb</code>。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">it(<span class="string">'queueJob &amp; postFlushCb inside queueJob'</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> calls: <span class="built_in">string</span>[] = []</span><br><span class="line">  <span class="keyword">const</span> job1 = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    calls.push(<span class="string">'job1'</span>)</span><br><span class="line">    queuePostFlushCb(cb1)</span><br><span class="line">    queueJob(job2)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> job2 = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    calls.push(<span class="string">'job2'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> cb1 = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    calls.push(<span class="string">'cb1'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  queueJob(job1)</span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  expect(calls).toEqual([<span class="string">'job1'</span>, <span class="string">'job2'</span>, <span class="string">'cb1'</span>])</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><ol>
+<li><code>nextTick</code>接受函数作为参数，同时<code>nextTick</code>会创建一个微任务。</li>
+<li><code>queueJob</code>接受函数作为参数，<code>queueJob</code>会将参数push到<code>queue</code>队列中，在当前宏任务执行结束之后，清空队列。</li>
+<li><code>queuePostFlushCb</code>接受函数或者又函数组成的数组作为参数，<code>queuePostFlushCb</code>会将将参数push到<code>postFlushCbs</code>队列中，在当前宏任务执行结束之后，清空队列。</li>
+<li><code>queueJob</code>执行的优先级高于<code>queuePostFlushCb</code></li>
+<li><code>queueJob</code>和<code>queuePostFlushCb</code>允许在清空队列的期间添加新的成员。</li>
+</ol>
+<p>话不多说，我们接下来直接看源码。</p>
+<h3 id="源码解析"><a href="#源码解析" class="headerlink" title="源码解析"></a>源码解析</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ErrorCodes 内部错误的类型枚举</span></span><br><span class="line"><span class="comment">// callWithErrorHandling 包含了错误处理函数执行器</span></span><br><span class="line"><span class="keyword">import</span> &#123; ErrorCodes, callWithErrorHandling &#125; <span class="keyword">from</span> <span class="string">'./errorHandling'</span></span><br><span class="line"><span class="keyword">import</span> &#123; isArray &#125; <span class="keyword">from</span> <span class="string">'@vue/shared'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// job队列，queueJob函数会将参数添加到queue数组中</span></span><br><span class="line"><span class="keyword">const</span> queue: <span class="built_in">Function</span>[] = []</span><br><span class="line"><span class="comment">// cb队列，queuePostFlushCb函数会将参数添加到postFlushCbs数组中</span></span><br><span class="line"><span class="keyword">const</span> postFlushCbs: <span class="built_in">Function</span>[] = []</span><br><span class="line"><span class="comment">// Promise对象状态为resolve</span></span><br><span class="line"><span class="keyword">const</span> p = <span class="built_in">Promise</span>.resolve()</span><br></pre></td></tr></table></figure>
+<h4 id="nextTick-1"><a href="#nextTick-1" class="headerlink" title="nextTick"></a>nextTick</h4><p><code>nextTick</code>非常简单，创建一个微任务。在当前宏任务结束后，执行fn。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">function nextTick(fn?: () =&gt; void): Promise&lt;void&gt; &#123;</span><br><span class="line">  <span class="keyword">return</span> fn ? p.then(fn) : p</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="queueJob"><a href="#queueJob" class="headerlink" title="queueJob"></a>queueJob</h4><p>将<code>job</code>添加到<code>queue</code>队列中。调用<code>queueFlush</code>开始处理队列。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">function queueJob(job: () =&gt; void) &#123;</span><br><span class="line">  <span class="comment">// 避免重复的job添加到队列中，实现了去重</span></span><br><span class="line">  <span class="keyword">if</span> (!queue.includes(job)) &#123;</span><br><span class="line">    queue.push(job)</span><br><span class="line">    queueFlush()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="queuePostFlushCb"><a href="#queuePostFlushCb" class="headerlink" title="queuePostFlushCb"></a>queuePostFlushCb</h4><p>将<code>cb</code>添加到<code>postFlushCbs</code>队列中。调用<code>queueFlush</code>开始处理队列。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">queuePostFlushCb</span>(<span class="params">cb: <span class="built_in">Function</span> | <span class="built_in">Function</span>[]</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 注意这里，postFlushCbs队列暂时没有做去重的处理</span></span><br><span class="line">  <span class="keyword">if</span> (!isArray(cb)) &#123;</span><br><span class="line">    postFlushCbs.push(cb)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// 如果cb是数组，展开后。添加到postFlushCbs队列中。</span></span><br><span class="line">    postFlushCbs.push(...cb)</span><br><span class="line">  &#125;</span><br><span class="line">  queueFlush()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="queueFlush"><a href="#queueFlush" class="headerlink" title="queueFlush"></a>queueFlush</h4><p><code>queueFlush</code>会调用<code>nextTick</code>开启一个微任务。在当前宏任务执行完成后，使用<code>flushJobs</code>处理队列<code>queue</code>和<code>postFlushCbs</code>。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// isFlushing，isFlushPending作为开关</span></span><br><span class="line"><span class="keyword">let</span> isFlushing = <span class="literal">false</span></span><br><span class="line"><span class="keyword">let</span> isFlushPending = <span class="literal">false</span></span><br><span class="line"></span><br><span class="line">queueFlush() &#123;</span><br><span class="line">  <span class="keyword">if</span> (!isFlushing &amp;&amp; !isFlushPending) &#123;</span><br><span class="line">    <span class="comment">// 将isFlushPending置为true，避免queueJob和queuePostFlushCb重复调用flushJobs</span></span><br><span class="line">    isFlushPending = <span class="literal">true</span></span><br><span class="line">    <span class="comment">// 开启微任务，宏任务结束后，flushJobs处理队列</span></span><br><span class="line">    nextTick(flushJobs)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在<code>flushJobs</code>中，会优先处理<code>queue</code>队列，然后才是<code>postFlushCbs</code>队列</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">flushJobs</span>(<span class="params">seen?: CountMap</span>) </span>&#123;</span><br><span class="line">  isFlushPending = <span class="literal">false</span></span><br><span class="line">  isFlushing = <span class="literal">true</span></span><br><span class="line">  <span class="keyword">let</span> job</span><br><span class="line">  <span class="keyword">if</span> (__DEV__) &#123;</span><br><span class="line">    seen = seen || <span class="keyword">new</span> Map()</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 1. 清空queue队列</span></span><br><span class="line">  <span class="keyword">while</span> ((job = queue.shift())) &#123;</span><br><span class="line">    <span class="keyword">if</span> (__DEV__) &#123;</span><br><span class="line">      <span class="comment">// 如果是开发环境，检查job的调用次数是否超过最大递归次数</span></span><br><span class="line">      checkRecursiveUpdates(seen!, job)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 使用callWithErrorHandling执行器，执行queue队列中的job</span></span><br><span class="line">    <span class="comment">// 如果job抛出错误，callWithErrorHandling执行器会对错误进行捕获</span></span><br><span class="line">    callWithErrorHandling(job, <span class="literal">null</span>, ErrorCodes.SCHEDULER)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 2. 调用flushPostFlushCbs，处理postFlushCbs队列</span></span><br><span class="line">  flushPostFlushCbs(seen)</span><br><span class="line">  isFlushing = <span class="literal">false</span></span><br><span class="line">  <span class="comment">// 如果没有queue，postFlushCbs队列没有被清空</span></span><br><span class="line">  <span class="comment">// 递归调用flushJobs清空队列</span></span><br><span class="line">  <span class="keyword">if</span> (queue.length || postFlushCbs.length) &#123;</span><br><span class="line">    flushJobs(seen)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>flushPostFlushCbs</code>会对<code>postFlushCbs</code>队列进行去重。并清空<code>postFlushCbs</code>队列。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用Set，对postFlushCbs队列进行去重</span></span><br><span class="line"><span class="keyword">const</span> dedupe = (cbs: <span class="built_in">Function</span>[]): <span class="built_in">Function</span>[] =&gt; [...new Set(cbs)]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">flushPostFlushCbs</span>(<span class="params">seen?: CountMap</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (postFlushCbs.length) &#123;</span><br><span class="line">    <span class="comment">// postFlushCbs队列去重</span></span><br><span class="line">    <span class="keyword">const</span> cbs = dedupe(postFlushCbs)</span><br><span class="line">    postFlushCbs.length = <span class="number">0</span></span><br><span class="line">    <span class="keyword">if</span> (__DEV__) &#123;</span><br><span class="line">      seen = seen || <span class="keyword">new</span> Map()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 清空postFlushCbs队列</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; cbs.length; i++) &#123;</span><br><span class="line">      <span class="keyword">if</span> (__DEV__) &#123;</span><br><span class="line">        <span class="comment">// 如果是开发环境，检查cb的调用次数是否超过最大递归次数</span></span><br><span class="line">        checkRecursiveUpdates(seen!, cbs[i])</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">// 执行cb</span></span><br><span class="line">      cbs[i]()</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>checkRecursiveUpdates</code>会是用Map，对<code>job</code>或者<code>cb</code>的调用次数进行记录，如果同一个<code>job</code>或者<code>cb</code>的调用次数超过了100次，则认为超过了最大递归次数，并抛出错误。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 最大递归层数</span></span><br><span class="line"><span class="keyword">const</span> RECURSION_LIMIT = <span class="number">100</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> CountMap = Map&lt;<span class="built_in">Function</span>, <span class="built_in">number</span>&gt;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">checkRecursiveUpdates</span>(<span class="params">seen: CountMap, fn: <span class="built_in">Function</span></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!seen.has(fn)) &#123;</span><br><span class="line">    seen.set(fn, <span class="number">1</span>)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> count = seen.get(fn)!</span><br><span class="line">    <span class="comment">// 如果调用次数超过了100次，抛出错误</span></span><br><span class="line">    <span class="keyword">if</span> (count &gt; RECURSION_LIMIT) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(</span><br><span class="line">        <span class="string">'Maximum recursive updates exceeded. '</span> +</span><br><span class="line">          <span class="string">"You may have code that is mutating state in your component's "</span> +</span><br><span class="line">          <span class="string">'render function or updated hook or watcher source function.'</span></span><br><span class="line">      )</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// 调用次数加一</span></span><br><span class="line">      seen.set(fn, count + <span class="number">1</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="💭为什么需要使用checkRecursiveUpdates，对job或者cb的调用次数做检查？"><a href="#💭为什么需要使用checkRecursiveUpdates，对job或者cb的调用次数做检查？" class="headerlink" title="💭为什么需要使用checkRecursiveUpdates，对job或者cb的调用次数做检查？"></a>💭为什么需要使用checkRecursiveUpdates，对job或者cb的调用次数做检查？</h4><p>在Vue3中，<code>watch</code>的callback会在依赖更新后，被push到<code>queue</code>队列中，在<code>nextTick</code>之后执行。考虑如下的代码。<code>foo</code>的更新会导致<code>watch</code>的callback（<code>update</code>），反复被push到<code>queue</code>队列中，队列永远无法被清空，这种情况显然是错误的。所以我们需要使用<code>checkRecursiveUpdates</code>检查递归的层数，及时的抛出错误。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> foo = ref(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> update = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  foo.value += <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">watch(foo, update, &#123;</span><br><span class="line">  lazy: <span class="literal">true</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">foo.value += <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/vue/" rel="tag"># vue</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/25/vue源码/" rel="next" title="Vue3源码解析：Reactivity（补全中）">
+                <i class="fa fa-chevron-left"></i> Vue3源码解析：Reactivity（补全中）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            作者概述
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="张越" />
+            
+              <p class="site-author-name" itemprop="name">张越</p>
+              <p class="site-description motion-element" itemprop="description">所谓成长，就是经过不断的聚散离合，找到不太会伤害到彼此的距离</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">59</span>
+                  <span class="site-state-item-name">篇文章</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">Tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/BengBu-YueZhang" target="_blank" title="我的GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/5460100952/profile?topnav=1&wvr=6" target="_blank" title="我的微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的微博</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nextTick"><span class="nav-number">2.</span> <span class="nav-text">nextTick</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#💭为什么需要nextTick？"><span class="nav-number">2.1.</span> <span class="nav-text">💭为什么需要nextTick？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单元测试"><span class="nav-number">2.2.</span> <span class="nav-text">单元测试</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#第一个单测"><span class="nav-number">2.2.1.</span> <span class="nav-text">第一个单测</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第二个单测"><span class="nav-number">2.2.2.</span> <span class="nav-text">第二个单测</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第三个单测"><span class="nav-number">2.2.3.</span> <span class="nav-text">第三个单测</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第四个单测"><span class="nav-number">2.2.4.</span> <span class="nav-text">第四个单测</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第五个单测"><span class="nav-number">2.2.5.</span> <span class="nav-text">第五个单测</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第六个单测"><span class="nav-number">2.2.6.</span> <span class="nav-text">第六个单测</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第七个单测"><span class="nav-number">2.2.7.</span> <span class="nav-text">第七个单测</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第八个单测"><span class="nav-number">2.2.8.</span> <span class="nav-text">第八个单测</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第九个单测"><span class="nav-number">2.2.9.</span> <span class="nav-text">第九个单测</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第十个单测"><span class="nav-number">2.2.10.</span> <span class="nav-text">第十个单测</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第十一个单试"><span class="nav-number">2.2.11.</span> <span class="nav-text">第十一个单试</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#总结"><span class="nav-number">2.2.12.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#源码解析"><span class="nav-number">2.3.</span> <span class="nav-text">源码解析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#nextTick-1"><span class="nav-number">2.3.1.</span> <span class="nav-text">nextTick</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#queueJob"><span class="nav-number">2.3.2.</span> <span class="nav-text">queueJob</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#queuePostFlushCb"><span class="nav-number">2.3.3.</span> <span class="nav-text">queuePostFlushCb</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#queueFlush"><span class="nav-number">2.3.4.</span> <span class="nav-text">queueFlush</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#💭为什么需要使用checkRecursiveUpdates，对job或者cb的调用次数做检查？"><span class="nav-number">2.3.5.</span> <span class="nav-text">💭为什么需要使用checkRecursiveUpdates，对job或者cb的调用次数做检查？</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张越</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
