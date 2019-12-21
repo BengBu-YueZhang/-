@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="vue," />
+
+
+
+
+
+
+
+
+
+
+<meta name="keywords" content="vue">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue3源码解析：watch">
+<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2019/12/19/vue源码3/index.html">
+<meta property="og:site_name" content="新世紀エヴァンゲリオン">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://unsplash.it/1179/603?random">
+<meta property="og:updated_time" content="2019-12-21T14:35:51.627Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Vue3源码解析：watch">
+<meta name="twitter:image" content="https://unsplash.it/1179/603?random">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/2019/12/19/vue源码3/"/>
+
+
+
+
+
+  <title>Vue3源码解析：watch | 新世紀エヴァンゲリオン</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">新世紀エヴァンゲリオン</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">前端小学生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            主页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            时间轴
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://bengbu-yuezhang.github.io/yue.github.io/2019/12/19/vue源码3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张越">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新世紀エヴァンゲリオン">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Vue3源码解析：watch</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发布于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-12-19T15:56:56+08:00">
+                2019-12-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://unsplash.it/1179/603?random" alt="image"></p>
+<a id="more"></a>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><ul>
+<li><a href="">Vue3源码解析：reactivity</a></li>
+<li><a href="https://juejin.im/post/5decc68ef265da33c542411d" target="_blank" rel="noopener">Vue3源码解析：nextTick</a></li>
+</ul>
+<h2 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h2><h3 id="第一个单测"><a href="#第一个单测" class="headerlink" title="第一个单测"></a>第一个单测</h3><p>由第一个单测可知两点：</p>
+<ol>
+<li>在vue3中watch在创建时会自动执行一次。（有点类似于vue2在watch设置<code>immediate</code>等于true）</li>
+<li>watch的默认执行时机是异步的（可配置），执行时机在nextTick（<code>Promise.resolve()</code>）之后。</li>
+</ol>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">it(<span class="string">'basic usage'</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> state = reactive(&#123; count: <span class="number">0</span> &#125;)</span><br><span class="line">  <span class="keyword">let</span> dummy</span><br><span class="line">  watch(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    dummy = state.count</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="comment">// watch的默认的更新时机是异步的</span></span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  <span class="comment">// watch在没有指定lazy配置时，会自动执行一次，所以dummy等于0，而不undefined</span></span><br><span class="line">  expect(dummy).toBe(<span class="number">0</span>)</span><br><span class="line">  state.count++</span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  expect(dummy).toBe(<span class="number">1</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="第二个单测"><a href="#第二个单测" class="headerlink" title="第二个单测"></a>第二个单测</h3><p>由第二个单测可知两点：</p>
+<ol>
+<li>watch的第一个参数，可以是返回任意值的函数，watch会监听函数返回值的变化。</li>
+<li>watch的第二个参数，是callback参数。当被监听的内容发生变化时，callback会更新。callback的第一个参数是最新的值，第二个参数是前一次的值。</li>
+</ol>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">it(<span class="string">'watching single source: getter'</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> state = reactive(&#123; count: <span class="number">0</span> &#125;)</span><br><span class="line">  <span class="keyword">let</span> dummy</span><br><span class="line">  watch(</span><br><span class="line">    () =&gt; state.count,</span><br><span class="line">    (count, prevCount) =&gt; &#123;</span><br><span class="line">      dummy = [count, prevCount]</span><br><span class="line">      count + <span class="number">1</span></span><br><span class="line">      prevCount + <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">  )</span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  expect(dummy).toMatchObject([<span class="number">0</span>, <span class="literal">undefined</span>])</span><br><span class="line">  <span class="comment">// watch会监听返回的值的变化，做出响应</span></span><br><span class="line">  state.count++</span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  expect(dummy).toMatchObject([<span class="number">1</span>, <span class="number">0</span>])</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="第三个单测"><a href="#第三个单测" class="headerlink" title="第三个单测"></a>第三个单测</h3><p>由第三个单测可知: watch，除了可以监听返回任意值的函数的，也可以监听单一的Ref值。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">it(<span class="string">'watching single source: ref'</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> count = ref(<span class="number">0</span>)</span><br><span class="line">  <span class="keyword">let</span> dummy</span><br><span class="line">  <span class="comment">// watch可以监听ref的值的变化</span></span><br><span class="line">  watch(count, <span class="function">(<span class="params">count, prevCount</span>) =&gt;</span> &#123;</span><br><span class="line">    dummy = [count, prevCount]</span><br><span class="line">    count + <span class="number">1</span></span><br><span class="line">    prevCount + <span class="number">1</span></span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  expect(dummy).toMatchObject([<span class="number">0</span>, <span class="literal">undefined</span>])</span><br><span class="line">  <span class="comment">// ref的变化，watch也会做出响应</span></span><br><span class="line">  count.value++</span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  expect(dummy).toMatchObject([<span class="number">1</span>, <span class="number">0</span>])</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="第四个单测"><a href="#第四个单测" class="headerlink" title="第四个单测"></a>第四个单测</h3><p>由第四个单测可知。watch除了可以监听返回任意值的函数，以及Ref值。也可以监听计算属性<code>computed</code>的变化。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">it(<span class="string">'watching single source: computed ref'</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> count = ref(<span class="number">0</span>)</span><br><span class="line">  <span class="comment">// plus是一个计算属性</span></span><br><span class="line">  <span class="keyword">const</span> plus = computed(<span class="function"><span class="params">()</span> =&gt;</span> count.value + <span class="number">1</span>)</span><br><span class="line">  <span class="keyword">let</span> dummy</span><br><span class="line">  watch(plus, <span class="function">(<span class="params">count, prevCount</span>) =&gt;</span> &#123;</span><br><span class="line">    dummy = [count, prevCount]</span><br><span class="line">    count + <span class="number">1</span></span><br><span class="line">    prevCount + <span class="number">1</span></span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  expect(dummy).toMatchObject([<span class="number">1</span>, <span class="literal">undefined</span>])</span><br><span class="line">  <span class="comment">// count.value++会导致计算属性的更新</span></span><br><span class="line">  <span class="comment">// watch可以监听计算属性的变化</span></span><br><span class="line">  count.value++</span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  expect(dummy).toMatchObject([<span class="number">2</span>, <span class="number">1</span>])</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="第五个单测"><a href="#第五个单测" class="headerlink" title="第五个单测"></a>第五个单测</h3><p>由第五个单测可知。watch，可以监听一个数组中的多个数据源。数组中任意一个数据源的变化，都会触发watch的执行。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">it(<span class="string">'watching multiple sources'</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> state = reactive(&#123; count: <span class="number">1</span> &#125;)</span><br><span class="line">  <span class="keyword">const</span> count = ref(<span class="number">1</span>)</span><br><span class="line">  <span class="keyword">const</span> plus = computed(<span class="function"><span class="params">()</span> =&gt;</span> count.value + <span class="number">1</span>)</span><br><span class="line">  <span class="keyword">let</span> dummy</span><br><span class="line">  watch(</span><br><span class="line">    <span class="comment">// 使用数组，存储一组数据源。监听数组中，每一个数据源的变化。</span></span><br><span class="line">    [<span class="function"><span class="params">()</span> =&gt;</span> state.count, count, plus],</span><br><span class="line">    (vals, oldVals) =&gt; &#123;</span><br><span class="line">      dummy = [vals, oldVals]</span><br><span class="line">      vals.concat(<span class="number">1</span>)</span><br><span class="line">      oldVals.concat(<span class="number">1</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  )</span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  expect(dummy).toMatchObject([[<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>], []])</span><br><span class="line">  state.count++</span><br><span class="line">  count.value++</span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  expect(dummy).toMatchObject([[<span class="number">2</span>, <span class="number">2</span>, <span class="number">3</span>], [<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>]])</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="🤔️第六个单测（这里是测试类型推导吗？）"><a href="#🤔️第六个单测（这里是测试类型推导吗？）" class="headerlink" title="🤔️第六个单测（这里是测试类型推导吗？）"></a>🤔️第六个单测（这里是测试类型推导吗？）</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">it(<span class="string">'watching multiple sources: readonly array'</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> state = reactive(&#123; count: <span class="number">1</span> &#125;)</span><br><span class="line">  <span class="keyword">const</span> status = ref(<span class="literal">false</span>)</span><br><span class="line">  <span class="keyword">let</span> dummy</span><br><span class="line">  watch(</span><br><span class="line">    [<span class="function"><span class="params">()</span> =&gt;</span> state.count, status] <span class="keyword">as</span> <span class="keyword">const</span>, </span><br><span class="line">    (vals, oldVals) =&gt; &#123;</span><br><span class="line">      dummy = [vals, oldVals]</span><br><span class="line">      <span class="keyword">let</span> [count] = vals</span><br><span class="line">      <span class="keyword">let</span> [, oldStatus] = oldVals</span><br><span class="line">      count + <span class="number">1</span></span><br><span class="line">      oldStatus === <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">  )</span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  expect(dummy).toMatchObject([[<span class="number">1</span>, <span class="literal">false</span>], []])</span><br><span class="line">  state.count++</span><br><span class="line">  status.value = <span class="literal">false</span></span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  expect(dummy).toMatchObject([[<span class="number">2</span>, <span class="literal">false</span>], [<span class="number">1</span>, <span class="literal">false</span>]])</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="第七个单测"><a href="#第七个单测" class="headerlink" title="第七个单测"></a>第七个单测</h3><p>由第七个单测可知。watch会返回一个终止监听的函数。调用它，会让watch停止对数据源的监听。之后更新数据源，watch不在做出响应。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">it(<span class="string">'stopping the watcher'</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> state = reactive(&#123; count: <span class="number">0</span> &#125;)</span><br><span class="line">  <span class="keyword">let</span> dummy</span><br><span class="line">  <span class="keyword">const</span> stop = watch(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    dummy = state.count</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  expect(dummy).toBe(<span class="number">0</span>)</span><br><span class="line">  stop()</span><br><span class="line">  state.count++</span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  <span class="comment">// should not update</span></span><br><span class="line">  expect(dummy).toBe(<span class="number">0</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="第八个单测"><a href="#第八个单测" class="headerlink" title="第八个单测"></a>第八个单测</h3><p>由第八个单测可知。如果watch的第一个参数是一个函数。那么函数的第一个参数，将会是一个用来<strong>注册清理操作</strong>的函数。</p>
+<p>被注册后的函数，执行时机是。watch下一次更新前；以及watch停止监听的时候。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">it(<span class="string">'cleanup registration (basic)'</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> state = reactive(&#123; count: <span class="number">0</span> &#125;)</span><br><span class="line">  <span class="comment">// jest.fn，是jest测试框架的api，会返回一个没有使用过的模拟函数</span></span><br><span class="line">  <span class="comment">// cleanup.toHaveBeenCalledTimes，会返回模拟函数的调用次数</span></span><br><span class="line">  <span class="keyword">const</span> cleanup = jest.fn()</span><br><span class="line">  <span class="keyword">let</span> dummy</span><br><span class="line">  <span class="keyword">const</span> stop = watch(<span class="function"><span class="params">onCleanup</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 将cleanup注册为清理函数。</span></span><br><span class="line">    <span class="comment">// 第一次，清理函数不会执行。</span></span><br><span class="line">    onCleanup(cleanup)</span><br><span class="line">    dummy = state.count</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  expect(dummy).toBe(<span class="number">0</span>)</span><br><span class="line">  state.count++</span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  <span class="comment">// 清理函数cleanup，将会在下一次更新前执行</span></span><br><span class="line">  expect(cleanup).toHaveBeenCalledTimes(<span class="number">1</span>)</span><br><span class="line">  expect(dummy).toBe(<span class="number">1</span>)</span><br><span class="line">  stop()</span><br><span class="line">  <span class="comment">// 清理函数cleanup，将会在watch停止监听前执行</span></span><br><span class="line">  expect(cleanup).toHaveBeenCalledTimes(<span class="number">2</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="第九个单测"><a href="#第九个单测" class="headerlink" title="第九个单测"></a>第九个单测</h3><p>由第九个单测可知。watch的回调的第三个参数，也是<strong>注册清理函数</strong>的函数。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">it(<span class="string">'cleanup registration (with source)'</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> count = ref(<span class="number">0</span>)</span><br><span class="line">  <span class="keyword">const</span> cleanup = jest.fn()</span><br><span class="line">  <span class="keyword">let</span> dummy</span><br><span class="line">  <span class="comment">// 回调函数的三个参数，分别是当前值，前一个的值，和注册清理函数的函数</span></span><br><span class="line">  <span class="keyword">const</span> stop = watch(count, <span class="function">(<span class="params">count, prevCount, onCleanup</span>) =&gt;</span> &#123;</span><br><span class="line">    onCleanup(cleanup)</span><br><span class="line">    dummy = count</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  expect(dummy).toBe(<span class="number">0</span>)</span><br><span class="line">  count.value++</span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  <span class="comment">// 清理函数执行</span></span><br><span class="line">  expect(cleanup).toHaveBeenCalledTimes(<span class="number">1</span>)</span><br><span class="line">  expect(dummy).toBe(<span class="number">1</span>)</span><br><span class="line">  stop()</span><br><span class="line">  <span class="comment">// 清理函数执行</span></span><br><span class="line">  expect(cleanup).toHaveBeenCalledTimes(<span class="number">2</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="第十个单测"><a href="#第十个单测" class="headerlink" title="第十个单测"></a>第十个单测</h3><p>通过第十个单测可知。watch的默认的调用时机在当前组件的<strong>renderer flush</strong>（DOM被更新之后）之后。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">it(<span class="string">'flush timing: post'</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> count = ref(<span class="number">0</span>)</span><br><span class="line">  <span class="keyword">const</span> assertion = jest.fn(<span class="function"><span class="params">count</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// serializeInner将组件的html序列化为字符串</span></span><br><span class="line">    <span class="comment">// watch的执行发生在DOM更新之后，所以html序列化后的字符串始终等于更新后count值。</span></span><br><span class="line">    expect(serializeInner(root)).toBe(<span class="string">`<span class="subst">$&#123;count&#125;</span>`</span>)</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">const</span> Comp = &#123;</span><br><span class="line">    setup() &#123;</span><br><span class="line">      watch(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        assertion(count.value)</span><br><span class="line">      &#125;)</span><br><span class="line">      <span class="comment">// setup可以直接返回一个渲染函数</span></span><br><span class="line">      <span class="comment">// 这里直接渲染count.value的值</span></span><br><span class="line">      <span class="keyword">return</span> <span class="function"><span class="params">()</span> =&gt;</span> count.value</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> root = nodeOps.createElement(<span class="string">'div'</span>)</span><br><span class="line">  <span class="comment">// 在root上mount组件Comp</span></span><br><span class="line">  render(h(Comp), root)</span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  <span class="comment">// watch将会在创建时自动执行一次，所以这里assertion函数的执行次数等于1</span></span><br><span class="line">  expect(assertion).toHaveBeenCalledTimes(<span class="number">1</span>)</span><br><span class="line">  count.value++</span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  expect(assertion).toHaveBeenCalledTimes(<span class="number">2</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="第十一个单测"><a href="#第十一个单测" class="headerlink" title="第十一个单测"></a>第十一个单测</h3><p>watch默认的执行时机，是在DOM更新之后，这种行为可以通过<code>flush</code>选项进行配置。<code>flush</code>有三个可选项：</p>
+<ul>
+<li>post，默认选项，dom更新后执行</li>
+<li>pre，dom更新前执行</li>
+<li>sync，和dom一起同步执行</li>
+</ul>
+<p>由第十一个单测可知，当flush设置为pre时，watch更新时机发生在dom更新之前。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">it(<span class="string">'flush timing: pre'</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> count = ref(<span class="number">0</span>)</span><br><span class="line">  <span class="keyword">const</span> count2 = ref(<span class="number">0</span>)</span><br><span class="line">  <span class="keyword">let</span> callCount = <span class="number">0</span></span><br><span class="line">  <span class="comment">// 重点在这里</span></span><br><span class="line">  <span class="keyword">const</span> assertion = jest.fn(<span class="function">(<span class="params">count, count2Value</span>) =&gt;</span> &#123;</span><br><span class="line">    callCount++</span><br><span class="line">    <span class="comment">// watch第一次执行时，callCount等于`1`，expectedDOM等于空字符串``</span></span><br><span class="line">    <span class="comment">// watch第二次执行时，expectedDOM等于`0`。(1 - 1)</span></span><br><span class="line">    <span class="keyword">const</span> expectedDOM = callCount === <span class="number">1</span> ? <span class="string">``</span> : <span class="string">`<span class="subst">$&#123;count - 1&#125;</span>`</span></span><br><span class="line">    <span class="comment">// watch第一次执行时，组件Comp的DOM还没有创建，所以serializeInner(root)等于空字符串</span></span><br><span class="line">    <span class="comment">// watch第二次执行时，count和count2的值已经更新</span></span><br><span class="line">    <span class="comment">// 但是组件Comp的DOM还没有更新，所以serializeInner(root)等于字符串`0`(count.value初始值等于0)</span></span><br><span class="line">    expect(serializeInner(root)).toBe(expectedDOM)</span><br><span class="line">    <span class="keyword">const</span> expectedState = callCount === <span class="number">1</span> ? <span class="number">0</span> : <span class="number">1</span></span><br><span class="line">    <span class="comment">// watch第一次执行时，count2Value等于0</span></span><br><span class="line">    <span class="comment">// watch第二次执行时，count2Value等于1</span></span><br><span class="line">    expect(count2Value).toBe(expectedState)</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">const</span> Comp = &#123;</span><br><span class="line">    setup() &#123;</span><br><span class="line">      watch(</span><br><span class="line">        () =&gt; &#123;</span><br><span class="line">          assertion(count.value, count2.value)</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="comment">// watch将会在dom更新前执行</span></span><br><span class="line">          flush: <span class="string">'pre'</span></span><br><span class="line">        &#125;</span><br><span class="line">      )</span><br><span class="line">      <span class="keyword">return</span> <span class="function"><span class="params">()</span> =&gt;</span> count.value</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> root = nodeOps.createElement(<span class="string">'div'</span>)</span><br><span class="line">  render(h(Comp), root)</span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  <span class="comment">// watch会在创建时，默认执行一次，这里是watch第一次执行</span></span><br><span class="line">  expect(assertion).toHaveBeenCalledTimes(<span class="number">1</span>)</span><br><span class="line">  <span class="comment">// count.value和count2.value更新</span></span><br><span class="line">  count.value++</span><br><span class="line">  count2.value++</span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  <span class="comment">// watch第二次执行</span></span><br><span class="line">  expect(assertion).toHaveBeenCalledTimes(<span class="number">2</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="第十二个单测"><a href="#第十二个单测" class="headerlink" title="第十二个单测"></a>第十二个单测</h3><p>由第十二个单测可知，当flush设置为sync时，每一次响应式数据的变化，都会引起watch的响应。</p>
+<p>🤔️但是看到这里，我心里产生了一些疑问。sync字面的意思是同步的意思，那么当设置sync后，每一次响应式数据的更新，都会引起watch的响应，dom也会同步更新吗？如果dom每一次也会同步更新会产生性能问题吗？带着这些疑问，我查看了其他部分的源码。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">it(<span class="string">'flush timing: sync'</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> count = ref(<span class="number">0</span>)</span><br><span class="line">  <span class="keyword">const</span> count2 = ref(<span class="number">0</span>)</span><br><span class="line">  <span class="keyword">let</span> callCount = <span class="number">0</span></span><br><span class="line">  <span class="keyword">const</span> assertion = jest.fn(<span class="function"><span class="params">count</span> =&gt;</span> &#123;</span><br><span class="line">    callCount++</span><br><span class="line">    <span class="keyword">const</span> expectedDOM = callCount === <span class="number">1</span> ? <span class="string">``</span> : <span class="string">`<span class="subst">$&#123;count - 1&#125;</span>`</span></span><br><span class="line">    expect(serializeInner(root)).toBe(expectedDOM)</span><br><span class="line">    <span class="keyword">const</span> expectedState = callCount &lt; <span class="number">3</span> ? <span class="number">0</span> : <span class="number">1</span></span><br><span class="line">    expect(count2.value).toBe(expectedState)</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">const</span> Comp = &#123;</span><br><span class="line">    setup() &#123;</span><br><span class="line">      watch(</span><br><span class="line">        () =&gt; &#123;</span><br><span class="line">          assertion(count.value)</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          flush: <span class="string">'sync'</span></span><br><span class="line">        &#125;</span><br><span class="line">      )</span><br><span class="line">      <span class="keyword">return</span> <span class="function"><span class="params">()</span> =&gt;</span> count.value</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> root = nodeOps.createElement(<span class="string">'div'</span>)</span><br><span class="line">  render(h(Comp), root)</span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  expect(assertion).toHaveBeenCalledTimes(<span class="number">1</span>)</span><br><span class="line">  count.value++</span><br><span class="line">  count2.value++</span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  expect(assertion).toHaveBeenCalledTimes(<span class="number">3</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="那么在vue3中到底是怎么做的？"><a href="#那么在vue3中到底是怎么做的？" class="headerlink" title="那么在vue3中到底是怎么做的？"></a>那么在vue3中到底是怎么做的？</h4><blockquote>
+<p>带着上面的疑惑。我非常粗浅的看了一部分关于componet的源码，提前了解了，部分更新流程，<strong>如果叙述有误，还请各位大佬及时指正。</strong></p>
+</blockquote>
+<ol>
+<li><code>setup</code>的函数的返回值，会被<code>reactive</code>包装为响应式对象，并挂载到实例的<code>renderContext</code>属性上。</li>
+<li>在组件<code>mounted</code>时，会使用<code>effect</code>对响应式数据进行监听，当数据发生变化时，对通过<code>patch</code>对视图进行更新。</li>
+<li>但视图的更新时机，并不是同步的，<code>effect</code>会将更新函数push到<code>queueJob</code>队列中，<code>queueJob</code>队列包含了去重的功能，也就是说只有最后一次更新会被渲染。当本次宏任务结束后，视图会被更新。</li>
+<li>当<code>watch</code>的<code>flush</code>选项设置为<code>sync</code>时，<code>watch</code>会在每一次响应式数据，变化时同步执行（<strong>注意：不是最后渲染视图时同步执行</strong>）</li>
+</ol>
+<p>ps：<code>reactive</code>和<code>queueJob</code>的相关内容请参考，我之前的两篇文章。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleSetupResult</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  instance: ComponentInternalInstance,</span></span></span><br><span class="line"><span class="function"><span class="params">  setupResult: unknown,</span></span></span><br><span class="line"><span class="function"><span class="params">  parentSuspense: SuspenseBoundary | <span class="literal">null</span></span></span></span><br><span class="line"><span class="function"><span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (isFunction(setupResult)) &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (isObject(setupResult)) &#123;</span><br><span class="line">    <span class="comment">// setup函数返回的结果，转为响应式</span></span><br><span class="line">    instance.renderContext = reactive(setupResult)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setupRenderEffect</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  <span class="comment">// ...</span></span></span></span><br><span class="line"><span class="function"><span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 使用effect监听响应式数据的变化</span></span><br><span class="line">  instance.update = effect(<span class="function"><span class="keyword">function</span> <span class="title">componentEffect</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// patch更新视图</span></span><br><span class="line">    patch()</span><br><span class="line">  &#125;, &#123;</span><br><span class="line">    <span class="comment">// effect使用scheduler执行器执行</span></span><br><span class="line">    <span class="comment">// 更新会被push到queueJob队列中</span></span><br><span class="line">    scheduler: queueJob</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>为了验证我的猜想，我添加了一个自定义的测试用例进行验证</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">it(<span class="string">'自定义测试用例'</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> count = ref(<span class="number">0</span>)</span><br><span class="line">  <span class="keyword">const</span> count2 = ref(<span class="number">0</span>)</span><br><span class="line">  <span class="keyword">let</span> callCount = <span class="number">0</span></span><br><span class="line">  <span class="keyword">const</span> assertion = jest.fn(<span class="function"><span class="params">()</span> =&gt;</span> callCount++)</span><br><span class="line">  <span class="keyword">const</span> Comp = &#123;</span><br><span class="line">    setup() &#123;</span><br><span class="line">      watch(</span><br><span class="line">        () =&gt; assertion(count.value),</span><br><span class="line">        &#123; flush: <span class="string">'sync'</span> &#125;</span><br><span class="line">      )</span><br><span class="line">      <span class="keyword">return</span> <span class="function"><span class="params">()</span> =&gt;</span> count.value + count2.value</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> root = nodeOps.createElement(<span class="string">'div'</span>)</span><br><span class="line">  render(h(Comp), root)</span><br><span class="line">  resetUpdate() <span class="comment">// update 重置为0</span></span><br><span class="line">  resetQueueNum() <span class="comment">// queueNum 重置为0</span></span><br><span class="line">  callCount = <span class="number">0</span> <span class="comment">// callCount 重置为0</span></span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; i++) &#123;</span><br><span class="line">    count.value++</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  <span class="comment">// update是视图`patch`的次数，打印结果是，1</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'update'</span>, update)</span><br><span class="line">  <span class="comment">// queueNum是更新被push到queueJob队列的次数，打印结果是，100</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'queueNum'</span>, queueNum)</span><br><span class="line">  <span class="comment">// callCount是watch响应的次数，打印结果是，100</span></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'callCount'</span>, callCount)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="第十三个单测"><a href="#第十三个单测" class="headerlink" title="第十三个单测"></a>第十三个单测</h3><p>由第十三个单测可知。如果watch设置了deep选项，可以深层的数据更改进行监听。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">it(<span class="string">'deep'</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> state = reactive(&#123;</span><br><span class="line">    nested: &#123;</span><br><span class="line">      count: ref(<span class="number">0</span>)</span><br><span class="line">    &#125;,</span><br><span class="line">    array: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">    map: <span class="keyword">new</span> Map([[<span class="string">'a'</span>, <span class="number">1</span>], [<span class="string">'b'</span>, <span class="number">2</span>]]),</span><br><span class="line">    <span class="keyword">set</span>: <span class="keyword">new</span> Set([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">let</span> dummy</span><br><span class="line">  watch(</span><br><span class="line">    () =&gt; state,</span><br><span class="line">    state =&gt; &#123;</span><br><span class="line">      dummy = [</span><br><span class="line">        state.nested.count,</span><br><span class="line">        state.array[<span class="number">0</span>],</span><br><span class="line">        state.map.get(<span class="string">'a'</span>),</span><br><span class="line">        state.set.has(<span class="number">1</span>)</span><br><span class="line">      ]</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123; deep: <span class="literal">true</span> &#125;</span><br><span class="line">  )</span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  expect(dummy).toEqual([<span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="literal">true</span>])</span><br><span class="line">  state.nested.count++</span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  expect(dummy).toEqual([<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="literal">true</span>])</span><br><span class="line">  state.array[<span class="number">0</span>] = <span class="number">2</span></span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  expect(dummy).toEqual([<span class="number">1</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="literal">true</span>])</span><br><span class="line">  state.map.set(<span class="string">'a'</span>, <span class="number">2</span>)</span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  expect(dummy).toEqual([<span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="literal">true</span>])</span><br><span class="line">  state.set.delete(<span class="number">1</span>)</span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  expect(dummy).toEqual([<span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="literal">false</span>])</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="第十四个单测"><a href="#第十四个单测" class="headerlink" title="第十四个单测"></a>第十四个单测</h3><p>由第十四个单测可知。如果watch设置了lazy属性，watch不会在创建时主动执行一次，只会在数据源更新时响应。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">it(<span class="string">'lazy'</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> count = ref(<span class="number">0</span>)</span><br><span class="line">  <span class="keyword">const</span> cb = jest.fn()</span><br><span class="line">  watch(count, cb, &#123; lazy: <span class="literal">true</span> &#125;)</span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  <span class="comment">// 设置lazy：true。watch不会主动执行</span></span><br><span class="line">  expect(cb).not.toHaveBeenCalled()</span><br><span class="line">  count.value++</span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  expect(cb).toHaveBeenCalled()</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="👻第十五个单测"><a href="#👻第十五个单测" class="headerlink" title="👻第十五个单测"></a>👻第十五个单测</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">it(<span class="string">'onTrack'</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> events: DebuggerEvent[] = []</span><br><span class="line">  <span class="keyword">let</span> dummy</span><br><span class="line">  <span class="keyword">const</span> onTrack = jest.fn(<span class="function">(<span class="params">e: DebuggerEvent</span>) =&gt;</span> &#123;</span><br><span class="line">    events.push(e)</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">const</span> obj = reactive(&#123; foo: <span class="number">1</span>, bar: <span class="number">2</span> &#125;)</span><br><span class="line">  watch(</span><br><span class="line">    () =&gt; &#123;</span><br><span class="line">      dummy = [obj.foo, <span class="string">'bar'</span> <span class="keyword">in</span> obj, <span class="built_in">Object</span>.keys(obj)]</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123; onTrack &#125;</span><br><span class="line">  )</span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  expect(dummy).toEqual([<span class="number">1</span>, <span class="literal">true</span>, [<span class="string">'foo'</span>, <span class="string">'bar'</span>]])</span><br><span class="line">  expect(onTrack).toHaveBeenCalledTimes(<span class="number">3</span>)</span><br><span class="line">  expect(events).toMatchObject([</span><br><span class="line">    &#123;</span><br><span class="line">      target: obj,</span><br><span class="line">      <span class="keyword">type</span>: OperationTypes.GET,</span><br><span class="line">      key: <span class="string">'foo'</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      target: obj,</span><br><span class="line">      <span class="keyword">type</span>: OperationTypes.HAS,</span><br><span class="line">      key: <span class="string">'bar'</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      target: obj,</span><br><span class="line">      <span class="keyword">type</span>: OperationTypes.ITERATE,</span><br><span class="line">      key: ITERATE_KEY</span><br><span class="line">    &#125;</span><br><span class="line">  ])</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="👻第十六个单测"><a href="#👻第十六个单测" class="headerlink" title="👻第十六个单测"></a>👻第十六个单测</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">it(<span class="string">'onTrigger'</span>, <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> events: DebuggerEvent[] = []</span><br><span class="line">  <span class="keyword">let</span> dummy</span><br><span class="line">  <span class="keyword">const</span> onTrigger = jest.fn(<span class="function">(<span class="params">e: DebuggerEvent</span>) =&gt;</span> &#123;</span><br><span class="line">    events.push(e)</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">const</span> obj = reactive(&#123; foo: <span class="number">1</span> &#125;)</span><br><span class="line">  watch(</span><br><span class="line">    () =&gt; &#123;</span><br><span class="line">      dummy = obj.foo</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123; onTrigger &#125;</span><br><span class="line">  )</span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  expect(dummy).toBe(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">  obj.foo++</span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  expect(dummy).toBe(<span class="number">2</span>)</span><br><span class="line">  expect(onTrigger).toHaveBeenCalledTimes(<span class="number">1</span>)</span><br><span class="line">  expect(events[<span class="number">0</span>]).toMatchObject(&#123;</span><br><span class="line">    <span class="keyword">type</span>: OperationTypes.SET,</span><br><span class="line">    key: <span class="string">'foo'</span>,</span><br><span class="line">    oldValue: <span class="number">1</span>,</span><br><span class="line">    newValue: <span class="number">2</span></span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">delete</span> obj.foo</span><br><span class="line">  <span class="keyword">await</span> nextTick()</span><br><span class="line">  expect(dummy).toBeUndefined()</span><br><span class="line">  expect(onTrigger).toHaveBeenCalledTimes(<span class="number">2</span>)</span><br><span class="line">  expect(events[<span class="number">1</span>]).toMatchObject(&#123;</span><br><span class="line">    <span class="keyword">type</span>: OperationTypes.DELETE,</span><br><span class="line">    key: <span class="string">'foo'</span>,</span><br><span class="line">    oldValue: <span class="number">2</span></span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>第十五和第十六个单测和测试相关，现在先跳过</p>
+<h2 id="源码解析"><a href="#源码解析" class="headerlink" title="源码解析"></a>源码解析</h2><h2 id="以后的计划"><a href="#以后的计划" class="headerlink" title="以后的计划"></a>以后的计划</h2><ul>
+<li>Vue3源码解析：vnode</li>
+<li>Vue3源码解析：component</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/vue/" rel="tag"># vue</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/08/vue源码2/" rel="next" title="Vue3源码解析：nextTick">
+                <i class="fa fa-chevron-left"></i> Vue3源码解析：nextTick
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            作者概述
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="张越" />
+            
+              <p class="site-author-name" itemprop="name">张越</p>
+              <p class="site-description motion-element" itemprop="description">所谓成长，就是经过不断的聚散离合，找到不太会伤害到彼此的距离</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">60</span>
+                  <span class="site-state-item-name">篇文章</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">Tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/BengBu-YueZhang" target="_blank" title="我的GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/5460100952/profile?topnav=1&wvr=6" target="_blank" title="我的微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的微博</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单元测试"><span class="nav-number">2.</span> <span class="nav-text">单元测试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一个单测"><span class="nav-number">2.1.</span> <span class="nav-text">第一个单测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二个单测"><span class="nav-number">2.2.</span> <span class="nav-text">第二个单测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第三个单测"><span class="nav-number">2.3.</span> <span class="nav-text">第三个单测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第四个单测"><span class="nav-number">2.4.</span> <span class="nav-text">第四个单测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第五个单测"><span class="nav-number">2.5.</span> <span class="nav-text">第五个单测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#🤔️第六个单测（这里是测试类型推导吗？）"><span class="nav-number">2.6.</span> <span class="nav-text">🤔️第六个单测（这里是测试类型推导吗？）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第七个单测"><span class="nav-number">2.7.</span> <span class="nav-text">第七个单测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第八个单测"><span class="nav-number">2.8.</span> <span class="nav-text">第八个单测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第九个单测"><span class="nav-number">2.9.</span> <span class="nav-text">第九个单测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第十个单测"><span class="nav-number">2.10.</span> <span class="nav-text">第十个单测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第十一个单测"><span class="nav-number">2.11.</span> <span class="nav-text">第十一个单测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第十二个单测"><span class="nav-number">2.12.</span> <span class="nav-text">第十二个单测</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#那么在vue3中到底是怎么做的？"><span class="nav-number">2.12.1.</span> <span class="nav-text">那么在vue3中到底是怎么做的？</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第十三个单测"><span class="nav-number">2.13.</span> <span class="nav-text">第十三个单测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第十四个单测"><span class="nav-number">2.14.</span> <span class="nav-text">第十四个单测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#👻第十五个单测"><span class="nav-number">2.15.</span> <span class="nav-text">👻第十五个单测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#👻第十六个单测"><span class="nav-number">2.16.</span> <span class="nav-text">👻第十六个单测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">2.17.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#源码解析"><span class="nav-number">3.</span> <span class="nav-text">源码解析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#以后的计划"><span class="nav-number">4.</span> <span class="nav-text">以后的计划</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张越</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
