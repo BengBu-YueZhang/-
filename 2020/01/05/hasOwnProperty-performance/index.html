@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content=",,,,," />
+  <meta name="keywords" content="javascript," />
 
 
 
@@ -79,17 +79,17 @@
 
 
 
-<meta name="keywords" content="React">
-<meta property="og:type" content="website">
-<meta property="og:title" content="「又双叒叕」逐行解析Preact源码分析">
-<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/prev/preact源码分析2.html">
+<meta name="keywords" content="javascript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Object.prototype.hasOwnProperty的性能问题">
+<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2020/01/05/hasOwnProperty-performance/index.html">
 <meta property="og:site_name" content="新世紀エヴァンゲリオン">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://unsplash.it/999/612?random">
-<meta property="og:updated_time" content="2019-09-11T14:55:48.363Z">
+<meta property="og:image" content="https://unsplash.it/1682/914?random">
+<meta property="og:updated_time" content="2020-01-05T10:42:52.781Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="「又双叒叕」逐行解析Preact源码分析">
-<meta name="twitter:image" content="https://unsplash.it/999/612?random">
+<meta name="twitter:title" content="Object.prototype.hasOwnProperty的性能问题">
+<meta name="twitter:image" content="https://unsplash.it/1682/914?random">
 
 
 
@@ -119,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/prev/preact源码分析2.html"/>
+  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/2020/01/05/hasOwnProperty-performance/"/>
 
 
 
 
 
-  <title>「又双叒叕」逐行解析Preact源码分析 | 新世紀エヴァンゲリオン</title>
+  <title>Object.prototype.hasOwnProperty的性能问题 | 新世紀エヴァンゲリオン</title>
   
 
 
@@ -230,36 +230,162 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://bengbu-yuezhang.github.io/yue.github.io/2020/01/05/hasOwnProperty-performance/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张越">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新世紀エヴァンゲリオン">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">「又双叒叕」逐行解析Preact源码分析</h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
-          <p><img src="https://unsplash.it/999/612?random" alt="image"></p>
+          <h1 class="post-title" itemprop="name headline">Object.prototype.hasOwnProperty的性能问题</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-01-05T18:05:37+08:00">
+                2020-01-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://unsplash.it/1682/914?random" alt="image"></p>
 <a id="more"></a>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><h2 id="源码目录结构"><a href="#源码目录结构" class="headerlink" title="源码目录结构"></a>源码目录结构</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># |—— 📁 src</span><br><span class="line"># |—— |—— 📃 create-element.js</span><br><span class="line"># |—— |—— 📃 clone-element.js</span><br><span class="line"></span><br><span class="line"># |—— 📁 hooks</span><br><span class="line"># |—— 📁 demo</span><br></pre></td></tr></table></figure>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>今天下午在阅读Vue3，Component相关源码时，发现了这么一段注释。（源码地址：<code>packages/runtime-core/src/componentProxy.ts</code>）</p>
+<blockquote>
+<p>This getter gets called for every property access on the render context during render and is a major hotspot. The most expensive part of this is the multiple hasOwn() calls. It’s much faster to do a simple property access on a plain object, so we use an accessCache object (with null prototype) to memoize what access type a key corresponds to.</p>
+</blockquote>
+<p>大致意思是如下：</p>
+<p>在渲染期间，对渲染上下文进行访问时，<code>hasOwn()</code>操作很昂贵。而在普通对象上进行属性访问的操作，速度会快很多。所以在Vue3中使用accessCache对象，对对象进行缓存。</p>
+<h2 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h2><p>那么<code>Object.prototype.hasOwnProperty</code>操作是有多昂贵，值得尤大进行优化。我使用下面的代码，进行了实验。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">  name: <span class="string">'Natalie portman'</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> accessCache = &#123; ...obj &#125;</span><br><span class="line"><span class="keyword">const</span> hasOwnProperty = <span class="built_in">Object</span>.prototype.hasOwnProperty</span><br><span class="line"><span class="keyword">const</span> hasOwn = <span class="function">(<span class="params">val, key</span>) =&gt;</span> hasOwnProperty.call(val, key)</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> start = <span class="keyword">new</span> <span class="built_in">Date</span>().getTime()</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">5000000</span>; i++) &#123;</span><br><span class="line">  hasOwn(obj, <span class="string">'name'</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">`duration: <span class="subst">$&#123;<span class="keyword">new</span> <span class="built_in">Date</span>().getTime() - start&#125;</span>`</span>)</span><br><span class="line"></span><br><span class="line">start = <span class="keyword">new</span> <span class="built_in">Date</span>().getTime()</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">5000000</span>; i++) &#123;</span><br><span class="line">  accessCache.name</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">`duration: <span class="subst">$&#123;<span class="keyword">new</span> <span class="built_in">Date</span>().getTime() - start&#125;</span>`</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// log</span></span><br><span class="line"><span class="comment">// duration: 35</span></span><br><span class="line"><span class="comment">// duration: 4</span></span><br></pre></td></tr></table></figure>
+<p>在进行500万次，读取属性操作时，两者的性能相差了大约9倍。</p>
+<p>当Vue的组件树很大时，挂载的属性很多时。使用<code>accessCache</code>对象，对Object.prototype.hasOwnProperty操作进行缓存，应该还是很有必要的。</p>
+<h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p>查询了相关资料，大致原因如下:</p>
+<p>Chrome的V8引擎，会维护一个全局的缓存。一旦高速缓存被填充，它总是会在随后被重复命中。这意味着<code>val[key]</code>属性查找将始终在编译时处理，而不会进行运行时。</p>
+<p>而V8引擎不会对，<code>hasOwnProperty</code>或者<code>key in value</code>进行任何缓存，总是进入运行时。</p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>👏欢迎大家指正。Vue3响应式数据源码，nextTick，watch，相对来说很独立，看起来很轻松。但是看到到Component后，涉及的内容太多了，推进的很慢。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="https://stackoverflow.com/questions/21763617/why-is-getting-a-member-faster-than-calling-hasownproperty" target="_blank" rel="noopener">Why is getting a member faster than calling hasOwnProperty?</a></li>
+</ul>
 
-        
-      </div>
-      
-      
       
     </div>
     
     
     
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/javascript/" rel="tag"># javascript</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/01/04/react-router-hook/" rel="next" title="React Router v5.1.x中的新功能">
+                <i class="fa fa-chevron-left"></i> React Router v5.1.x中的新功能
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -383,7 +509,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#源码目录结构"><span class="nav-number">2.</span> <span class="nav-text">源码目录结构</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实验"><span class="nav-number">2.</span> <span class="nav-text">实验</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原因"><span class="nav-number">3.</span> <span class="nav-text">原因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结语"><span class="nav-number">4.</span> <span class="nav-text">结语</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">5.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
             
 
           </div>
