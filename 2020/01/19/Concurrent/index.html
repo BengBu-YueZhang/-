@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="react," />
+
+
+
+
+
+
+
+
+
+
+<meta name="keywords" content="react">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React Suspense for Data（一）">
+<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2020/01/19/Concurrent/index.html">
+<meta property="og:site_name" content="新世紀エヴァンゲリオン">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://unsplash.it/1382/815?random">
+<meta property="og:image" content="https://i.loli.net/2020/01/18/MxjvXGQykC1SNtJ.gif">
+<meta property="og:image" content="https://i.loli.net/2020/01/19/vou9Tj4UGDxSIf2.gif">
+<meta property="og:image" content="https://i.loli.net/2020/01/19/X4qrD1IcGfW5v2C.gif">
+<meta property="og:updated_time" content="2020-01-19T15:59:22.350Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="React Suspense for Data（一）">
+<meta name="twitter:image" content="https://unsplash.it/1382/815?random">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/2020/01/19/Concurrent/"/>
+
+
+
+
+
+  <title>React Suspense for Data（一） | 新世紀エヴァンゲリオン</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">新世紀エヴァンゲリオン</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">前端小学生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Accueil
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://bengbu-yuezhang.github.io/yue.github.io/2020/01/19/Concurrent/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张越">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新世紀エヴァンゲリオン">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">React Suspense for Data（一）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posté le</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-01-19T23:40:00+08:00">
+                2020-01-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://unsplash.it/1382/815?random" alt="image"></p>
+<a id="more"></a>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>目前Suspense尚处于实验阶段，大部分文档还没有被翻译。我基于目前的官方文档，对Suspense作一些介绍。</p>
+<h2 id="什么是-Suspense"><a href="#什么是-Suspense" class="headerlink" title="什么是 Suspense ?"></a>什么是 Suspense ?</h2><blockquote>
+<p>⚠️⚠️⚠️本文是概念性的，主要介绍<code>Suspense</code>解决了那些问题，而<strong>不是正确的使用方法</strong>。目前Facebook只在生产中，使用了<code>Suspense</code>与<code>Relay</code>的集成方案。如果你不使用<code>Relay</code>，可能需要等待一段时间才能在应用程序中真正的使用<code>Suspense</code>。(本文示例中的代码是”伪”代码，真实的实现可能要复杂的多，示例代码不要复制粘贴到你的项目中。)</p>
+</blockquote>
+<p><code>Suspense</code>是React16.6版本中新增的组件，允许我们等待一些代码的加载，并在等待时声明加载状态。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用React.lazy以及Suspense进行代码分割的例子</span></span><br><span class="line"><span class="keyword">const</span> Foo = React.lazy(<span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">import</span>(<span class="string">'./Foo'</span>))</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Component</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;Suspense fallback=&#123;&lt;Spinner /&gt;&#125;&gt;</span><br><span class="line">      &lt;Component /&gt;</span><br><span class="line">    &lt;<span class="regexp">/Suspense&gt;</span></span><br><span class="line"><span class="regexp">  )</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<p><strong>Suspense for Data</strong>是一个新的特性。允许您使用<code>Suspense</code>等待任何其他内容。包括Ajax请求异步返回的数据。（本文着重于介绍异步获取数据的例子）。<code>Suspense</code>可以让组件在渲染之前进行等待。<code>Suspense</code>是一种通信机制，告知组件数据尚未准备就绪，React会等待它准备好后更新UI。</p>
+<h4 id="Suspense-for-Data-的简单示例"><a href="#Suspense-for-Data-的简单示例" class="headerlink" title="Suspense for Data 的简单示例"></a><strong>Suspense for Data</strong> 的简单示例</h4><p><img src="https://i.loli.net/2020/01/18/MxjvXGQykC1SNtJ.gif" alt="Suspense for Data Demo"></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> apiParent = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> &#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> resolve(&#123; <span class="attr">name</span>: <span class="string">'parent'</span> &#125;), <span class="number">1000</span>)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> apiChild = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> &#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> resolve(&#123; <span class="attr">name</span>: <span class="string">'child'</span> &#125;), <span class="number">2000</span>)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// pending 时，wrapPromise会抛出一个Promise</span></span><br><span class="line"><span class="comment">// resolve 时，wrapPromise会返回结果</span></span><br><span class="line"><span class="keyword">const</span> wrapPromise = <span class="function">(<span class="params">promise</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">let</span> status = <span class="string">'pending'</span></span><br><span class="line">  <span class="keyword">let</span> result = <span class="literal">null</span></span><br><span class="line">  <span class="keyword">let</span> suspender = promise.then(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">    status = <span class="string">'success'</span></span><br><span class="line">    result = res</span><br><span class="line">  &#125;).catch(<span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">    status = <span class="string">'error'</span></span><br><span class="line">    result = err</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    read() &#123;</span><br><span class="line">      <span class="keyword">if</span> (status === <span class="string">'pending'</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> suspender</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (status === <span class="string">'error'</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> result</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (status === <span class="string">'success'</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> result</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> http = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> parentPromise = apiParent()</span><br><span class="line">  <span class="keyword">const</span> childPromise = apiChild()</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    parent: wrapPromise(parentPromise),</span><br><span class="line">    child: wrapPromise(childPromise)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> resource = http()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> result = resource.parent.read()</span><br><span class="line">  <span class="keyword">return</span> &lt;div&gt;Parent: &#123; result.name &#125;&lt;/div&gt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> result = resource.child.read()</span><br><span class="line">  <span class="keyword">return</span> &lt;div&gt;Child: &#123; result.name &#125;&lt;/div&gt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div className=<span class="string">"App"</span>&gt;</span><br><span class="line">      &#123;<span class="comment">/* 在Parent没有返回结果前，显示&lt;h1&gt;Loading Parent...&lt;/h1&gt; */</span>&#125;</span><br><span class="line">      &lt;React.Suspense fallback=&#123;&lt;h1&gt;Loading Parent...&lt;<span class="regexp">/h1&gt;&#125;&gt;</span></span><br><span class="line"><span class="regexp">        &lt;Parent/</span>&gt;</span><br><span class="line">        &#123;<span class="comment">/* 在Child没有返回结果前，显示&lt;h1&gt;Loading Child...&lt;/h1&gt; */</span>&#125;</span><br><span class="line">        &lt;React.Suspense fallback=&#123;&lt;h1&gt;Loading Child...&lt;<span class="regexp">/h1&gt;&#125;&gt;</span></span><br><span class="line"><span class="regexp">          &lt;Child/</span>&gt;</span><br><span class="line">        &lt;<span class="regexp">/React.Suspense&gt;</span></span><br><span class="line"><span class="regexp">      &lt;/</span>React.Suspense&gt;</span><br><span class="line">    &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">  )</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<h2 id="Suspense-与传统请求数据的方法"><a href="#Suspense-与传统请求数据的方法" class="headerlink" title="Suspense 与传统请求数据的方法"></a>Suspense 与传统请求数据的方法</h2><blockquote>
+<p>在实际开发一个应用时，应该根据需求混合使用不同的方法。这里区别看待，只是为了更好的权衡它们的取舍。</p>
+</blockquote>
+<p>我们完全可以在不提及其他数据获取方法的情况下，介绍 <code>Suspense</code>。但是这样我们就难以知道，<code>Suspense</code>解决了那些问题，以及<code>Suspense</code>与现在的方案有那些不同。</p>
+<h4 id="Approach-1-渲染时请求数据（例如-useEffect，componentDidMount）"><a href="#Approach-1-渲染时请求数据（例如-useEffect，componentDidMount）" class="headerlink" title="Approach 1: 渲染时请求数据（例如: useEffect，componentDidMount）"></a>Approach 1: 渲染时请求数据（例如: useEffect，componentDidMount）</h4><p>渲染时请求数据，是React应用中常用的获取数据的方法。因为它直到组件在屏幕上进行渲染后，才开始请求数据。会导致所谓的“瀑布”问题。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Foo</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [state, setState] = useState(<span class="string">''</span>)</span><br><span class="line">  useEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    api().then(<span class="function"><span class="params">res</span> =&gt;</span> setState(res))</span><br><span class="line">  &#125;, [])</span><br><span class="line">  <span class="keyword">if</span> (!state) <span class="keyword">return</span> &lt;div&gt;Loading Foo……&lt;/div&gt;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div&gt;Foo&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">  )</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp">function Bar () &#123;</span></span><br><span class="line"><span class="regexp">  const [state, setState] = useState('')</span></span><br><span class="line"><span class="regexp">  useEffect(() =&gt; &#123;</span></span><br><span class="line"><span class="regexp">    api().then(res =&gt; setState(res))</span></span><br><span class="line"><span class="regexp">  &#125;, [])</span></span><br><span class="line"><span class="regexp">  if (!state) return &lt;div&gt;Loading Bar……&lt;/</span>div&gt;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;React.Fragment&gt;</span><br><span class="line">      &lt;div&gt;Bar&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">      &lt;Foo/</span>&gt;</span><br><span class="line">    &lt;<span class="regexp">/React.Fragment&gt;</span></span><br><span class="line"><span class="regexp">  )</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp">function App() &#123;</span></span><br><span class="line"><span class="regexp">  return (</span></span><br><span class="line"><span class="regexp">    &lt;div className="App"&gt;</span></span><br><span class="line"><span class="regexp">      &lt;Bar/</span>&gt;</span><br><span class="line">    &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">  )</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>考虑上面的代码。代码的执行顺序将会是</p>
+<ol>
+<li>开始获取Bar组件的数据</li>
+<li>等待……</li>
+<li>完成渲染Bar组件</li>
+<li>开始获取Foo组件的数据</li>
+<li>等待……</li>
+<li>完成渲染Foo组件</li>
+</ol>
+<p>如果获取Bar组件的数据，需要花费3秒。那么，我们只能在3秒后，开始获取Foo组件的数据。这就是“瀑布问题”, 应该被并行处理的请求序列。</p>
+<h4 id="Approach-2-请求数据完成后渲染"><a href="#Approach-2-请求数据完成后渲染" class="headerlink" title="Approach 2: 请求数据完成后渲染"></a>Approach 2: 请求数据完成后渲染</h4><p>我们可以使用<code>Promise.all</code>避免瀑布问题。</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> api = <span class="function">(<span class="params">ms = <span class="number">1000</span>, type</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> &#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> resolve(<span class="string">'result'</span>), ms)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> fakeHttp = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">Promise</span>.all([api(<span class="number">1000</span>, <span class="string">'bar'</span>), api(<span class="number">3000</span>, <span class="string">'foo'</span>)])</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> promise = fakeHttp()</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Foo</span> (<span class="params">props</span>) </span>&#123; </span><br><span class="line">  <span class="keyword">if</span> (!props.state) <span class="keyword">return</span> &lt;div&gt;Loading Foo……&lt;/div&gt;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div&gt;Foo&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">  )</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp">function Bar () &#123;</span></span><br><span class="line"><span class="regexp">  const [state, setState] = useState('')</span></span><br><span class="line"><span class="regexp">  useEffect(() =&gt; &#123;</span></span><br><span class="line"><span class="regexp">    promise.then(res =&gt; setState(true))</span></span><br><span class="line"><span class="regexp">  &#125;, [])</span></span><br><span class="line"><span class="regexp">  if (!state) return &lt;div&gt;Loading Bar……&lt;/</span>div&gt;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;React.Fragment&gt;</span><br><span class="line">      &lt;div&gt;Bar&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">      &lt;Foo state=&#123;state&#125;/</span>&gt;</span><br><span class="line">    &lt;<span class="regexp">/React.Fragment&gt;</span></span><br><span class="line"><span class="regexp">  )</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>考虑上面的代码。代码的执行顺序将会是</p>
+<ol>
+<li>开始获取Bar组件的数据</li>
+<li>开始获取Foo组件的数据</li>
+<li>等待……</li>
+<li>完成渲染Bar组件</li>
+<li>完成渲染Foo组件</li>
+</ol>
+<p>我们解决了<strong>瀑布</strong>问题。但是却映入了另一个问题，我们必须等待所有数据返回后才开始渲染。</p>
+<p>虽然我们可以把请求从<code>Promise.all</code>拆开，分别发起两个Promise，但是随着组件树越发的复杂，这显然不是一个好主意，维护起来将会相当的困难。</p>
+<h4 id="Approach-3-按需渲染（例如：集成了Suspense的Relay）"><a href="#Approach-3-按需渲染（例如：集成了Suspense的Relay）" class="headerlink" title="Approach 3: 按需渲染（例如：集成了Suspense的Relay）"></a>Approach 3: 按需渲染（例如：集成了Suspense的Relay）</h4><p>在之前的方法中。我们的步骤都是</p>
+<ol>
+<li>开始异步获取数据</li>
+<li>异步请求完成</li>
+<li>开始渲染</li>
+</ol>
+<p>使用<code>Suspense</code>后，我们可以无需等待响应返回就开始渲染。</p>
+<ol>
+<li>开始异步获取数据</li>
+<li>开始渲染</li>
+<li>异步请求完成</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> resource = http()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Foo</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> result = resource.foo.read()</span><br><span class="line">  <span class="keyword">return</span> &lt;div&gt;Foo: &#123; result.name &#125;&lt;/div&gt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Bar</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> result = resource.bar.read()</span><br><span class="line">  <span class="keyword">return</span> &lt;div&gt;Bar: &#123; result.name &#125;&lt;/div&gt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Page</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;React.Suspense fallback=&#123;&lt;h1&gt;Loading Foo...&lt;<span class="regexp">/h1&gt;&#125;&gt;</span></span><br><span class="line"><span class="regexp">      &lt;Foo/</span>&gt;</span><br><span class="line">      &lt;React.Suspense fallback=&#123;&lt;h1&gt;Loading Bar...&lt;<span class="regexp">/h1&gt;&#125;&gt;</span></span><br><span class="line"><span class="regexp">        &lt;Bar/</span>&gt;</span><br><span class="line">      &lt;<span class="regexp">/React.Suspense&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>React.Suspense&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div className=<span class="string">"App"</span>&gt;</span><br><span class="line">      &lt;Page/&gt;</span><br><span class="line">    &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">  )</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>渲染之前，http开始请求数据，它会返回一个特殊的资源，而不是Promise（这通常由实现了Suspense的请求库进行封装）。</li>
+<li>React尝试渲染Page组件，返回Foo，和Bar作为子组件。</li>
+<li>React尝试渲染Foo，<code>resource.foo.read()</code>没有返回数据，组件被挂起。React跳过它，尝试渲染树中的其他组件。</li>
+<li>React尝试渲染Bar，<code>resource.bar.read()</code>没有返回数据，组件被挂起，React跳过它。</li>
+<li>暂时没有东西可以渲染了，React会渲染组件树最上方的<code>Suspense fallback</code>。</li>
+<li>随着数据的流入，React会尝试重新渲染，最终获取所有的数据后，页面上的<code>Suspense fallback</code>将会消失。</li>
+</ol>
+<p><strong>当我们调用read()方法时，要么获取数据，要么将组件挂起</strong></p>
+<p>使用<code>Suspense</code>可以帮助我们消除<code>if (statr) return loading</code>这样的的模版代码。我们还可以根据需要，增删<code>Suspense</code>组件控制加载状态的粒度（比如，两个列表的情况下。我只想要一个加载态，可以在两个列表的外面，统一添加一层<code>Suspense</code>边界。如果需想要两个加载态，可以给各个列表各添加一个<code>Suspense</code>边界）而无需对组件代码进行侵入式的修改。</p>
+<h2 id="Suspense-与竞态问题"><a href="#Suspense-与竞态问题" class="headerlink" title="Suspense 与竞态问题"></a>Suspense 与竞态问题</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> api = <span class="function">(<span class="params">id</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> ms = getRandomTime()</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> &#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> resolve(id), ms)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Bar</span> (<span class="params">props</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; id, clickNumber &#125; = props</span><br><span class="line">  <span class="keyword">if</span> (!id) <span class="keyword">return</span> &lt;h1&gt;Loading……&lt;/h1&gt;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div&gt;state: &#123; id &#125; clickNumber: &#123; clickNumber &#125;&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">  )</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">let id = 0</span></span><br><span class="line"><span class="regexp">let clickNumber = 0</span></span><br><span class="line"><span class="regexp">function Page () &#123;</span></span><br><span class="line"><span class="regexp">  const [selfId, setSelfId] = useState(id)</span></span><br><span class="line"><span class="regexp">  return (</span></span><br><span class="line"><span class="regexp">    &lt;&gt;</span></span><br><span class="line"><span class="regexp">      &lt;button onClick=&#123;() =&gt; &#123;</span></span><br><span class="line"><span class="regexp">        id += 1</span></span><br><span class="line"><span class="regexp">        clickNumber += 1</span></span><br><span class="line"><span class="regexp">        api(id).then((id) =&gt; setSelfId(id))</span></span><br><span class="line"><span class="regexp">      &#125;&#125;&gt;+&lt;/</span>button&gt;</span><br><span class="line">      &lt;Bar id=&#123;selfId&#125; clickNumber=&#123;clickNumber&#125;/&gt;</span><br><span class="line">    &lt;<span class="regexp">/&gt;</span></span><br><span class="line"><span class="regexp">  )</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2020/01/19/vou9Tj4UGDxSIf2.gif" alt="Race Conditions Bug"></p>
+<p>在上面的代码，接口返回的结果可能存在“竞态”的问题。</p>
+<p>因为每一次接口响应返回时间是不确定的，所以可能存在前一次的返回的结果，覆盖后一次的情况。而使用<code>Suspense</code>可以很好的解决竞态的问题。下面我们使用<code>Suspense</code>重写示例。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> api = <span class="function">(<span class="params">id</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> ms = getRandomTime()</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> &#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> resolve(id), ms)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> http = <span class="function">(<span class="params">id</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> wrapPromise(api(id))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Bar</span> (<span class="params">props</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; resource, clickNumber &#125; = props</span><br><span class="line">  <span class="keyword">const</span> id = resource.read()</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div&gt;state: &#123; id &#125; clickNumber: &#123; clickNumber &#125;&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">  )</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">let id = 0</span></span><br><span class="line"><span class="regexp">let clickNumber = 0</span></span><br><span class="line"><span class="regexp">const initResource = http(id)</span></span><br><span class="line"><span class="regexp">function Page () &#123;</span></span><br><span class="line"><span class="regexp">  const [resource, setResource] = useState(initResource)</span></span><br><span class="line"><span class="regexp">  return (</span></span><br><span class="line"><span class="regexp">    &lt;&gt;</span></span><br><span class="line"><span class="regexp">      &lt;button onClick=&#123;() =&gt; &#123;</span></span><br><span class="line"><span class="regexp">        id += 1</span></span><br><span class="line"><span class="regexp">        clickNumber += 1</span></span><br><span class="line"><span class="regexp">        setResource(http(id))</span></span><br><span class="line"><span class="regexp">      &#125;&#125;&gt;+&lt;/</span>button&gt;</span><br><span class="line">      &lt;React.Suspense fallback=&#123;&lt;h1&gt;Loading……&lt;<span class="regexp">/h1&gt;&#125;&gt;</span></span><br><span class="line"><span class="regexp">        &lt;Bar resource=&#123;resource&#125; clickNumber=&#123;clickNumber&#125;/</span>&gt;</span><br><span class="line">      &lt;<span class="regexp">/React.Suspense&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2020/01/19/X4qrD1IcGfW5v2C.gif" alt="Race Conditions Suspense OK"></p>
+<p>在<code>Suspense</code>版本的例子中，我们不需要等待响应结束后设置组件的状态，这样很容易出错，因为我们需要考虑设置对应状态的时机。我们直接传给子组件资源对象<strong>resource</strong>，只要<code>resource.read</code>没有返回数据，组件将一直处于挂起的状态，当<code>props.resource</code>更新，重新请求，组件依然处于挂起的状态，只到<code>resource.read</code>返回数据，组件才会被重新渲染，我们就不需要考虑竞态的问题。</p>
+<h2 id="Suspense-处理错误"><a href="#Suspense-处理错误" class="headerlink" title="Suspense 处理错误"></a>Suspense 处理错误</h2><p>当异步请求发生了错误，<code>Suspense</code>可以借助“错误边界”捕获异步请求抛出的错误。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ErrorBoundary</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">    <span class="keyword">super</span>(props)</span><br><span class="line">    <span class="keyword">this</span>.state = &#123; <span class="attr">hasError</span>: <span class="literal">false</span> &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">static</span> getDerivedStateFromError() &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123; <span class="attr">hasError</span>: <span class="literal">true</span> &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  render () &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.state.hasError) &#123;</span><br><span class="line">      <span class="keyword">return</span> &lt;h1&gt;:( error&lt;/h1&gt;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.props.children; </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Page</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [resource, setResource] = useState(initResource)</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;&gt;</span><br><span class="line">      &lt;button onClick=&#123;() =&gt; &#123;</span><br><span class="line">        id += <span class="number">1</span></span><br><span class="line">        clickNumber += <span class="number">1</span></span><br><span class="line">        setResource(http(id))</span><br><span class="line">      &#125;&#125;&gt;+&lt;/button&gt;</span><br><span class="line">      &#123;<span class="comment">/* 使用错误边界捕获异步错误 */</span>&#125;</span><br><span class="line">      &lt;ErrorBoundary&gt;</span><br><span class="line">        &lt;React.Suspense fallback=&#123;&lt;h1&gt;Loading……&lt;<span class="regexp">/h1&gt;&#125;&gt;</span></span><br><span class="line"><span class="regexp">          &lt;Bar resource=&#123;resource&#125; clickNumber=&#123;clickNumber&#125;/</span>&gt;</span><br><span class="line">        &lt;<span class="regexp">/React.Suspense&gt;</span></span><br><span class="line"><span class="regexp">      &lt;/</span>ErrorBoundary&gt;</span><br><span class="line">    &lt;<span class="regexp">/&gt;</span></span><br><span class="line"><span class="regexp">  )</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>上面仅是作者自己的理解，如有错误请及时指出。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://react.docschina.org/docs/concurrent-mode-suspense.html" target="_blank" rel="noopener">Suspense DOC</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/react/" rel="tag"># react</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/01/12/构建vscode插件/" rel="next" title="构建vscode插件">
+                <i class="fa fa-chevron-left"></i> 构建vscode插件
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table Des Matières
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Ensemble
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="张越" />
+            
+              <p class="site-author-name" itemprop="name">张越</p>
+              <p class="site-description motion-element" itemprop="description">所谓成长，就是经过不断的聚散离合，找到不太会伤害到彼此的距离</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">65</span>
+                  <span class="site-state-item-name">articles</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">30</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/BengBu-YueZhang" target="_blank" title="我的GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/5460100952/profile?topnav=1&wvr=6" target="_blank" title="我的微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的微博</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是-Suspense"><span class="nav-number">2.</span> <span class="nav-text">什么是 Suspense ?</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Suspense-for-Data-的简单示例"><span class="nav-number">2.0.1.</span> <span class="nav-text">Suspense for Data 的简单示例</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Suspense-与传统请求数据的方法"><span class="nav-number">3.</span> <span class="nav-text">Suspense 与传统请求数据的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Approach-1-渲染时请求数据（例如-useEffect，componentDidMount）"><span class="nav-number">3.0.1.</span> <span class="nav-text">Approach 1: 渲染时请求数据（例如: useEffect，componentDidMount）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Approach-2-请求数据完成后渲染"><span class="nav-number">3.0.2.</span> <span class="nav-text">Approach 2: 请求数据完成后渲染</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Approach-3-按需渲染（例如：集成了Suspense的Relay）"><span class="nav-number">3.0.3.</span> <span class="nav-text">Approach 3: 按需渲染（例如：集成了Suspense的Relay）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Suspense-与竞态问题"><span class="nav-number">4.</span> <span class="nav-text">Suspense 与竞态问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Suspense-处理错误"><span class="nav-number">5.</span> <span class="nav-text">Suspense 处理错误</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结语"><span class="nav-number">6.</span> <span class="nav-text">结语</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">7.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张越</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Thème &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
