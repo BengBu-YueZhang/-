@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="实践," />
+  <meta name="keywords" content="vscode," />
 
 
 
@@ -79,17 +79,17 @@
 
 
 
-<meta name="keywords" content="实践">
+<meta name="keywords" content="vscode">
 <meta property="og:type" content="article">
-<meta property="og:title" content="「实践」在IOS中实现音乐自动播放">
-<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2019/08/20/在IOS中实现音乐自动播放/index.html">
+<meta property="og:title" content="实现一个简单的VSCode插件(Webview篇)">
+<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2020/01/22/构建vscode插件/index.html">
 <meta property="og:site_name" content="新世紀エヴァンゲリオン">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://unsplash.it/1632/932?random">
-<meta property="og:updated_time" content="2019-08-25T13:05:06.881Z">
+<meta property="og:image" content="https://unsplash.it/1382/814?random">
+<meta property="og:updated_time" content="2020-01-22T09:58:35.905Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="「实践」在IOS中实现音乐自动播放">
-<meta name="twitter:image" content="https://unsplash.it/1632/932?random">
+<meta name="twitter:title" content="实现一个简单的VSCode插件(Webview篇)">
+<meta name="twitter:image" content="https://unsplash.it/1382/814?random">
 
 
 
@@ -119,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/2019/08/20/在IOS中实现音乐自动播放/"/>
+  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/2020/01/22/构建vscode插件/"/>
 
 
 
 
 
-  <title>「实践」在IOS中实现音乐自动播放 | 新世紀エヴァンゲリオン</title>
+  <title>实现一个简单的VSCode插件(Webview篇) | 新世紀エヴァンゲリオン</title>
   
 
 
@@ -242,7 +242,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://bengbu-yuezhang.github.io/yue.github.io/2019/08/20/在IOS中实现音乐自动播放/">
+    <link itemprop="mainEntityOfPage" href="https://bengbu-yuezhang.github.io/yue.github.io/2020/01/22/构建vscode插件/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="张越">
@@ -259,7 +259,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">「实践」在IOS中实现音乐自动播放</h1>
+          <h1 class="post-title" itemprop="name headline">实现一个简单的VSCode插件(Webview篇)</h1>
         
 
         <div class="post-meta">
@@ -271,8 +271,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-08-20T22:00:00+08:00">
-                2019-08-20
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-01-22T23:30:00+08:00">
+                2020-01-22
               </time>
             
 
@@ -309,21 +309,37 @@
       
 
       
-        <p><img src="https://unsplash.it/1632/932?random" alt="image"></p>
+        <p><img src="https://unsplash.it/1382/814?random" alt="image"></p>
 <a id="more"></a>
-<h2 id="🎵前言"><a href="#🎵前言" class="headerlink" title="🎵前言"></a>🎵前言</h2><p>今天在公司接到一个需求。需求如下，首先前端发起一个异步请求，接着后端会通过socket发送一个携带音乐url的消息到前端, 前端拿到url后需要自动播放这个音乐。众所周知，因为流量，安全等因素的限制，在现代浏览器中，尤其是移动端的浏览器中，是不允许在<strong>没有用户交互的情况下</strong>自动播放音乐的。在业务中获取音乐url的socket消息，会触发的比较频繁，显然不太可能在每一次接受消息后，弹一个模态框让用户确认播放音乐。难道，我们真的没有办法解决这个问题吗？其实是有的。（因为目前光顾着实现功能，还没有来得及探究背后的原理，还请见谅🙊）</p>
-<p>⚠️ps: <strong>此办法只适用于发生过一次用户交互行为的情况下，比如在上述的需求中，前端发送异步请求需要点击一个按钮</strong></p>
-<h2 id="💡思路"><a href="#💡思路" class="headerlink" title="💡思路"></a>💡思路</h2><p>其实一开始是，我是没有任何思路的。无论是stackoverflow，还是思否，掘金搜了一圈都没有好的解决方法。但是在无意间，我发现了一个<a href="https://github.com/LLK/scratch-gui" target="_blank" rel="noopener">项目</a>拥有类似的功能（异步获取音频url后，自动播放音频）。于是看了一下项目的源码，发现了其中的奥妙所在😂</p>
-<p>✨这一切的实现，主要依赖了这个包<a href="https://github.com/tambien/StartAudioContext" target="_blank" rel="noopener">StartAudioContext</a></p>
-<p>On iOS, the Web Audio API requires sounds to be triggered from an explicit user action, such as a tap. Calling noteOn() from an onload event will not play sound.<br>StartAudioContext listens for the first non-dragged touchend or mouseup event on any of the given elements, then triggers a silent AudioBuffer which will start the AudioContext if it isn’t already started.</p>
-<p>StartAudioContext会监听任意的元素（没有指定参数时将会监听document.body）的除了ouchend或mouseup以外的任意事件。触发事件后，会触发一个静音的AudioBuffer。（在IOS中实现音频自动播放，需要依赖这个AudioBuffer）</p>
-<h2 id="💻代码"><a href="#💻代码" class="headerlink" title="💻代码"></a>💻代码</h2><blockquote>
-<p>这里肯定不是公司的源码，因为涉及到保密原则。但是对于理解如何实现这个功能，还是足够的。</p>
-</blockquote>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> StartAudioContext <span class="keyword">from</span> <span class="string">'startaudiocontext'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> audioCtx</span><br><span class="line"></span><br><span class="line"><span class="built_in">window</span>.onload = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  audioCtx = <span class="keyword">new</span> AudioContext || webkitAudioContext()</span><br><span class="line">  <span class="comment">// 移动端需要在页面初始化时，就需要创建</span></span><br><span class="line">  StartAudioContext(audioCtx)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">autoPlay</span> (<span class="params">url</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> source = audioCtx.createBufferSource()</span><br><span class="line">  <span class="keyword">let</span> request = <span class="keyword">new</span> XMLHttpRequest()</span><br><span class="line">  request.open(<span class="string">'GET'</span>, url, <span class="literal">true</span>)</span><br><span class="line">  request.responseType = <span class="string">'arraybuffer'</span></span><br><span class="line">  request.onreadystatechange = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (request.readyState !== <span class="number">4</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line">    audioCtx.decodeAudioData(</span><br><span class="line">      request.response,</span><br><span class="line">      (buffer) =&gt; &#123;</span><br><span class="line">        source.buffer = buffer</span><br><span class="line">        source.connect(audioCtx.destination)</span><br><span class="line">        source.loop = <span class="literal">false</span></span><br><span class="line">        <span class="comment">// 开始播放</span></span><br><span class="line">        source.start(<span class="number">0</span>)</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  request.send()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">button.onclick = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 我需要音乐</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 接受消息</span></span><br><span class="line">socket(<span class="string">'msg'</span>, (&#123; url &#125;) =&gt; &#123;</span><br><span class="line">  <span class="comment">// 自动播放</span></span><br><span class="line">  autoPlay(url)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<h2 id="🙏感谢"><a href="#🙏感谢" class="headerlink" title="🙏感谢"></a>🙏感谢</h2><ul>
-<li><a href="https://github.com/tambien/StartAudioContext" target="_blank" rel="noopener">StartAudioContext</a></li>
-<li><a href="https://stackoverflow.com/questions/34837930/audio-tag-autoplay-not-working-in-mobile/46485784#46485784" target="_blank" rel="noopener">Audio Tag Autoplay Not working in mobile</a></li>
+<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><h3 id="安装环境"><a href="#安装环境" class="headerlink" title="安装环境"></a>安装环境</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g yo generator-code</span><br></pre></td></tr></table></figure>
+<h3 id="初始化项目"><a href="#初始化项目" class="headerlink" title="初始化项目"></a>初始化项目</h3><p>使用<code>yo code</code>指令初始化VSCode插件项目，然后需要回答一些简单的配置问题</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">yo code</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> What type of extension do you want to create? </span><br><span class="line"><span class="meta">#</span> 创建那一种类型的扩展？</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> What's the name of your extension?</span><br><span class="line"><span class="meta">#</span> 扩展的名称？</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> What's the identifier of your extension?</span><br><span class="line"><span class="meta">#</span> 扩展的标示？</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> What's the description of your extension?</span><br><span class="line"><span class="meta">#</span> 扩展的描述</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Initialize a git repository? </span><br><span class="line"><span class="meta">#</span> 初始化git仓库</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Which package manager to use? </span><br><span class="line"><span class="meta">#</span> 使用那一种包管理器</span><br></pre></td></tr></table></figure>
+<h3 id="插件的3个基本概念"><a href="#插件的3个基本概念" class="headerlink" title="插件的3个基本概念"></a>插件的3个基本概念</h3><ol>
+<li>激活事件，插件激活的时机。</li>
+<li>发布内容配置，<code>package.json</code>中的插件配置项。</li>
+<li>VSCode API，<a href="https://code.visualstudio.com/api/references/vscode-api" target="_blank" rel="noopener">VSCode内置的API</a>。</li>
+</ol>
+<h4 id="激活事件"><a href="#激活事件" class="headerlink" title="激活事件"></a>激活事件</h4><p>当激活事件被触发时，插件就会被激活。（更多<a href="https://liiked.github.io/VS-Code-Extension-Doc-ZH/#/references/activation-events?id=onwebviewpanel" target="_blank" rel="noopener">激活事件</a>请参考）</p>
+<ul>
+<li>onLanguage 打开特定语言文件时激活</li>
+<li>onCommand 调用命令时激活</li>
+<li>…………</li>
+</ul>
+<h4 id="发布内容配置"><a href="#发布内容配置" class="headerlink" title="发布内容配置"></a>发布内容配置</h4><p><code>pacakge.json</code>文件中插件配置项中的<code>contributes</code>字段。（更多<a href="https://liiked.github.io/VS-Code-Extension-Doc-ZH/#/references/contribution-points?id=contributescommands" target="_blank" rel="noopener">配置项</a>请参考）</p>
+<ul>
+<li>contributes.configuration 插件的配置项 <ul>
+<li>vscode.workspace.getConfiguration(‘properties key’) 可以读取配置</li>
+</ul>
+</li>
+<li>contributes.commands 插件的命令标题和命令体</li>
+<li>contributes.keybindings 设置快捷键</li>
+<li>…………</li>
+</ul>
+<h3 id="插件的入口文件"><a href="#插件的入口文件" class="headerlink" title="插件的入口文件"></a>插件的入口文件</h3><p>插件的入口文件的位置，由<code>pacakge.json</code>文件中的<code>main</code>选项进行配置。</p>
+<p>入口文件，需要导出两个函数<code>deactivate</code>以及<code>activate</code>，当插件被激活时触发<code>activate</code>，插件关闭前触发<code>deactivate</code>。</p>
+<h2 id="打包插件"><a href="#打包插件" class="headerlink" title="打包插件"></a>打包插件</h2><h2 id="数据储存"><a href="#数据储存" class="headerlink" title="数据储存"></a>数据储存</h2><h2 id="Webview"><a href="#Webview" class="headerlink" title="Webview"></a>Webview</h2><h2 id="发布插件"><a href="#发布插件" class="headerlink" title="发布插件"></a>发布插件</h2><h2 id="持续集成"><a href="#持续集成" class="headerlink" title="持续集成"></a>持续集成</h2><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://liiked.github.io/VS-Code-Extension-Doc-ZH/#/get-started/your-first-extension" target="_blank" rel="noopener">中文文档(API部分没有翻译)</a></li>
+<li><a href="https://code.visualstudio.com/api/references/vscode-api#window" target="_blank" rel="noopener">英文文档</a></li>
 </ul>
 
       
@@ -342,7 +358,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/实践/" rel="tag"># 实践</a>
+            <a href="/tags/vscode/" rel="tag"># vscode</a>
           
         </div>
       
@@ -355,8 +371,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/08/08/Axios源码解析/" rel="next" title="逐行解析Axios源码">
-                <i class="fa fa-chevron-left"></i> 逐行解析Axios源码
+              <a href="/2020/01/22/Concurrent2/" rel="next" title="Concurrent UI Patterns">
+                <i class="fa fa-chevron-left"></i> Concurrent UI Patterns
               </a>
             
           </div>
@@ -364,10 +380,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/08/25/位运算/" rel="prev" title="JavaScript中的位运算">
-                JavaScript中的位运算 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -510,7 +522,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#🎵前言"><span class="nav-number">1.</span> <span class="nav-text">🎵前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#💡思路"><span class="nav-number">2.</span> <span class="nav-text">💡思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#💻代码"><span class="nav-number">3.</span> <span class="nav-text">💻代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#🙏感谢"><span class="nav-number">4.</span> <span class="nav-text">🙏感谢</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化"><span class="nav-number">1.</span> <span class="nav-text">初始化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装环境"><span class="nav-number">1.1.</span> <span class="nav-text">安装环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化项目"><span class="nav-number">1.2.</span> <span class="nav-text">初始化项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#插件的3个基本概念"><span class="nav-number">1.3.</span> <span class="nav-text">插件的3个基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#激活事件"><span class="nav-number">1.3.1.</span> <span class="nav-text">激活事件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#发布内容配置"><span class="nav-number">1.3.2.</span> <span class="nav-text">发布内容配置</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#插件的入口文件"><span class="nav-number">1.4.</span> <span class="nav-text">插件的入口文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#打包插件"><span class="nav-number">2.</span> <span class="nav-text">打包插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据储存"><span class="nav-number">3.</span> <span class="nav-text">数据储存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Webview"><span class="nav-number">4.</span> <span class="nav-text">Webview</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#发布插件"><span class="nav-number">5.</span> <span class="nav-text">发布插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#持续集成"><span class="nav-number">6.</span> <span class="nav-text">持续集成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">7.</span> <span class="nav-text">参考</span></a></li></ol></div>
             
 
           </div>
