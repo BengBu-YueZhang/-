@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="react," />
+
+
+
+
+
+
+
+
+
+
+<meta name="keywords" content="react">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Concurrent UI Patterns">
+<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2020/02/04/Concurrent2/index.html">
+<meta property="og:site_name" content="新世紀エヴァンゲリオン">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://unsplash.it/1382/816?random">
+<meta property="og:image" content="https://i.loli.net/2020/02/03/RykwmhioWClaGv9.gif">
+<meta property="og:image" content="https://i.loli.net/2020/02/03/pYzVCla5e4giWOU.gif">
+<meta property="og:image" content="https://i.loli.net/2020/02/03/B3a9KwTXry5CmpA.gif">
+<meta property="og:image" content="https://i.loli.net/2020/02/03/QSrFNMlLh7EbDRC.gif">
+<meta property="og:image" content="https://i.loli.net/2020/02/03/2hWAIcuP5CS8fLH.gif">
+<meta property="og:image" content="https://i.loli.net/2020/02/03/4dGYhoA7Q2X1Iew.gif">
+<meta property="og:image" content="https://i.loli.net/2020/02/04/Yz2BfFIAJG6e5i7.png">
+<meta property="og:updated_time" content="2020-02-04T06:27:00.979Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Concurrent UI Patterns">
+<meta name="twitter:image" content="https://unsplash.it/1382/816?random">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/2020/02/04/Concurrent2/"/>
+
+
+
+
+
+  <title>Concurrent UI Patterns | 新世紀エヴァンゲリオン</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">新世紀エヴァンゲリオン</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">前端小学生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            主页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            时间轴
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://bengbu-yuezhang.github.io/yue.github.io/2020/02/04/Concurrent2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张越">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新世紀エヴァンゲリオン">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Concurrent UI Patterns</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发布于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-02-04T20:00:00+08:00">
+                2020-02-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://unsplash.it/1382/816?random" alt="image"></p>
+<a id="more"></a>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>目前 Concurrent 尚处于实验阶段，大部分文档还没有被翻译。我基于目前的官方文档，对 Concurrent 作一些介绍。</p>
+<p>上一篇是关于<a href="https://juejin.im/post/5e247cfd5188254c257c4438" target="_blank" rel="noopener">React Suspense for Data</a>的介绍。介绍了 Suspense for Data 模式和现有的数据请求方式的一些区别。大家阅读本篇文章前，可以先阅读下这篇文章。</p>
+<h2 id="什么是-Concurrent-模式？"><a href="#什么是-Concurrent-模式？" class="headerlink" title="什么是 Concurrent 模式？"></a>什么是 Concurrent 模式？</h2><h2 id="为什么需要-Concurrent-模式"><a href="#为什么需要-Concurrent-模式" class="headerlink" title="为什么需要 Concurrent 模式?"></a>为什么需要 Concurrent 模式?</h2><p>通常我们在更新状态时，我们希望在屏幕立即看到状态的变化。但是在有些情况下，我们会希望屏幕上的状态更新延迟。比如，从一个页面切换到另一个页面时，另一个页面的代码或者数据还没有加载，会显示一个苍白的 loading 页，是令人沮丧的。在这种情况下，我们更愿意在上一个页面停留更长的时间。在以前的 React 中，实现会很困难。但是 Concurrent UI 模式的出现带来了新的可能。</p>
+<p>为什么说 Concurrent 模式。带来了更好的交互体验。我们来举一个例子 github 在github中点击进入下一层的文件夹，并不会出现loading页，而是将页面保持在前一个状态，当数据请求完成后，才会显示新的状态。其实过多的loading，可能会造成页面的闪烁，用户体验并不是很好。</p>
+<p><img src="https://i.loli.net/2020/02/03/RykwmhioWClaGv9.gif" alt="github.gif"></p>
+<h2 id="useTransitions"><a href="#useTransitions" class="headerlink" title="useTransitions"></a>useTransitions</h2><p>在使用 Concurrent UI 模式出现前，在按下切换按钮后，当前页面的状态立即消失，并立即出现加载态。用户体验并不是很好。如果在请求数据响应时间较短的情况下，可以跳过中间的加载状态，直接显示下一个状态的页面，就好了。</p>
+<p><img src="https://i.loli.net/2020/02/03/pYzVCla5e4giWOU.gif" alt="old.gif"></p>
+<p>使用 Concurrent UI 模式后，在请求数据响应时间较短的情况下（小于<code>timeoutMs</code>），我们可以跳过中间加载态，直接显示新的状态页面。</p>
+<p><img src="https://i.loli.net/2020/02/03/B3a9KwTXry5CmpA.gif" alt="new.gif"></p>
+<p>React提供的新的内置Hook，<code>useTransitions</code>，可以实现这种模式。<code>useTransitions</code>会返回两个值，<code>startTransition</code>以及<code>isPending</code></p>
+<ul>
+<li><code>startTransition</code>, 是一个函数。告诉React，React可以延迟某个状态的更新（延迟进入Suspense的挂起状态，保持目前的状态）。</li>
+<li><code>isPending</code>, 是一个布尔值，告诉我们状态是否正在过渡。</li>
+</ul>
+<p>而<code>useTransitions</code>的配置项。<code>timeoutMs</code>，则告诉React，我们愿意为过渡等待的最大时间。</p>
+<p>如果超过最大时间，则进入挂起状态，显示<code>Suspense</code>的<code>fallback</code>。但是如果过渡完成在超时前，则显示前一个状态，直到新状态过渡完成。</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用useTransition的例子</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Page</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [startTransition, isPending] = useTransition(&#123;</span><br><span class="line">    timeoutMs: <span class="number">2000</span></span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="keyword">const</span> [resource, setResource] = useState(</span><br><span class="line">    initResource</span><br><span class="line">  );</span><br><span class="line">  <span class="keyword">const</span> handleClickNext = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    startTransition(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> nextId = getNextId()</span><br><span class="line">      setResource(http(nextId))</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;React.Fragment&gt;</span><br><span class="line">      &lt;button</span><br><span class="line">        disabled=&#123;isPending&#125;</span><br><span class="line">        onClick=&#123;handleClickNext&#125;</span><br><span class="line">      &gt;Next Id&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">      &lt;p&gt;&#123;isPending ? " Loading..." : null&#125;&lt;/</span>p&gt;</span><br><span class="line">      &lt;React.Suspense fallback=&#123;&lt;h1&gt;Loading...&lt;<span class="regexp">/h1&gt;&#125;&gt;</span></span><br><span class="line"><span class="regexp">        &lt;Figure resource=&#123;resource&#125;/</span>&gt;</span><br><span class="line">      &lt;<span class="regexp">/React.Suspense&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>React.Fragment&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div className=<span class="string">"App"</span>&gt;</span><br><span class="line">      &lt;Page/&gt;</span><br><span class="line">    &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">  )</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<h3 id="新旧状态的组件是同时存在的"><a href="#新旧状态的组件是同时存在的" class="headerlink" title="新旧状态的组件是同时存在的"></a>新旧状态的组件是同时存在的</h3><p>由于旧的状态组件出现在屏幕，所以我们知道它是存在的。对于新的状态组件，它也存在在某处。使用<code>startTransition</code>对状态更新进行包装。状态更新将会发我们看不到的地方。当新的状态准备完成，新旧状态会发生合并，渲染出现在屏幕上。</p>
+<p>虽然新旧状态的组件是同时存在的，但是这不意味着它们是同时渲染的。计算机的并行计算，其实是在极短的时间内，切换到不同的任务进行计算。</p>
+<h2 id="Transitions-无处不在"><a href="#Transitions-无处不在" class="headerlink" title="Transitions 无处不在"></a>Transitions 无处不在</h2><p><img src="https://i.loli.net/2020/02/03/QSrFNMlLh7EbDRC.gif" alt="old-list.gif"></p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">UserList</span> (<span class="params">&#123; resource &#125;</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> list = resource.read(); </span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;ul&gt;</span><br><span class="line">      &#123; list &amp;&amp; list.map(<span class="function"><span class="params">item</span> =&gt;</span> &lt;li key=&#123;item.id&#125;&gt;&#123;item.name&#125;&lt;<span class="regexp">/li&gt;) &#125;</span></span><br><span class="line"><span class="regexp">    &lt;/u</span>l&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [resource, setResource] = useState(initResource);</span><br><span class="line">  <span class="keyword">const</span> handleClickRefresh = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    setResource(http())</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div className=<span class="string">"App"</span>&gt;</span><br><span class="line">      &lt;button onClick=&#123;handleClickRefresh&#125;&gt;刷新&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">      &lt;hr/</span>&gt;</span><br><span class="line">      &lt;React.Suspense fallback=&#123;&lt;h4&gt;loading……&lt;<span class="regexp">/h4&gt;&#125;&gt;</span></span><br><span class="line"><span class="regexp">        &lt;UserList resource=&#123;resource&#125;/</span>&gt;</span><br><span class="line">      &lt;<span class="regexp">/React.Suspense&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>div&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当我们浏览一个页面，并与之交互时，如果出现了不必要的loading态，这种体验是不愉悦的。我们可以使用 <code>useTransitions</code> 将状态更新，包装在 <code>startTransition</code> 中。点击刷新，不会出现</p>
+<p><img src="https://i.loli.net/2020/02/03/2hWAIcuP5CS8fLH.gif" alt="new-list.gif"></p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> initResource = http()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">List</span> (<span class="params">&#123; resource &#125;</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> list = resource.read(); </span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;ul&gt;</span><br><span class="line">      &#123; list &amp;&amp; list.map(<span class="function"><span class="params">item</span> =&gt;</span> &lt;li key=&#123;item.name&#125;&gt;&#123;item.name&#125;&lt;<span class="regexp">/li&gt;) &#125;</span></span><br><span class="line"><span class="regexp">    &lt;/u</span>l&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [resource, setResource] = useState(initResource);</span><br><span class="line">  <span class="keyword">const</span> [startTransition, isPending] = useTransition(&#123;</span><br><span class="line">    timeoutMs: <span class="number">2500</span></span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="keyword">const</span> handleClickRefresh = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    startTransition(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      setResource(http())</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div className=<span class="string">"App"</span>&gt;</span><br><span class="line">      &lt;button onClick=&#123;handleClickRefresh&#125;&gt;刷新 &#123; isPending &amp;&amp; <span class="string">'加载中……'</span> &#125;&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">      &lt;hr/</span>&gt;</span><br><span class="line">      &lt;React.Suspense fallback=&#123;&lt;h4&gt;loading……&lt;<span class="regexp">/h4&gt;&#125;&gt;</span></span><br><span class="line"><span class="regexp">        &lt;List resource=&#123;resource&#125;/</span>&gt;</span><br><span class="line">      &lt;<span class="regexp">/React.Suspense&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>div&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在感觉好多了，点击刷新，不会出现苍白的loading页，数据正在内部加载，当数据准备好，它就会显示出来。</p>
+<h2 id="Transitions-应用到组件设计"><a href="#Transitions-应用到组件设计" class="headerlink" title="Transitions 应用到组件设计"></a>Transitions 应用到组件设计</h2><p>Transitions 是很常见的，任何可以导致组件被挂起的组件都应该被 <code>useTransition</code> 包裹起来。下面是一个 <code>Button</code> 组件的例子。通过将 Transitions 融合到组件设计中，可以避免大量重复无用的代码。</p>
+<p><img src="https://i.loli.net/2020/02/03/4dGYhoA7Q2X1Iew.gif" alt="button-compoent.gif"></p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Button组件</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Button</span> (<span class="params">props</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [startTransition, isPending] = useTransition(&#123;</span><br><span class="line">    timeoutMs: <span class="number">3000</span></span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="keyword">const</span> &#123; onClick, children &#125; = props;</span><br><span class="line">  <span class="keyword">const</span> handleClick = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    startTransition(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">      onClick()</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;button onClick=&#123;handleClick&#125;&gt;</span><br><span class="line">      &#123; children &#125; &#123; isPending &amp;&amp; <span class="string">'……s'</span> &#125;</span><br><span class="line">    &lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">  )</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在App文件中，不需要再次重复useTransition的逻辑</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [resource1, setResource1] = useState(initResource);</span><br><span class="line">  <span class="keyword">const</span> [resource2, setResource2] = useState(initResource);</span><br><span class="line">  <span class="keyword">const</span> handleRefresh1 = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    setResource1(http())</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> handleRefresh2 = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    setResource2(http())</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div className=<span class="string">"App"</span>&gt;</span><br><span class="line">      &lt;Button onClick=&#123;handleRefresh1&#125;&gt;刷新列表<span class="number">1</span>&lt;<span class="regexp">/Button&gt;</span></span><br><span class="line"><span class="regexp">      &lt;br/</span>&gt;</span><br><span class="line">      &lt;Button onClick=&#123;handleRefresh2&#125;&gt;刷新列表<span class="number">2</span>&lt;<span class="regexp">/Button&gt;</span></span><br><span class="line"><span class="regexp">      &lt;hr/</span>&gt;</span><br><span class="line">      &lt;React.Suspense fallback=&#123;&lt;h4&gt;loading……&lt;<span class="regexp">/h4&gt;&#125;&gt;</span></span><br><span class="line"><span class="regexp">        &lt;List resource=&#123;resource1&#125;/</span>&gt;</span><br><span class="line">      &lt;<span class="regexp">/React.Suspense&gt;</span></span><br><span class="line"><span class="regexp">      &lt;hr/</span>&gt;</span><br><span class="line">      &lt;React.Suspense fallback=&#123;&lt;h4&gt;loading……&lt;<span class="regexp">/h4&gt;&#125;&gt;</span></span><br><span class="line"><span class="regexp">        &lt;List resource=&#123;resource2&#125;/</span>&gt;</span><br><span class="line">      &lt;<span class="regexp">/React.Suspense&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>div&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="三个步骤"><a href="#三个步骤" class="headerlink" title="三个步骤"></a>三个步骤</h2><p><img src="https://i.loli.net/2020/02/04/Yz2BfFIAJG6e5i7.png" alt="steps.png"></p>
+<ol>
+<li>Pending，待定态。<code>useTransitions</code>，会时页面保持在当前的状态，使页面依然是可交互的。当数据准备完毕，进入Skeleton态。如果数据超时，则回退到Receded态。</li>
+<li>Receded，退化态。当前页面数据消失，显示一个大大的loading页。</li>
+<li>Skeleton，骨架态。数据部分准备完毕，页面部分以及加载完成。</li>
+<li>Complete，完成态。页面加载完成。</li>
+</ol>
+<h3 id="默认-Receded-gt-Skeleton-gt-Complete"><a href="#默认-Receded-gt-Skeleton-gt-Complete" class="headerlink" title="默认: Receded -&gt; Skeleton -&gt; Complete"></a>默认: Receded -&gt; Skeleton -&gt; Complete</h3><h3 id="首选-Pending-gt-Skeleton-gt-Complete"><a href="#首选-Pending-gt-Skeleton-gt-Complete" class="headerlink" title="首选: Pending -&gt; Skeleton -&gt; Complete"></a>首选: Pending -&gt; Skeleton -&gt; Complete</h3><h3 id="将慢速组件包装在Suspense中"><a href="#将慢速组件包装在Suspense中" class="headerlink" title="将慢速组件包装在Suspense中"></a>将慢速组件包装在Suspense中</h3><p>考虑下面这种情况，假设我们的 “评价列表” 的接口响应速度总是很慢，后端同学短时间也无法优化。它会拖慢我们整个页面进入 <code>Skeleton</code> 态的时间。让页面长期处于 <code>Pending</code> 态，迟迟不能进入下一个状态。</p>
+<p>我们可能会首先想到，修改 <code>useTransitions</code> 的 <code>timeoutMs</code>, 但这样同样无济于事，因为回退到 <code>Receded</code>同样是不好的体验。</p>
+<p>有没有什么好的办法，可以优化呢？我们可以将慢速的组件，包裹在Suspense中。</p>
+<h2 id="其他模式"><a href="#其他模式" class="headerlink" title="其他模式"></a>其他模式</h2>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/react/" rel="tag"># react</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/02/02/构建vscode插件/" rel="next" title="实现一个简单的VSCode插件(Webview篇)">
+                <i class="fa fa-chevron-left"></i> 实现一个简单的VSCode插件(Webview篇)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/01/01/ProblemSummary/" rel="prev" title="「置顶」日常问题汇总">
+                「置顶」日常问题汇总 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            作者概述
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="张越" />
+            
+              <p class="site-author-name" itemprop="name">张越</p>
+              <p class="site-description motion-element" itemprop="description">所谓成长，就是经过不断的聚散离合，找到不太会伤害到彼此的距离</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">67</span>
+                  <span class="site-state-item-name">篇文章</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-name">Tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/BengBu-YueZhang" target="_blank" title="我的GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/5460100952/profile?topnav=1&wvr=6" target="_blank" title="我的微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的微博</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是-Concurrent-模式？"><span class="nav-number">2.</span> <span class="nav-text">什么是 Concurrent 模式？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么需要-Concurrent-模式"><span class="nav-number">3.</span> <span class="nav-text">为什么需要 Concurrent 模式?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#useTransitions"><span class="nav-number">4.</span> <span class="nav-text">useTransitions</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#新旧状态的组件是同时存在的"><span class="nav-number">4.1.</span> <span class="nav-text">新旧状态的组件是同时存在的</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Transitions-无处不在"><span class="nav-number">5.</span> <span class="nav-text">Transitions 无处不在</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Transitions-应用到组件设计"><span class="nav-number">6.</span> <span class="nav-text">Transitions 应用到组件设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三个步骤"><span class="nav-number">7.</span> <span class="nav-text">三个步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#默认-Receded-gt-Skeleton-gt-Complete"><span class="nav-number">7.1.</span> <span class="nav-text">默认: Receded -&gt; Skeleton -&gt; Complete</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#首选-Pending-gt-Skeleton-gt-Complete"><span class="nav-number">7.2.</span> <span class="nav-text">首选: Pending -&gt; Skeleton -&gt; Complete</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将慢速组件包装在Suspense中"><span class="nav-number">7.3.</span> <span class="nav-text">将慢速组件包装在Suspense中</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他模式"><span class="nav-number">8.</span> <span class="nav-text">其他模式</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张越</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
