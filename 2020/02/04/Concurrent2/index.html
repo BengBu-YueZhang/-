@@ -93,7 +93,9 @@
 <meta property="og:image" content="https://i.loli.net/2020/02/03/2hWAIcuP5CS8fLH.gif">
 <meta property="og:image" content="https://i.loli.net/2020/02/03/4dGYhoA7Q2X1Iew.gif">
 <meta property="og:image" content="https://i.loli.net/2020/02/04/Yz2BfFIAJG6e5i7.png">
-<meta property="og:updated_time" content="2020-02-04T06:27:00.979Z">
+<meta property="og:image" content="https://i.loli.net/2020/02/05/FyoO29edK7LQ3An.gif">
+<meta property="og:image" content="https://i.loli.net/2020/02/05/NyqGniDVvkTxOr7.gif">
+<meta property="og:updated_time" content="2020-02-05T15:54:18.425Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Concurrent UI Patterns">
 <meta name="twitter:image" content="https://unsplash.it/1382/816?random">
@@ -276,7 +278,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发布于</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-02-04T20:00:00+08:00">
                 2020-02-04
@@ -354,9 +356,17 @@
 <li>Skeleton，骨架态。数据部分准备完毕，页面部分以及加载完成。</li>
 <li>Complete，完成态。页面加载完成。</li>
 </ol>
-<h3 id="默认-Receded-gt-Skeleton-gt-Complete"><a href="#默认-Receded-gt-Skeleton-gt-Complete" class="headerlink" title="默认: Receded -&gt; Skeleton -&gt; Complete"></a>默认: Receded -&gt; Skeleton -&gt; Complete</h3><h3 id="首选-Pending-gt-Skeleton-gt-Complete"><a href="#首选-Pending-gt-Skeleton-gt-Complete" class="headerlink" title="首选: Pending -&gt; Skeleton -&gt; Complete"></a>首选: Pending -&gt; Skeleton -&gt; Complete</h3><h3 id="将慢速组件包装在Suspense中"><a href="#将慢速组件包装在Suspense中" class="headerlink" title="将慢速组件包装在Suspense中"></a>将慢速组件包装在Suspense中</h3><p>考虑下面这种情况，假设我们的 “评价列表” 的接口响应速度总是很慢，后端同学短时间也无法优化。它会拖慢我们整个页面进入 <code>Skeleton</code> 态的时间。让页面长期处于 <code>Pending</code> 态，迟迟不能进入下一个状态。</p>
+<h3 id="默认-Receded-gt-Skeleton-gt-Complete"><a href="#默认-Receded-gt-Skeleton-gt-Complete" class="headerlink" title="默认: Receded -&gt; Skeleton -&gt; Complete"></a>默认: Receded -&gt; Skeleton -&gt; Complete</h3><h3 id="首选-Pending-gt-Skeleton-gt-Complete"><a href="#首选-Pending-gt-Skeleton-gt-Complete" class="headerlink" title="首选: Pending -&gt; Skeleton -&gt; Complete"></a>首选: Pending -&gt; Skeleton -&gt; Complete</h3><h3 id="将慢速组件包装在Suspense中"><a href="#将慢速组件包装在Suspense中" class="headerlink" title="将慢速组件包装在Suspense中"></a>将慢速组件包装在Suspense中</h3><p>考虑下面这种情况，假设我们的 “用户列表” 的接口响应速度总是很慢（需要5s的时间才能返回），后端同学短时间也无法优化。它会拖慢我们整个页面进入 <code>Skeleton</code> 态的时间。让页面长期处于 <code>Pending</code> 态，迟迟不能进入下一个状态。（如下图所示）</p>
+<p><img src="https://i.loli.net/2020/02/05/FyoO29edK7LQ3An.gif" alt="old.gif"></p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">HomePage</span> (<span class="params">&#123; resource &#125;</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;React.Fragment&gt;</span><br><span class="line">      &#123;<span class="comment">/* UserList列表加载过慢 */</span>&#125;</span><br><span class="line">      &lt;UserList resource=&#123;resource&#125;/&gt;</span><br><span class="line">      &lt;NewsList resource=&#123;resource&#125;/&gt;</span><br><span class="line">    &lt;<span class="regexp">/React.Fragment&gt;</span></span><br><span class="line"><span class="regexp">  )</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">function LoginPage (&#123; onClick &#125;) &#123;</span></span><br><span class="line"><span class="regexp">  return (</span></span><br><span class="line"><span class="regexp">    &lt;div&gt;</span></span><br><span class="line"><span class="regexp">      &lt;h1&gt;首页&lt;/</span>h1&gt;</span><br><span class="line">      &#123;<span class="comment">/* Button组件使用了useTransitions进行封装 */</span>&#125;</span><br><span class="line">      &lt;Button onClick=&#123;onClick&#125;&gt;下一页&lt;<span class="regexp">/Button&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>div&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [tab, setTab] = useState(<span class="string">'login'</span>)</span><br><span class="line">  <span class="keyword">const</span> [resource, setResource] = useState(<span class="literal">null</span>);</span><br><span class="line">  <span class="keyword">const</span> handleClick = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    setResource(http())</span><br><span class="line">    setTab(<span class="string">'home'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">let</span> page = <span class="literal">null</span></span><br><span class="line">  <span class="keyword">if</span> (tab === <span class="string">'login'</span>) &#123;</span><br><span class="line">    page = &lt;LoginPage onClick=&#123;handleClick&#125;/&gt;</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    page = &lt;HomePage resource=&#123;resource&#125;/&gt;</span><br><span class="line">  &#125;</span><br><span class="line">  return (</span><br><span class="line">    &lt;React.Suspense fallback=&#123;&lt;h1&gt;loading……&lt;/h1&gt;&#125;&gt;</span><br><span class="line">      &lt;React.Fragment&gt;</span><br><span class="line">        &#123;page&#125;</span><br><span class="line">      &lt;/React.Fragment&gt;</span><br><span class="line">    &lt;/React.Suspense&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>我们可能会首先想到，修改 <code>useTransitions</code> 的 <code>timeoutMs</code>, 但这样同样无济于事，因为回退到 <code>Receded</code>同样是不好的体验。</p>
-<p>有没有什么好的办法，可以优化呢？我们可以将慢速的组件，包裹在Suspense中。</p>
+<p>有没有什么好的办法，可以优化呢？我们可以将慢速的组件，包裹在Suspense中，让其延迟加载，这样看起来好多了，页面不会长期停留在<code>Pending</code>态。</p>
+<p><img src="https://i.loli.net/2020/02/05/NyqGniDVvkTxOr7.gif" alt="new.gif"></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">HomePage</span> (<span class="params">&#123; resource &#125;</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;React.Fragment&gt;</span><br><span class="line">      &#123;<span class="comment">/* 使用Suspense对慢速组件进行包裹 */</span>&#125;</span><br><span class="line">      &lt;React.Suspense fallback=&#123;&lt;h4&gt;用户列表加载中……&lt;<span class="regexp">/h4&gt;&#125;&gt;</span></span><br><span class="line"><span class="regexp">        &lt;UserList resource=&#123;resource&#125;/</span>&gt;</span><br><span class="line">      &lt;<span class="regexp">/React.Suspense&gt;</span></span><br><span class="line"><span class="regexp">      &lt;NewsList resource=&#123;resource&#125;/</span>&gt;</span><br><span class="line">    &lt;<span class="regexp">/React.Fragment&gt;</span></span><br><span class="line"><span class="regexp">  )</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<h2 id="useTransition-正确使用的方法"><a href="#useTransition-正确使用的方法" class="headerlink" title="useTransition 正确使用的方法"></a>useTransition 正确使用的方法</h2><ol>
+<li><code>useTransition</code> 必须配合 <code>Suspense</code> 一起使用。<code>startTransition</code>中操作可以触发<code>Suspense</code>，才会让页面进入 <code>Pending</code> 态。</li>
+<li><code>startTransition</code>，所触发的<code>Suspense</code>，必须在<code>startTransition</code>触发前挂载完成。</li>
+</ol>
 <h2 id="其他模式"><a href="#其他模式" class="headerlink" title="其他模式"></a>其他模式</h2>
       
     </div>
@@ -453,10 +463,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
+            Table of Contents
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            作者概述
+            Overview
           </li>
         </ul>
       
@@ -481,7 +491,7 @@
                 <a href="/archives/">
               
                   <span class="site-state-item-count">67</span>
-                  <span class="site-state-item-name">篇文章</span>
+                  <span class="site-state-item-name">篇博文</span>
                 </a>
               </div>
             
@@ -494,7 +504,7 @@
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
                   <span class="site-state-item-count">31</span>
-                  <span class="site-state-item-name">Tags</span>
+                  <span class="site-state-item-name">tags</span>
                 </a>
               </div>
             
@@ -542,7 +552,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是-Concurrent-模式？"><span class="nav-number">2.</span> <span class="nav-text">什么是 Concurrent 模式？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么需要-Concurrent-模式"><span class="nav-number">3.</span> <span class="nav-text">为什么需要 Concurrent 模式?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#useTransitions"><span class="nav-number">4.</span> <span class="nav-text">useTransitions</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#新旧状态的组件是同时存在的"><span class="nav-number">4.1.</span> <span class="nav-text">新旧状态的组件是同时存在的</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Transitions-无处不在"><span class="nav-number">5.</span> <span class="nav-text">Transitions 无处不在</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Transitions-应用到组件设计"><span class="nav-number">6.</span> <span class="nav-text">Transitions 应用到组件设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三个步骤"><span class="nav-number">7.</span> <span class="nav-text">三个步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#默认-Receded-gt-Skeleton-gt-Complete"><span class="nav-number">7.1.</span> <span class="nav-text">默认: Receded -&gt; Skeleton -&gt; Complete</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#首选-Pending-gt-Skeleton-gt-Complete"><span class="nav-number">7.2.</span> <span class="nav-text">首选: Pending -&gt; Skeleton -&gt; Complete</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将慢速组件包装在Suspense中"><span class="nav-number">7.3.</span> <span class="nav-text">将慢速组件包装在Suspense中</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他模式"><span class="nav-number">8.</span> <span class="nav-text">其他模式</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是-Concurrent-模式？"><span class="nav-number">2.</span> <span class="nav-text">什么是 Concurrent 模式？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么需要-Concurrent-模式"><span class="nav-number">3.</span> <span class="nav-text">为什么需要 Concurrent 模式?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#useTransitions"><span class="nav-number">4.</span> <span class="nav-text">useTransitions</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#新旧状态的组件是同时存在的"><span class="nav-number">4.1.</span> <span class="nav-text">新旧状态的组件是同时存在的</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Transitions-无处不在"><span class="nav-number">5.</span> <span class="nav-text">Transitions 无处不在</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Transitions-应用到组件设计"><span class="nav-number">6.</span> <span class="nav-text">Transitions 应用到组件设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三个步骤"><span class="nav-number">7.</span> <span class="nav-text">三个步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#默认-Receded-gt-Skeleton-gt-Complete"><span class="nav-number">7.1.</span> <span class="nav-text">默认: Receded -&gt; Skeleton -&gt; Complete</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#首选-Pending-gt-Skeleton-gt-Complete"><span class="nav-number">7.2.</span> <span class="nav-text">首选: Pending -&gt; Skeleton -&gt; Complete</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将慢速组件包装在Suspense中"><span class="nav-number">7.3.</span> <span class="nav-text">将慢速组件包装在Suspense中</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#useTransition-正确使用的方法"><span class="nav-number">8.</span> <span class="nav-text">useTransition 正确使用的方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他模式"><span class="nav-number">9.</span> <span class="nav-text">其他模式</span></a></li></ol></div>
             
 
           </div>
@@ -572,7 +582,7 @@
 </div>
 
 
-  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 
 
