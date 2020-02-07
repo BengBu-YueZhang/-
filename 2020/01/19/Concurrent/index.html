@@ -89,7 +89,7 @@
 <meta property="og:image" content="https://i.loli.net/2020/01/18/MxjvXGQykC1SNtJ.gif">
 <meta property="og:image" content="https://i.loli.net/2020/01/19/vou9Tj4UGDxSIf2.gif">
 <meta property="og:image" content="https://i.loli.net/2020/01/19/X4qrD1IcGfW5v2C.gif">
-<meta property="og:updated_time" content="2020-01-22T04:39:18.970Z">
+<meta property="og:updated_time" content="2020-02-07T05:53:49.681Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="React Suspense for Data">
 <meta name="twitter:image" content="https://unsplash.it/1382/815?random">
@@ -272,7 +272,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">发布于</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-01-19T23:40:00+08:00">
                 2020-01-19
@@ -364,7 +364,7 @@
 <li>开始渲染</li>
 <li>异步请求完成</li>
 </ol>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> resource = http()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Foo</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> result = resource.foo.read()</span><br><span class="line">  <span class="keyword">return</span> &lt;div&gt;Foo: &#123; result.name &#125;&lt;/div&gt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Bar</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> result = resource.bar.read()</span><br><span class="line">  <span class="keyword">return</span> &lt;div&gt;Bar: &#123; result.name &#125;&lt;/div&gt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Page</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;React.Suspense fallback=&#123;&lt;h1&gt;Loading Foo...&lt;<span class="regexp">/h1&gt;&#125;&gt;</span></span><br><span class="line"><span class="regexp">      &lt;Foo/</span>&gt;</span><br><span class="line">      &lt;React.Suspense fallback=&#123;&lt;h1&gt;Loading Bar...&lt;<span class="regexp">/h1&gt;&#125;&gt;</span></span><br><span class="line"><span class="regexp">        &lt;Bar/</span>&gt;</span><br><span class="line">      &lt;<span class="regexp">/React.Suspense&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>React.Suspense&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div className=<span class="string">"App"</span>&gt;</span><br><span class="line">      &lt;Page/&gt;</span><br><span class="line">    &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">  )</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 请求数据</span></span><br><span class="line"><span class="keyword">const</span> resource = http()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Foo</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> result = resource.foo.read()</span><br><span class="line">  <span class="keyword">return</span> &lt;div&gt;Foo: &#123; result.name &#125;&lt;/div&gt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Bar</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> result = resource.bar.read()</span><br><span class="line">  <span class="keyword">return</span> &lt;div&gt;Bar: &#123; result.name &#125;&lt;/div&gt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Page</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;React.Suspense fallback=&#123;&lt;h1&gt;Loading Foo...&lt;<span class="regexp">/h1&gt;&#125;&gt;</span></span><br><span class="line"><span class="regexp">      &lt;Foo/</span>&gt;</span><br><span class="line">      &lt;React.Suspense fallback=&#123;&lt;h1&gt;Loading Bar...&lt;<span class="regexp">/h1&gt;&#125;&gt;</span></span><br><span class="line"><span class="regexp">        &lt;Bar/</span>&gt;</span><br><span class="line">      &lt;<span class="regexp">/React.Suspense&gt;</span></span><br><span class="line"><span class="regexp">    &lt;/</span>React.Suspense&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div className=<span class="string">"App"</span>&gt;</span><br><span class="line">      &lt;Page/&gt;</span><br><span class="line">    &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">  )</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
 <ol>
 <li>渲染之前，http开始请求数据，它会返回一个特殊的资源，而不是Promise（这通常由实现了Suspense的请求库进行封装）。</li>
 <li>React尝试渲染Page组件，返回Foo，和Bar作为子组件。</li>
@@ -484,10 +484,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
+            文章目录
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
+            作者概述
           </li>
         </ul>
       
@@ -512,7 +512,7 @@
                 <a href="/archives/">
               
                   <span class="site-state-item-count">67</span>
-                  <span class="site-state-item-name">篇博文</span>
+                  <span class="site-state-item-name">篇文章</span>
                 </a>
               </div>
             
@@ -525,7 +525,7 @@
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
                   <span class="site-state-item-count">31</span>
-                  <span class="site-state-item-name">tags</span>
+                  <span class="site-state-item-name">Tags</span>
                 </a>
               </div>
             
@@ -603,7 +603,7 @@
 </div>
 
 
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 
 
