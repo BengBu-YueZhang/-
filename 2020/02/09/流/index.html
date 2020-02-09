@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Node," />
 
 
 
@@ -79,16 +79,17 @@
 
 
 
-<meta name="description" content="所谓成长，就是经过不断的聚散离合，找到不太会伤害到彼此的距离">
-<meta property="og:type" content="website">
-<meta property="og:title" content="新世紀エヴァンゲリオン">
-<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/tags/ts/index.html">
+<meta name="keywords" content="Node">
+<meta property="og:type" content="article">
+<meta property="og:title" content="「学习笔记」Node Stream">
+<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2020/02/09/流/index.html">
 <meta property="og:site_name" content="新世紀エヴァンゲリオン">
-<meta property="og:description" content="所谓成长，就是经过不断的聚散离合，找到不太会伤害到彼此的距离">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://unsplash.it/1374/816?random">
+<meta property="og:updated_time" content="2020-02-09T08:46:31.418Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="新世紀エヴァンゲリオン">
-<meta name="twitter:description" content="所谓成长，就是经过不断的聚散离合，找到不太会伤害到彼此的距离">
+<meta name="twitter:title" content="「学习笔记」Node Stream">
+<meta name="twitter:image" content="https://unsplash.it/1374/816?random">
 
 
 
@@ -118,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/tags/ts/"/>
+  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/2020/02/09/流/"/>
 
 
 
 
 
-  <title>Tag: ts | 新世紀エヴァンゲリオン</title>
+  <title>「学习笔记」Node Stream | 新世紀エヴァンゲリオン</title>
   
 
 
@@ -143,7 +144,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -227,54 +228,166 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block tag">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>ts<small>Tag</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://bengbu-yuezhang.github.io/yue.github.io/2020/02/09/流/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张越">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新世紀エヴァンゲリオン">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2019/10/26/typescript2/" itemprop="url">
-              
-                <span itemprop="name">「学习笔记」TypeScript</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">「学习笔记」Node Stream</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2019-10-26T19:20:00+08:00"
-              content="2019-10-26" >
-          10-26
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-02-09T15:08:32+08:00">
+                2020-02-09
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://unsplash.it/1374/816?random" alt="image"></p>
+<a id="more"></a>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>作为一名普通的 <code>前端仔</code> 在学习Nodejs时，对”Buffer”, “二进制数据”, “进程”这样的名词充满了疑惑。尤其是像我这样，没有任何cs学历的人。认为这些都是Nodejs专家，包开发者所应该了解的概念。而且可悲的是，许多教程都是直接教你如何使用Node包进行开发🥱。</p>
+<p>没错，对于一名普通的开发者，可能永远不会接触到这些概念。但是为了更好的学习Node，希望自己有所建树。我还是决定按照Node文档的顺序，认认真真的学习Node的每一个概念，每一个原始API。</p>
+<h2 id="流的类型"><a href="#流的类型" class="headerlink" title="流的类型"></a>流的类型</h2><ol>
+<li>Writable 可写入流</li>
+<li>Readable 可读取流</li>
+<li>Duplex 可读可写流</li>
+<li>Transform </li>
+</ol>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="http://nodejs.cn/api/stream.html" target="_blank" rel="noopener">Node.js v12.15.0 中文文档</a></li>
+<li><a href="https://nodejs.org/api/stream.html" target="_blank" rel="noopener">Node.js v13.8.0 Documentation</a></li>
+<li><a href="https://medium.com/edge-coders/node-js-streams-everything-you-need-to-know-c9141306be93?source=search_post---------0" target="_blank" rel="noopener">Node.js Streams: Everything you need to know</a></li>
+<li><a href="https://nodesource.com/blog/understanding-streams-in-nodejs/" target="_blank" rel="noopener">Understanding Streams in Node.js</a></li>
+</ul>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Node/" rel="tag"># Node</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/02/08/Concurrent2/" rel="next" title="Concurrent UI Patterns">
+                <i class="fa fa-chevron-left"></i> Concurrent UI Patterns
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/02/09/buffer/" rel="prev" title="「学习笔记」Node Buffer">
+                「学习笔记」Node Buffer <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -282,6 +395,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -302,8 +419,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -374,6 +500,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流的类型"><span class="nav-number">2.</span> <span class="nav-text">流的类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -521,6 +663,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
