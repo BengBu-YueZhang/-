@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Node," />
+
+
+
+
+
+
+
+
+
+
+<meta name="keywords" content="Node">
+<meta property="og:type" content="article">
+<meta property="og:title" content="「学习笔记」Node Buffer">
+<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2020/02/13/buffer/index.html">
+<meta property="og:site_name" content="新世紀エヴァンゲリオン">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://unsplash.it/1374/815?random">
+<meta property="og:updated_time" content="2020-02-13T13:15:46.642Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="「学习笔记」Node Buffer">
+<meta name="twitter:image" content="https://unsplash.it/1374/815?random">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/2020/02/13/buffer/"/>
+
+
+
+
+
+  <title>「学习笔记」Node Buffer | 新世紀エヴァンゲリオン</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">新世紀エヴァンゲリオン</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">前端小学生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            主页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            时间轴
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://bengbu-yuezhang.github.io/yue.github.io/2020/02/13/buffer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张越">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新世紀エヴァンゲリオン">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">「学习笔记」Node Buffer</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发布于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-02-13T15:46:30+08:00">
+                2020-02-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://unsplash.it/1374/815?random" alt="image"></p>
+<a id="more"></a>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>作为一名普通的 <code>前端仔</code> 在学习Nodejs时，对”Buffer”, “二进制数据”, “进程”这样的名词充满了疑惑。尤其是像我这样，没有任何cs学历的人。认为这些都是Nodejs专家，包开发者所应该了解的概念。而且可悲的是，许多教程都是直接教你如何使用Node包进行开发🥱。</p>
+<p>没错，对于一名普通的开发者，可能永远不会接触到这些概念。但是为了更好的学习Node，希望自己有所建树。我还是决定按照Node文档的顺序，认认真真的学习Node的每一个概念，每一个原始API。</p>
+<h2 id="前置概念"><a href="#前置概念" class="headerlink" title="前置概念"></a>前置概念</h2><h3 id="🤔️什么是二进制数据？"><a href="#🤔️什么是二进制数据？" class="headerlink" title="🤔️什么是二进制数据？"></a>🤔️什么是二进制数据？</h3><p>计算机是以二进制形式存储和表示数据，二进制是 <code>0</code> 和 <code>1</code> 的集合。例如：<code>0100</code>，<code>1010</code>。比如，要存储数字 <code>13</code> 计算机需要将数字转换为 <code>1101</code>。</p>
+<blockquote>
+<p>二进制中的 <code>0</code> 和 <code>1</code> 被称为位（bit）。尽管它们很像表示一个数值，但是其实它们表示是符号。<code>0</code> 代表FALSE, <code>1</code>代表TRUE。位的运算其实是对真假值的操作。为了存储数据，计算机包含了大量的电路，每一个电路能存储单独的一个<strong>位</strong>。这种位存储器，被称为”<strong>主存储器</strong>“。计算机通过<strong>存储单元</strong>组织管理<strong>主存储器</strong>。一个典型的存储单元容量是<strong>8位</strong>，一个8位的串称为一个字节（byte）。</p>
+</blockquote>
+<p>但是，数字不是我们唯一需要存储处理的数据，我们还需要处理字符串，图片，视频。</p>
+<p>以字符串为例，那么计算机怎么存储字符串呢？例如，我们要存储字符串 “S” ，计算机首先会将 “S”, 转换为数字<code>&#39;S&#39;.charCodeAt() === 83</code>, 那么计算机是如何知道83表示”S”的？</p>
+<h4 id="字符集"><a href="#字符集" class="headerlink" title="字符集"></a>字符集</h4><p>字符集是已经定义好的规则，每一个字符都有一个确切的数字表示。字符集有不同规则的定义，例如：”Unicode”, “ASCII”。浏览器中使用”Unicode”字符集。正是”Unicode”字符集，定义了83表示”S”。</p>
+<p>那么接下来，计算机会直接将83转为二进制吗？并不是，我们还需要使用”字符编码”。</p>
+<h4 id="字符编码"><a href="#字符编码" class="headerlink" title="字符编码"></a>字符编码</h4><p>字符集定义了使用特定的数字表示字符（汉字也是同样的）。而字符编码定义了，如何将数字转换为特定长度的二进制数据。常见的utf-8字符编码，规定了字符最多由4个字节进行编码（一个字节由8个，0或者1表示）。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">h e l l o &lt;==Unicode==&gt; 104 101 108 108 111 &lt;==utf-8==&gt; 1101000 1100101 1101100 1101100 1101111</span><br></pre></td></tr></table></figure>
+<p>对于视频，音频，图片，计算机也有特定规则，将其转换为二进制数据。计算机将所有数据类型，存储为二进制文件。这些二进制文件就是二进制数据。</p>
+<h3 id="🤔️什么是Buffer（缓冲区）？"><a href="#🤔️什么是Buffer（缓冲区）？" class="headerlink" title="🤔️什么是Buffer（缓冲区）？"></a>🤔️什么是Buffer（缓冲区）？</h3><p>数据流指数据从一个位置到另一个位置的移动（通常大文件会被拆解为块的形式）。</p>
+<p>如果数据流动的速度，大于进程处理数据的速度，多余的数据会在某个地方等待。如果数据流动的速度，小于进程处理数据的速度，那么数据会在某个地方累计到一定的数量，然后在由进程进行处理。（我们无法控制流的速度）</p>
+<p>那个等待数据，累计数据，然后发生出去的地方。就是<strong>缓冲区</strong>。缓冲区通常位于电脑的RAM（内存）中。</p>
+<p>举一个常见的缓冲区的例子，我们在观看在线视频的时候，如果你的网速很快，缓冲区总是会被立即填充，然后发送出去，然后立即缓冲下一段视频。观看的过程中，不会有卡顿。如果网速很慢，则会看到loading，表示缓冲区正在被填充，当填充完成后数据被发送出去，才能看到这段视频。</p>
+<h2 id="Buffer类"><a href="#Buffer类" class="headerlink" title="Buffer类"></a>Buffer类</h2><h3 id="什么是TypedArray？"><a href="#什么是TypedArray？" class="headerlink" title="什么是TypedArray？"></a>什么是TypedArray？</h3><p>在<code>TypedArray</code>出现前，js没有读取或操作二进制数据流的机制。<code>TypedArray</code>并不是一个特定的全局对象，而是许多全局对象的统称。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// TypedArray 指的是下面其中之一</span></span><br><span class="line"><span class="built_in">Int8Array</span> <span class="comment">// 8位二进制补码有符号整数的数组</span></span><br><span class="line"><span class="built_in">Uint8Array</span> <span class="comment">// 8位无符号整型数组（0 &gt; &amp; &lt; 256(8位无符号整形)），等等</span></span><br><span class="line"><span class="built_in">Uint8ClampedArray</span></span><br><span class="line"><span class="built_in">Int16Array</span></span><br><span class="line"><span class="built_in">Uint16Array</span></span><br><span class="line"><span class="built_in">Int32Array</span></span><br><span class="line"><span class="built_in">Uint32Array</span></span><br><span class="line"><span class="built_in">Float32Array</span></span><br><span class="line"><span class="built_in">Float64Array</span></span><br></pre></td></tr></table></figure>
+<h3 id="什么是Buffer类？"><a href="#什么是Buffer类？" class="headerlink" title="什么是Buffer类？"></a>什么是Buffer类？</h3><p>Buffer类，是以Nodejs方式实现的<strong>Uint8Array</strong>API（<strong>Uint8Array</strong>属于<strong>TypedArray</strong>的一种）。<strong>Buffer的大小，在创建时确定，并且之后无法更改</strong></p>
+<h4 id="常见的API"><a href="#常见的API" class="headerlink" title="常见的API"></a>常见的API</h4><h5 id="Buffer-from"><a href="#Buffer-from" class="headerlink" title="Buffer.from"></a>Buffer.from</h5><blockquote>
+<p>Buffer.from, 接受多种形式的参数，下面介绍几种常见的</p>
+</blockquote>
+<p><strong>使用8字节的数组，作为参数</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> buf = Buffer.from([<span class="number">0b1101000</span>, <span class="number">0b1100101</span>, <span class="number">0b1101100</span>, <span class="number">0b1101100</span>, <span class="number">0b1101111</span>])</span><br><span class="line"><span class="comment">// hello</span></span><br><span class="line"><span class="built_in">console</span>.log(buf.toString())</span><br></pre></td></tr></table></figure>
+<p><strong>使用字符串作为参数</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> buf = Buffer.from(<span class="string">'Hello World!'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// HelloWorld</span></span><br><span class="line"><span class="built_in">console</span>.log(buf.toString())</span><br></pre></td></tr></table></figure>
+<h5 id="Buffer-alloc"><a href="#Buffer-alloc" class="headerlink" title="Buffer.alloc"></a>Buffer.alloc</h5><p>创建一个指定大小，并且已经初始化的Buffer（默认被0填充）</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建一个大小为10个字节的Buffer，并使用0进行填充</span></span><br><span class="line"><span class="keyword">const</span> buf = Buffer.alloc(<span class="number">10</span>)</span><br><span class="line"><span class="comment">// &lt;Buffer 00 00 00 00 00 00 00 00 00 00&gt;</span></span><br><span class="line"><span class="built_in">console</span>.log(buf)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建一个大小为12个字节的Buffer，并使用汉字进行填充</span></span><br><span class="line"><span class="keyword">const</span> buf = Buffer.alloc(<span class="number">12</span>, <span class="string">'翠'</span>)</span><br><span class="line"><span class="comment">// 打印出 翠翠翠翠，因为汉字是3个字节的关系，所以填充了4个汉字</span></span><br><span class="line"><span class="built_in">console</span>.log(buf.toString())</span><br></pre></td></tr></table></figure>
+<h5 id="Buffer-allocUnsafe"><a href="#Buffer-allocUnsafe" class="headerlink" title="Buffer.allocUnsafe"></a>Buffer.allocUnsafe</h5><p>创建一个指定大小，但是没有初始化填充的Buffer</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建一个大小为10个字节的Buffer，没有被初始化</span></span><br><span class="line"><span class="keyword">const</span> buf = Buffer.allocUnsafe(<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>为什么说 Buffer.allocUnsafe 是不安全的？Buffer是内存的抽象，尝试运行<code>console.log(Buffer.allocUnsafe(10000).toString()), 我们应该可以从控制台看到打印出了内存里的一些东西</code></p>
+</blockquote>
+<h5 id="buffer-write"><a href="#buffer-write" class="headerlink" title="buffer.write"></a>buffer.write</h5><p>向Buffer中写入字符串，如果Buffer空间不够，多余的字符串不会被写入</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> buf = Buffer.alloc(<span class="number">5</span>)</span><br><span class="line"><span class="comment">// 您好的长度是6个字节</span></span><br><span class="line">buf.write(<span class="string">'您好'</span>)</span><br><span class="line"><span class="comment">// 您</span></span><br><span class="line"><span class="built_in">console</span>.log(buf.toString())</span><br></pre></td></tr></table></figure>
+<h5 id="buffer-toJSON"><a href="#buffer-toJSON" class="headerlink" title="buffer.toJSON"></a>buffer.toJSON</h5><p>将buffer中的数据转换为Unicode码</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> buf = Buffer.from(<span class="string">'hello'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// &#123;</span></span><br><span class="line"><span class="comment">//     type: 'Buffer',</span></span><br><span class="line"><span class="comment">//     data: [ 104, 101, 108, 108, 111 ] h e l l o 的 Unicode码</span></span><br><span class="line"><span class="comment">// &#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(buf.toJSON())</span><br></pre></td></tr></table></figure>
+<h5 id="buffer-toString"><a href="#buffer-toString" class="headerlink" title="buffer.toString"></a>buffer.toString</h5><p>将buffer解码成字符串</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> buf = Buffer.from([<span class="number">0b1101000</span>, <span class="number">0b1100101</span>, <span class="number">0b1101100</span>, <span class="number">0b1101100</span>, <span class="number">0b1101111</span> ])</span><br><span class="line"><span class="comment">// hello</span></span><br><span class="line"><span class="built_in">console</span>.log(buf.toString())</span><br></pre></td></tr></table></figure>
+<h4 id="✨String-Decoder"><a href="#✨String-Decoder" class="headerlink" title="✨String Decoder"></a>✨String Decoder</h4><p>考虑下面这种情况，因为两个汉字的字节长度是6，所以字节长度等于5的buffer是放不下的，所以打印出来的字符串是不完整的。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> buf = Buffer.alloc(<span class="number">5</span>, <span class="string">'您好'</span>)</span><br><span class="line"><span class="comment">// 您�</span></span><br><span class="line"><span class="built_in">console</span>.log(buf.toString())</span><br></pre></td></tr></table></figure>
+<p>那么有什么办法可以将Buffer中不完整的字符串输出出来呢？我们可以使用<strong>String Decoder</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123; StringDecoder &#125; = <span class="built_in">require</span>(<span class="string">'string_decoder'</span>)</span><br><span class="line"><span class="keyword">const</span> decoder = <span class="keyword">new</span> StringDecoder(<span class="string">'utf8'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Buffer.from('好') &lt;Buffer e5 a5 bd&gt;</span></span><br><span class="line"><span class="keyword">const</span> str1 = decoder.write(Buffer.alloc(<span class="number">5</span>, <span class="string">'您好'</span>))</span><br><span class="line"><span class="comment">// 您</span></span><br><span class="line"><span class="built_in">console</span>.log(str1)</span><br><span class="line"><span class="keyword">const</span> str2 = decoder.end(Buffer.from([<span class="number">0xbd</span>]))</span><br><span class="line"><span class="comment">// 好</span></span><br><span class="line"><span class="built_in">console</span>.log(str2)</span><br></pre></td></tr></table></figure>
+<p>StringDecoder的实例接受写入Buffer的实例，使用内部缓冲区确保解码的字符串不包含不完成的字节，并且将不完整的字节，保存起来，直到下一次使用write或者end。</p>
+<h5 id="decoder-write"><a href="#decoder-write" class="headerlink" title="decoder.write"></a>decoder.write</h5><p>返回已解码的字符串，字符串不包含不完整的字节，不完整的字节。不完整的字节会保存到decoder内部的缓冲区中。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123; StringDecoder &#125; = <span class="built_in">require</span>(<span class="string">'string_decoder'</span>)</span><br><span class="line"><span class="keyword">const</span> decoder = <span class="keyword">new</span> StringDecoder(<span class="string">'utf8'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 哈喽 &lt;Buffer e5 93 88 e5 96 bd&gt;</span></span><br><span class="line"><span class="keyword">const</span> str = decoder.write(Buffer.from([<span class="number">0xe5</span>, <span class="number">0x93</span>, <span class="number">0x88</span>, <span class="number">0xe5</span>, <span class="number">0x96</span>]))</span><br><span class="line"><span class="comment">// 哈，0xe5, 0x96由于不完整不会被返回，而是保存在decoder的内部缓冲区</span></span><br><span class="line"><span class="built_in">console</span>.log(str)</span><br></pre></td></tr></table></figure>
+<h5 id="decoder-end"><a href="#decoder-end" class="headerlink" title="decoder.end"></a>decoder.end</h5><p>会将decoder内部缓存区剩余的buffer一次性返回。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> &#123; StringDecoder &#125; = <span class="built_in">require</span>(<span class="string">'string_decoder'</span>)</span><br><span class="line"><span class="keyword">const</span> decoder = <span class="keyword">new</span> StringDecoder(<span class="string">'utf8'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 哈喽 &lt;Buffer e5 93 88 e5 96 bd&gt;</span></span><br><span class="line">decoder.write(Buffer.from([<span class="number">0xe5</span>, <span class="number">0x93</span>, <span class="number">0x88</span>, <span class="number">0xe5</span>, <span class="number">0x96</span>]))</span><br><span class="line"><span class="keyword">const</span> str = decoder.end()</span><br><span class="line"><span class="comment">// �，decoder内部缓冲区剩余的字节是不完整的</span></span><br><span class="line"><span class="built_in">console</span>.log(str)</span><br></pre></td></tr></table></figure>
+<h3 id="Buffer的应用"><a href="#Buffer的应用" class="headerlink" title="Buffer的应用"></a>Buffer的应用</h3><h4 id="zlib"><a href="#zlib" class="headerlink" title="zlib"></a>zlib</h4><p>简单解读一下<a href="https://github.com/nodejs/node/blob/master/lib/zlib.js" target="_blank" rel="noopener">zlib内置库</a>的源码</p>
+<p>先暂时放在这里，之后填坑😄</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="http://google.com/" target="_blank" rel="noopener">计算机科学概论(第11版)</a></li>
+<li><a href="http://nodejs.cn/api/buffer.html" target="_blank" rel="noopener">Node.js v12.15.0 文档</a></li>
+<li><a href="https://medium.com/hackernoon/nodejs-javasript-react-buffer-understand-tutorial-example-easy-step-create-read-utf8-ce37866ddd8c" target="_blank" rel="noopener">Something about Buffer</a></li>
+<li>✨<a href="https://medium.com/free-code-camp/do-you-want-a-better-understanding-of-buffer-in-node-js-check-this-out-2e29de2968e8?source=search_post---------2" target="_blank" rel="noopener">Do you want a better understanding of Buffer in Node.js? Check this out</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Node/" rel="tag"># Node</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/02/09/流/" rel="next" title="「学习笔记」Node Stream">
+                <i class="fa fa-chevron-left"></i> 「学习笔记」Node Stream
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/01/01/ProblemSummary/" rel="prev" title="「置顶」日常问题汇总">
+                「置顶」日常问题汇总 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            作者概述
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="张越" />
+            
+              <p class="site-author-name" itemprop="name">张越</p>
+              <p class="site-description motion-element" itemprop="description">所谓成长，就是经过不断的聚散离合，找到不太会伤害到彼此的距离</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">69</span>
+                  <span class="site-state-item-name">篇文章</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-name">Tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/BengBu-YueZhang" target="_blank" title="我的GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/5460100952/profile?topnav=1&wvr=6" target="_blank" title="我的微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的微博</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前置概念"><span class="nav-number">2.</span> <span class="nav-text">前置概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#🤔️什么是二进制数据？"><span class="nav-number">2.1.</span> <span class="nav-text">🤔️什么是二进制数据？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#字符集"><span class="nav-number">2.1.1.</span> <span class="nav-text">字符集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#字符编码"><span class="nav-number">2.1.2.</span> <span class="nav-text">字符编码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#🤔️什么是Buffer（缓冲区）？"><span class="nav-number">2.2.</span> <span class="nav-text">🤔️什么是Buffer（缓冲区）？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Buffer类"><span class="nav-number">3.</span> <span class="nav-text">Buffer类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是TypedArray？"><span class="nav-number">3.1.</span> <span class="nav-text">什么是TypedArray？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是Buffer类？"><span class="nav-number">3.2.</span> <span class="nav-text">什么是Buffer类？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#常见的API"><span class="nav-number">3.2.1.</span> <span class="nav-text">常见的API</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Buffer-from"><span class="nav-number">3.2.1.1.</span> <span class="nav-text">Buffer.from</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Buffer-alloc"><span class="nav-number">3.2.1.2.</span> <span class="nav-text">Buffer.alloc</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Buffer-allocUnsafe"><span class="nav-number">3.2.1.3.</span> <span class="nav-text">Buffer.allocUnsafe</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#buffer-write"><span class="nav-number">3.2.1.4.</span> <span class="nav-text">buffer.write</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#buffer-toJSON"><span class="nav-number">3.2.1.5.</span> <span class="nav-text">buffer.toJSON</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#buffer-toString"><span class="nav-number">3.2.1.6.</span> <span class="nav-text">buffer.toString</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#✨String-Decoder"><span class="nav-number">3.2.2.</span> <span class="nav-text">✨String Decoder</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#decoder-write"><span class="nav-number">3.2.2.1.</span> <span class="nav-text">decoder.write</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#decoder-end"><span class="nav-number">3.2.2.2.</span> <span class="nav-text">decoder.end</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Buffer的应用"><span class="nav-number">3.3.</span> <span class="nav-text">Buffer的应用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#zlib"><span class="nav-number">3.3.1.</span> <span class="nav-text">zlib</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张越</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
