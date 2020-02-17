@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="新世紀エヴァンゲリオン">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://unsplash.it/1374/815?random">
-<meta property="og:updated_time" content="2020-02-13T13:15:46.642Z">
+<meta property="og:updated_time" content="2020-02-17T06:29:58.828Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="「学习笔记」Node Buffer">
 <meta name="twitter:image" content="https://unsplash.it/1374/815?random">
@@ -185,7 +185,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            主页
+            Home
           </a>
         </li>
       
@@ -195,7 +195,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
-            标签
+            Tags
           </a>
         </li>
       
@@ -205,7 +205,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            时间轴
+            Archives
           </a>
         </li>
       
@@ -269,7 +269,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发布于</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-02-13T15:46:30+08:00">
                 2020-02-13
@@ -323,7 +323,7 @@
 <p>那么接下来，计算机会直接将83转为二进制吗？并不是，我们还需要使用”字符编码”。</p>
 <h4 id="字符编码"><a href="#字符编码" class="headerlink" title="字符编码"></a>字符编码</h4><p>字符集定义了使用特定的数字表示字符（汉字也是同样的）。而字符编码定义了，如何将数字转换为特定长度的二进制数据。常见的utf-8字符编码，规定了字符最多由4个字节进行编码（一个字节由8个，0或者1表示）。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">h e l l o &lt;==Unicode==&gt; 104 101 108 108 111 &lt;==utf-8==&gt; 1101000 1100101 1101100 1101100 1101111</span><br></pre></td></tr></table></figure>
-<p>对于视频，音频，图片，计算机也有特定规则，将其转换为二进制数据。计算机将所有数据类型，存储为二进制文件。这些二进制文件就是二进制数据。</p>
+<p><em>对于视频，音频，图片，计算机也有特定规则，将其转换为二进制数据。计算机将所有数据类型，存储为二进制文件。这些二进制文件就是二进制数据。</em></p>
 <h3 id="🤔️什么是Buffer（缓冲区）？"><a href="#🤔️什么是Buffer（缓冲区）？" class="headerlink" title="🤔️什么是Buffer（缓冲区）？"></a>🤔️什么是Buffer（缓冲区）？</h3><p>数据流指数据从一个位置到另一个位置的移动（通常大文件会被拆解为块的形式）。</p>
 <p>如果数据流动的速度，大于进程处理数据的速度，多余的数据会在某个地方等待。如果数据流动的速度，小于进程处理数据的速度，那么数据会在某个地方累计到一定的数量，然后在由进程进行处理。（我们无法控制流的速度）</p>
 <p>那个等待数据，累计数据，然后发生出去的地方。就是<strong>缓冲区</strong>。缓冲区通常位于电脑的RAM（内存）中。</p>
@@ -398,8 +398,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/02/09/流/" rel="next" title="「学习笔记」Node Stream">
-                <i class="fa fa-chevron-left"></i> 「学习笔记」Node Stream
+              <a href="/2020/02/08/Concurrent2/" rel="next" title="Concurrent UI Patterns">
+                <i class="fa fa-chevron-left"></i> Concurrent UI Patterns
               </a>
             
           </div>
@@ -408,8 +408,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2021/01/01/ProblemSummary/" rel="prev" title="「置顶」日常问题汇总">
-                「置顶」日常问题汇总 <i class="fa fa-chevron-right"></i>
+              <a href="/2020/02/17/流/" rel="prev" title="「学习笔记」Node Stream">
+                「学习笔记」Node Stream <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -464,10 +464,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
+            Table of Contents
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            作者概述
+            Overview
           </li>
         </ul>
       
@@ -492,7 +492,7 @@
                 <a href="/archives/">
               
                   <span class="site-state-item-count">69</span>
-                  <span class="site-state-item-name">篇文章</span>
+                  <span class="site-state-item-name">posts</span>
                 </a>
               </div>
             
@@ -505,7 +505,7 @@
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
                   <span class="site-state-item-count">31</span>
-                  <span class="site-state-item-name">Tags</span>
+                  <span class="site-state-item-name">tags</span>
                 </a>
               </div>
             
@@ -583,7 +583,7 @@
 </div>
 
 
-  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 
 
