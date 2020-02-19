@@ -89,7 +89,7 @@
 <meta property="og:image" content="https://cdn-media-1.freecodecamp.org/images/1*lhOvZiDrVbzF8_l8QX3ACw.png">
 <meta property="og:image" content="https://cdn-media-1.freecodecamp.org/images/1*HGXpeiF5-hJrOk_8tT2jFA.png">
 <meta property="og:image" content="https://cdn-media-1.freecodecamp.org/images/1*HI-mtispQ13qm8ib5yey3g.png">
-<meta property="og:updated_time" content="2020-02-17T13:58:51.573Z">
+<meta property="og:updated_time" content="2020-02-19T14:34:07.020Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="「学习笔记」Node Stream">
 <meta name="twitter:image" content="https://unsplash.it/1374/816?random">
@@ -188,7 +188,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Home
+            主页
           </a>
         </li>
       
@@ -198,7 +198,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
-            Tags
+            标签
           </a>
         </li>
       
@@ -208,7 +208,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archives
+            时间轴
           </a>
         </li>
       
@@ -316,7 +316,7 @@
 <a id="more"></a>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>作为一名普通的 <code>前端仔</code> 在学习Nodejs时，对”Buffer”, “二进制数据”, “进程”这样的名词充满了疑惑。尤其是像我这样，没有任何cs学历的人。认为这些都是Nodejs专家，包开发者所应该了解的概念。而且可悲的是，许多教程都是直接教你如何使用Node包进行开发🥱。</p>
 <p>没错，对于一名普通的开发者，可能永远不会接触到这些概念。但是为了更好的学习Node，希望自己有所建树。我还是决定按照Node文档的顺序，认认真真的学习Node的每一个概念，每一个原始API。</p>
-<h2 id="什么是流？"><a href="#什么是流？" class="headerlink" title="什么是流？"></a>什么是流？</h2><p>Nodejs中，需要模块都实现了流模式。下图是实现了流模式的模块(图片来自于Samer Buna的在线课程)</p>
+<h2 id="什么是流？"><a href="#什么是流？" class="headerlink" title="什么是流？"></a>什么是流？</h2><p>Nodejs中，需要模块都实现了流模式。下图是实现了流模式的内置模块(图片来自于Samer Buna的在线课程)</p>
 <p><img src="https://cdn-media-1.freecodecamp.org/images/1*lhOvZiDrVbzF8_l8QX3ACw.png" alt="image"></p>
 <h2 id="流的类型"><a href="#流的类型" class="headerlink" title="流的类型"></a>流的类型</h2><ol>
 <li>Writable，可写入流，是写入目标的抽象，常见的例子：<code>fs.createWriteStream</code></li>
@@ -329,12 +329,14 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>)</span><br><span class="line"><span class="keyword">const</span> zlib = <span class="built_in">require</span>(<span class="string">'zlib'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> readable = fs.createReadStream(<span class="string">'./数据源.json'</span>)</span><br><span class="line"><span class="comment">// gzip是一个双工流</span></span><br><span class="line"><span class="keyword">const</span> gzip = zlib.createGzip()</span><br><span class="line"><span class="keyword">const</span> writable = fs.createWriteStream(<span class="string">'./目标.json'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 数据源连接到转换流（gzip），转换流处理数据后，连接到目标上</span></span><br><span class="line">readable</span><br><span class="line">    .pipe(gzip)</span><br><span class="line">    .pipe(writable)</span><br></pre></td></tr></table></figure>
 <p>我们也可以将可读流的管道连接到双工流（转换流）上。总结一下<code>pipe</code>方法的用法。<code>pipe</code>可以返回一个目标流，目标流可以连接到双工流，可写流上。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">可读流</span><br><span class="line">    .pipe(双工流)</span><br><span class="line">    .pipe(双工流)</span><br><span class="line">    .pipe(可写流)</span><br></pre></td></tr></table></figure>
-<p>使用<code>pipe</code>是消费流最简单的方法，它会自动管理一些操作，比如错误处理，可读流没有数据可供消费。当然我们也可以通过事件消费流，但是最好避免两者混合使用。</p>
+<p>使用<code>pipe</code>是消费流最简单的方法，它会自动管理一些操作，比如错误处理，比如如果可读流没有数据可供消费时的情况。当然我们也可以通过事件消费流，但是最好避免两者混合使用。</p>
 <h2 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h2><p>如果需要对流实现更自定义的控制，可以使用事件消费流。下面的这段代码和之前的<code>pipe</code>的代码是等效的。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> readable = fs.createReadStream(<span class="string">'./数据源.json'</span>)</span><br><span class="line"><span class="keyword">const</span> writable = fs.createWriteStream(<span class="string">'./目标.json'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 当可读流绑定data事件时，会将流切换到流动模式</span></span><br><span class="line">readable.on(<span class="string">'data'</span>, (chunk) =&gt; &#123;</span><br><span class="line">    writable.write(chunk);</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">readable.on(<span class="string">'end'</span>, () =&gt; &#123;</span><br><span class="line">    writable.end()</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 <p>下图是可读流，可写流的事件与方法的列表(图片来自于Samer Buna的在线课程)</p>
 <p><img src="https://cdn-media-1.freecodecamp.org/images/1*HGXpeiF5-hJrOk_8tT2jFA.png" alt="事件列表.png"></p>
-<h3 id="可读流事件"><a href="#可读流事件" class="headerlink" title="可读流事件"></a>可读流事件</h3><h4 id="data"><a href="#data" class="headerlink" title="data"></a>data</h4><h4 id="end"><a href="#end" class="headerlink" title="end"></a>end</h4><h4 id="error"><a href="#error" class="headerlink" title="error"></a>error</h4><h4 id="pause"><a href="#pause" class="headerlink" title="pause"></a>pause</h4><h4 id="readable"><a href="#readable" class="headerlink" title="readable"></a>readable</h4><h4 id="resume"><a href="#resume" class="headerlink" title="resume"></a>resume</h4><h3 id="可写流事件"><a href="#可写流事件" class="headerlink" title="可写流事件"></a>可写流事件</h3><h2 id="可读流的暂停和流动模式"><a href="#可读流的暂停和流动模式" class="headerlink" title="可读流的暂停和流动模式"></a>可读流的暂停和流动模式</h2><p>默认情况下，可读流是处于暂停状态的，但是它们可以被切换到流动模式，并在需要时切换回暂停模式。有时，模式会被自动发生切换。</p>
+<h4 id="关于上面的例子中存在的一些问题"><a href="#关于上面的例子中存在的一些问题" class="headerlink" title="关于上面的例子中存在的一些问题"></a>关于上面的例子中存在的一些问题</h4><p>上面对于流事件的示例中，是存在隐患的</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 这段代码是其实有问题的</span></span><br><span class="line">readable.on(<span class="string">'data'</span>, (chunk) =&gt; &#123;</span><br><span class="line">    writable.write(chunk);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h5 id="Backpressuring-背压问题"><a href="#Backpressuring-背压问题" class="headerlink" title="Backpressuring 背压问题"></a>Backpressuring 背压问题</h5><h3 id="可读流事件"><a href="#可读流事件" class="headerlink" title="可读流事件"></a>可读流事件</h3><h4 id="data"><a href="#data" class="headerlink" title="data"></a>data</h4><h4 id="end"><a href="#end" class="headerlink" title="end"></a>end</h4><h4 id="error"><a href="#error" class="headerlink" title="error"></a>error</h4><h4 id="pause"><a href="#pause" class="headerlink" title="pause"></a>pause</h4><h4 id="readable"><a href="#readable" class="headerlink" title="readable"></a>readable</h4><h4 id="resume"><a href="#resume" class="headerlink" title="resume"></a>resume</h4><h3 id="可写流事件"><a href="#可写流事件" class="headerlink" title="可写流事件"></a>可写流事件</h3><h2 id="可读流的暂停和流动模式"><a href="#可读流的暂停和流动模式" class="headerlink" title="可读流的暂停和流动模式"></a>可读流的暂停和流动模式</h2><p>默认情况下，可读流是处于暂停状态的，但是它们可以被切换到流动模式，并在需要时切换回暂停模式。有时，模式会被自动发生切换。</p>
 <p>在暂停模式时，我们可以使用<code>read</code>方法从流中读取数据。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> readable = fs.createReadStream(<span class="string">'./数据源.json'</span>)</span><br><span class="line"><span class="keyword">const</span> writable = fs.createWriteStream(<span class="string">'./目标.json'</span>)</span><br><span class="line"><span class="comment">// 当可读流是可以被读取时或者会发生变化时或者到达流的尽头时。readable可以被触发</span></span><br><span class="line">readable.on(<span class="string">'readable'</span>, () =&gt; &#123;</span><br><span class="line">    <span class="keyword">let</span> chunk</span><br><span class="line">    <span class="keyword">while</span> (chunk = readable.read(<span class="number">1</span>)) &#123;</span><br><span class="line">        writable.write(chunk)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 <p>在流动模式时，数据会持续流动，我们必须添加事件并消费它。如果不能处理流动的数据，数据是会丢失的。我们可以添加<code>data</code>事件处理数据。添加<code>data</code>事件，会<strong>自动</strong>将可读流的模式，由暂停模式切换到流动模式。</p>
@@ -387,8 +389,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2021/01/01/ProblemSummary/" rel="prev" title="「置顶」日常问题汇总">
-                「置顶」日常问题汇总 <i class="fa fa-chevron-right"></i>
+              <a href="/2020/02/20/Backpressure/" rel="prev" title="背压（backpressure）问题">
+                背压（backpressure）问题 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -470,8 +472,8 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">69</span>
-                  <span class="site-state-item-name">posts</span>
+                  <span class="site-state-item-count">70</span>
+                  <span class="site-state-item-name">篇博文</span>
                 </a>
               </div>
             
@@ -532,7 +534,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是流？"><span class="nav-number">2.</span> <span class="nav-text">什么是流？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流的类型"><span class="nav-number">3.</span> <span class="nav-text">流的类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#管道"><span class="nav-number">4.</span> <span class="nav-text">管道</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件"><span class="nav-number">5.</span> <span class="nav-text">事件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#可读流事件"><span class="nav-number">5.1.</span> <span class="nav-text">可读流事件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#data"><span class="nav-number">5.1.1.</span> <span class="nav-text">data</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#end"><span class="nav-number">5.1.2.</span> <span class="nav-text">end</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#error"><span class="nav-number">5.1.3.</span> <span class="nav-text">error</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pause"><span class="nav-number">5.1.4.</span> <span class="nav-text">pause</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#readable"><span class="nav-number">5.1.5.</span> <span class="nav-text">readable</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#resume"><span class="nav-number">5.1.6.</span> <span class="nav-text">resume</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可写流事件"><span class="nav-number">5.2.</span> <span class="nav-text">可写流事件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可读流的暂停和流动模式"><span class="nav-number">6.</span> <span class="nav-text">可读流的暂停和流动模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流的实现"><span class="nav-number">7.</span> <span class="nav-text">流的实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对象模式"><span class="nav-number">8.</span> <span class="nav-text">对象模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内置的转换流"><span class="nav-number">9.</span> <span class="nav-text">内置的转换流</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">10.</span> <span class="nav-text">参考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是流？"><span class="nav-number">2.</span> <span class="nav-text">什么是流？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流的类型"><span class="nav-number">3.</span> <span class="nav-text">流的类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#管道"><span class="nav-number">4.</span> <span class="nav-text">管道</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件"><span class="nav-number">5.</span> <span class="nav-text">事件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#关于上面的例子中存在的一些问题"><span class="nav-number">5.0.1.</span> <span class="nav-text">关于上面的例子中存在的一些问题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Backpressuring-背压问题"><span class="nav-number">5.0.1.1.</span> <span class="nav-text">Backpressuring 背压问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可读流事件"><span class="nav-number">5.1.</span> <span class="nav-text">可读流事件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#data"><span class="nav-number">5.1.1.</span> <span class="nav-text">data</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#end"><span class="nav-number">5.1.2.</span> <span class="nav-text">end</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#error"><span class="nav-number">5.1.3.</span> <span class="nav-text">error</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pause"><span class="nav-number">5.1.4.</span> <span class="nav-text">pause</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#readable"><span class="nav-number">5.1.5.</span> <span class="nav-text">readable</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#resume"><span class="nav-number">5.1.6.</span> <span class="nav-text">resume</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可写流事件"><span class="nav-number">5.2.</span> <span class="nav-text">可写流事件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可读流的暂停和流动模式"><span class="nav-number">6.</span> <span class="nav-text">可读流的暂停和流动模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流的实现"><span class="nav-number">7.</span> <span class="nav-text">流的实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对象模式"><span class="nav-number">8.</span> <span class="nav-text">对象模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内置的转换流"><span class="nav-number">9.</span> <span class="nav-text">内置的转换流</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">10.</span> <span class="nav-text">参考</span></a></li></ol></div>
             
 
           </div>
