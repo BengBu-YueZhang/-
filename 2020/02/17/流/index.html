@@ -89,7 +89,7 @@
 <meta property="og:image" content="https://cdn-media-1.freecodecamp.org/images/1*lhOvZiDrVbzF8_l8QX3ACw.png">
 <meta property="og:image" content="https://cdn-media-1.freecodecamp.org/images/1*HGXpeiF5-hJrOk_8tT2jFA.png">
 <meta property="og:image" content="https://cdn-media-1.freecodecamp.org/images/1*HI-mtispQ13qm8ib5yey3g.png">
-<meta property="og:updated_time" content="2020-02-19T14:34:07.020Z">
+<meta property="og:updated_time" content="2020-02-19T15:55:37.829Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="「学习笔记」Node Stream">
 <meta name="twitter:image" content="https://unsplash.it/1374/816?random">
@@ -188,7 +188,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            主页
+            Accueil
           </a>
         </li>
       
@@ -198,7 +198,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
-            标签
+            Tags
           </a>
         </li>
       
@@ -208,7 +208,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            时间轴
+            Archives
           </a>
         </li>
       
@@ -272,7 +272,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">Posté le</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-02-17T23:30:00+08:00">
                 2020-02-17
@@ -326,7 +326,7 @@
 </ol>
 <h2 id="管道"><a href="#管道" class="headerlink" title="管道"></a>管道</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>)</span><br><span class="line"><span class="comment">// 可读流作为数据源</span></span><br><span class="line"><span class="keyword">const</span> readable = fs.createReadStream(<span class="string">'./数据源.json'</span>)</span><br><span class="line"><span class="comment">// 可写流作为目标</span></span><br><span class="line"><span class="keyword">const</span> writable = fs.createWriteStream(<span class="string">'./目标.json'</span>)</span><br><span class="line"><span class="comment">// 将数据源通过管道连接到目标</span></span><br><span class="line">readable.pipe(writable)</span><br></pre></td></tr></table></figure>
 <p>在这几行简单的代码中我们将可读流的输出（<code>readable</code>作为数据源），连接管道至可写流的输入（<code>writable</code>作为目标）。源必须是可读流，目标必须是可写流。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>)</span><br><span class="line"><span class="keyword">const</span> zlib = <span class="built_in">require</span>(<span class="string">'zlib'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> readable = fs.createReadStream(<span class="string">'./数据源.json'</span>)</span><br><span class="line"><span class="comment">// gzip是一个双工流</span></span><br><span class="line"><span class="keyword">const</span> gzip = zlib.createGzip()</span><br><span class="line"><span class="keyword">const</span> writable = fs.createWriteStream(<span class="string">'./目标.json'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 数据源连接到转换流（gzip），转换流处理数据后，连接到目标上</span></span><br><span class="line">readable</span><br><span class="line">    .pipe(gzip)</span><br><span class="line">    .pipe(writable)</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>)</span><br><span class="line"><span class="keyword">const</span> zlib = <span class="built_in">require</span>(<span class="string">'zlib'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> readable = fs.createReadStream(<span class="string">'./数据源.json'</span>)</span><br><span class="line"><span class="comment">// gzip是一个双工流</span></span><br><span class="line"><span class="keyword">const</span> gzip = zlib.createGzip()</span><br><span class="line"><span class="keyword">const</span> writable = fs.createWriteStream(<span class="string">'./目标.gz'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 数据源连接到转换流（gzip），转换流处理数据后，连接到目标上</span></span><br><span class="line">readable</span><br><span class="line">    .pipe(gzip)</span><br><span class="line">    .pipe(writable)</span><br></pre></td></tr></table></figure>
 <p>我们也可以将可读流的管道连接到双工流（转换流）上。总结一下<code>pipe</code>方法的用法。<code>pipe</code>可以返回一个目标流，目标流可以连接到双工流，可写流上。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">可读流</span><br><span class="line">    .pipe(双工流)</span><br><span class="line">    .pipe(双工流)</span><br><span class="line">    .pipe(可写流)</span><br></pre></td></tr></table></figure>
 <p>使用<code>pipe</code>是消费流最简单的方法，它会自动管理一些操作，比如错误处理，比如如果可读流没有数据可供消费时的情况。当然我们也可以通过事件消费流，但是最好避免两者混合使用。</p>
@@ -445,10 +445,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
+            Table Des Matières
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
+            Ensemble
           </li>
         </ul>
       
@@ -473,7 +473,7 @@
                 <a href="/archives/">
               
                   <span class="site-state-item-count">70</span>
-                  <span class="site-state-item-name">篇博文</span>
+                  <span class="site-state-item-name">articles</span>
                 </a>
               </div>
             
@@ -572,7 +572,7 @@
 
 
 
-  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+  <div class="theme-info">Thème &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
 
 
 
