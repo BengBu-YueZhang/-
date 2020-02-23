@@ -81,14 +81,14 @@
 
 <meta name="keywords" content="Node">
 <meta property="og:type" content="article">
-<meta property="og:title" content="背压（backpressure）问题">
+<meta property="og:title" content="简单理解 backpressure（背压）机制">
 <meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2020/02/20/Backpressure/index.html">
 <meta property="og:site_name" content="新世紀エヴァンゲリオン">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://unsplash.it/1684/932?random">
-<meta property="og:updated_time" content="2020-02-20T03:34:24.663Z">
+<meta property="og:updated_time" content="2020-02-20T13:34:01.779Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="背压（backpressure）问题">
+<meta name="twitter:title" content="简单理解 backpressure（背压）机制">
 <meta name="twitter:image" content="https://unsplash.it/1684/932?random">
 
 
@@ -125,7 +125,7 @@
 
 
 
-  <title>背压（backpressure）问题 | 新世紀エヴァンゲリオン</title>
+  <title>简单理解 backpressure（背压）机制 | 新世紀エヴァンゲリオン</title>
   
 
 
@@ -185,7 +185,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            主页
+            Accueil
           </a>
         </li>
       
@@ -195,7 +195,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
-            标签
+            Tags
           </a>
         </li>
       
@@ -205,7 +205,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            时间轴
+            Archives
           </a>
         </li>
       
@@ -259,7 +259,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">背压（backpressure）问题</h1>
+          <h1 class="post-title" itemprop="name headline">简单理解 backpressure（背压）机制</h1>
         
 
         <div class="post-meta">
@@ -269,7 +269,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发布于</span>
+                <span class="post-meta-item-text">Posté le</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-02-20T09:30:00+08:00">
                 2020-02-20
@@ -311,20 +311,27 @@
       
         <p><img src="https://unsplash.it/1684/932?random" alt="image"></p>
 <a id="more"></a>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><h2 id="什么是背压问题？"><a href="#什么是背压问题？" class="headerlink" title="什么是背压问题？"></a>什么是背压问题？</h2><h2 id="流的错误处理"><a href="#流的错误处理" class="headerlink" title="流的错误处理"></a>流的错误处理</h2><p>如果可写流，无法正确的处理大量由可读流传输的数据，可读流并不会被销毁，这会导致我们写入的文件被损坏。我们必须添加适当的错误处理程序，在当流发生故障的时候，销毁管道中的所有流。</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文仅是作者自己的见解，如有错误还请即使指正</p>
+<h2 id="为什么存在背压机制？"><a href="#为什么存在背压机制？" class="headerlink" title="为什么存在背压机制？"></a>为什么存在背压机制？</h2><p>我们首先来看一段代码, 这段代码存在什么问题？</p>
+<p>乍一看，感觉没啥大毛病，但是如果<code>writable.write()</code>写入数据比较慢，但是可读流又在不断的传输数据，就会造成内存溢出，形成阻塞。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> readable = fs.createReadStream(<span class="string">'./小妇人.mp4'</span>)</span><br><span class="line"><span class="keyword">const</span> writable = fs.createWriteStream(<span class="string">'./小妇人(1).mp4'</span>)</span><br><span class="line"></span><br><span class="line">readable.on(<span class="string">'data'</span>, (chunk) =&gt; &#123;</span><br><span class="line">    <span class="comment">// 这里存在问题↓↓↓↓↓↓↓</span></span><br><span class="line">    writable.write(chunk);</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">readable.on(<span class="string">'end'</span>, () =&gt; &#123;</span><br><span class="line">    writable.end()</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="流的错误处理"><a href="#流的错误处理" class="headerlink" title="流的错误处理"></a>流的错误处理</h2><p>如果可写流，无法正确的处理大量由可读流传输的数据，可读流并不会被销毁，这会导致我们写入的文件被损坏。我们必须添加适当的错误处理程序，在当流发生故障的时候，销毁管道中的所有流。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> gzip = <span class="built_in">require</span>(<span class="string">'zlib'</span>).createGzip();</span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> readable = fs.createReadStream(<span class="string">'好莱坞往事.1080p.mkv'</span>);</span><br><span class="line"><span class="keyword">const</span> writable = fs.createWriteStream(<span class="string">'好莱坞往事.1080p.mkv.gz'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 如果可写流发生故障，压缩文件会压缩失败</span></span><br><span class="line">readable.pipe(gzip).pipe(writable);</span><br></pre></td></tr></table></figure>
 <p>在 Node 8.x 版本之前我们使用 <code>pump</code>。对于更高版本的 Node, 可以使用<code>pipeline</code>。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> gzip = <span class="built_in">require</span>(<span class="string">'zlib'</span>).createGzip();</span><br><span class="line"><span class="keyword">const</span> &#123; pipeline &#125; = <span class="built_in">require</span>(<span class="string">'stream'</span>)</span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> readable = fs.createReadStream(<span class="string">'好莱坞往事.1080p.mkv'</span>);</span><br><span class="line"><span class="keyword">const</span> writable = fs.createWriteStream(<span class="string">'好莱坞往事.1080p.mkv.gz'</span>);</span><br><span class="line"></span><br><span class="line">pipeline(</span><br><span class="line">    readable,</span><br><span class="line">    gzip,</span><br><span class="line">    writable,</span><br><span class="line">    error =&gt; &#123;</span><br><span class="line">        <span class="keyword">if</span> (error) &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">'电影压缩失败'</span>)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">'电影压缩成功'</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
 <p>我们也可以使用 <code>promisify</code> 将其改造成 <code>async/await</code> 的形式。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> gzip = <span class="built_in">require</span>(<span class="string">'zlib'</span>).createGzip()</span><br><span class="line"><span class="keyword">const</span> &#123; pipeline &#125; = <span class="built_in">require</span>(<span class="string">'stream'</span>)</span><br><span class="line"><span class="keyword">const</span> &#123; promisify &#125; = <span class="built_in">require</span>(<span class="string">'util'</span>)</span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>)</span><br><span class="line"><span class="keyword">const</span> readable = fs.createReadStream(<span class="string">'好莱坞往事.1080p.mkv'</span>)</span><br><span class="line"><span class="keyword">const</span> writable = fs.createWriteStream(<span class="string">'好莱坞往事.1080p.mkv.gz'</span>)</span><br><span class="line"><span class="keyword">const</span> asyncPipeline = promisify(pipeline)</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">start</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">await</span> asyncPipeline(</span><br><span class="line">            readable,</span><br><span class="line">            gzip,</span><br><span class="line">            writable</span><br><span class="line">        )</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'电影压缩成功'</span>)</span><br><span class="line">    &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">'电影压缩失败'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">start()</span><br></pre></td></tr></table></figure>
-<h2 id="可读流太快了"><a href="#可读流太快了" class="headerlink" title="可读流太快了"></a>可读流太快了</h2><p>硬盘的写入速度，远远小于硬盘的读取速度。如果可读流太快，而可写流的无法那么迅速的消费这些数据，就会造成数据在内存中的累积。这个时候将会出现 <strong>backpressur（背压）</strong>，因为写入的速度永远无法跟上读取的速度。</p>
-<p>如果不解决背压问题将会导致：</p>
+<h2 id="可读流太快了"><a href="#可读流太快了" class="headerlink" title="可读流太快了"></a>可读流太快了</h2><p>硬盘的写入速度，远远小于硬盘的读取速度。如果可读流太快，而可写流的无法迅速的消费可读流传输的数据，写入流将会把 chunk，push 到写队列中方便之后使用，这样就会造成数据在内存中的累积。这个时候将会触发 <strong>backpressur（背压）</strong> 机制。如果没有 <strong>backpressur（背压）</strong> 机制，系统将会出现如下的问题：</p>
 <ol>
-<li>内存溢出</li>
-<li>其他进程变得缓慢</li>
-<li>垃圾收集器将超负荷运作</li>
+<li><strong>内存溢出</strong></li>
+<li><strong>其他进程变得缓慢</strong></li>
+<li><strong>垃圾收集器将超负荷运作</strong></li>
 </ol>
-<h2 id="如何解决背压问题"><a href="#如何解决背压问题" class="headerlink" title="如何解决背压问题"></a>如何解决背压问题</h2><h2 id="pipe-的生命周期"><a href="#pipe-的生命周期" class="headerlink" title="pipe()的生命周期"></a><code>pipe()</code>的生命周期</h2><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<h2 id="背压机制是如何解决这些问题的？"><a href="#背压机制是如何解决这些问题的？" class="headerlink" title="背压机制是如何解决这些问题的？"></a>背压机制是如何解决这些问题的？</h2><p>在代码中调用<code>pipe</code>时，它会向可写流发出信号，表示有数据准备传输。当我们的可写流使用 <code>write()</code> 写入数据时，如果写队列繁忙，或者内部缓存区已经溢出了，<code>write()</code> 将会返回false。</p>
+<p>这个时候，背压机制就会启动，它会暂停任何数据传入到可写流中，并等待可写流准备好，清空内部缓存区后。将会发出 <code>drain</code> 事件，并恢复可读流的传输。</p>
+<p>这就意味着 <code>pipe</code> 只会使用固定大小的内存，不会存在内存泄漏的问题。</p>
+<p>为什么我们平时很少关注背压的问题呢？那是因为在你调用 <code>pipe</code> 时，<strong>Node.js已经自动处理了这些问题</strong>。但是如果我们需要实现自定义流，则需要考虑到这些问题。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
 <li><a href="https://nodejs.org/es/docs/guides/backpressuring-in-streams/" target="_blank" rel="noopener">Backpressuring in Streams</a></li>
 </ul>
 
@@ -357,8 +364,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/02/17/流/" rel="next" title="「学习笔记」Node Stream">
-                <i class="fa fa-chevron-left"></i> 「学习笔记」Node Stream
+              <a href="/2020/02/13/buffer/" rel="next" title="「学习笔记」Node Buffer">
+                <i class="fa fa-chevron-left"></i> 「学习笔记」Node Buffer
               </a>
             
           </div>
@@ -367,8 +374,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2021/01/01/ProblemSummary/" rel="prev" title="「置顶」日常问题汇总">
-                「置顶」日常问题汇总 <i class="fa fa-chevron-right"></i>
+              <a href="/2020/02/24/流/" rel="prev" title="「学习笔记」Node Stream">
+                「学习笔记」Node Stream <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -423,10 +430,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
+            Table Des Matières
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            作者概述
+            Ensemble
           </li>
         </ul>
       
@@ -451,7 +458,7 @@
                 <a href="/archives/">
               
                   <span class="site-state-item-count">70</span>
-                  <span class="site-state-item-name">篇文章</span>
+                  <span class="site-state-item-name">articles</span>
                 </a>
               </div>
             
@@ -464,7 +471,7 @@
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
                   <span class="site-state-item-count">31</span>
-                  <span class="site-state-item-name">Tags</span>
+                  <span class="site-state-item-name">tags</span>
                 </a>
               </div>
             
@@ -512,7 +519,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是背压问题？"><span class="nav-number">2.</span> <span class="nav-text">什么是背压问题？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流的错误处理"><span class="nav-number">3.</span> <span class="nav-text">流的错误处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可读流太快了"><span class="nav-number">4.</span> <span class="nav-text">可读流太快了</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何解决背压问题"><span class="nav-number">5.</span> <span class="nav-text">如何解决背压问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pipe-的生命周期"><span class="nav-number">6.</span> <span class="nav-text">pipe()的生命周期</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">7.</span> <span class="nav-text">参考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么存在背压机制？"><span class="nav-number">2.</span> <span class="nav-text">为什么存在背压机制？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流的错误处理"><span class="nav-number">3.</span> <span class="nav-text">流的错误处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可读流太快了"><span class="nav-number">4.</span> <span class="nav-text">可读流太快了</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#背压机制是如何解决这些问题的？"><span class="nav-number">5.</span> <span class="nav-text">背压机制是如何解决这些问题的？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
             
 
           </div>
@@ -542,7 +549,7 @@
 </div>
 
 
-  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 
 
@@ -550,7 +557,7 @@
 
 
 
-  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+  <div class="theme-info">Thème &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
 
 
 
