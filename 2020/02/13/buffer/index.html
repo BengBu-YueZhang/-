@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="新世紀エヴァンゲリオン">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://unsplash.it/1374/815?random">
-<meta property="og:updated_time" content="2020-02-23T14:17:21.448Z">
+<meta property="og:updated_time" content="2020-02-25T15:06:43.365Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="「学习笔记」Node Buffer">
 <meta name="twitter:image" content="https://unsplash.it/1374/815?random">
@@ -269,7 +269,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发布于</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-02-13T15:46:30+08:00">
                 2020-02-13
@@ -327,6 +327,7 @@
 <h2 id="什么是缓冲区？"><a href="#什么是缓冲区？" class="headerlink" title="什么是缓冲区？"></a>什么是缓冲区？</h2><p>数据流指数据从一个位置到另一个位置的移动（通常大文件会被拆解为块的形式）。</p>
 <p>如果数据流动的速度，大于进程处理数据的速度，多余的数据会在某个地方等待。如果数据流动的速度，小于进程处理数据的速度，那么数据会在某个地方累计到一定的数量，然后在由进程进行处理。（我们无法控制流的速度）</p>
 <p>那个等待数据，累计数据，然后发生出去的地方。就是<strong>缓冲区</strong>。缓冲区通常位于电脑的RAM（内存）中。</p>
+<p><strong>我们可以把缓冲区想象成一个公交车站，较早到达车站的乘客的会等待公交车，当公交车以及装满离开后，剩下的乘客会等待下一班的公交车到来。那个等待公交车的地方，就是缓冲区。</strong></p>
 <p>举一个常见的缓冲区的例子，我们在观看在线视频的时候，如果你的网速很快，缓冲区总是会被立即填充，然后发送出去，然后立即缓冲下一段视频。观看的过程中，不会有卡顿。如果网速很慢，则会看到loading，表示缓冲区正在被填充，当填充完成后数据被发送出去，才能看到这段视频。</p>
 <h2 id="Buffer类"><a href="#Buffer类" class="headerlink" title="Buffer类"></a>Buffer类</h2><h3 id="什么是TypedArray？"><a href="#什么是TypedArray？" class="headerlink" title="什么是TypedArray？"></a>什么是TypedArray？</h3><p>在<code>TypedArray</code>出现前，js没有读取或操作二进制数据流的机制。<code>TypedArray</code>并不是一个特定的全局对象，而是许多全局对象的统称。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// TypedArray 指的是下面其中之一</span></span><br><span class="line"><span class="built_in">Int8Array</span> <span class="comment">// 8位二进制补码有符号整数的数组</span></span><br><span class="line"><span class="built_in">Uint8Array</span> <span class="comment">// 8位无符号整型数组（0 &gt; &amp; &lt; 256(8位无符号整形)），等等</span></span><br><span class="line"><span class="built_in">Uint8ClampedArray</span></span><br><span class="line"><span class="built_in">Int16Array</span></span><br><span class="line"><span class="built_in">Uint16Array</span></span><br><span class="line"><span class="built_in">Int32Array</span></span><br><span class="line"><span class="built_in">Uint32Array</span></span><br><span class="line"><span class="built_in">Float32Array</span></span><br><span class="line"><span class="built_in">Float64Array</span></span><br></pre></td></tr></table></figure>
@@ -465,10 +466,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
+            Table of Contents
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            作者概述
+            Overview
           </li>
         </ul>
       
@@ -493,7 +494,7 @@
                 <a href="/archives/">
               
                   <span class="site-state-item-count">71</span>
-                  <span class="site-state-item-name">篇文章</span>
+                  <span class="site-state-item-name">篇博文</span>
                 </a>
               </div>
             
@@ -506,7 +507,7 @@
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
                   <span class="site-state-item-count">32</span>
-                  <span class="site-state-item-name">Tags</span>
+                  <span class="site-state-item-name">tags</span>
                 </a>
               </div>
             
@@ -584,7 +585,7 @@
 </div>
 
 
-  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 
 
