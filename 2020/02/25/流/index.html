@@ -89,7 +89,7 @@
 <meta property="og:image" content="https://cdn-media-1.freecodecamp.org/images/1*lhOvZiDrVbzF8_l8QX3ACw.png">
 <meta property="og:image" content="https://cdn-media-1.freecodecamp.org/images/1*HGXpeiF5-hJrOk_8tT2jFA.png">
 <meta property="og:image" content="https://cdn-media-1.freecodecamp.org/images/1*HI-mtispQ13qm8ib5yey3g.png">
-<meta property="og:updated_time" content="2020-02-25T15:06:50.409Z">
+<meta property="og:updated_time" content="2020-02-25T15:13:24.132Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="「学习笔记」Node Stream">
 <meta name="twitter:image" content="https://unsplash.it/1374/816?random">
@@ -272,7 +272,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">发布于</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-02-25T23:30:00+08:00">
                 2020-02-25
@@ -335,7 +335,7 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> readable = fs.createReadStream(<span class="string">'./数据源.json'</span>)</span><br><span class="line"><span class="keyword">const</span> writable = fs.createWriteStream(<span class="string">'./目标.json'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 当可读流绑定data事件时，会将流切换到流动模式</span></span><br><span class="line">readable.on(<span class="string">'data'</span>, (chunk) =&gt; &#123;</span><br><span class="line">    writable.write(chunk);</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">readable.on(<span class="string">'end'</span>, () =&gt; &#123;</span><br><span class="line">    writable.end()</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 <p>下图是可读流，可写流的事件与方法的列表(图片来自于Samer Buna的在线课程)</p>
 <p><img src="https://cdn-media-1.freecodecamp.org/images/1*HGXpeiF5-hJrOk_8tT2jFA.png" alt="事件列表.png"></p>
-<h4 id="关于上面的例子中存在的一些问题"><a href="#关于上面的例子中存在的一些问题" class="headerlink" title="关于上面的例子中存在的一些问题"></a>关于上面的例子中存在的一些问题</h4><p>上面对于流事件的示例中，是存在隐患的。具体的问题原因，可以查看我的这篇文章<a href="https://juejin.im/post/5e4e8751e51d4526d326b3bf" target="_blank" rel="noopener">简单理解 backpressure（背压）机制</a></p>
+<h3 id="关于上面的例子中存在的一些问题"><a href="#关于上面的例子中存在的一些问题" class="headerlink" title="关于上面的例子中存在的一些问题"></a>关于上面的例子中存在的一些问题</h3><p>上面对于流事件的示例中，是存在隐患的。具体的问题原因，可以查看我的这篇文章<a href="https://juejin.im/post/5e4e8751e51d4526d326b3bf" target="_blank" rel="noopener">简单理解 backpressure（背压）机制</a></p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 其实这段代码是其实有问题的</span></span><br><span class="line">readable.on(<span class="string">'data'</span>, (chunk) =&gt; &#123;</span><br><span class="line">    writable.write(chunk);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 <h3 id="可读流的事件"><a href="#可读流的事件" class="headerlink" title="可读流的事件"></a>可读流的事件</h3><ul>
 <li>data<ul>
@@ -492,10 +492,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
+            文章目录
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
+            作者概述
           </li>
         </ul>
       
@@ -520,7 +520,7 @@
                 <a href="/archives/">
               
                   <span class="site-state-item-count">71</span>
-                  <span class="site-state-item-name">篇博文</span>
+                  <span class="site-state-item-name">篇文章</span>
                 </a>
               </div>
             
@@ -533,7 +533,7 @@
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
                   <span class="site-state-item-count">32</span>
-                  <span class="site-state-item-name">tags</span>
+                  <span class="site-state-item-name">Tags</span>
                 </a>
               </div>
             
@@ -581,7 +581,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是流？"><span class="nav-number">2.</span> <span class="nav-text">什么是流？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流的类型"><span class="nav-number">3.</span> <span class="nav-text">流的类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流的管道"><span class="nav-number">4.</span> <span class="nav-text">流的管道</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流的事件"><span class="nav-number">5.</span> <span class="nav-text">流的事件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#关于上面的例子中存在的一些问题"><span class="nav-number">5.0.1.</span> <span class="nav-text">关于上面的例子中存在的一些问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可读流的事件"><span class="nav-number">5.1.</span> <span class="nav-text">可读流的事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可写流事件"><span class="nav-number">5.2.</span> <span class="nav-text">可写流事件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流的可读流的暂停和流动模式"><span class="nav-number">6.</span> <span class="nav-text">流的可读流的暂停和流动模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流的实现"><span class="nav-number">7.</span> <span class="nav-text">流的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建自定义可写流"><span class="nav-number">7.1.</span> <span class="nav-text">创建自定义可写流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建自定义可读流"><span class="nav-number">7.2.</span> <span class="nav-text">创建自定义可读流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建自定义转换流"><span class="nav-number">7.3.</span> <span class="nav-text">创建自定义转换流</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对象模式"><span class="nav-number">8.</span> <span class="nav-text">对象模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">9.</span> <span class="nav-text">参考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是流？"><span class="nav-number">2.</span> <span class="nav-text">什么是流？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流的类型"><span class="nav-number">3.</span> <span class="nav-text">流的类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流的管道"><span class="nav-number">4.</span> <span class="nav-text">流的管道</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流的事件"><span class="nav-number">5.</span> <span class="nav-text">流的事件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#关于上面的例子中存在的一些问题"><span class="nav-number">5.1.</span> <span class="nav-text">关于上面的例子中存在的一些问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可读流的事件"><span class="nav-number">5.2.</span> <span class="nav-text">可读流的事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可写流事件"><span class="nav-number">5.3.</span> <span class="nav-text">可写流事件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流的可读流的暂停和流动模式"><span class="nav-number">6.</span> <span class="nav-text">流的可读流的暂停和流动模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流的实现"><span class="nav-number">7.</span> <span class="nav-text">流的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建自定义可写流"><span class="nav-number">7.1.</span> <span class="nav-text">创建自定义可写流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建自定义可读流"><span class="nav-number">7.2.</span> <span class="nav-text">创建自定义可读流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建自定义转换流"><span class="nav-number">7.3.</span> <span class="nav-text">创建自定义转换流</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对象模式"><span class="nav-number">8.</span> <span class="nav-text">对象模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">9.</span> <span class="nav-text">参考</span></a></li></ol></div>
             
 
           </div>
@@ -611,7 +611,7 @@
 </div>
 
 
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 
 
