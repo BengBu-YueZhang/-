@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="新世紀エヴァンゲリオン">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://unsplash.it/1069/717?random">
-<meta property="og:updated_time" content="2019-09-22T05:52:25.214Z">
+<meta property="og:updated_time" content="2020-02-26T15:40:04.452Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="「Preact」逐行解析Hooks源码">
 <meta name="twitter:image" content="https://unsplash.it/1069/717?random">
@@ -269,7 +269,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发布于</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-22T13:48:46+08:00">
                 2019-09-22
@@ -354,7 +354,10 @@
 </blockquote>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> afterPaintEffects = [];</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> afterPaint = <span class="function"><span class="params">()</span> =&gt;</span> &#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="built_in">window</span> !== <span class="string">"undefined"</span>) &#123;</span><br><span class="line">  <span class="keyword">let</span> prevRaf = options.requestAnimationFrame;</span><br><span class="line">  afterPaint = <span class="function"><span class="params">component</span> =&gt;</span> &#123;  </span><br><span class="line">    <span class="keyword">if</span> (</span><br><span class="line">      <span class="comment">// _afterPaintQueued属性，确保了每一个component只能被push一次到afterPaintEffects中</span></span><br><span class="line">      (!component._afterPaintQueued &amp;&amp;</span><br><span class="line">        (component._afterPaintQueued = <span class="literal">true</span>) &amp;&amp;</span><br><span class="line">        <span class="comment">// afterPaintEffects.push(component) === 1，确保了在清空前`safeRaf`只会被执行一次</span></span><br><span class="line">        <span class="comment">// 将component添加到afterPaintEffects数组中</span></span><br><span class="line">        afterPaintEffects.push(component) === <span class="number">1</span>) ||</span><br><span class="line">      prevRaf !== options.requestAnimationFrame</span><br><span class="line">    ) &#123;</span><br><span class="line">      prevRaf = options.requestAnimationFrame;</span><br><span class="line">      <span class="comment">// 执行safeRaf(flushAfterPaintEffects)</span></span><br><span class="line">      (options.requestAnimationFrame || safeRaf)(flushAfterPaintEffects);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="safeRaf"><a href="#safeRaf" class="headerlink" title="safeRaf"></a>safeRaf</h4><blockquote>
-<p><code>safeRaf</code>会开启一个<code>requestAnimationFrame</code>，它会在diff（在Preact中的diff是同步的过程，相当于一个宏任务）完成后，调用<code>flushAfterPaintEffects</code>，处理useEffect的callback。</p>
+<p>safeRaf会开启一个requestAnimationFrame，它会在diff(diff是当前正在执行的宏任务)完成后, 浏览器重绘之前，调用flushAfterPaintEffects，处理useEffect的callback</p>
+</blockquote>
+<blockquote>
+<p>diff(当前的宏任务，diff会阻塞任务队列) -&gt; 清空微任务队列 -&gt; 宏任务阶段开始 -&gt; requestAnimationFrame -&gt; 其他宏任务</p>
 </blockquote>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> RAF_TIMEOUT = <span class="number">100</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">safeRaf</span>(<span class="params">callback</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> done = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    clearTimeout(timeout);</span><br><span class="line">    cancelAnimationFrame(raf);</span><br><span class="line">    setTimeout(callback);</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">const</span> timeout = setTimeout(done, RAF_TIMEOUT);</span><br><span class="line">  <span class="comment">// diff过程是同步的，requestAnimationFrame将会在diff完成后（宏任务完成后）执行</span></span><br><span class="line">  <span class="keyword">const</span> raf = requestAnimationFrame(done);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="flushAfterPaintEffects"><a href="#flushAfterPaintEffects" class="headerlink" title="flushAfterPaintEffects"></a>flushAfterPaintEffects</h4><blockquote>
@@ -501,10 +504,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
+            Table of Contents
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            作者概述
+            Overview
           </li>
         </ul>
       
@@ -528,8 +531,8 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">71</span>
-                  <span class="site-state-item-name">篇文章</span>
+                  <span class="site-state-item-count">72</span>
+                  <span class="site-state-item-name">篇博文</span>
                 </a>
               </div>
             
@@ -542,7 +545,7 @@
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
                   <span class="site-state-item-count">32</span>
-                  <span class="site-state-item-name">Tags</span>
+                  <span class="site-state-item-name">tags</span>
                 </a>
               </div>
             
@@ -620,7 +623,7 @@
 </div>
 
 
-  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 
 
