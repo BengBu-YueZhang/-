@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="javascript," />
+
+
+
+
+
+
+
+
+
+
+<meta name="keywords" content="javascript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="「学习笔记」In The Loop">
+<meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2020/03/04/JakeArchibald-InTheLoop/index.html">
+<meta property="og:site_name" content="新世紀エヴァンゲリオン">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://unsplash.it/1381/928?random">
+<meta property="og:image" content="https://i.loli.net/2020/03/05/Ei3VJphMzOeY2BG.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/05/AuU4vECFyQPt5cJ.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/05/E9DYgaT14S8GIZz.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/05/jihmBKXS2e4HatT.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/05/YFy4EigAhHIwdf9.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/05/hsKgWoXGVQ2DH95.gif">
+<meta property="og:image" content="https://i.loli.net/2020/03/05/ctxSuXVz4rapHGK.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/05/t7bsnVKuPJZcrNj.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/05/JHErvqCp4lVuX6n.gif">
+<meta property="og:image" content="https://i.loli.net/2020/03/06/ZqVFkGmU3sJoKWE.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/06/EPhpVirKTjvZz1S.gif">
+<meta property="og:image" content="https://i.loli.net/2020/03/06/VJ6N1u3OYyXHIgG.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/06/X7yBmvTSOlns5Cf.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/06/GxROMk9arelzgfd.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/06/mERnY9baMFrxkCJ.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/06/3BOQuIar5ndGc28.gif">
+<meta property="og:image" content="https://i.loli.net/2020/03/06/WkPO3Q59zRirBfh.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/06/puNVqrRXZ6BUeOQ.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/06/taWJjMicKQS5gvs.gif">
+<meta property="og:image" content="https://i.loli.net/2020/03/06/8QvnM4iEW1ftKcO.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/06/LB1WDz4CEytdwno.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/06/qDBub4damYXjG3I.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/06/yjYct5Si7qANV8n.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/06/ND4ZtXonSH7wRz3.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/06/NYkw3SpcZr7G2Vg.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/06/8oTyLwvOB9AWcKr.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/06/L32tWdjBeb4MRkJ.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/06/U6EQBe7PLSzHIwV.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/06/ptLnaulc4Kjb9CQ.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/06/MtngCXIoWupUJrR.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/07/jwic6apOsuXJGb9.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/07/kdxIavOYsSfA6o9.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/07/Xjt9h1sq2CQgR6L.png">
+<meta property="og:image" content="https://i.loli.net/2020/03/07/4slx7PiSnNdGvyq.png">
+<meta property="og:updated_time" content="2020-03-07T12:32:40.345Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="「学习笔记」In The Loop">
+<meta name="twitter:image" content="https://unsplash.it/1381/928?random">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://bengbu-yuezhang.github.io/yue.github.io/2020/03/04/JakeArchibald-InTheLoop/"/>
+
+
+
+
+
+  <title>「学习笔记」In The Loop | 新世紀エヴァンゲリオン</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">新世紀エヴァンゲリオン</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">前端小学生</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            主页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            时间轴
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://bengbu-yuezhang.github.io/yue.github.io/2020/03/04/JakeArchibald-InTheLoop/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="张越">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="新世紀エヴァンゲリオン">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">「学习笔记」In The Loop</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发布于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-04T23:23:52+08:00">
+                2020-03-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://unsplash.it/1381/928?random" alt="image"></p>
+<a id="more"></a>
+<h2 id="来源"><a href="#来源" class="headerlink" title="来源"></a>来源</h2><ul>
+<li><a href="https://www.youtube.com/watch?v=cCOL7MC4Pl0" target="_blank" rel="noopener">Jake Archibald: 在循环 - JSConf.Asia</a></li>
+<li><a href="https://vimeo.com/254947206" target="_blank" rel="noopener">SmashingConf London — Jake Archibald on ‘The Event Loop’</a></li>
+</ul>
+<p>有些小伙伴不是很方便直接观看原视频（因为需要科学上网），所以我在这里做一个记录。加强所学的同时，同时也方便大家。</p>
+<h2 id="第一个问题"><a href="#第一个问题" class="headerlink" title="第一个问题"></a>第一个问题</h2><p><img src="https://i.loli.net/2020/03/05/Ei3VJphMzOeY2BG.png" alt="1.png"></p>
+<p>这段代码是否存在一个隐患，用户的屏幕会出现一闪而过的情况？答案：不会。原因请看下面👇</p>
+<h2 id="主线程"><a href="#主线程" class="headerlink" title="主线程"></a>主线程</h2><p><img src="https://i.loli.net/2020/03/05/AuU4vECFyQPt5cJ.png" alt="2.png"></p>
+<p><strong>JS的执行</strong>，<strong>浏览器的渲染</strong>，<strong>DOM存储都在主线程上</strong>。这意味着网页上大部分的代码都是有顺序的，不可能存在同时编辑同一个DOM的情况。</p>
+<p>但是主线程，如果有的代码运行了很久比如200ms，它会阻塞用户的交互，和渲染是很糟糕的体验。</p>
+<p><img src="https://i.loli.net/2020/03/05/E9DYgaT14S8GIZz.png" alt="3.png"></p>
+<p>所以尽管我们拥有一些主线程，但是希望衍生出一些其他线程，比如用来处理网络请求，监控输入设备。一旦衍生线程，需要页面响应，它们会通知主线程，这就是事件循环干的事情。</p>
+<h2 id="setTimeout-是如何工作的？"><a href="#setTimeout-是如何工作的？" class="headerlink" title="setTimeout 是如何工作的？"></a>setTimeout 是如何工作的？</h2><p><img src="https://i.loli.net/2020/03/05/jihmBKXS2e4HatT.png" alt="4.png"></p>
+<p><img src="https://i.loli.net/2020/03/05/YFy4EigAhHIwdf9.png" alt="5.png"></p>
+<p>JS不会同步的等待，因为这会阻塞主线程。JS也不会并行，因为这会产生很多竞态。</p>
+<p>JS会将任务推送到队列中，然后再回到主线程中。</p>
+<p>这也是浏览器的核心工作方式。比如，当发生点击的时候，操作系统会在队列中提交任务。fetch请求的响应也会推送到队列之中。</p>
+<h2 id="任务队列-Task-Queues"><a href="#任务队列-Task-Queues" class="headerlink" title="任务队列 Task Queues"></a>任务队列 Task Queues</h2><p><img src="https://i.loli.net/2020/03/05/hsKgWoXGVQ2DH95.gif" alt="6.gif"></p>
+<p>在没有事情发生的时候，事件环就是在空转</p>
+<p><img src="https://i.loli.net/2020/03/05/ctxSuXVz4rapHGK.png" alt="7.png"></p>
+<p>我们通过 setTimeout 向队列中添加 callback1任务，callback2任务。任务会在主线程之外，<strong>并行</strong>等待1000ms，然后回到主线程当中。</p>
+<p><img src="https://i.loli.net/2020/03/05/t7bsnVKuPJZcrNj.png" alt="8.png"></p>
+<p>当任务回到主线程后，事件环将会“绕道”去执行任务。</p>
+<p><img src="https://i.loli.net/2020/03/05/JHErvqCp4lVuX6n.gif" alt="9.gif"></p>
+<h2 id="浏览器渲染"><a href="#浏览器渲染" class="headerlink" title="浏览器渲染"></a>浏览器渲染</h2><p><img src="https://i.loli.net/2020/03/06/ZqVFkGmU3sJoKWE.png" alt="10.png"></p>
+<p>我们可以把浏览器的渲染，想象成事件队列上的另一个<strong>弯道</strong>。包含了CSS样式计算（S），构建渲染树（L）, 计算元素的位置像素（P），然后进行绘制。</p>
+<p><strong>浏览器渲染的这条弯道，和执行任务（JS代码执行），分别位于事件队列的两端。</strong></p>
+<p><img src="https://i.loli.net/2020/03/06/EPhpVirKTjvZz1S.gif" alt="11.gif"></p>
+<h2 id="while-true"><a href="#while-true" class="headerlink" title="while(true)"></a>while(true)</h2><p><img src="https://i.loli.net/2020/03/06/VJ6N1u3OYyXHIgG.png" alt="12.png"></p>
+<p>使用 <code>while(true)</code> 会使浏览器停止，gif图也不在更新，文字也无法选中。</p>
+<p>在事件循环中，<code>while(true)</code>，会造成什么样的后果呢？</p>
+<p><img src="https://i.loli.net/2020/03/06/X7yBmvTSOlns5Cf.png" alt="13.png"></p>
+<p><code>while(true)</code> 是一个永远无法结束的任务，直到永远。</p>
+<p>事件环永远无法绕到，浏览器渲染的那个弯道上。事件环也无法处理，新添加的任务。所以浏览器会变得无响应。</p>
+<h2 id="回到第一个问题"><a href="#回到第一个问题" class="headerlink" title="回到第一个问题"></a>回到第一个问题</h2><p><img src="https://i.loli.net/2020/03/06/GxROMk9arelzgfd.png" alt="14.png"></p>
+<p>到这里，我们也很好理解了。为什么这段代码，没有闪烁的风险。</p>
+<p>因为事件环，必须执行完任务，才会进行浏览器渲染。（任务 –&gt; 渲染 –&gt; 任务 –&gt; 渲染）</p>
+<p>就像之前说的那样，执行任务（执行JS），和浏览器渲染是分别位于事件渲染的两端的。<strong>任务总是在下一次渲染前，完成</strong></p>
+<h2 id="setTimeout-会不会阻塞事件环呢？"><a href="#setTimeout-会不会阻塞事件环呢？" class="headerlink" title="setTimeout 会不会阻塞事件环呢？"></a>setTimeout 会不会阻塞事件环呢？</h2><p><img src="https://i.loli.net/2020/03/06/mERnY9baMFrxkCJ.png" alt="15.png"></p>
+<p>答案是不会，setTimeout添加一个任务后，事件环执行完任务后，会再添加一个任务。</p>
+<p><img src="https://i.loli.net/2020/03/06/3BOQuIar5ndGc28.gif" alt="16.gif"></p>
+<p>而任务<strong>不会</strong>永远无法结束，所以事件环也有时间去处理浏览器的渲染。</p>
+<h2 id="任务中不要放，渲染相关的代码。"><a href="#任务中不要放，渲染相关的代码。" class="headerlink" title="任务中不要放，渲染相关的代码。"></a>任务中不要放，渲染相关的代码。</h2><p>在任务中不要放，渲染相关的代码。应该放到渲染之前，<code>requestAnimationFrame</code> （rAF）正是这样做的。</p>
+<p><img src="https://i.loli.net/2020/03/06/WkPO3Q59zRirBfh.png" alt="17.png"></p>
+<p><img src="https://i.loli.net/2020/03/06/puNVqrRXZ6BUeOQ.png" alt="18.png"></p>
+<p><img src="https://i.loli.net/2020/03/06/taWJjMicKQS5gvs.gif" alt="19.gif"></p>
+<p>分别使用 <code>requestAnimationFrame</code> 和 <code>setTimeout</code> 做动画。<code>setTimeout</code> 相比 <code>requestAnimationFrame</code> 更快，这是为什么呢？</p>
+<p><strong>因为每当我们执行完一个任务（JS）后，浏览器是不能保证会重新渲染的</strong>，<strong>可能我们执行了多次任务之后，浏览器才会渲染一次</strong>。</p>
+<p><strong>setTimeout(callbak, 0), 就会存在这种情况，callbak执行了多次，浏览器可能只会渲染一次</strong>。而在浏览器在后台运行时，callback的执行是没有意义的。</p>
+<p>在大多数情况下，我们屏幕的更新频率是60HZ, 如果我们在1s内，更新样式1000次，浏览器不会渲染1000次，只会渲染60次。</p>
+<p><img src="https://i.loli.net/2020/03/06/8QvnM4iEW1ftKcO.png" alt="20.png"></p>
+<p>为什么 <code>setTimeout</code> 会更快？因为callback执行的次数，要比 <code>rAF</code> 多。<code>rAF</code> 只会在渲染之前执行回调。</p>
+<h2 id="渲染帧"><a href="#渲染帧" class="headerlink" title="渲染帧"></a>渲染帧</h2><p><img src="https://i.loli.net/2020/03/06/LB1WDz4CEytdwno.png" alt="21.png"></p>
+<p>渲染的过程在每一帧发生之前</p>
+<p><img src="https://i.loli.net/2020/03/06/qDBub4damYXjG3I.png" alt="22.png"></p>
+<p>而任务，却会任意出现在帧的任意时刻。很多任务，是得不到浏览器的渲染的。</p>
+<h2 id="漂移"><a href="#漂移" class="headerlink" title="漂移"></a>漂移</h2><p><img src="https://i.loli.net/2020/03/06/yjYct5Si7qANV8n.png" alt="23.png"></p>
+<p>很多老的动画库比如jq，使用<code>1000 / 60</code>, 来避免，在一个帧内执行无用的callback。</p>
+<p><img src="https://i.loli.net/2020/03/06/ND4ZtXonSH7wRz3.png" alt="24.png"></p>
+<p>但是setTimout, 可以会出现漂移，比如这个帧内不执行callback，下一个帧内执行两次callback。所以setTimout并不适合用来做动画。</p>
+<p><img src="https://i.loli.net/2020/03/06/NYkw3SpcZr7G2Vg.png" alt="25.png"></p>
+<p>而使用rAF，callback只会在<strong>每一帧渲染前</strong>执行callback</p>
+<h2 id="一个例子"><a href="#一个例子" class="headerlink" title="一个例子"></a>一个例子</h2><p><img src="https://i.loli.net/2020/03/06/8oTyLwvOB9AWcKr.png" alt="26.png"></p>
+<p>通过之前说明，我们可以知道，这个box, 不会先运动到1000px，然后再运动到500px。那么怎么做，才能让box先运动到1000px，然后再运动到500px呢？</p>
+<p><img src="https://i.loli.net/2020/03/06/L32tWdjBeb4MRkJ.png" alt="27.png"></p>
+<p>如果这样修改呢，结果会如何？很遗憾，box依然会直接运动到500px的位置。这是为什么呢？请看下面</p>
+<p><img src="https://i.loli.net/2020/03/06/U6EQBe7PLSzHIwV.png" alt="28.png"></p>
+<p><img src="https://i.loli.net/2020/03/06/ptLnaulc4Kjb9CQ.png" alt="29.png"></p>
+<p>任务（运动到1000px） -&gt; rAF（运动到500px）-&gt; 浏览器渲染</p>
+<p>我们需要怎么修改呢？</p>
+<p><img src="https://i.loli.net/2020/03/06/MtngCXIoWupUJrR.png" alt="30.png"></p>
+<p>我们需要在嵌套一层rAF，事件环的顺序就变成了。任务（运动到1000px） -&gt; 第一层rAF -&gt; 浏览器渲染 -&gt; 第二层rAF（运动到500px）-&gt; 浏览器渲染</p>
+<p>除了再嵌套一层rAF，有没有其他方法呢？大家都学习过浏览器的重绘，我们可以使用 <code>getBoundingClientRect</code>, <code>clientWidth</code> 等 API 强制浏览器重绘。</p>
+<p><img src="https://i.loli.net/2020/03/07/jwic6apOsuXJGb9.png" alt="31.png"></p>
+<h3 id="🤔关于这个例子的问题"><a href="#🤔关于这个例子的问题" class="headerlink" title="🤔关于这个例子的问题"></a>🤔关于这个例子的问题</h3><p>我在Chrome80的版本上测试了上面的代码, 结果是不可行的。代码需要调整。原因应该是和 <code>transition</code> 相关，至于为什么我不是很清楚。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">btn.addEventListener(<span class="string">'click'</span>, ()=&gt;&#123;</span><br><span class="line">    box.style.transform = <span class="string">'translateX(500px)'</span></span><br><span class="line">    requestAnimationFrame(<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">        requestAnimationFrame(<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">            box.style.transition = <span class="string">'transform 1s ease-out'</span></span><br><span class="line">            box.style.transform = <span class="string">'translateX(250px)'</span></span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> btn = <span class="built_in">document</span>.getElementById(<span class="string">'btn'</span>)</span><br><span class="line"><span class="keyword">const</span> box = <span class="built_in">document</span>.getElementById(<span class="string">'box'</span>)</span><br><span class="line">btn.addEventListener(<span class="string">'click'</span>, ()=&gt;&#123;</span><br><span class="line">    box.style.transform = <span class="string">'translateX(500px)'</span></span><br><span class="line">    box.clientWidth</span><br><span class="line">    box.style.transition = <span class="string">'transform 1s ease-out'</span></span><br><span class="line">    box.style.transform = <span class="string">'translateX(250px)'</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="🤔一点个人看法"><a href="#🤔一点个人看法" class="headerlink" title="🤔一点个人看法"></a>🤔一点个人看法</h2><p>我们在很多中文文章里，都会把 <code>requestAnimationFrame</code> 归类为宏任务，但是演讲看到这里，我们应该可以看出，<code>requestAnimationFrame</code> 和 宏任务以及微任务是没有关系。<code>requestAnimationFrame</code> 的callback何时执行，只和浏览器何时刷新（刷新前）执行。</p>
+<h2 id="Microtasks"><a href="#Microtasks" class="headerlink" title="Microtasks"></a>Microtasks</h2><p>Microtasks 到底会在什么时候执行，会在宏任务结束后执行吗？这种说法只能说部分正确。正确的说法应该是<strong>JS堆栈为空时执行。</strong></p>
+<h2 id="无限循环的微任务"><a href="#无限循环的微任务" class="headerlink" title="无限循环的微任务"></a>无限循环的微任务</h2><p><img src="https://i.loli.net/2020/03/07/kdxIavOYsSfA6o9.png" alt="32.png"></p>
+<p>浏览器一样会被卡住。为什么？如果处理微任务时，有新的微任务被添加，并且加入的速度也大于执行的速度，那么就会永远执行微任务。</p>
+<h2 id="一个例子-1"><a href="#一个例子-1" class="headerlink" title="一个例子"></a>一个例子</h2><p><img src="https://i.loli.net/2020/03/07/Xjt9h1sq2CQgR6L.png" alt="33.png"></p>
+<p>当我们点击<strong>用鼠标</strong>button的时候，<code>log</code> 的顺序是怎么样的？</p>
+<p>结果：<code>Listener 1</code> -&gt; <code>Microtask 1</code> -&gt; <code>Listener 2</code> -&gt; <code>Microtask 2</code></p>
+<p><img src="https://i.loli.net/2020/03/07/4slx7PiSnNdGvyq.png" alt="34.png"></p>
+<p>当我们使用<strong>代码</strong>点击button的时候，<code>log</code> 的顺序是怎么样的？</p>
+<p>结果 <code>Listener 1</code> -&gt; <code>Listener 2</code> -&gt; <code>Microtask 1</code> -&gt; <code>Microtask 2</code></p>
+<p><strong>为什么？</strong></p>
+<h3 id="第一个例子"><a href="#第一个例子" class="headerlink" title="第一个例子"></a>第一个例子</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 第一步</span><br><span class="line"><span class="meta">#</span> 第一个回调执行</span><br><span class="line">JS stack: callback1（执行中）</span><br><span class="line">Microtasks: 空</span><br><span class="line">log: 空</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 第二步</span><br><span class="line"><span class="meta">#</span> 第一个回调执行完成，并退出JS stack，JS stack为空，此时开始清空微任务队列</span><br><span class="line">JS stack: 空</span><br><span class="line">Microtasks: Microtask 1</span><br><span class="line">log: Listener 1</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 第三步</span><br><span class="line"><span class="meta">#</span> 执行第二个callback</span><br><span class="line">JS stack: callback2（执行）</span><br><span class="line">Microtasks: </span><br><span class="line">log: Listener 1，Microtask 1</span><br><span class="line"></span><br><span class="line">………………</span><br></pre></td></tr></table></figure>
+<h3 id="第二个例子"><a href="#第二个例子" class="headerlink" title="第二个例子"></a>第二个例子</h3><p>第二个例子, 与第一个例子有一点的不同，我们是用代码调用的，所以最开始JS堆栈中会多出一个脚本堆栈</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 第一步</span><br><span class="line"><span class="meta">#</span> 使用JS调用点击事件，JS stack会多出一个Script</span><br><span class="line">JS stack: Script</span><br><span class="line">Microtasks: 空</span><br><span class="line">log: 空</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 第二步</span><br><span class="line"><span class="meta">#</span> callback1 开始执行</span><br><span class="line">JS stack: callback1（执行中）， Script</span><br><span class="line">Microtasks: </span><br><span class="line">log: </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 第三步</span><br><span class="line"><span class="meta">#</span> callback1 执行完成，退出堆栈</span><br><span class="line"><span class="meta">#</span> 但是JS堆栈中，还有 Script，所以还不能执行微任务</span><br><span class="line">JS stack: Script</span><br><span class="line">Microtasks: Microtask 1 </span><br><span class="line">log: Listener 1</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 第四步</span><br><span class="line"><span class="meta">#</span> 此时 callback2 执行</span><br><span class="line">JS stack: callback2（执行中），Script</span><br><span class="line">Microtasks: Microtask 2， Microtask 1</span><br><span class="line">log: Listener 1 ，Listener 2</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 第五步</span><br><span class="line"><span class="meta">#</span> Listener 2 执行完成退出，</span><br><span class="line">JS stack: Script</span><br><span class="line">Microtasks: Microtask 2， Microtask 1 </span><br><span class="line">log: Listener 1 ，Listener 2</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 第六步</span><br><span class="line"><span class="meta">#</span> Script 执行完成退出，准备开始清空微任务队列</span><br><span class="line">JS stack: 空</span><br><span class="line">Microtasks: Microtask 2， Microtask 1 </span><br><span class="line">log: Listener 1 ，Listener 2</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 第七步</span><br><span class="line"><span class="meta">#</span> 开始清空微任务队列</span><br><span class="line">JS stack: 空</span><br><span class="line">Microtasks: 空</span><br><span class="line">log: Listener 1 ，Listener 2，Microtask 1，Microtask 2</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/javascript/" rel="tag"># javascript</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/04/requestIdleCallback/" rel="next" title="详解 requestIdleCallback">
+                <i class="fa fa-chevron-left"></i> 详解 requestIdleCallback
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/05/requestAnimationFrame/" rel="prev" title="详解 requestAnimationFrame（学习中）">
+                详解 requestAnimationFrame（学习中） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            作者概述
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="张越" />
+            
+              <p class="site-author-name" itemprop="name">张越</p>
+              <p class="site-description motion-element" itemprop="description">所谓成长，就是经过不断的聚散离合，找到不太会伤害到彼此的距离</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">74</span>
+                  <span class="site-state-item-name">篇文章</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">Tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/BengBu-YueZhang" target="_blank" title="我的GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/5460100952/profile?topnav=1&wvr=6" target="_blank" title="我的微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>我的微博</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#来源"><span class="nav-number">1.</span> <span class="nav-text">来源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第一个问题"><span class="nav-number">2.</span> <span class="nav-text">第一个问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主线程"><span class="nav-number">3.</span> <span class="nav-text">主线程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#setTimeout-是如何工作的？"><span class="nav-number">4.</span> <span class="nav-text">setTimeout 是如何工作的？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#任务队列-Task-Queues"><span class="nav-number">5.</span> <span class="nav-text">任务队列 Task Queues</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浏览器渲染"><span class="nav-number">6.</span> <span class="nav-text">浏览器渲染</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#while-true"><span class="nav-number">7.</span> <span class="nav-text">while(true)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#回到第一个问题"><span class="nav-number">8.</span> <span class="nav-text">回到第一个问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#setTimeout-会不会阻塞事件环呢？"><span class="nav-number">9.</span> <span class="nav-text">setTimeout 会不会阻塞事件环呢？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#任务中不要放，渲染相关的代码。"><span class="nav-number">10.</span> <span class="nav-text">任务中不要放，渲染相关的代码。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#渲染帧"><span class="nav-number">11.</span> <span class="nav-text">渲染帧</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#漂移"><span class="nav-number">12.</span> <span class="nav-text">漂移</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一个例子"><span class="nav-number">13.</span> <span class="nav-text">一个例子</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#🤔关于这个例子的问题"><span class="nav-number">13.1.</span> <span class="nav-text">🤔关于这个例子的问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#🤔一点个人看法"><span class="nav-number">14.</span> <span class="nav-text">🤔一点个人看法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Microtasks"><span class="nav-number">15.</span> <span class="nav-text">Microtasks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#无限循环的微任务"><span class="nav-number">16.</span> <span class="nav-text">无限循环的微任务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一个例子-1"><span class="nav-number">17.</span> <span class="nav-text">一个例子</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一个例子"><span class="nav-number">17.1.</span> <span class="nav-text">第一个例子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二个例子"><span class="nav-number">17.2.</span> <span class="nav-text">第二个例子</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">张越</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
