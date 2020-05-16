@@ -79,24 +79,22 @@
 
 
 
-<meta name="description" content="前言已经有好长时间不在掘金冒泡了，当然也是事出有因，3月份动了一次手术，请了3个月的病假。做完手术就一直躺在床上玩switch，一直玩到现在，什么塞尔达传说，火焰纹章也在这段时间打通关了（其实我很想玩ps4，但是做起来费劲只能躺着玩掌机）。  发生意外之前，在公司正着手准备做一个内部的ui库，于是就研究了一下一些开源的ui库的方案，这里做一个简单总结和分享。 各个组件库是怎么做的？它们通常都会使用">
 <meta name="keywords" content="Babel">
 <meta property="og:type" content="article">
 <meta property="og:title" content="组件库实现按需引入的原理">
 <meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2020/05/12/UI框架中的按需引入/index.html">
 <meta property="og:site_name" content="新世紀エヴァンゲリオン">
-<meta property="og:description" content="前言已经有好长时间不在掘金冒泡了，当然也是事出有因，3月份动了一次手术，请了3个月的病假。做完手术就一直躺在床上玩switch，一直玩到现在，什么塞尔达传说，火焰纹章也在这段时间打通关了（其实我很想玩ps4，但是做起来费劲只能躺着玩掌机）。  发生意外之前，在公司正着手准备做一个内部的ui库，于是就研究了一下一些开源的ui库的方案，这里做一个简单总结和分享。 各个组件库是怎么做的？它们通常都会使用">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://unsplash.it/1369/632?random">
 <meta property="og:image" content="https://i.loli.net/2020/05/12/oWRP1OSYJe4qp8s.jpg">
 <meta property="og:image" content="https://i.loli.net/2020/05/12/7MsQqVFUL1SJx5R.png">
 <meta property="og:image" content="https://i.loli.net/2020/05/12/wPT9IhuKnSNRq7s.png">
 <meta property="og:image" content="https://i.loli.net/2020/05/12/A6YJskTXagWuViy.png">
 <meta property="og:image" content="https://i.loli.net/2020/05/13/vdb2LxmQWejpIsD.png">
-<meta property="og:updated_time" content="2020-05-13T13:48:48.329Z">
+<meta property="og:updated_time" content="2020-05-16T14:37:54.850Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="组件库实现按需引入的原理">
-<meta name="twitter:description" content="前言已经有好长时间不在掘金冒泡了，当然也是事出有因，3月份动了一次手术，请了3个月的病假。做完手术就一直躺在床上玩switch，一直玩到现在，什么塞尔达传说，火焰纹章也在这段时间打通关了（其实我很想玩ps4，但是做起来费劲只能躺着玩掌机）。  发生意外之前，在公司正着手准备做一个内部的ui库，于是就研究了一下一些开源的ui库的方案，这里做一个简单总结和分享。 各个组件库是怎么做的？它们通常都会使用">
-<meta name="twitter:image" content="https://i.loli.net/2020/05/12/oWRP1OSYJe4qp8s.jpg">
+<meta name="twitter:image" content="https://unsplash.it/1369/632?random">
 
 
 
@@ -276,7 +274,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发布于</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-05-12T18:00:00+08:00">
                 2020-05-12
@@ -316,7 +314,9 @@
       
 
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>已经有好长时间不在掘金冒泡了，当然也是事出有因，3月份动了一次手术，请了3个月的病假。做完手术就一直躺在床上玩switch，一直玩到现在，什么塞尔达传说，火焰纹章也在这段时间打通关了（其实我很想玩ps4，但是做起来费劲只能躺着玩掌机）。</p>
+        <p><img src="https://unsplash.it/1369/632?random" alt="image"></p>
+<a id="more"></a>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>已经有好长时间不在掘金冒泡了，当然也是事出有因，3月份动了一次手术，请了3个月的病假。做完手术就一直躺在床上玩switch，一直玩到现在，什么塞尔达传说，火焰纹章也在这段时间打通关了（其实我很想玩ps4，但是做起来费劲只能躺着玩掌机）。</p>
 <p><img src="https://i.loli.net/2020/05/12/oWRP1OSYJe4qp8s.jpg" alt="WechatIMG237.jpeg"></p>
 <p>发生意外之前，在公司正着手准备做一个内部的ui库，于是就研究了一下一些开源的ui库的方案，这里做一个简单总结和分享。</p>
 <h2 id="各个组件库是怎么做的？"><a href="#各个组件库是怎么做的？" class="headerlink" title="各个组件库是怎么做的？"></a>各个组件库是怎么做的？</h2><p>它们通常都会使用 <code>webpack</code> 或者 <code>rollup</code> 打包生成一个入口的js文件，这个文件通常都是在你不需要按需引入组件库时使用。</p>
@@ -386,8 +386,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2021/01/01/ProblemSummary/" rel="prev" title="「置顶」日常问题汇总">
-                「置顶」日常问题汇总 <i class="fa fa-chevron-right"></i>
+              <a href="/2020/05/16/前端错误监控/" rel="prev" title="前端错误监控">
+                前端错误监控 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -442,10 +442,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
+            Table of Contents
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            作者概述
+            Overview
           </li>
         </ul>
       
@@ -469,8 +469,8 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">75</span>
-                  <span class="site-state-item-name">篇文章</span>
+                  <span class="site-state-item-count">76</span>
+                  <span class="site-state-item-name">篇博文</span>
                 </a>
               </div>
             
@@ -482,8 +482,8 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">33</span>
-                  <span class="site-state-item-name">Tags</span>
+                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-name">tags</span>
                 </a>
               </div>
             
@@ -561,7 +561,7 @@
 </div>
 
 
-  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 
 
