@@ -79,22 +79,22 @@
 
 
 
-<meta name="description" content="前言Life of a Pixel 演讲的学习笔记。如有错误，请指出。 Content前端的所有代码统称为Content，比如html，js，css，图片，视频等。 在Chromium代码架构上Content命名空间包含了，黄色框内的所有内容。在代码中由WebContent类表示，WebContent类中封装了渲染进程。  ChromiumChromium是Google的开源项目，Chrome浏览">
 <meta name="keywords" content="前端">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Life of a Pixel 学习笔记">
 <meta property="og:url" content="https://bengbu-yuezhang.github.io/yue.github.io/2020/05/26/浏览器渲染/index.html">
 <meta property="og:site_name" content="新世紀エヴァンゲリオン">
-<meta property="og:description" content="前言Life of a Pixel 演讲的学习笔记。如有错误，请指出。 Content前端的所有代码统称为Content，比如html，js，css，图片，视频等。 在Chromium代码架构上Content命名空间包含了，黄色框内的所有内容。在代码中由WebContent类表示，WebContent类中封装了渲染进程。  ChromiumChromium是Google的开源项目，Chrome浏览">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://unsplash.it/1382/832?random">
 <meta property="og:image" content="https://i.loli.net/2020/05/27/SNbRw3PCTul4MEW.png">
 <meta property="og:image" content="https://i.loli.net/2020/05/27/oQNyckCh8gLaBKE.png">
 <meta property="og:image" content="https://i.loli.net/2020/05/27/ahW2nIlKzRcjxwN.png">
-<meta property="og:updated_time" content="2020-05-28T08:58:28.301Z">
+<meta property="og:image" content="https://i.loli.net/2020/05/30/NflK8U1d3MXgh6L.png">
+<meta property="og:image" content="https://i.loli.net/2020/05/30/h6sHaMEV9J18nIY.png">
+<meta property="og:updated_time" content="2020-05-30T14:26:20.767Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Life of a Pixel 学习笔记">
-<meta name="twitter:description" content="前言Life of a Pixel 演讲的学习笔记。如有错误，请指出。 Content前端的所有代码统称为Content，比如html，js，css，图片，视频等。 在Chromium代码架构上Content命名空间包含了，黄色框内的所有内容。在代码中由WebContent类表示，WebContent类中封装了渲染进程。  ChromiumChromium是Google的开源项目，Chrome浏览">
-<meta name="twitter:image" content="https://i.loli.net/2020/05/27/SNbRw3PCTul4MEW.png">
+<meta name="twitter:image" content="https://unsplash.it/1382/832?random">
 
 
 
@@ -274,7 +274,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span class="post-meta-item-text">发布于</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-05-26T21:26:45+08:00">
                 2020-05-26
@@ -314,7 +314,9 @@
       
 
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Life of a Pixel 演讲的学习笔记。如有错误，请指出。</p>
+        <p><img src="https://unsplash.it/1382/832?random" alt="image"></p>
+<a id="more"></a>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Life of a Pixel 演讲的学习笔记。如有错误，请指出。</p>
 <h2 id="Content"><a href="#Content" class="headerlink" title="Content"></a>Content</h2><p>前端的所有代码统称为Content，比如html，js，css，图片，视频等。</p>
 <p>在Chromium代码架构上Content命名空间包含了，黄色框内的所有内容。在代码中由WebContent类表示，WebContent类中封装了渲染进程。</p>
 <p><img src="https://i.loli.net/2020/05/27/SNbRw3PCTul4MEW.png" alt="image.png"></p>
@@ -352,7 +354,21 @@
 <h2 id="GPU-图形处理器"><a href="#GPU-图形处理器" class="headerlink" title="GPU 图形处理器"></a>GPU 图形处理器</h2><p>👻SKIA产生OpenGL调用，使用命令缓存区的形式，传输到GPU进程，GPU接受到命令缓存，产生GL调用。像素被渲染到屏幕上了。</p>
 <h2 id="Change-更新"><a href="#Change-更新" class="headerlink" title="Change 更新"></a>Change 更新</h2><p>渲染不是静态的，JavaScript，用户输入，异步加载，动画，滚动，缩放，都会改变渲染。从头执行渲染流程代价会很昂贵。</p>
 <h2 id="Frames-动画帧"><a href="#Frames-动画帧" class="headerlink" title="Frames 动画帧"></a>Frames 动画帧</h2><p>动画帧，每一帧就是该时间点Content的完整呈现。如果每一秒低于60fps，动画就会变得卡顿。</p>
-<h2 id="invalidation-失效"><a href="#invalidation-失效" class="headerlink" title="invalidation 失效"></a>invalidation 失效</h2><p>为了避免从头执行整个渲染流程，常用的优化方法就是标记出，发生了改变的部分，复用没有改变的部分。比如一个节点需要重新计算样式，在下一帧的时候，只重新计算该节点的样式。</p>
+<h2 id="Invalidation-失效"><a href="#Invalidation-失效" class="headerlink" title="Invalidation 失效"></a>Invalidation 失效</h2><p>为了避免从头执行整个渲染流程，常用的优化方法就是标记出，发生了改变的部分，复用没有改变的部分。比如一个节点需要重新计算样式，在下一帧的时候，只重新计算该节点的样式。</p>
+<h2 id="Repaint"><a href="#Repaint" class="headerlink" title="Repaint"></a>Repaint</h2><p>对于大面积的页面滚动操作，Paint，Raster操作依然非常占用性能。</p>
+<h2 id="Jank"><a href="#Jank" class="headerlink" title="Jank"></a>Jank</h2><p>JS会阻塞浏览器的渲染</p>
+<h2 id="Enter-Compositing-输入合成"><a href="#Enter-Compositing-输入合成" class="headerlink" title="Enter: Compositing 输入合成"></a>Enter: Compositing 输入合成</h2><p>Chrome另外的优化手段是分层</p>
+<ol>
+<li>将页面分解成多个图层，每一个图层可以单独进行栅格化。</li>
+<li>另外单独线程进行图层的合成</li>
+</ol>
+<p><img src="https://i.loli.net/2020/05/30/NflK8U1d3MXgh6L.png" alt="image.png"></p>
+<h3 id="Layers-分层"><a href="#Layers-分层" class="headerlink" title="Layers 分层"></a>Layers 分层</h3><p>动画，滚动，缩放，操作都会创建图层。单独的合成线程，会对滚动输入操作，进行单独处理。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">while</span>(<span class="literal">true</span>) &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当我们使用js阻塞主线程时，由于单独的合成线程的存在，合成线程会对用户的滚动操作进行处理，虽然主线程被阻塞但是页面依然可以滚动</p>
+<h3 id="Layers-tree-图层树"><a href="#Layers-tree-图层树" class="headerlink" title="Layers tree 图层树"></a>Layers tree 图层树</h3><p>图层的存储结构也是树的形式，</p>
+<p><img src="https://i.loli.net/2020/05/30/h6sHaMEV9J18nIY.png" alt="image.png"></p>
+<h3 id="Compositing-合成"><a href="#Compositing-合成" class="headerlink" title="Compositing 合成"></a>Compositing 合成</h3><p>生成图层树</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
 <li><a href="https://en.wikipedia.org/wiki/Skia_Graphics_Engine" target="_blank" rel="noopener">SKIA</a></li>
 <li><a href="https://en.wikipedia.org/wiki/Bitmap" target="_blank" rel="noopener">Bitmap</a></li>
@@ -458,10 +474,10 @@
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
+            文章目录
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
+            作者概述
           </li>
         </ul>
       
@@ -486,7 +502,7 @@
                 <a href="/archives/">
               
                   <span class="site-state-item-count">78</span>
-                  <span class="site-state-item-name">篇博文</span>
+                  <span class="site-state-item-name">篇文章</span>
                 </a>
               </div>
             
@@ -499,7 +515,7 @@
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
                   <span class="site-state-item-count">35</span>
-                  <span class="site-state-item-name">tags</span>
+                  <span class="site-state-item-name">Tags</span>
                 </a>
               </div>
             
@@ -547,7 +563,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Content"><span class="nav-number">2.</span> <span class="nav-text">Content</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Chromium"><span class="nav-number">2.1.</span> <span class="nav-text">Chromium</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Blink-浏览器排版引擎"><span class="nav-number">3.</span> <span class="nav-text">Blink 浏览器排版引擎</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pixels-像素"><span class="nav-number">4.</span> <span class="nav-text">Pixels 像素</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Stages-步骤"><span class="nav-number">5.</span> <span class="nav-text">Stages 步骤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Parsing-解析"><span class="nav-number">6.</span> <span class="nav-text">Parsing 解析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DOM（Document-Object-Model）-文档对象模型"><span class="nav-number">7.</span> <span class="nav-text">DOM（Document Object Model） 文档对象模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Style-样式"><span class="nav-number">8.</span> <span class="nav-text">Style 样式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Layout-布局"><span class="nav-number">9.</span> <span class="nav-text">Layout 布局</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Paint-绘制"><span class="nav-number">10.</span> <span class="nav-text">Paint 绘制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Raster-栅格化"><span class="nav-number">11.</span> <span class="nav-text">Raster 栅格化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SKIA"><span class="nav-number">11.1.</span> <span class="nav-text">SKIA</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GPU-图形处理器"><span class="nav-number">12.</span> <span class="nav-text">GPU 图形处理器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Change-更新"><span class="nav-number">13.</span> <span class="nav-text">Change 更新</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Frames-动画帧"><span class="nav-number">14.</span> <span class="nav-text">Frames 动画帧</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#invalidation-失效"><span class="nav-number">15.</span> <span class="nav-text">invalidation 失效</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">16.</span> <span class="nav-text">参考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Content"><span class="nav-number">2.</span> <span class="nav-text">Content</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Chromium"><span class="nav-number">2.1.</span> <span class="nav-text">Chromium</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Blink-浏览器排版引擎"><span class="nav-number">3.</span> <span class="nav-text">Blink 浏览器排版引擎</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pixels-像素"><span class="nav-number">4.</span> <span class="nav-text">Pixels 像素</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Stages-步骤"><span class="nav-number">5.</span> <span class="nav-text">Stages 步骤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Parsing-解析"><span class="nav-number">6.</span> <span class="nav-text">Parsing 解析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DOM（Document-Object-Model）-文档对象模型"><span class="nav-number">7.</span> <span class="nav-text">DOM（Document Object Model） 文档对象模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Style-样式"><span class="nav-number">8.</span> <span class="nav-text">Style 样式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Layout-布局"><span class="nav-number">9.</span> <span class="nav-text">Layout 布局</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Paint-绘制"><span class="nav-number">10.</span> <span class="nav-text">Paint 绘制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Raster-栅格化"><span class="nav-number">11.</span> <span class="nav-text">Raster 栅格化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SKIA"><span class="nav-number">11.1.</span> <span class="nav-text">SKIA</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GPU-图形处理器"><span class="nav-number">12.</span> <span class="nav-text">GPU 图形处理器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Change-更新"><span class="nav-number">13.</span> <span class="nav-text">Change 更新</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Frames-动画帧"><span class="nav-number">14.</span> <span class="nav-text">Frames 动画帧</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Invalidation-失效"><span class="nav-number">15.</span> <span class="nav-text">Invalidation 失效</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Repaint"><span class="nav-number">16.</span> <span class="nav-text">Repaint</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Jank"><span class="nav-number">17.</span> <span class="nav-text">Jank</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Enter-Compositing-输入合成"><span class="nav-number">18.</span> <span class="nav-text">Enter: Compositing 输入合成</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Layers-分层"><span class="nav-number">18.1.</span> <span class="nav-text">Layers 分层</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Layers-tree-图层树"><span class="nav-number">18.2.</span> <span class="nav-text">Layers tree 图层树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Compositing-合成"><span class="nav-number">18.3.</span> <span class="nav-text">Compositing 合成</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">19.</span> <span class="nav-text">参考</span></a></li></ol></div>
             
 
           </div>
@@ -577,7 +593,7 @@
 </div>
 
 
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
 
 
 
